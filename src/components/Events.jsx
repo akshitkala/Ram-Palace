@@ -1,7 +1,7 @@
 import React from "react";
 
-import weddingImg from "../assets/images/Events/wedding.jpg";
-import celebrationImg from "../assets/images/Events/birthday.jpg";
+import weddingImg from "../assets/images/Events/wedding.webp";
+import celebrationImg from "../assets/images/Events/birthday.webp";
 
 const Events = () => {
   return (
@@ -54,7 +54,7 @@ const Events = () => {
             <button className="
               bg-[#A99686] text-white px-8 py-3 text-sm tracking-widest uppercase
               transition-all duration-300
-              hover:bg-[#D4AF37]
+              hover:opacity-80
               hover:-translate-y-1
               hover:shadow-lg
               hover:scale-105
@@ -103,7 +103,7 @@ const Events = () => {
             <button className="
               bg-[#A99686] text-white px-8 py-3 text-sm tracking-widest uppercase
               transition-all duration-300
-              hover:bg-[#D4AF37]
+              hover:opacity-80
               hover:-translate-y-1
               hover:shadow-lg
               hover:scale-105

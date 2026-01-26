@@ -1,5 +1,5 @@
 import React from "react";
-import hallImg from "../assets/images/hall3.jpg"; // use webp if possible
+import hallImgWebp from "../assets/images/hall3.webp";
 
 const Hero = () => {
   return (
@@ -7,7 +7,7 @@ const Hero = () => {
       
       {/* Background Image */}
       <img
-        src={hallImg}
+        src={hallImgWebp}
         alt="Luxury banquet hall setup"
         className="absolute inset-0 h-full w-full object-cover"
         fetchpriority="high"
@@ -30,7 +30,7 @@ const Hero = () => {
           receptions, corporate events, and private gatherings.
         </p>
 
-        <button className="bg-[#A99686] text-white text-lg px-8 py-4 rounded-xl transition-all duration-300 hover:bg-[#D4AF37] hover:scale-105 hover:shadow-lg">
+        <button className="bg-[#A99686] text-white text-lg px-8 py-4 rounded-xl transition-all duration-300 hover:opacity-80 hover:scale-105 hover:shadow-lg">
           Enquire About Events
         </button>
 

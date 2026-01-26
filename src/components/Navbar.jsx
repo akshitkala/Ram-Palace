@@ -148,7 +148,7 @@ const Navbar = () => {
             <FaInstagram className="text-2xl" />
           </div>
 
-          <button className="text-xl text-white px-6 py-3 bg-[#A99686] rounded-sm transition-all duration-300 hover:bg-[#D4AF37] hover:scale-105 hover:shadow-lg">
+          <button className="text-xl text-white px-6 py-3 bg-[#A99686] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-105 hover:shadow-lg">
             Reserve Now
           </button>
         </div>

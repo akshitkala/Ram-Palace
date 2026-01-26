@@ -31,7 +31,7 @@ const AboutOverlay = () => {
           </p>
 
           {/* CTA */}
-          <button className="w-fit bg-white text-[#A99686] px-10 py-4 rounded-md text-sm tracking-widest uppercase transition-all duration-300 hover:bg-[#D4AF37] hover:text-white hover:scale-105 hover:shadow-lg">
+          <button className="w-fit bg-white text-[#A99686] px-10 py-4 rounded-md text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-80 hover:scale-105 hover:shadow-lg">
             Virtual Tour
           </button>
         </div>
