@@ -4,7 +4,7 @@ import Hero from './components/Hero'
 import AboutOverlay from './components/AboutOverlay'
 import Carousel from './components/Carousel'
 import Events from './components/Events'
-
+import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -14,7 +14,8 @@ const App = () => {
       <AboutOverlay/>
       <Carousel/>
     <Events/>
-    
+
+    <Footer/>
     </div>
   )
 }

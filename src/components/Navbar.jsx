@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-
+import logo from "../assets/images/logo.png";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
@@ -70,7 +70,11 @@ const Navbar = () => {
         className="fixed top-0 left-0 w-full z-50 text-white"
       >
         <div className="flex items-center justify-between px-4 py-4 lg:px-10">
-          <div className="text-3xl font-semibold">Ram Palace</div>
+          <img 
+            src={logo} 
+            alt="Ram Palace Logo" 
+            className="h-20 w-auto sm:h-10 md:h-12 lg:h-14 object-contain transition-all duration-300"
+          />
 
           <ul className="hidden lg:flex gap-8">
             <li>
