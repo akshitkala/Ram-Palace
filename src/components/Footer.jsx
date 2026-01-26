@@ -14,10 +14,10 @@ const Footer = () => {
           trigger: footerRef.current,
           start: "top 50%",
           end: "top 25%",
-          markers: true,
           scrub: true
         },
-        y: "20%",
+        y: () => window.innerWidth > 1024 ? "20%" : "40%"
+        ,
         duration:1.5,
         stagger:0.2,
         ease:"power3.out"
