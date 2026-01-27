@@ -74,6 +74,9 @@ const Navbar = () => {
             src={logo} 
             alt="Ram Palace Logo" 
             className="h-20 w-auto sm:h-10 md:h-12 lg:h-14 object-contain transition-all duration-300"
+            loading="eager"
+            fetchPriority="high"
+            decoding="sync"
           />
 
           <ul className="hidden lg:flex gap-8">

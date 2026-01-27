@@ -1,22 +1,36 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-import bg from "../assets/images/hero/bg.webp";
 import palace from "../assets/images/hero/palace.webp";
 
 const HeroImageAnimation = () => {
   const containerRef = useRef(null);
+  const palaceRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.to(".palace", {
-        y: () => window.innerWidth > 1024 ? "6%" : "14%",        // comes from bottom
-        duration: 1.5,
-        ease: "expo.out",   // very smooth, premium feel
-      });
-    }, containerRef);
+  useEffect(() => {
+    const img = palaceRef.current;
+    if (!img) return;
 
-    return () => ctx.revert();
+    const animate = () => {
+      gsap.fromTo(
+        img,
+        { y: "100%" },
+        {
+          y: window.innerWidth > 1024 ? "6%" : "14%",
+          duration: 1.5,
+          ease: "expo.out",
+        }
+      );
+    };
+
+    // ✅ Wait until image is decoded & ready
+    if (img.complete) {
+      animate();
+    } else {
+      img.addEventListener("load", animate);
+    }
+
+    return () => img.removeEventListener("load", animate);
   }, []);
 
   return (
@@ -31,11 +45,16 @@ const HeroImageAnimation = () => {
         className="absolute inset-0 w-full h-full object-cover brightness-110"
       />
 
-      {/* Palace (animated from bottom) */}
+      {/* Decorative animated layer - LCP IMAGE */}
       <img
+        ref={palaceRef}
         src={palace}
-        alt="Palace"
-        className="absolute inset-0 w-full h-full object-cover palace translate-y-full brightness-110"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover brightness-110"
+        loading="eager"
+        fetchPriority="high"
+        decoding="sync"
       />
     </div>
   );

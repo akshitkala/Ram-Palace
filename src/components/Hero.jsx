@@ -1,31 +1,26 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import HeroImageAnimation from "./HeroImageAnimation";
 import gsap from "gsap";
 
 const Hero = () => {
   const contentRef = useRef(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!contentRef.current) return;
 
     const ctx = gsap.context(() => {
-      const fadeElements = gsap.utils.toArray(".fade-in");
-      
-      if (fadeElements.length === 0) return;
+      const elements = gsap.utils.toArray(".fade-in");
 
       gsap.fromTo(
-        fadeElements,
+        elements,
         {
-          opacity: 0,
           y: 20,
         },
         {
-          opacity: 1,
           y: 0,
           duration: 1,
-          stagger: 0,
-          delay: 1, // Wait for HeroImageAnimation to finish (1.5s)
           ease: "power2.out",
+          stagger: 0.1,
         }
       );
     }, contentRef);
@@ -39,23 +34,22 @@ const Hero = () => {
       {/* Background Animation */}
       <HeroImageAnimation />
 
-      {/* Overlay */}
+      {/* Overlay (OK, this is fine) */}
       <div className="absolute inset-0 bg-black/40"></div>
 
       {/* Content */}
-      <div ref={contentRef} className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-        
-        <h1 className="font-heading text-4xl leading-tight mb-6 text-[#F5F1EC] fade-in opacity-0">
+      <div
+        ref={contentRef}
+        className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6"
+      >
+        <h1 className="font-heading text-4xl leading-tight mb-6 text-[#F5F1EC] fade-in">
           A Space for Unforgettable Celebrations
         </h1>
 
-        <p className="text-lg leading-relaxed max-w-md mb-8 text-[#F5F1EC] fade-in opacity-0">
+        <p className="text-lg leading-relaxed max-w-md mb-8 text-[#F5F1EC] fade-in">
           An elegant banquet hall designed for weddings,
           receptions, corporate events, and private gatherings.
         </p>
-
-        
-
       </div>
     </section>
   );

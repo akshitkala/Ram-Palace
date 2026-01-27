@@ -30,6 +30,7 @@ const Events = () => {
               "
               loading="lazy"
               decoding="async"
+              fetchPriority="low"
             />
 
             {/* Overlay */}
@@ -79,6 +80,7 @@ const Events = () => {
               "
               loading="lazy"
               decoding="async"
+              fetchPriority="low"
             />
 
             {/* Overlay */}

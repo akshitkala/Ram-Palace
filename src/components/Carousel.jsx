@@ -71,9 +71,9 @@ const Carousel = () => {
               transition-opacity duration-1000
               ${isCurrent ? "opacity-100" : "opacity-0"}
             `}
-            loading="lazy"
-            decoding="async"
-            fetchpriority="auto"
+            loading={index === 0 ? "eager" : "lazy"}
+            decoding={index === 0 ? "sync" : "async"}
+            fetchPriority={index === 0 ? "high" : "low"}
           />
         );
       })}

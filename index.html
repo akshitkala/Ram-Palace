@@ -4,7 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="src/assets/images/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" as="image" href="/src/assets/images/hall3.webp" />
+    
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    
+    <!-- Preload Critical Fonts -->
+    <link rel="preload" as="font" href="/src/assets/fonts/PlayfairDisplay-VariableFont_wght.ttf" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" as="font" href="/src/assets/fonts/acumin-pro-wide.otf" type="font/otf" crossorigin="anonymous" />
+    
+    <!-- Preload hero images for highest priority -->
+    <link rel="preload" as="image" href="/src/assets/images/hero/palace.webp" fetchpriority="high" />
+    <!-- Preload logo for early display -->
+    <link rel="preload" as="image" href="/src/assets/images/logo.png" fetchpriority="high" />
+    
     <title>hall</title>
   </head>
   <body>
