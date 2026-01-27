@@ -13,7 +13,7 @@ const Footer = () => {
         scrollTrigger: {
           trigger: footerRef.current,
           start: () => window.innerWidth > 1024 ? "top 40%" : "top 55%",
-          end: () => window.innerWidth > 1024 ? "top 10%" : "top 10%",
+          end: () => window.innerWidth > 1024 ? "top 10%" : "top 25%",
           scrub: true
         },
         y: () => window.innerWidth > 1024 ? "20%" : "40%"
@@ -36,7 +36,7 @@ const Footer = () => {
       {/* FOOTER SECTION */}
       <footer
         ref={footerRef}
-        className="relative bg-[#A99686] text-white px-4 sm:px-6 md:px-8 pt-8 sm:pt-10 pb-16 sm:pb-20 md:pb-24 lg:h-[90vh]"
+        className="relative bg-[#A99686] text-white px-4 sm:px-6 md:px-8 pt-8 sm:pt-10 pb-16 sm:pb-20 md:pb-24 min-h-screen lg:h-[90vh]"
       >
          {/* name animation */}
          
