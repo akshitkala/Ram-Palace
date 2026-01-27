@@ -12,14 +12,14 @@ const Footer = () => {
       gsap.to(".letter", {
         scrollTrigger: {
           trigger: footerRef.current,
-          start: "top 50%",
-          end: "top 25%",
+          start: () => window.innerWidth > 1024 ? "top 40%" : "top 55%",
+          end: () => window.innerWidth > 1024 ? "top 10%" : "top 10%",
           scrub: true
         },
         y: () => window.innerWidth > 1024 ? "20%" : "40%"
         ,
         duration:1.5,
-        stagger:0.2,
+        stagger:0.4,
         ease:"power3.out"
       });
     }, footerRef);
@@ -36,7 +36,7 @@ const Footer = () => {
       {/* FOOTER SECTION */}
       <footer
         ref={footerRef}
-        className="relative bg-[#A99686] text-white px-8 pt-10 pb-24"
+        className="relative bg-[#A99686] text-white px-4 sm:px-6 md:px-8 pt-8 sm:pt-10 pb-16 sm:pb-20 md:pb-24 lg:h-[90vh]"
       >
          {/* name animation */}
          
@@ -51,19 +51,19 @@ const Footer = () => {
 
        
         {/* CONTENT */}
-        <div className="max-w-7xl mx-auto grid gap-16 md:grid-cols-3 text-sm">
+        <div className="max-w-7xl mx-auto grid gap-8 sm:gap-12 md:gap-16 md:grid-cols-3 text-xs sm:text-sm">
           
           <div>
-            <p className="mb-4 font-semibold text-white">Ram Palace</p>
-            <p className="text-white/90 leading-relaxed">
+            <p className="mb-3 sm:mb-4 font-semibold text-white text-sm sm:text-base">Ram Palace</p>
+            <p className="text-white/90 leading-relaxed text-xs sm:text-sm">
               A premium banquet hall for weddings, birthday parties,
               corporate events, and private celebrations.
             </p>
           </div>
 
           <div>
-            <p className="mb-4 font-semibold text-white">Events</p>
-            <ul className="space-y-2 text-white/90">
+            <p className="mb-3 sm:mb-4 font-semibold text-white text-sm sm:text-base">Events</p>
+            <ul className="space-y-1.5 sm:space-y-2 text-white/90 text-xs sm:text-sm">
               <li>Weddings & Receptions</li>
               <li>Birthday Parties</li>
               <li>Corporate Events</li>
@@ -72,8 +72,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <p className="mb-4 font-semibold text-white">Contact</p>
-            <p className="text-white/90">
+            <p className="mb-3 sm:mb-4 font-semibold text-white text-sm sm:text-base">Contact</p>
+            <p className="text-white/90 text-xs sm:text-sm">
               Basti, Uttar Pradesh<br />
               +91 XXXXX XXXXX<br />
               info@rampalace.com
@@ -84,9 +84,9 @@ const Footer = () => {
        
 
         {/* FOOTER BOTTOM */}
-        <div className="mt-6 flex flex-col md:flex-row items-center justify-between text-xs text-white/80">
+        <div className="mt-6 sm:mt-8 flex flex-col md:flex-row items-center justify-between text-[10px] sm:text-xs text-white/80">
           <p>© {new Date().getFullYear()} Ram Palace</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
+          <div className="flex gap-4 sm:gap-6 mt-3 sm:mt-4 md:mt-0">
             <span className="hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">Privacy</span>
             <span className="hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">Terms</span>
             <span className="hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">Trust</span>
