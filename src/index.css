@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@layer base {
+  html, body {
+    @apply overflow-x-hidden max-w-full;
+  }
+}
+
 /* Font Face Declarations */
 @font-face {
   font-family: "Acumin Pro Wide";

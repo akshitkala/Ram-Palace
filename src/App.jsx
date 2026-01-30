@@ -25,7 +25,7 @@ const App = () => {
   }, []);
 
   return (
-    <div data-scroll-container ref={scrollRef}>
+    <div data-scroll-container ref={scrollRef} className="overflow-x-hidden">
       <Navbar/>
       <Routes>
         <Route path="/" element ={<Home/>}/>
