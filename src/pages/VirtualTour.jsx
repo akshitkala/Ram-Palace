@@ -1,111 +1,76 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import hallImg from '../assets/images/hall3.webp';
+import { useState } from "react";
+import useSeo from "../hooks/useSeo";
+import { virtualTourData } from "../Data/virtualTourData";
 
-const menuItems = [
-  "THE GRAND BALLROOM",
-  "PRIVATE DINING SUITE",
-  "THE GARDEN TERRACE",
-  "VINTAGE WINE CELLAR",
-  "SKYLINE LOUNGE"
-];
-
-const VirtualTour = () => {
+export default function VirtualTour() {
+    useSeo({
+        title: "Virtual Tour – Ram Palace",
+        description:
+          "Explore different spaces at Ram Palace including our grand ballroom, dining hall and terrace.",
+      });
+    const [activeTour, setActiveTour] = useState(virtualTourData[0]);
+    
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-neutral-900">
-      {/* Background Image with Overlay */}
-      <motion.div 
-        initial={{ scale: 1.1, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${hallImg})` }}
-      >
-        <div className="absolute inset-0 bg-black/30" />
-      </motion.div>
+    <>
+      <Seo
+        title="Virtual Tour – Ram Palace"
+        description="Explore different spaces at Ram Palace including our grand ballroom, dining suite, terrace and lounge."
+      />
 
-      {/* Main Content Container */}
-      <div className="relative z-10 flex min-h-screen items-center px-6 py-12 md:px-12 lg:px-24">
-        
-        {/* Glassmorphism Sidebar Card */}
-        <motion.div 
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative h-fit w-full max-w-[420px] overflow-hidden rounded-[2rem] border border-white/20 bg-white/5 p-10 shadow-2xl backdrop-blur-[24px] md:p-14"
-        >
-          {/* Header Section */}
-          <div className="mb-16">
-            <motion.p 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="font-body text-[10px] tracking-[0.4em] text-white/60 uppercase"
-            >
-              Heritage
-            </motion.p>
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="font-playfair mt-3 text-6xl font-normal tracking-tight text-white md:text-7xl"
-            >
-              LUMINA
-            </motion.h1>
+      <section className="mx-auto max-w-7xl px-4 py-16">
+        {/* Section Heading */}
+        <div className="mb-10 max-w-2xl">
+          <h1 className="text-3xl font-semibold text-white md:text-4xl">
+            Virtual Tour
+          </h1>
+          <p className="mt-3 text-sm text-white/70 md:text-base">
+            Explore our elegant spaces and experience the grandeur of Ram Palace.
+          </p>
+        </div>
+
+        {/* Layout */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-[280px_1fr]">
+          {/* LEFT MENU */}
+          <aside className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
+            <h3 className="mb-4 text-xs uppercase tracking-wider text-white/60">
+              Explore Spaces
+            </h3>
+
+            <div className="flex gap-2 md:flex-col">
+              {virtualTourData.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTour(item)}
+                  className={`whitespace-nowrap rounded-xl px-4 py-3 text-left text-sm transition-all
+                    ${
+                      activeTour.id === item.id
+                        ? "bg-[#c9a24d] text-black"
+                        : "border border-white/10 text-white/80 hover:bg-white/10"
+                    }`}
+                >
+                  {item.title}
+                </button>
+              ))}
+            </div>
+          </aside>
+
+          {/* RIGHT IMAGE */}
+          <div>
+            <div className="overflow-hidden rounded-2xl">
+              <img
+                src={activeTour.image}
+                alt={activeTour.title}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+
+            <p className="mt-3 text-sm text-white/70">
+              {activeTour.description}
+            </p>
           </div>
-
-          {/* Navigation Links */}
-          <nav className="mb-24 flex flex-col gap-8">
-            {menuItems.map((item, index) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 + index * 0.1 }}
-                className="group relative cursor-pointer"
-              >
-                <span className="font-body block text-xs tracking-[0.25em] text-white/40 transition-all duration-500 group-hover:translate-x-3 group-hover:text-white md:text-[13px]">
-                  {item}
-                </span>
-                {/* Subtle indicator on hover */}
-                <div className="absolute -left-4 top-1/2 h-[1px] w-0 -translate-y-1/2 bg-white/40 transition-all duration-500 group-hover:w-3" />
-              </motion.div>
-            ))}
-          </nav>
-
-          {/* Card Footer Info */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="flex flex-col gap-1 border-t border-white/10 pt-10"
-          >
-            <p className="font-body text-[9px] tracking-[0.3em] text-white/30 uppercase">Reserved Experiences</p>
-            <p className="font-body text-[9px] tracking-[0.3em] text-white/30 uppercase">Est. 1924</p>
-          </motion.div>
-
-          {/* Glossy Reflection Overlay */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-50" />
-        </motion.div>
-      </div>
-
-      {/* Floating Footer Label */}
-      <div className="absolute right-8 bottom-8 z-10 md:right-16 md:bottom-16">
-        <motion.p 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.8 }}
-          className="font-body text-[10px] font-light tracking-[0.4em] text-white/40 uppercase"
-        >
-          Virtual Tour © 2026
-        </motion.p>
-      </div>
-
-      {/* Subtle Grain Overlay for Texture */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.03] contrast-150" 
-           style={{ backgroundImage: `url('https://grainy-gradients.vercel.app/noise.svg')` }} />
-    </div>
+        </div>
+      </section>
+    </>
   );
-};
-
-export default VirtualTour;
+}
