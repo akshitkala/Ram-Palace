@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import weddingImg from "../assets/images/Events/wedding.webp";
 import celebrationImg from "../assets/images/Events/birthday.webp";
@@ -51,16 +52,18 @@ const Events = () => {
               with joy, tradition, and timeless elegance.
             </p>
 
-            <button className="
-              bg-[#A99686] text-white px-8 py-3 text-sm tracking-widest uppercase
-              transition-all duration-300
-              hover:opacity-80
-              hover:-translate-y-1
-              hover:shadow-lg
-              hover:scale-105
-            ">
-              Find Out More
-            </button>
+            <Link to="/EventsPage">
+              <button className="
+                bg-[#A99686] text-white px-8 py-3 text-sm tracking-widest uppercase
+                transition-all duration-300
+                hover:opacity-80
+                hover:-translate-y-1
+                hover:shadow-lg
+                hover:scale-105
+              ">
+                Find Out More
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -100,16 +103,18 @@ const Events = () => {
               and memorable experiences.
             </p>
 
-            <button className="
-              bg-[#A99686] text-white px-8 py-3 text-sm tracking-widest uppercase
-              transition-all duration-300
-              hover:opacity-80
-              hover:-translate-y-1
-              hover:shadow-lg
-              hover:scale-105
-            ">
-              Find Out More
-            </button>
+            <Link to="/EventsPage">
+              <button className="
+                bg-[#A99686] text-white px-8 py-3 text-sm tracking-widest uppercase
+                transition-all duration-300
+                hover:opacity-80
+                hover:-translate-y-1
+                hover:shadow-lg
+                hover:scale-105
+              ">
+                Find Out More
+              </button>
+            </Link>
           </div>
         </div>
 

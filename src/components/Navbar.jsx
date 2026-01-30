@@ -76,44 +76,44 @@ const Navbar = () => {
             className="h-20 w-auto sm:h-10 md:h-12 lg:h-14 object-contain transition-all duration-300"
           />
 
-          <ul className="hidden lg:flex gap-8">
-            <li>
-              <Link 
-                href="#hero" 
-                className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
-              >
-                Home
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
-              <Link 
-                href="#events" 
-                className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
-              >
-                Events
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
-              <Link 
-                href="#tour" 
-                className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
-              >
-                Visual Tour
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
-              <Link 
-                href="#contact" 
-                className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
-              >
-                Contact
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            </li>
-          </ul>
+            <ul className="hidden lg:flex gap-8">
+              <li>
+                <Link 
+                  to="/" 
+                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                >
+                  Home
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/EventsPage" 
+                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                >
+                  Events
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/VirtualTour" 
+                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                >
+                  Visual Tour
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/Contact" 
+                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                >
+                  Contact
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+            </ul>
 
           <button
             onClick={() => setOpen(!open)}
@@ -131,19 +131,24 @@ const Navbar = () => {
         className="fixed inset-0 z-40 bg-[#E5DFDA] text-black flex flex-col justify-between pt-32 pb-10 translate-y-full"
       >
         {/* Links */}
-        <div className="flex flex-col gap-6 px-10 text-4xl">
-          {["Menu", "Events", "Visual Tour", "Contact"].map((item, i) => (
-            <Link
-              key={item}
-              ref={(el) => (linksRef.current[i] = el)}
-              onClick={() => setOpen(false)}
-              href="#"
-              className="transition-all duration-300 hover:text-[#D4AF37] hover:translate-x-2 group"
-            >
-              {item} <span className="font-light transition-transform duration-300 group-hover:translate-x-1 inline-block">&gt;</span>
-            </Link>
-          ))}
-        </div>
+          <div className="flex flex-col gap-6 px-10 text-4xl">
+            {[
+              { label: "Home", path: "/" },
+              { label: "Events", path: "/EventsPage" },
+              { label: "Visual Tour", path: "/VirtualTour" },
+              { label: "Contact", path: "/Contact" }
+            ].map((item, i) => (
+              <Link
+                key={item.label}
+                ref={(el) => (linksRef.current[i] = el)}
+                onClick={() => setOpen(false)}
+                to={item.path}
+                className="transition-all duration-300 hover:text-[#D4AF37] hover:translate-x-2 group"
+              >
+                {item.label} <span className="font-light transition-transform duration-300 group-hover:translate-x-1 inline-block">&gt;</span>
+              </Link>
+            ))}
+          </div>
 
         {/* Footer */}
         <div className="px-10 flex flex-col gap-6">

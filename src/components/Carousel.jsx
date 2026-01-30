@@ -73,7 +73,7 @@ const Carousel = () => {
             `}
             loading="lazy"
             decoding="async"
-            fetchpriority="auto"
+            fetchPriority="auto"
           />
         );
       })}
