@@ -33,32 +33,32 @@ function TourImage({ image, title }) {
 function TourMenu({ activeId, onSelect, items }) {
   return (
     <div className="relative z-10 flex h-full w-full flex-col p-4 sm:p-6 md:p-16 lg:p-20">
-      <motion.div 
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="flex w-full flex-col rounded-[2rem] border border-white/20 bg-white/10 p-6 sm:p-8 md:max-w-[380px] md:p-12 lg:max-w-[420px] backdrop-blur-3xl shadow-2xl"
-      >
-        {/* Branding Section */}
-        <div className="mb-8 md:mb-16">
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.7 }}
-            className="mb-1 text-[8px] tracking-[0.4em] text-white/70 uppercase sm:text-[10px]"
-          >
-            Heritage
-          </motion.p>
-          <motion.h1 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="font-serif text-4xl tracking-tight text-white sm:text-5xl md:text-7xl"
-          >
-            Lumina
-          </motion.h1>
-        </div>
-
-        {/* Navigation - Vertical list that adapts to screen height */}
-        <nav className="flex flex-col space-y-6 sm:space-y-8 md:space-y-10 overflow-y-auto max-h-[40vh] md:max-h-none scrollbar-hide">
+        <motion.div 
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex w-full flex-col rounded-[2rem] border border-white/20 bg-white/10 p-6 sm:p-8 md:max-w-[380px] md:p-12 lg:max-w-[420px] backdrop-blur-3xl shadow-2xl overflow-hidden"
+        >
+          {/* Branding Section */}
+          <div className="mb-8 md:mb-16">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.7 }}
+              className="mb-1 text-[8px] tracking-[0.4em] text-white/70 uppercase sm:text-[10px]"
+            >
+              Heritage
+            </motion.p>
+            <motion.h1 
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="font-serif text-4xl tracking-tight text-white sm:text-5xl md:text-7xl"
+            >
+              Lumina
+            </motion.h1>
+          </div>
+  
+          {/* Navigation - Vertical list that adapts to screen height */}
+          <nav className="flex flex-col space-y-6 sm:space-y-8 md:space-y-10 overflow-y-auto overflow-x-hidden max-h-[40vh] md:max-h-none scrollbar-hide">
           {items.map((item, index) => (
             <motion.button
               key={item.id}
