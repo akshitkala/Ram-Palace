@@ -128,7 +128,7 @@ const Navbar = () => {
       {/* MOBILE MENU (ALWAYS MOUNTED) */}
       <div
         ref={menuRef}
-        className="fixed inset-0 z-40 bg-[#E5DFDA] text-black flex flex-col justify-between pt-32 pb-10 translate-y-full"
+        className="fixed inset-0 z-40 bg-[#E5DFDA] text-black flex flex-col justify-between pt-32 pb-10 translate-y-full overflow-y-auto scrollbar-hide"
       >
         {/* Links */}
           <div className="flex flex-col gap-6 px-10 text-4xl">

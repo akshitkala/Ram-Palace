@@ -33,12 +33,13 @@ function TourImage({ image, title }) {
 function TourMenu({ activeId, onSelect, items }) {
   return (
     <div className="relative z-10 flex h-full w-full flex-col p-4 sm:p-6 md:p-16 lg:p-20">
-        <motion.div 
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex w-full flex-col rounded-[2rem] border border-white/20 bg-white/10 p-6 sm:p-8 md:max-w-[380px] md:p-12 lg:max-w-[420px] backdrop-blur-3xl shadow-2xl overflow-hidden"
-        >
+          <motion.div 
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex w-full flex-col rounded-[2rem] border border-white/20 bg-white/10 p-6 sm:p-8 md:max-w-[380px] md:p-12 lg:max-w-[420px] backdrop-blur-3xl shadow-2xl overflow-hidden scrollbar-hide"
+          >
+
           {/* Branding Section */}
           <div className="mb-8 md:mb-16">
             <motion.p 
