@@ -3,9 +3,9 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 import logo from "../assets/images/logo.png";
+import { Link } from "react-router-dom";
+gsap.registerPlugin(ScrollTrigger);
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
@@ -78,40 +78,40 @@ const Navbar = () => {
 
           <ul className="hidden lg:flex gap-8">
             <li>
-              <a 
+              <Link 
                 href="#hero" 
                 className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
               >
                 Home
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a 
+              <Link 
                 href="#events" 
                 className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
               >
                 Events
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a 
+              <Link 
                 href="#tour" 
                 className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
               >
                 Visual Tour
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a 
+              <Link 
                 href="#contact" 
                 className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
               >
                 Contact
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </Link>
             </li>
           </ul>
 
@@ -133,7 +133,7 @@ const Navbar = () => {
         {/* Links */}
         <div className="flex flex-col gap-6 px-10 text-4xl">
           {["Menu", "Events", "Visual Tour", "Contact"].map((item, i) => (
-            <a
+            <Link
               key={item}
               ref={(el) => (linksRef.current[i] = el)}
               onClick={() => setOpen(false)}
@@ -141,7 +141,7 @@ const Navbar = () => {
               className="transition-all duration-300 hover:text-[#D4AF37] hover:translate-x-2 group"
             >
               {item} <span className="font-light transition-transform duration-300 group-hover:translate-x-1 inline-block">&gt;</span>
-            </a>
+            </Link>
           ))}
         </div>
 

@@ -11,7 +11,6 @@ const HeroImageAnimation = () => {
     const ctx = gsap.context(() => {
       gsap.to(".palace", {
         y: () => window.innerWidth > 1024 ? "6%" : "14%",        // comes from bottom
-        duration: 1.5,
         ease: "expo.out",   // very smooth, premium feel
       });
     }, containerRef);

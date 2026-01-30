@@ -1,15 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import LocomotiveScroll from "locomotive-scroll";
-
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import AboutOverlay from "./components/AboutOverlay";
-import Carousel from "./components/Carousel";
-import Events from "./components/Events";
-import Footer from "./components/Footer";
-
 import "locomotive-scroll/dist/locomotive-scroll.css";
-
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home.jsx"
+import Contact from "./pages/Contact.jsx";
+import VirtualTour from "./pages/VirtualTour.jsx";
+import EventsPage from "./pages/EventsPage.jsx";
 const App = () => {
   const scrollRef = useRef(null);
 
@@ -29,12 +26,13 @@ const App = () => {
 
   return (
     <div data-scroll-container ref={scrollRef}>
-      <Navbar />
-      <Hero />
-      <AboutOverlay />
-      <Carousel />
-      <Events />
-      <Footer />
+      <Navbar/>
+      <Routes>
+        <Route path="/" element ={<Home/>}/>
+        <Route path="/Contact" element ={<Contact/>}/>
+        <Route path="/VirtualTour" element ={<VirtualTour/>}/>
+        <Route path="/EventsPage" element ={<EventsPage/>}/>
+      </Routes>
     </div>
   );
 };
