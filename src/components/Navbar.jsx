@@ -97,10 +97,10 @@ const Navbar = () => {
               </li>
               <li>
                 <Link 
-                  to="/VirtualTour" 
+                  to="/Venue" 
                   className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
                 >
-                  Visual Tour
+                  Venue
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
@@ -135,7 +135,7 @@ const Navbar = () => {
             {[
               { label: "Home", path: "/" },
               { label: "Events", path: "/EventsPage" },
-              { label: "Visual Tour", path: "/VirtualTour" },
+              { label: "Venue", path: "/Venue" },
               { label: "Contact", path: "/Contact" }
             ].map((item, i) => (
               <Link

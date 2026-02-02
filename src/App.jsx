@@ -3,10 +3,10 @@ import LocomotiveScroll from "locomotive-scroll";
 import Navbar from "./components/Navbar";
 import "locomotive-scroll/dist/locomotive-scroll.css";
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home.jsx"
+import Home from "./pages/Home.jsx";
 import Contact from "./pages/Contact.jsx";
-import VirtualTour from "./pages/VirtualTour.jsx";
 import EventsPage from "./pages/EventsPage.jsx";
+import Venue from "./pages/Venue.jsx";
 const App = () => {
   const scrollRef = useRef(null);
 
@@ -30,8 +30,8 @@ const App = () => {
       <Routes>
         <Route path="/" element ={<Home/>}/>
         <Route path="/Contact" element ={<Contact/>}/>
-        <Route path="/VirtualTour" element ={<VirtualTour/>}/>
         <Route path="/EventsPage" element ={<EventsPage/>}/>
+        <Route path="/Venue" element ={<Venue/>}/>
       </Routes>
     </div>
   );
