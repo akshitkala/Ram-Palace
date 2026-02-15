@@ -6,17 +6,29 @@ import Events from "../components/Events";
 import Footer from "../components/Footer";
 import Testimonial from '../components/Testimonial';
 import testimonials from "../Data/Testimonial";
+import AntiGravitySection from '../components/AntiGravitySection';
+
 const Home = () => {
   return (
     <div>
       <Hero />
-      <AboutOverlay />
-      <Carousel />
-      <Events />
-      <Testimonial testimonials={testimonials} />
-      <Footer />
+      <AntiGravitySection>
+        <AboutOverlay />
+      </AntiGravitySection>
+      <AntiGravitySection>
+        <Carousel />
+      </AntiGravitySection>
+      <AntiGravitySection>
+        <Events />
+      </AntiGravitySection>
+      <AntiGravitySection>
+        <Testimonial testimonials={testimonials} />
+      </AntiGravitySection>
+      <AntiGravitySection>
+        <Footer />
+      </AntiGravitySection>
     </div>
   )
 }
 
-export default Home
+export default Home;

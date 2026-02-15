@@ -9,9 +9,22 @@ const HeroImageAnimation = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // Background Image: Subtle zoom out
+      gsap.fromTo(
+        ".bg-image",
+        { scale: 1.3 },
+        {
+          scale: 1,
+          duration: 2,
+          ease: "power2.out",
+        }
+      );
+
+      // Palace: Smooth rise from bottom
       gsap.to(".palace", {
-        y: () => window.innerWidth > 1024 ? "6%" : "14%",        // comes from bottom
-        ease: "expo.out",   // very smooth, premium feel
+        y: () => (window.innerWidth > 1024 ? "6%" : "14%"), // comes from bottom
+        duration: 1.8,
+        ease: "power4.out", // very smooth, premium feel
       });
     }, containerRef);
 
@@ -27,7 +40,7 @@ const HeroImageAnimation = () => {
       <img
         src={bg}
         alt="Background"
-        className="absolute inset-0 w-full h-full object-cover brightness-110"
+        className="absolute inset-0 w-full h-full object-cover brightness-110 bg-image"
       />
 
       {/* Palace (animated from bottom) */}

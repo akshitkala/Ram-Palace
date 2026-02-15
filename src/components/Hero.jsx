@@ -17,15 +17,17 @@ const Hero = () => {
         fadeElements,
         {
           opacity: 0,
-          y: 20,
+          y: 100,
+          filter: "blur(15px)",
         },
         {
           opacity: 1,
           y: 0,
-          duration: 1,
-          stagger: 0,
-          delay: 1, // Wait for HeroImageAnimation to finish (1.5s)
-          ease: "power2.out",
+          filter: "blur(0px)",
+          duration: 1.5,
+          stagger: 0.2,
+          delay: 0.5, // Wait for HeroImageAnimation to finish (1.5s)
+          ease: "power4.out",
         }
       );
     }, contentRef);
