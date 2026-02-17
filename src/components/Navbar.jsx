@@ -76,7 +76,7 @@ const Navbar = () => {
             className="h-20 w-auto sm:h-10 md:h-12 lg:h-14 object-contain transition-all duration-300"
           />
 
-            <ul className="hidden lg:flex gap-8">
+            <ul className="hidden lg:flex gap-8 items-center">
               <li>
                 <Link 
                   to="/" 
@@ -86,21 +86,48 @@ const Navbar = () => {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
-              <li>
-                <Link 
-                  to="/EventsPage" 
-                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
-                >
+              
+              {/* Events Dropdown */}
+              <li className="relative group">
+                <button className="relative text-white transition-all duration-300 hover:text-[#D4AF37] flex items-center gap-1">
                   Events
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
+                </button>
+                
+                {/* Dropdown Menu */}
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <div className="py-2">
+                    <Link
+                      to="/events/weddings"
+                      className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
+                    >
+                      Weddings & Receptions
+                    </Link>
+                    <Link
+                      to="/events/corporate-events"
+                      className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
+                    >
+                      Corporate Events
+                    </Link>
+                    <Link
+                      to="/events/private-parties"
+                      className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
+                    >
+                      Private Parties
+                    </Link>
+                  </div>
+                </div>
               </li>
+              
               <li>
                 <Link 
-                  to="/Venue" 
+                  to="/gallery" 
                   className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
                 >
-                  Venue
+                  Gallery
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
@@ -134,8 +161,10 @@ const Navbar = () => {
           <div className="flex flex-col gap-6 px-10 text-4xl">
             {[
               { label: "Home", path: "/" },
-              { label: "Events", path: "/EventsPage" },
-              { label: "Venue", path: "/Venue" },
+              { label: "Weddings", path: "/events/weddings" },
+              { label: "Corporate Events", path: "/events/corporate-events" },
+              { label: "Private Parties", path: "/events/private-parties" },
+              { label: "Gallery", path: "/gallery" },
               { label: "Contact", path: "/Contact" }
             ].map((item, i) => (
               <Link

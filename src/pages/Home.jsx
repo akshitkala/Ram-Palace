@@ -1,5 +1,6 @@
 import React from 'react'
 import Hero from "../components/Hero";
+import HeroAboutSection from "../components/HeroAboutSection";
 import AboutOverlay from "../components/AboutOverlay";
 import Carousel from "../components/Carousel";
 import Events from "../components/Events";
@@ -12,6 +13,8 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      {/* Hero Section 2 - About the Venue */}
+      <HeroAboutSection />
       <AntiGravitySection>
         <AboutOverlay />
       </AntiGravitySection>
