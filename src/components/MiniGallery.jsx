@@ -15,50 +15,37 @@ const MiniGallery = () => {
   const images = [...galleryImages, ...galleryImages, ...galleryImages];
 
   useLayoutEffect(() => {
-    // Media query context for cleanup
     let ctx = gsap.context(() => {
-      
-      // Only run GSAP animation on desktop
-      if (window.innerWidth > 768) {
-        
-        const totalWidth = trackRef.current.scrollWidth;
-        const viewportWidth = window.innerWidth;
-        
-        // Ensure accurate width calculation
-        // We move exactly 50% if we doubled the images, or 33% if tripled. 
-        // With 3 sets, moving -100% of one set length is safer.
-        // Simplified approach: move xPercent: -50 of the ENTIRE wide track (assuming 2 sets)
-        // With 3 sets: move to -33.33%? 
-        // Better: standard infinite marquee logic.
-        
-        // Let's stick to the user's request: xPercent: -50 with duplicated data
-        const tween = gsap.to(trackRef.current, {
-          xPercent: -50, 
-          ease: "none",
-          duration: 35,
-          repeat: -1,
-        });
 
-        ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          onUpdate: (self) => {
-            const direction = self.direction; // 1 = down, -1 = up
-            gsap.to(tween, { timeScale: direction, duration: 0.5, overwrite: true });
-          },
-        });
+      // Marquee runs on all screen sizes
+      const tween = gsap.to(trackRef.current, {
+        xPercent: -50,
+        ease: "none",
+        duration: window.innerWidth <= 768 ? 20 : 35, // faster on mobile
+        repeat: -1,
+      });
 
-        // Hover pause interactions (on individual items only)
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: (self) => {
+          const direction = self.direction; // 1 = down, -1 = up
+          gsap.to(tween, { timeScale: direction, duration: 0.5, overwrite: true });
+        },
+      });
+
+      // Hover pause only on non-touch devices
+      const isTouch = window.matchMedia("(pointer: coarse)").matches;
+      if (!isTouch) {
         const items = trackRef.current.querySelectorAll(".gallery-item");
-        
-        items.forEach(item => {
-           item.addEventListener("mouseenter", () => tween.pause());
-           item.addEventListener("mouseleave", () => tween.play());
+        items.forEach((item) => {
+          item.addEventListener("mouseenter", () => tween.pause());
+          item.addEventListener("mouseleave", () => tween.play());
         });
       }
 
-    }, containerRef); // Scope to container
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
