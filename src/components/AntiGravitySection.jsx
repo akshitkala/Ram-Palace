@@ -30,7 +30,7 @@ const AntiGravitySection = ({ children, className = "", stagger = false }) => {
           stagger: stagger ? 0.2 : 0,
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 85%", 
+            start: window.innerWidth < 768 ? "top 95%" : "top 85%", // Trigger earlier on mobile
             toggleActions: "play none none reverse",
           },
         }
