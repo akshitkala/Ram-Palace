@@ -93,12 +93,13 @@ const Navbar = () => {
         className="fixed top-0 left-0 w-full z-50 text-white bg-black/30 backdrop-blur-md border-b border-white/10 shadow-lg"
       >
         <div className="flex items-center justify-between px-4 py-4 lg:px-10">
-          <img 
+          <Link 
+            to="/" 
             ref={logoRef}
-            src='/images/logo.png' 
-            alt="Ram Palace Logo" 
-            className="h-20 w-auto sm:h-10 md:h-12 lg:h-14 object-contain transition-transform duration-300 origin-left will-change-transform"
-          />
+            className="text-2xl md:text-3xl font-serif font-bold text-[#D4AF37] tracking-wider whitespace-nowrap origin-left will-change-transform"
+          >
+            Basti Ram Palace
+          </Link>
 
             <ul className="hidden lg:flex gap-8 items-center">
               <li>

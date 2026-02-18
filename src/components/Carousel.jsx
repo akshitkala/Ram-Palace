@@ -65,7 +65,7 @@ const Carousel = () => {
           <img
             key={index}
             src={img}
-            alt="Ram Palace ambience"
+            alt="Basti Ram Palace ambience"
             className={`
               absolute inset-0 w-full h-full object-cover
               transition-opacity duration-1000 will-change-opacity

@@ -70,7 +70,7 @@ const MiniGallery = () => {
     >
       <div className="max-w-7xl mx-auto mb-16 px-6 text-center">
         <h2 className="font-heading text-4xl md:text-5xl text-[#2a2015] mb-4">
-          Moments at Ram Palace
+          Moments at Basti Ram Palace
         </h2>
         <p className="font-body text-[#8c7b6c] text-lg tracking-wide">
           A glimpse into the elegance and grandeur

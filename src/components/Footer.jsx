@@ -46,7 +46,7 @@ const Footer = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: footerRef.current,
-            start: "top 75%", 
+            start: "top 40%", 
             toggleActions: "play none none reverse",
           },
         }
@@ -61,14 +61,14 @@ const Footer = () => {
       {/* FOOTER SECTION */}
       <footer
         ref={footerRef}
-        className="relative bg-[#A99686] text-white px-8 pt-10 pb-10"
+        className="relative bg-[#A99686] text-white px-8 pt-10 pb-10 min-h-[80vh]"
       >
         {/* name animation */}
         <div className="mb-10 w-full border-b border-white/30 flex justify-between overflow-hidden">
-          {"RAM PALACE".split("").map((letter, index) => (
+          {"BASTI RAM PALACE".split("").map((letter, index) => (
             <span
               key={index}
-              className="letter inline-block text-[12vw] md:text-[9vw] font-heading leading-none"
+              className="letter inline-block text-[7.5vw] md:text-[5.5vw] font-heading leading-none"
             >
               {letter === " " ? "\u00A0" : letter}
             </span>
@@ -78,7 +78,7 @@ const Footer = () => {
         {/* CONTENT */}
         <div className="max-w-7xl mx-auto grid gap-10 md:grid-cols-3 text-sm mb-16">
           <div>
-            <p className="mb-4 font-semibold text-white/90 uppercase tracking-widest">Ram Palace</p>
+            <p className="mb-4 font-semibold text-white/90 uppercase tracking-widest">Basti Ram Palace</p>
             <p className="text-white/80 leading-relaxed max-w-xs">
               A premium banquet hall for weddings, birthday parties,
               corporate events, and private celebrations.
@@ -107,7 +107,7 @@ const Footer = () => {
 
         {/* FOOTER BOTTOM */}
         <div className="flex flex-col md:flex-row items-center justify-between text-xs text-white/60 border-t border-white/10 pt-6">
-          <p>© {new Date().getFullYear()} Ram Palace. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Basti Ram Palace. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <span className="hover:text-white transition-colors duration-300 cursor-pointer">Privacy</span>
             <span className="hover:text-white transition-colors duration-300 cursor-pointer">Terms</span>

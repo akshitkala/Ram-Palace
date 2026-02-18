@@ -112,7 +112,7 @@ const Gallery = () => {
             Gallery
           </h1>
           <p className="hero-text font-body text-xl md:text-2xl font-light tracking-widest uppercase opacity-90">
-            Moments at Ram Palace
+            Moments at Basti Ram Palace
           </p>
           <div className="hero-text w-24 h-[1px] bg-[#D4AF37] mx-auto mt-8"></div>
         </div>

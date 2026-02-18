@@ -100,7 +100,7 @@ const Enquiry = () => {
           Enquire Now
         </h1>
         <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-          Let us help you plan your perfect event at Ram Palace
+          Let us help you plan your perfect event at Basti Ram Palace
         </p>
       </section>
 

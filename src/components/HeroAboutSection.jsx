@@ -114,7 +114,7 @@ const HeroAboutSection = () => {
             >
               <img
                 src='/images/hall3.webp'
-                alt="Ram Palace Interior"
+                alt="Basti Ram Palace Interior"
                 className="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover"
               />
               
@@ -131,7 +131,7 @@ const HeroAboutSection = () => {
           <div className="about-content order-2 lg:order-2">
             {/* Label */}
             <p className="text-sm tracking-[0.3em] uppercase text-[#A99686] mb-4 font-semibold">
-              Welcome to Ram Palace
+              Welcome to Basti Ram Palace
             </p>
 
             {/* Main Heading */}
@@ -141,7 +141,7 @@ const HeroAboutSection = () => {
 
             {/* Description */}
             <p className="text-base md:text-lg leading-relaxed text-[#555] mb-10 max-w-xl">
-              Located in the heart of Basti, Ram Palace combines timeless elegance with modern amenities. 
+              Located in the heart of Basti, Basti Ram Palace combines timeless elegance with modern amenities. 
               Our spacious banquet hall offers a refined setting for your celebrations, complemented by 
               ample parking, professional service, and an ambiance designed to make every moment special.
             </p>

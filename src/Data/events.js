@@ -4,7 +4,7 @@ export const eventCards = [
     id: 1,
     title: "Weddings & Receptions",
     description:
-      "Ram Palace offers a beautifully designed banquet space for weddings and receptions, creating a refined setting for celebrations filled with joy, tradition, and timeless elegance.",
+      "Basti Ram Palace offers a beautifully designed banquet space for weddings and receptions, creating a refined setting for celebrations filled with joy, tradition, and timeless elegance.",
     image: "/images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
     images: [
       "/images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
@@ -55,7 +55,7 @@ export const eventDetails = {
     intro: {
       heading: "A Celebration of Love",
       description:
-        "Your wedding day is a tapestry of beautiful moments. At Ram Palace, we provide the perfect canvas for your love story, blending traditional grandeur with modern sophistication.",
+        "Your wedding day is a tapestry of beautiful moments. At Basti Ram Palace, we provide the perfect canvas for your love story, blending traditional grandeur with modern sophistication.",
     },
     storySections: [
       {
@@ -106,7 +106,7 @@ export const eventDetails = {
     intro: {
       heading: "Elevate Your Business Gatherings",
       description:
-        "From high-stakes board meetings to large-scale conferences, Ram Palace offers a professional environment that fosters productivity and networking.",
+        "From high-stakes board meetings to large-scale conferences, Basti Ram Palace offers a professional environment that fosters productivity and networking.",
     },
     storySections: [
       {
