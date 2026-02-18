@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 
-import bg from "../assets/images/hero/bg.webp";
-import palace from "../assets/images/hero/palace.webp";
+const bg = "/images/hero/bg.webp";
+const palace = "/images/hero/palace.webp";
 
 const HeroImageAnimation = () => {
   const containerRef = useRef(null);

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 
-// Use high-quality assets for the background carousel
-import bg1 from '../assets/images/hall3.webp';
-import bg2 from '../assets/images/hero/bg.webp';
-import bg3 from '../assets/images/hero/palace.webp';
-
-const backgroundImages = [bg1, bg2, bg3];
+const backgroundImages = [
+  "/images/hall3.webp",
+  "/images/hero/bg.webp",
+  "/images/hero/palace.webp"
+];
 
 const Contact = () => {
   const [currentSlide, setCurrentSlide] = useState(0);

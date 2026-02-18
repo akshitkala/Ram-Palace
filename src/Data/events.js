@@ -1,22 +1,3 @@
-// Image Imports
-// Weddings
-import weddingHero from "../assets/images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg";
-import weddingStory1 from "../assets/images/Events/Wedding/ibrahim-boran-m8YjB0noWiY-unsplash.jpg";
-import weddingStory2 from "../assets/images/Events/Wedding/michu-dang-quang-unItqGJIlRY-unsplash.jpg";
-import weddingStory3 from "../assets/images/Events/Wedding/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg";
-
-// Corporate
-import corporateHero from "../assets/images/Events/corporate/al-elmes-ULHxWq8reao-unsplash.jpg";
-import corporateStory1 from "../assets/images/Events/corporate/antenna-ZDN-G1xBWHY-unsplash.jpg";
-import corporateStory2 from "../assets/images/Events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg";
-import corporateCard from "../assets/images/Events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash.jpg";
-
-// Private Parties
-import partyHero from "../assets/images/Events/privateParties/andrei-marinho-aLoz5hfGJOg-unsplash.jpg";
-import partyStory1 from "../assets/images/Events/privateParties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg";
-import partyStory2 from "../assets/images/Events/privateParties/raju-kumar-93BQ5bUsD-E-unsplash.jpg";
-import partyCard from "../assets/images/Events/privateParties/wang-binghua-1ZykZAj15Fw-unsplash.jpg";
-
 // Event cards data for home page
 export const eventCards = [
   {
@@ -24,8 +5,13 @@ export const eventCards = [
     title: "Weddings & Receptions",
     description:
       "Ram Palace offers a beautifully designed banquet space for weddings and receptions, creating a refined setting for celebrations filled with joy, tradition, and timeless elegance.",
-    image: weddingHero,
-    images: [weddingHero, weddingStory1, weddingStory2, weddingStory3],
+    image: "/images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
+    images: [
+      "/images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
+      "/images/Events/Wedding/ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
+      "/images/Events/Wedding/michu-dang-quang-unItqGJIlRY-unsplash.jpg",
+      "/images/Events/Wedding/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg"
+    ],
     link: "/events/weddings",
   },
   {
@@ -33,8 +19,13 @@ export const eventCards = [
     title: "Corporate Events",
     description:
       "Host professional conferences, seminars, and corporate gatherings in our sophisticated venue equipped with modern amenities and premium catering services.",
-    image: corporateCard,
-    images: [corporateCard, corporateHero, corporateStory1, corporateStory2],
+    image: "/images/Events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
+    images: [
+      "/images/Events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
+      "/images/Events/corporate/al-elmes-ULHxWq8reao-unsplash.jpg",
+      "/images/Events/corporate/antenna-ZDN-G1xBWHY-unsplash.jpg",
+      "/images/Events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg"
+    ],
     link: "/events/corporate-events",
   },
   {
@@ -42,8 +33,13 @@ export const eventCards = [
     title: "Private Parties",
     description:
       "Celebrate birthdays, anniversaries, and family gatherings in a warm banquet environment designed for joyful moments, comfort, and memorable experiences.",
-    image: partyCard,
-    images: [partyCard, partyHero, partyStory1, partyStory2],
+    image: "/images/Events/privateParties/wang-binghua-1ZykZAj15Fw-unsplash.jpg",
+    images: [
+      "/images/Events/privateParties/wang-binghua-1ZykZAj15Fw-unsplash.jpg",
+      "/images/Events/privateParties/andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
+      "/images/Events/privateParties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
+      "/images/Events/privateParties/raju-kumar-93BQ5bUsD-E-unsplash.jpg"
+    ],
     link: "/events/private-parties",
   },
 ];
@@ -54,7 +50,7 @@ export const eventDetails = {
     hero: {
       title: "Weddings & Receptions",
       subtitle: "Where Dreams Meet Elegance",
-      image: weddingHero,
+      image: "/images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
     },
     intro: {
       heading: "A Celebration of Love",
@@ -67,7 +63,7 @@ export const eventDetails = {
         title: "The Grand Entrance",
         description:
           "Make a statement as you step into a world of elegance. Our spacious entrance and foyer are designed to give you and your guests a royal welcome, setting the tone for an unforgettable evening.",
-        image: weddingStory1,
+        image: "/images/Events/Wedding/ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
         align: "image-left",
       },
       {
@@ -75,7 +71,7 @@ export const eventDetails = {
         title: "Vibrant Mehendi & Sangeet",
         description:
           "Celebrate with color, music, and joy. Our versatile spaces can be transformed into a vibrant setting for your pre-wedding functions, complete with a dance floor and custom décor themes.",
-        image: weddingStory2,
+        image: "/images/Events/Wedding/michu-dang-quang-unItqGJIlRY-unsplash.jpg",
         align: "image-right",
       },
       {
@@ -83,7 +79,7 @@ export const eventDetails = {
         title: "The Royal Ceremony",
         description:
           "Exchange vows in a setting that reflects the sanctity of the occasion. Whether it's a traditional mandap or a contemporary altar, our hall adapts to your cultural and personal preferences.",
-        image: weddingStory3,
+        image: "/images/Events/Wedding/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg",
         align: "image-left",
       },
       {
@@ -91,7 +87,7 @@ export const eventDetails = {
         title: "Exquisite Dining",
         description:
           "Delight your guests with a culinary journey. Our dedicated dining area ensures a comfortable and lavish feast, with a menu curated to your tastes, from traditional delicacies to global cuisines.",
-        image: weddingHero, // Reusing hero image for dining as fallback/placeholder if no specific dining image
+        image: "/images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg", // Reusing hero image for dining as fallback/placeholder if no specific dining image
         align: "image-right",
       },
     ],
@@ -105,7 +101,7 @@ export const eventDetails = {
     hero: {
       title: "Corporate Events",
       subtitle: "Professional Spaces for Business Excellence",
-      image: corporateHero,
+      image: "/images/Events/corporate/al-elmes-ULHxWq8reao-unsplash.jpg",
     },
     intro: {
       heading: "Elevate Your Business Gatherings",
@@ -118,7 +114,7 @@ export const eventDetails = {
         title: "Conferences & Seminars",
         description:
           "Host impactful conferences with our state-of-the-art audio-visual equipment and flexible seating arrangements. We ensure your message is heard loud and clear.",
-        image: corporateStory1,
+        image: "/images/Events/corporate/antenna-ZDN-G1xBWHY-unsplash.jpg",
         align: "image-left",
       },
       {
@@ -126,7 +122,7 @@ export const eventDetails = {
         title: "Networking & Galas",
         description:
           "Create opportunities for connection in our elegant banquet hall. Perfect for product launches, award ceremonies, and corporate dinners that leave a lasting impression.",
-        image: corporateStory2,
+        image: "/images/Events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
         align: "image-right",
       },
     ],
@@ -140,7 +136,7 @@ export const eventDetails = {
     hero: {
       title: "Private Parties",
       subtitle: "Celebrate Life's Special Moments",
-      image: partyHero,
+      image: "/images/Events/privateParties/andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
     },
     intro: {
       heading: "Joyful Gatherings",
@@ -153,7 +149,7 @@ export const eventDetails = {
         title: "Milestone Birthdays",
         description:
           "Turn another year older in style. Our team helps you create a themed celebration that reflects your personality, from decor to entertainment.",
-        image: partyStory1,
+        image: "/images/Events/privateParties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
         align: "image-left",
       },
       {
@@ -161,7 +157,7 @@ export const eventDetails = {
         title: "Anniversaries & Reunions",
         description:
           "Relive memories and create new ones. Our hall offers the perfect blend of comfort and elegance for family gatherings that span generations.",
-        image: partyStory2,
+        image: "/images/Events/privateParties/raju-kumar-93BQ5bUsD-E-unsplash.jpg",
         align: "image-right",
       },
     ],

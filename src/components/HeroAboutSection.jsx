@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef, useState, useEffect ,useCallback} from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import hall3 from "../assets/images/hall3.webp";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,7 +113,7 @@ const HeroAboutSection = () => {
               className="relative rounded-[2rem] overflow-hidden shadow-2xl"
             >
               <img
-                src={hall3}
+                src='/images/hall3.webp'
                 alt="Ram Palace Interior"
                 className="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover"
               />

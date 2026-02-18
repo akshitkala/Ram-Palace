@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 
-import img1 from "../assets/images/carousel/carousel1.webp";
-import img2 from "../assets/images/carousel/carousel2.webp";
-import img3 from "../assets/images/carousel/carousel3.webp";
-import img4 from "../assets/images/carousel/carousel4.webp";
-
-const images = [img1, img2, img3, img4];
+const images = [
+  "/images/carousel/carousel1.webp",
+  "/images/carousel/carousel2.webp",
+  "/images/carousel/carousel3.webp",
+  "/images/carousel/carousel4.webp",
+];
 
 const Carousel = () => {
   const [current, setCurrent] = useState(0);
@@ -68,12 +68,12 @@ const Carousel = () => {
             alt="Ram Palace ambience"
             className={`
               absolute inset-0 w-full h-full object-cover
-              transition-opacity duration-1000
+              transition-opacity duration-1000 will-change-opacity
               ${isCurrent ? "opacity-100" : "opacity-0"}
             `}
-            loading="lazy"
+            loading={index === 0 ? "eager" : "lazy"}
             decoding="async"
-            fetchPriority="auto"
+            fetchPriority={index === 0 ? "high" : "auto"}
           />
         );
       })}

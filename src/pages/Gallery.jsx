@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Footer from "../components/Footer";
 import { weddingGallery } from "../Data/gallery";
 import gsap from "gsap";
@@ -12,7 +12,8 @@ const Gallery = () => {
   const galleryRef = useRef(null);
 
   // Extract unique categories
-  const categories = ["All", ...new Set(weddingGallery.map((item) => item.category))];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const categories = useMemo(() => ["All", ...new Set(weddingGallery.map((item) => item.category))], [weddingGallery]);
 
   useEffect(() => {
     if (filter === "All") {
@@ -20,7 +21,8 @@ const Gallery = () => {
     } else {
       setFilteredImages(weddingGallery.filter((item) => item.category === filter));
     }
-  }, [filter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter, weddingGallery, setFilteredImages]);
 
   // Animation on filter change
   useEffect(() => {
@@ -33,6 +35,7 @@ const Gallery = () => {
     }, galleryRef);
 
     return () => ctx.revert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredImages]);
 
   return (

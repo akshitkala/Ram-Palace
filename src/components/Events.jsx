@@ -8,35 +8,31 @@ const EventCard = ({ event }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    // Random interval between 3000ms (3s) and 6000ms (6s)
-    const randomInterval = Math.floor(Math.random() * 3000) + 3000;
-
+    // Shared interval logic could be hoisted, but per-card is okay if lightweight.
+    // CSS-based transition is much cheaper than Framer Motion unmount/mount.
     const intervalId = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % event.images.length);
-    }, randomInterval);
+    }, 4000); // Fixed 4s interval for consistency
 
     return () => clearInterval(intervalId);
-  }, [event.images.length, event]);
+  }, [event.images.length]);
 
   return (
     <div className="group cursor-pointer">
       {/* Image Wrapper */}
-      <div className="relative overflow-hidden mb-10 h-80 md:h-96 w-full rounded-lg">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={currentImageIndex}
-            src={event.images[currentImageIndex]}
-            alt={`${event.title} at Ram Palace`}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="
-              absolute inset-0 w-full h-full object-cover
-            "
+      <div className="relative overflow-hidden mb-10 h-80 md:h-96 w-full rounded-lg bg-gray-200">
+        {event.images.map((img, index) => (
+          <img
+            key={index}
+            src={img}
+            alt={`${event.title} - view ${index + 1}`}
+            className={`
+              absolute inset-0 w-full h-full object-cover transition-opacity duration-1000
+              ${index === currentImageIndex ? "opacity-100" : "opacity-0"}
+            `}
             loading="lazy"
           />
-        </AnimatePresence>
+        ))}
 
         {/* Overlay - Hover Effect */}
         <div className="
