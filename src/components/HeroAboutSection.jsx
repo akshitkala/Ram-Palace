@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import React, { useLayoutEffect, useRef, useState, useEffect ,useCallback} from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import hall3 from "../assets/images/hall3.webp";
@@ -11,7 +11,31 @@ const HeroAboutSection = () => {
   
   // Count-up animation state
   const [counts, setCounts] = useState({ weddings: 0, awards: 0, events: 0 });
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const hasAnimatedRef = useRef(false);
+
+  const animateCounters = useCallback(() => {
+    const targets = { weddings: 300, awards: 50, events: 150 };
+    const duration = 2000;
+    const steps = 60;
+    const interval = duration / steps;
+
+    let step = 0;
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      
+      setCounts({
+        weddings: Math.floor(targets.weddings * progress),
+        awards: Math.floor(targets.awards * progress),
+        events: Math.floor(targets.events * progress),
+      });
+
+      if (step >= steps) {
+        setCounts(targets);
+        clearInterval(timer);
+      }
+    }, interval);
+  }, []);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -61,9 +85,9 @@ const HeroAboutSection = () => {
             trigger: ".stats-container",
             start: "top 80%",
             onEnter: () => {
-              if (!hasAnimated) {
+              if (!hasAnimatedRef.current) {
                 animateCounters();
-                setHasAnimated(true);
+                hasAnimatedRef.current = true;
               }
             },
           },
@@ -72,31 +96,7 @@ const HeroAboutSection = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [hasAnimated]);
-
-  const animateCounters = () => {
-    const targets = { weddings: 300, awards: 50, events: 150 };
-    const duration = 2000;
-    const steps = 60;
-    const interval = duration / steps;
-
-    let step = 0;
-    const timer = setInterval(() => {
-      step++;
-      const progress = step / steps;
-      
-      setCounts({
-        weddings: Math.floor(targets.weddings * progress),
-        awards: Math.floor(targets.awards * progress),
-        events: Math.floor(targets.events * progress),
-      });
-
-      if (step >= steps) {
-        setCounts(targets);
-        clearInterval(timer);
-      }
-    }, interval);
-  };
+  }, [animateCounters]);
 
   return (
     <section

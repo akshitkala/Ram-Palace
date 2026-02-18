@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,119 +9,113 @@ const Footer = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const letters = gsap.utils.toArray(".letter");
-
-      // Set initial state (instead of Tailwind translate)
-      gsap.set(letters, { yPercent: 120 });
-
-      ScrollTrigger.matchMedia({
-
-        // Desktop
-        "(min-width: 1024px)": function () {
-          gsap.to(letters, {
-            yPercent: 0,
-            ease: "power4.out",
-            stagger: 0.06,
-            scrollTrigger: {
-              trigger: footerRef.current,
-              start: "top 60%",
-              end: "top 20%",
-              scrub: 1,
-            },
-          });
+      // Animate the entire footer container like AntiGravitySection
+      gsap.fromTo(
+        footerRef.current,
+        {
+          y: 100,
+          opacity: 0,
+          scale: 0.95,
+          rotation: -2
         },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 1.5,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 90%",
+            end: "bottom 90%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-        // Mobile + Tablet
-        "(max-width: 1023px)": function () {
-          gsap.to(letters, {
-            yPercent: 0,
-            ease: "power4.out",
-            stagger: 0.05,
-            scrollTrigger: {
-              trigger: footerRef.current,
-              start: "top 75%",
-              end: "top 40%",
-              scrub: 1,
-            },
-          });
-        },
-      });
-
+      // Animate letters
+      gsap.fromTo(
+        ".letter",
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.05,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 75%", 
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
     }, footerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <footer
-      ref={footerRef}
-      className="relative bg-[#A99686] text-white px-4 sm:px-6 md:px-8 pt-8 sm:pt-10 pb-16 sm:pb-20 md:pb-24 min-h-screen lg:h-[90vh]"
-    >
-      {/* Name Animation */}
-      <div className="mb-10 w-full border-b border-white/30 flex justify-between overflow-hidden">
-        {"RAM PALACE".split("").map((letter, index) => (
-          <span
-            key={index}
-            className="letter text-white/90 text-[48px] sm:text-[80px] md:text-[150px] leading-none"
-          >
-            {letter}
-          </span>
-        ))}
-      </div>
-
-      {/* CONTENT */}
-      <div className="max-w-7xl mx-auto grid gap-8 sm:gap-12 md:gap-16 md:grid-cols-3 text-xs sm:text-sm">
-        <div>
-          <p className="mb-3 sm:mb-4 font-semibold text-white text-sm sm:text-base">
-            Ram Palace
-          </p>
-          <p className="text-white/90 leading-relaxed">
-            A premium banquet hall for weddings, birthday parties,
-            corporate events, and private celebrations.
-          </p>
+    <>
+      {/* FOOTER SECTION */}
+      <footer
+        ref={footerRef}
+        className="relative bg-[#A99686] text-white px-8 pt-10 pb-10"
+      >
+        {/* name animation */}
+        <div className="mb-10 w-full border-b border-white/30 flex justify-between overflow-hidden">
+          {"RAM PALACE".split("").map((letter, index) => (
+            <span
+              key={index}
+              className="letter inline-block text-[12vw] md:text-[9vw] font-heading leading-none"
+            >
+              {letter === " " ? "\u00A0" : letter}
+            </span>
+          ))}
         </div>
 
-        <div>
-          <p className="mb-3 sm:mb-4 font-semibold text-white text-sm sm:text-base">
-            Events
-          </p>
-          <ul className="space-y-2 text-white/90">
-            <li>Weddings & Receptions</li>
-            <li>Birthday Parties</li>
-            <li>Corporate Events</li>
-            <li>Private Functions</li>
-          </ul>
+        {/* CONTENT */}
+        <div className="max-w-7xl mx-auto grid gap-10 md:grid-cols-3 text-sm mb-16">
+          <div>
+            <p className="mb-4 font-semibold text-white/90 uppercase tracking-widest">Ram Palace</p>
+            <p className="text-white/80 leading-relaxed max-w-xs">
+              A premium banquet hall for weddings, birthday parties,
+              corporate events, and private celebrations.
+            </p>
+          </div>
+
+          <div>
+            <p className="mb-4 font-semibold text-white/90 uppercase tracking-widest">Events</p>
+            <ul className="space-y-2 text-white/80">
+              <li className="hover:text-white transition-colors cursor-pointer">Weddings & Receptions</li>
+              <li className="hover:text-white transition-colors cursor-pointer">Birthday Parties</li>
+              <li className="hover:text-white transition-colors cursor-pointer">Corporate Events</li>
+              <li className="hover:text-white transition-colors cursor-pointer">Private Functions</li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="mb-4 font-semibold text-white/90 uppercase tracking-widest">Contact</p>
+            <p className="text-white/80 leading-relaxed">
+              Basti, Uttar Pradesh<br />
+              +91 XXXXX XXXXX<br />
+              info@rampalace.com
+            </p>
+          </div>
         </div>
 
-        <div>
-          <p className="mb-3 sm:mb-4 font-semibold text-white text-sm sm:text-base">
-            Contact
-          </p>
-          <p className="text-white/90">
-            Basti, Uttar Pradesh <br />
-            +91 XXXXX XXXXX <br />
-            info@rampalace.com
-          </p>
+        {/* FOOTER BOTTOM */}
+        <div className="flex flex-col md:flex-row items-center justify-between text-xs text-white/60 border-t border-white/10 pt-6">
+          <p>© {new Date().getFullYear()} Ram Palace. All rights reserved.</p>
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <span className="hover:text-white transition-colors duration-300 cursor-pointer">Privacy</span>
+            <span className="hover:text-white transition-colors duration-300 cursor-pointer">Terms</span>
+            <span className="hover:text-white transition-colors duration-300 cursor-pointer">Trust</span>
+          </div>
         </div>
-      </div>
-
-      {/* FOOTER BOTTOM */}
-      <div className="mt-8 flex flex-col md:flex-row items-center justify-between text-xs text-white/80">
-        <p>© {new Date().getFullYear()} Ram Palace</p>
-
-        <div className="flex gap-6 mt-4 md:mt-0">
-          <span className="hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">
-            Privacy
-          </span>
-          <span className="hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">
-            Terms
-          </span>
-          <span className="hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">
-            Trust
-          </span>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 

@@ -15,9 +15,9 @@ const Home = () => {
       <Hero />
       {/* Hero Section 2 - About the Venue */}
       <HeroAboutSection />
-      <AntiGravitySection>
+      {/* <AntiGravitySection>
         <AboutOverlay />
-      </AntiGravitySection>
+      </AntiGravitySection> */}
       <AntiGravitySection>
         <Carousel />
       </AntiGravitySection>
@@ -25,7 +25,7 @@ const Home = () => {
         <Events />
       </AntiGravitySection>
       <AntiGravitySection>
-        <Testimonial testimonials={testimonials} />
+        <Testimonial testimonials={testimonials} autoplay={true} autoplayInterval={2000} />
       </AntiGravitySection>
       <AntiGravitySection>
         <Footer />

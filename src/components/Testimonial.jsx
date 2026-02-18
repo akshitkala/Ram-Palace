@@ -5,7 +5,7 @@ import {
   IconStar,
 } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 
 // class merge helper
 const cn = (...classes) => classes.filter(Boolean).join(" ");
@@ -13,30 +13,32 @@ const cn = (...classes) => classes.filter(Boolean).join(" ");
 const Testimonial = ({
   testimonials,
   autoplay = false,
+  autoplayInterval = 3000,
   className,
 }) => {
   const [active, setActive] = useState(0);
 
-  const handleNext = () => {
-    setActive((prev) => (prev + 1) % testimonials.length);
-  };
+  // Memoize random rotations so they don't change on re-renders (like active state change)
+  const randomRotations = useMemo(() => {
+    return testimonials.map(() => Math.floor(Math.random() * 21) - 10);
+  }, [testimonials]);
 
-  const handlePrev = () => {
+  const handleNext = useCallback(() => {
+    setActive((prev) => (prev + 1) % testimonials.length);
+  }, [testimonials.length]);
+
+  const handlePrev = useCallback(() => {
     setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  }, [testimonials.length]);
 
   const isActive = (index) => index === active;
 
   useEffect(() => {
     if (autoplay) {
-      const interval = setInterval(handleNext, 5000);
+      const interval = setInterval(handleNext, autoplayInterval);
       return () => clearInterval(interval);
     }
-  }, [autoplay]);
-
-  const randomRotateY = () => {
-    return Math.floor(Math.random() * 21) - 10;
-  };
+  }, [autoplay, autoplayInterval, handleNext]);
 
   return (
     <section
@@ -58,12 +60,12 @@ const Testimonial = ({
                     initial={{
                       opacity: 0,
                       scale: 0.9,
-                      rotate: randomRotateY(),
+                      rotate: randomRotations[index],
                     }}
                     animate={{
                       opacity: isActive(index) ? 1 : 0.7,
                       scale: isActive(index) ? 1 : 0.95,
-                      rotate: isActive(index) ? 0 : randomRotateY(),
+                      rotate: isActive(index) ? 0 : randomRotations[index],
                       zIndex: isActive(index)
                         ? 999
                         : testimonials.length + 2 - index,

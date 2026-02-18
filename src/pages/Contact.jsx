@@ -3,8 +3,8 @@ import Footer from '../components/Footer';
 
 // Use high-quality assets for the background carousel
 import bg1 from '../assets/images/hall3.webp';
-import bg2 from '../assets/images/Events/wedding.webp';
-import bg3 from '../assets/images/hero/day_hero_background.png';
+import bg2 from '../assets/images/hero/bg.webp';
+import bg3 from '../assets/images/hero/palace.webp';
 
 const backgroundImages = [bg1, bg2, bg3];
 

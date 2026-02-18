@@ -1,114 +1,140 @@
+// Gallery Image Imports
+import amish1 from "../assets/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg";
+import amish2 from "../assets/images/gallery/amish-thakkar-7O422yG_b80-unsplash.jpg";
+import awesomeSauce from "../assets/images/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg";
+import codyChan from "../assets/images/gallery/cody-chan-7jgtAhJkjwk-unsplash.jpg";
+import danieFranco from "../assets/images/gallery/danie-franco-7XqL_DVuBMw-unsplash.jpg";
+import drewCoffman from "../assets/images/gallery/drew-coffman-llWjwo200fo-unsplash.jpg";
+import eugeniaPan from "../assets/images/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg";
+import evelinaFriman from "../assets/images/gallery/evelina-friman-hw_sKmjb0ns-unsplash.jpg";
+import juniorReis from "../assets/images/gallery/junior-reis-xMDo8y776uE-unsplash.jpg";
+import khadijaYousaf from "../assets/images/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.jpg";
+import leonardoMiranda from "../assets/images/gallery/leonardo-miranda-riHGdvluDk8-unsplash.jpg";
+import nathanDumlao from "../assets/images/gallery/nathan-dumlao-5BB_atDT4oA-unsplash.jpg";
+import photosByLanty from "../assets/images/gallery/photos-by-lanty-O38Id_cyV4M-unsplash.jpg";
+import pixelStudios from "../assets/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg";
+import pranavKumar from "../assets/images/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg";
+import samanthaGades from "../assets/images/gallery/samantha-gades-x40Q9jrEVT0-unsplash.jpg";
+import vadimParipa from "../assets/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.jpg";
+
 export const weddingGallery = [
   {
     id: 1,
-    title: "Luxury Floral Wedding Stage",
-    alt: "Elegant floral wedding stage setup in banquet hall",
-    category: "Stage Decor",
-    tags: ["luxury", "floral", "stage"],
-    location: "Indoor Banquet Hall",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80",
-    featured: true
+    image: juniorReis,
+    alt: "Happy Couple",
+    category: "Weddings",
+    title: "Eternal Love",
   },
   {
     id: 2,
-    title: "Golden Theme Wedding Hall",
-    alt: "Golden themed wedding hall with chandelier lighting",
-    category: "Hall Decor",
-    tags: ["gold", "chandelier", "royal"],
-    location: "Luxury Banquet",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
-    featured: true
+    image: amish1,
+    alt: "Traditional Wedding Ceremony",
+    category: "Weddings",
+    title: "Traditional Rites",
   },
   {
     id: 3,
-    title: "Minimal White Wedding Setup",
-    alt: "White themed minimalist wedding decor",
-    category: "Decor",
-    tags: ["minimal", "white", "modern"],
-    location: "Indoor Venue",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&w=1200&q=80",
-    featured: false
+    image: drewCoffman,
+    alt: "Party Atmosphere",
+    category: "Private Parties",
+    title: "Celebration Night",
   },
   {
     id: 4,
-    title: "Royal Mandap Design",
-    alt: "Traditional mandap design with flowers and drapes",
-    category: "Mandap",
-    tags: ["traditional", "mandap", "royal"],
-    location: "Banquet Hall",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80",
-    featured: true
+    image: awesomeSauce,
+    alt: "Exquisite Dining Setup",
+    category: "Dining",
+    title: "Fine Dining",
   },
   {
     id: 5,
-    title: "Pastel Wedding Decor",
-    alt: "Pastel theme wedding decor with soft lighting",
-    category: "Decor",
-    tags: ["pastel", "soft-light", "romantic"],
-    location: "Indoor Venue",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80",
-    featured: false
+    image: codyChan,
+    alt: "Decor Details",
+    category: "Weddings",
+    title: "Elegant Decor",
   },
   {
     id: 6,
-    title: "Crystal Chandelier Setup",
-    alt: "Wedding hall with crystal chandeliers",
-    category: "Lighting",
-    tags: ["crystal", "lighting", "luxury"],
-    location: "Premium Banquet",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=80",
-    featured: true
+    image: samanthaGades,
+    alt: "Guests Mingle",
+    category: "Private Parties",
+    title: "Joyful Gathering",
   },
   {
     id: 7,
-    title: "Red & Gold Wedding Theme",
-    alt: "Traditional red and gold wedding decor",
-    category: "Theme",
-    tags: ["red", "gold", "traditional"],
-    location: "Wedding Hall",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80",
-    featured: false
+    image: pixelStudios,
+    alt: "Grand Hall View",
+    category: "Interiors",
+    title: "Majestic Hall",
   },
   {
     id: 8,
-    title: "Luxury Seating Arrangement",
-    alt: "Elegant wedding seating arrangement",
-    category: "Seating",
-    tags: ["seating", "luxury", "comfort"],
-    location: "Banquet Venue",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1200&q=80",
-    featured: false
+    image: leonardoMiranda,
+    alt: "Corporate Setup",
+    category: "Corporate Events",
+    title: "Business Ready",
   },
   {
     id: 9,
-    title: "Stage with Floral Arch",
-    alt: "Wedding stage with floral arch decor",
-    category: "Stage Decor",
-    tags: ["floral", "arch", "stage"],
-    location: "Indoor Hall",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80",
-    featured: true
+    image: amish2,
+    alt: "Wedding Rituals",
+    category: "Weddings",
+    title: "Sacred Moments",
   },
   {
     id: 10,
-    title: "Elegant Entrance Decor",
-    alt: "Wedding hall entrance decoration",
-    category: "Entrance",
-    tags: ["entrance", "lights", "flowers"],
-    location: "Banquet Hall",
-    eventType: "Wedding",
-    image: "https://images.unsplash.com/photo-1524777313293-86d2ab467344?auto=format&fit=crop&w=1200&q=80",
-    featured: false
-  }
-
-  
+    image: nathanDumlao,
+    alt: "Coffee and Refreshments",
+    category: "Dining",
+    title: "Refreshment Break",
+  },
+  {
+    id: 11,
+    image: vadimParipa,
+    alt: "Wedding Decor",
+    category: "Weddings",
+    title: "Floral Grandeur",
+  },
+  {
+    id: 12,
+    image: eugeniaPan,
+    alt: "Table Setting",
+    category: "Decor",
+    title: "Table Arrangement",
+  },
+  {
+    id: 13,
+    image: pranavKumar,
+    alt: "Indian Wedding Procession",
+    category: "Weddings",
+    title: "Procession Glory",
+  },
+  {
+    id: 14,
+    image: danieFranco,
+    alt: "Couple Portrait",
+    category: "Weddings",
+    title: "Portrait of Love",
+  },
+  {
+    id: 15,
+    image: khadijaYousaf,
+    alt: "Intimate Seating",
+    category: "Interiors",
+    title: "Cozy Corners",
+  },
+  {
+    id: 16,
+    image: photosByLanty,
+    alt: "Wedding Details",
+    category: "Decor",
+    title: "Finishing Touches",
+  },
+  {
+    id: 17,
+    image: evelinaFriman,
+    alt: "Floral Decoration",
+    category: "Decor",
+    title: "Nature's Embrace",
+  },
 ];

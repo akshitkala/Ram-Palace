@@ -46,8 +46,7 @@ const App = () => {
     if (locoScrollRef.current) {
       // Small timeout to allow DOM to update
       setTimeout(() => {
-        locoScrollRef.current.update();
-        locoScrollRef.current.scrollTo("top", { duration: 0, disableLerp: true });
+        locoScrollRef.current.scrollTo(0, { duration: 0, disableLerp: true });
       }, 100);
     }
   }, [location.pathname]);
