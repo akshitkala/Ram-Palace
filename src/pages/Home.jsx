@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Testimonial from '../components/Testimonial';
 import testimonials from "../Data/Testimonial";
 import AntiGravitySection from '../components/AntiGravitySection';
+import MiniGallery from '../components/MiniGallery';
 
 const Home = () => {
   return (
@@ -20,6 +21,9 @@ const Home = () => {
       </AntiGravitySection>
       <AntiGravitySection>
         <Events />
+      </AntiGravitySection>
+      <AntiGravitySection>
+        <MiniGallery />
       </AntiGravitySection>
       <AntiGravitySection>
         <Testimonial testimonials={testimonials} autoplay={true} autoplayInterval={2000} />
