@@ -1,5 +1,7 @@
-import React, { useLayoutEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+"use client";
+
+import { useLayoutEffect, useRef } from "react";
+import Link from "next/link";
 import Footer from "./Footer";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -127,7 +129,7 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
       {/* 4. FINAL CTA - Conversion Focus */}
       <section className="py-20 px-6 text-center  text-[#F6F1EC]">
         <div className="max-w-3xl mx-auto">
-          <Link to={cta.link}>
+          <Link href={cta.link}>
             <button className="bg-[#B9A089] text-[#2B1E14] px-10 py-5 text-base tracking-widest uppercase hover:bg-[#F6F1EC] transition-all duration-300 transform hover:-translate-y-1 font-semibold shadow-lg">
               {cta.text}
             </button>

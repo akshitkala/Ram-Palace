@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -30,7 +32,7 @@ const AntiGravitySection = ({ children, className = "", stagger = false }) => {
           stagger: stagger ? 0.2 : 0,
           scrollTrigger: {
             trigger: containerRef.current,
-            start: window.innerWidth < 768 ? "top 95%" : "top 85%", // Trigger earlier on mobile
+            start: window.innerWidth <=800 ? "top 95%" : "top 90%", // Trigger earlier on mobile
             toggleActions: "play none none reverse",
           },
         }

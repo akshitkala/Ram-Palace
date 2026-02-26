@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useLayoutEffect, useRef } from "react";
 import HeroImageAnimation from "./HeroImageAnimation";
 import gsap from "gsap";

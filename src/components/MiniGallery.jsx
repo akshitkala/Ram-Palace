@@ -1,7 +1,9 @@
+"use client";
+
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { weddingGallery as galleryImages } from "../Data/gallery";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -80,7 +82,7 @@ const MiniGallery = () => {
                 transition-all duration-500
               `}
             >
-              <div className="relative overflow-hidden rounded-xl shadow-lg h-[50vh] gallery-item">
+              <div className="relative overflow-hidden rounded-xl shadow-lg lg:h-[50vh] h-[30vh] gallery-item">
                 <img 
                   src={img.image} 
                   alt={img.alt}
@@ -95,7 +97,7 @@ const MiniGallery = () => {
                    </span>
                 </div>
                 
-                <Link to="/gallery" className="absolute inset-0 z-10" aria-label="View Gallery" />
+                <Link href="/gallery" className="absolute inset-0 z-10" aria-label="View Gallery" />
               </div>
             </div>
           ))}

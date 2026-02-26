@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useLayoutEffect, useRef, useState, useEffect ,useCallback} from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -184,7 +186,7 @@ const HeroAboutSection = () => {
       </div>
 
       {/* Custom CSS for slow spin animation */}
-      <style jsx>{`
+      <style>{`
         @keyframes spin-slow {
           from {
             transform: rotate(0deg);

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import { eventCards } from "../Data/events";
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 const EventCard = ({ event }) => {
@@ -51,7 +52,7 @@ const EventCard = ({ event }) => {
           {event.description}
         </p>
 
-        <Link to={event.link}>
+        <Link href={event.link}>
           <button className="
             bg-[#A99686] text-white px-8 py-3 text-sm tracking-widest uppercase
             transition-all duration-300

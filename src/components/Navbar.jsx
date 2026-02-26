@@ -1,10 +1,12 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
-import { Link } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -94,7 +96,7 @@ const Navbar = () => {
       >
         <div className="flex items-center justify-between px-4 py-4 lg:px-10">
           <Link 
-            to="/" 
+            href="/" 
             ref={logoRef}
             className="text-2xl md:text-3xl font-serif font-bold text-[#D4AF37] tracking-wider whitespace-nowrap origin-left will-change-transform"
           >
@@ -104,7 +106,7 @@ const Navbar = () => {
             <ul className="hidden lg:flex gap-8 items-center">
               <li>
                 <Link 
-                  to="/" 
+                  href="/" 
                   className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
                 >
                   Home
@@ -133,19 +135,19 @@ const Navbar = () => {
                 >
                   <div className="py-2">
                     <Link
-                      to="/events/weddings"
+                      href="/events/weddings"
                       className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
                     >
                       Weddings & Receptions
                     </Link>
                     <Link
-                      to="/events/corporate-events"
+                      href="/events/corporate-events"
                       className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
                     >
                       Corporate Events
                     </Link>
                     <Link
-                      to="/events/private-parties"
+                      href="/events/private-parties"
                       className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
                     >
                       Private Parties
@@ -156,7 +158,16 @@ const Navbar = () => {
               
               <li>
                 <Link 
-                  to="/gallery" 
+                  href="/catering" 
+                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                >
+                  Catering
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/gallery" 
                   className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
                 >
                   Gallery
@@ -165,7 +176,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link 
-                  to="/Contact" 
+                  href="/contact" 
                   className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
                 >
                   Contact
@@ -196,14 +207,15 @@ const Navbar = () => {
               { label: "Weddings", path: "/events/weddings" },
               { label: "Corporate Events", path: "/events/corporate-events" },
               { label: "Private Parties", path: "/events/private-parties" },
+              { label: "Catering", path: "/catering" },
               { label: "Gallery", path: "/gallery" },
-              { label: "Contact", path: "/Contact" }
+              { label: "Contact", path: "/contact" }
             ].map((item, i) => (
               <Link
                 key={item.label}
                 ref={(el) => (linksRef.current[i] = el)}
                 onClick={() => setOpen(false)}
-                to={item.path}
+                href={item.path}
                 className="transition-all duration-300 hover:text-[#D4AF37] hover:translate-x-2 group"
               >
                 {item.label} <span className="font-light transition-transform duration-300 group-hover:translate-x-1 inline-block">&gt;</span>
