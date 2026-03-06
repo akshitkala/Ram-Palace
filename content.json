@@ -1,0 +1,41 @@
+{
+  "carousel": {
+    "carousel_image_1_src": "/images/carousel/carousel1.webp",
+    "carousel_image_2_src": "/images/carousel/carousel2.webp",
+    "carousel_image_3_src": "/images/carousel/carousel3.webp",
+    "carousel_image_4_src": "/images/carousel/carousel4.webp",
+    "carousel_image_alt_text": "Basti Ram Palace ambience"
+  },
+  "eventcard": {
+    "event_card_button_text": "Find Out More"
+  },
+  "events": {
+    "events_section_heading": "Host Your Event With Us"
+  },
+  "footer": {
+    "footer_animated_name": "BASTI RAM PALACE",
+    "footer_company_name": "Basti Ram Palace",
+    "footer_company_description": "A premium banquet hall for weddings, birthday parties, corporate events, and private celebrations.",
+    "footer_events_heading": "Events",
+    "footer_events_wedding_link": "Weddings & Receptions",
+    "footer_events_birthday_link": "Birthday Parties",
+    "footer_events_corporate_link": "Corporate Events"
+  },
+  "hero": {
+    "hero_main_heading": "A Space for Unforgettable Celebrations",
+    "hero_subtext": "An elegant banquet hall designed for weddings, receptions, corporate events, and private gatherings."
+  },
+  "heroimageanimation": {
+    "hero_bg_image_src": "/images/hero/bg.webp",
+    "hero_bg_image_alt": "Background",
+    "hero_palace_image_src": "/images/hero/palace.webp",
+    "hero_palace_image_alt": "Palace"
+  },
+  "minigallery": {
+    "mini_gallery_heading": "Moments at Basti Ram Palace",
+    "mini_gallery_subtext": "A glimpse into the elegance and grandeur"
+  },
+  "navbar": {
+    "navbar_logo_text": "Basti Ram Palace"
+  }
+}

@@ -1,129 +1,114 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState, useEffect ,useCallback} from "react";
+import content from "../../content.json";
+import React, { useLayoutEffect, useRef, useState, useEffect, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-
 gsap.registerPlugin(ScrollTrigger);
-
 const HeroAboutSection = () => {
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
-  
-  // Count-up animation state
-  const [counts, setCounts] = useState({ weddings: 0, awards: 0, events: 0 });
-  const hasAnimatedRef = useRef(false);
 
+  // Count-up animation state
+  const [counts, setCounts] = useState({
+    weddings: 0,
+    awards: 0,
+    events: 0
+  });
+  const hasAnimatedRef = useRef(false);
   const animateCounters = useCallback(() => {
-    const targets = { weddings: 300, awards: 50, events: 150 };
+    const targets = {
+      weddings: 300,
+      awards: 50,
+      events: 150
+    };
     const duration = 2000;
     const steps = 60;
     const interval = duration / steps;
-
     let step = 0;
     const timer = setInterval(() => {
       step++;
       const progress = step / steps;
-      
       setCounts({
         weddings: Math.floor(targets.weddings * progress),
         awards: Math.floor(targets.awards * progress),
-        events: Math.floor(targets.events * progress),
+        events: Math.floor(targets.events * progress)
       });
-
       if (step >= steps) {
         setCounts(targets);
         clearInterval(timer);
       }
     }, interval);
   }, []);
-
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // Fade in animation for content
-      gsap.fromTo(
-        ".about-content",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
+      gsap.fromTo(".about-content", {
+        opacity: 0,
+        y: 50
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%"
         }
-      );
+      });
 
       // Image reveal animation
-      gsap.fromTo(
-        imageRef.current,
-        { opacity: 0, scale: 0.95 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
+      gsap.fromTo(imageRef.current, {
+        opacity: 0,
+        scale: 0.95
+      }, {
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%"
         }
-      );
+      });
 
       // Stats cards animation
-      gsap.fromTo(
-        ".stat-card",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".stats-container",
-            start: "top 80%",
-            onEnter: () => {
-              if (!hasAnimatedRef.current) {
-                animateCounters();
-                hasAnimatedRef.current = true;
-              }
-            },
-          },
+      gsap.fromTo(".stat-card", {
+        opacity: 0,
+        y: 30
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".stats-container",
+          start: "top 80%",
+          onEnter: () => {
+            if (!hasAnimatedRef.current) {
+              animateCounters();
+              hasAnimatedRef.current = true;
+            }
+          }
         }
-      );
+      });
     }, sectionRef);
-
     return () => ctx.revert();
   }, [animateCounters]);
-
-  return (
-    <section
-      ref={sectionRef}
-      className="relative w-full bg-[#F5F1EB] px-6 py-16 md:py-24 lg:py-32"
-    >
+  return <section ref={sectionRef} className="relative w-full bg-[#F5F1EB] px-6 py-16 md:py-24 lg:py-32">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
           {/* LEFT SIDE - Image */}
           <div className="relative order-1 lg:order-1">
-            <div
-              ref={imageRef}
-              className="relative rounded-[2rem] overflow-hidden shadow-2xl"
-            >
-              <img
-                src='/images/hall3.webp'
-                alt="Basti Ram Palace Interior"
-                className="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover"
-              />
+            <div ref={imageRef} className="relative rounded-[2rem] overflow-hidden shadow-2xl">
+              <img src='/images/hall3.webp' alt="Basti Ram Palace Interior" className="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover" />
               
               {/* Floating Badge */}
               <div className="absolute top-8 right-8 w-24 h-24 bg-[#A99686] rounded-full flex items-center justify-center shadow-lg animate-spin-slow">
                 <div className="text-white text-xs font-semibold text-center leading-tight">
-                  ABOUT<br/>US
+                  ABOUT<br />US
                 </div>
               </div>
             </div>
@@ -175,9 +160,7 @@ const HeroAboutSection = () => {
                 <p className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#A99686] mb-2">
                   {counts.events}+
                 </p>
-                <p className="text-xs md:text-sm text-[#555] uppercase tracking-wider">
-                  Events
-                </p>
+                <p className="text-xs md:text-sm text-[#555] uppercase tracking-wider">{content.footer.footer_events_heading}</p>
               </div>
             </div>
           </div>
@@ -199,8 +182,6 @@ const HeroAboutSection = () => {
           animation: spin-slow 20s linear infinite;
         }
       `}</style>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroAboutSection;
