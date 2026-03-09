@@ -1,5 +1,57 @@
 @import "tailwindcss";
 
+@theme {
+  --color-gold: #C9A84C;
+  --color-gold-dark: #b8963e;
+  --color-charcoal: #1C1C1E;
+  --color-ivory: #F5F1EC;
+  --color-palace-tan: #A99686;
+}
+
+@keyframes scroll-line {
+  0% {
+    height: 0%;
+    top: 0%;
+    opacity: 1;
+  }
+
+  50% {
+    height: 100%;
+    top: 0%;
+    opacity: 1;
+  }
+
+  100% {
+    height: 0%;
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-scroll-line {
+  animation: scroll-line 1.6s ease-in-out infinite;
+}
+
+/* Luxury Typography Utilities - Optimized for Performance */
+.text-luxury {
+  color: white;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    0 10px 40px rgba(0, 0, 0, 0.4);
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.1);
+  will-change: transform;
+}
+
+.text-luxury-secondary {
+  color: #F5F1EC;
+  font-style: italic;
+  font-weight: 300;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    0 4px 15px rgba(0, 0, 0, 0.4);
+  will-change: transform;
+}
+
 @layer base {
 
   html,

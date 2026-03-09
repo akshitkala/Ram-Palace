@@ -18,32 +18,58 @@ const Navbar = () => {
   const linksRef = useRef([]);
   const tl = useRef(null);
 
-  // 🔹 NAVBAR HIDE / SHOW + LOGO SCALE
+  // 🔹 NAVBAR SCROLL ANIMATIONS (Optimized with ScrollTrigger)
   useEffect(() => {
-    let lastScroll = window.scrollY;
+    const ctx = gsap.context(() => {
+      // 1. Scroll-based Background & Blur Transition
+      ScrollTrigger.create({
+        start: "top -80",
+        onUpdate: (self) => {
+          if (self.isActive) {
+            gsap.to(navRef.current, { 
+              backgroundColor: 'rgba(28,28,30,0.95)',
+              backdropFilter: 'blur(20px)',
+              duration: 0.4,
+              overwrite: 'auto'
+            });
+          } else {
+            gsap.to(navRef.current, { 
+              backgroundColor: 'rgba(0,0,0,0.40)',
+              backdropFilter: 'blur(12px)',
+              duration: 0.4,
+              overwrite: 'auto'
+            });
+          }
+        }
+      });
 
-    const updateNavbar = () => {
-      const current = window.scrollY;
+      // 2. Hide/Show Navbar on Direction Change
+      ScrollTrigger.create({
+        start: "top -100",
+        onUpdate: (self) => {
+          if (self.direction === 1) { // Scrolling down
+            gsap.to(navRef.current, { y: "-100%", duration: 0.4, ease: "power2.out" });
+          } else { // Scrolling up
+            gsap.to(navRef.current, { y: "0%", duration: 0.4, ease: "power2.out" });
+          }
+        }
+      });
 
-      // Hide/Show Navbar Logic
-      if (current > lastScroll && current > 100) {
-        gsap.to(navRef.current, { y: "-100%", duration: 0.4, ease: "power2.out" });
-      } else {
-        gsap.to(navRef.current, { y: "0%", duration: 0.4, ease: "power2.out" });
-      }
+      // 3. Logo Scaling
+      ScrollTrigger.create({
+        start: "top -50",
+        onUpdate: (self) => {
+          gsap.to(logoRef.current, { 
+            scale: self.isActive ? 0.8 : 1, 
+            duration: 0.4, 
+            ease: "power2.out",
+            overwrite: 'auto'
+          });
+        }
+      });
+    });
 
-      // Logo Scaling Logic
-      if (current > 50) {
-         gsap.to(logoRef.current, { scale: 0.8, duration: 0.4, ease: "power2.out" });
-      } else {
-         gsap.to(logoRef.current, { scale: 1, duration: 0.4, ease: "power2.out" });
-      }
-
-      lastScroll = current;
-    };
-
-    window.addEventListener("scroll", updateNavbar);
-    return () => window.removeEventListener("scroll", updateNavbar);
+    return () => ctx.revert();
   }, []);
 
   // 🔹 DROPDOWN ANIMATION
@@ -92,13 +118,13 @@ const Navbar = () => {
       {/* NAVBAR */}
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 w-full z-50 text-white bg-black/30 backdrop-blur-md border-b border-white/10 shadow-lg"
+        className="fixed top-0 left-0 w-full z-50 text-white bg-black/40 backdrop-blur-md border-b border-white/10 shadow-lg"
       >
         <div className="flex items-center justify-between px-4 py-4 lg:px-10">
           <Link 
             href="/" 
             ref={logoRef}
-            className="text-2xl md:text-3xl font-serif font-bold text-[#D4AF37] tracking-wider whitespace-nowrap origin-left will-change-transform"
+            className="text-2xl md:text-3xl font-serif font-bold text-[#C9A84C] tracking-wider whitespace-nowrap origin-left will-change-transform"
           >
             Basti Ram Palace
           </Link>
@@ -107,10 +133,10 @@ const Navbar = () => {
               <li>
                 <Link 
                   href="/" 
-                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
                 >
                   Home
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
               
@@ -120,12 +146,12 @@ const Navbar = () => {
                 onMouseEnter={handleDropdownEnter}
                 onMouseLeave={handleDropdownLeave}
               >
-                <button className="relative text-white transition-all duration-300 hover:text-[#D4AF37] flex items-center gap-1 py-4">
+                <button className="relative text-white transition-all duration-300 hover:text-[#C9A84C] flex items-center gap-1 py-4">
                   Events
                   <svg className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
                 </button>
                 
                 {/* Dropdown Menu */}
@@ -159,31 +185,49 @@ const Navbar = () => {
               <li>
                 <Link 
                   href="/catering" 
-                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
                 >
                   Catering
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/gallery" 
-                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
                 >
                   Gallery
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/contact" 
-                  className="relative text-white transition-all duration-300 hover:text-[#D4AF37] group"
+                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
                 >
                   Contact
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
             </ul>
+
+            {/* FIX 4 — RESERVE NOW BUTTON */}
+            <Link 
+              href="/contact" 
+              className="hidden lg:block ml-4"
+            >
+              <button className="
+                bg-[#C9A84C] text-[#1C1C1E]
+                px-6 py-2.5
+                text-xs tracking-[2px] uppercase font-medium
+                transition-all duration-300
+                hover:bg-[#b8963e] 
+                hover:scale-105 
+                hover:shadow-[0_4px_20px_rgba(201,168,76,0.4)]
+              ">
+                Reserve Now
+              </button>
+            </Link>
 
           <button
             onClick={() => setOpen(!open)}
@@ -216,7 +260,7 @@ const Navbar = () => {
                 ref={(el) => (linksRef.current[i] = el)}
                 onClick={() => setOpen(false)}
                 href={item.path}
-                className="transition-all duration-300 hover:text-[#D4AF37] hover:translate-x-2 group"
+                className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
               >
                 {item.label} <span className="font-light transition-transform duration-300 group-hover:translate-x-1 inline-block">&gt;</span>
               </Link>
@@ -230,7 +274,7 @@ const Navbar = () => {
             <FaInstagram className="text-2xl" />
           </div>
 
-          <button className="text-xl text-white px-6 py-3 bg-[#A99686] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-105 hover:shadow-lg">
+          <button className="text-xl text-white px-6 py-3 bg-[#C9A84C] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-105 hover:shadow-lg">
             Reserve Now
           </button>
         </div>

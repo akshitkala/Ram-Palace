@@ -54,7 +54,7 @@ const EventCard = ({ event }) => {
 
         <Link href={event.link}>
           <button className="
-            bg-[#A99686] text-white px-8 py-3 text-sm tracking-widest uppercase
+            bg-[#C9A84C] text-white px-8 py-3 text-sm tracking-widest uppercase
             transition-all duration-300
             hover:opacity-80
             hover:-translate-y-1

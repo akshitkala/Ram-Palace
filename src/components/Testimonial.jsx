@@ -19,10 +19,11 @@ const Testimonial = ({
   className,
 }) => {
   const [active, setActive] = useState(0);
+  const [randomRotations, setRandomRotations] = useState([]);
 
-  // Memoize random rotations so they don't change on re-renders (like active state change)
-  const randomRotations = useMemo(() => {
-    return testimonials.map(() => Math.floor(Math.random() * 21) - 10);
+  // Fix hydration mismatch by generating random values only on client
+  useEffect(() => {
+    setRandomRotations(testimonials.map(() => Math.floor(Math.random() * 21) - 10));
   }, [testimonials]);
 
   const handleNext = useCallback(() => {

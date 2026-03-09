@@ -27,7 +27,7 @@ const AntiGravitySection = ({ children, className = "", stagger = false }) => {
           opacity: 1,
           scale: 1,
           rotation: 0,
-          duration: 1.8,
+          duration: 1,
           ease: "power4.out", // Luxurious ease
           stagger: stagger ? 0.2 : 0,
           scrollTrigger: {

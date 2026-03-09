@@ -123,14 +123,14 @@ export default function GalleryPage() {
           <p className="hero-text font-body text-xl md:text-2xl font-light tracking-widest uppercase opacity-90">
             Moments at Basti Ram Palace
           </p>
-          <div className="hero-text w-24 h-[1px] bg-[#D4AF37] mx-auto mt-8"></div>
+          <div className="hero-text w-24 h-[1px] bg-[#C9A84C] mx-auto mt-8"></div>
         </div>
       </section>
 
       {/* Main Gallery Grid (Masonry-ish) */}
       <div className="max-w-7xl mx-auto px-6 py-16">
         {loading ? (
-          <div className="py-20 flex justify-center"><div className="animate-pulse w-10 h-10 rounded-full bg-[#D4AF37]"></div></div>
+          <div className="py-20 flex justify-center"><div className="animate-pulse w-10 h-10 rounded-full bg-[#C9A84C]"></div></div>
         ) : (
           <div ref={gridRef} className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
             {images.map((img) => (

@@ -9,11 +9,14 @@ import Testimonial from "@/components/Testimonial";
 import testimonials from "@/Data/Testimonial";
 import AntiGravitySection from "@/components/AntiGravitySection";
 import MiniGallery from "@/components/MiniGallery";
+import LocomotiveScroll from "locomotive-scroll";
 
 export default function Home() {
   return (
     <div>
-      <Hero />
+      <div data-scroll-container>
+      < Hero />
+      </div>
       {/* Hero Section 2 - About the Venue */}
       <HeroAboutSection />
       
