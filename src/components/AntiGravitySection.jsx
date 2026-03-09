@@ -10,30 +10,35 @@ const AntiGravitySection = ({ children, className = "", stagger = false }) => {
   const containerRef = useRef(null);
 
   useLayoutEffect(() => {
+    // Guard: window may not exist during SSR
+    const isMobile = typeof window !== "undefined" && window.innerWidth <= 800;
+
     const ctx = gsap.context(() => {
-      // If stagger is true, animate immediate children
-      const target = stagger ? containerRef.current.children : containerRef.current;
-      
+      const target = stagger
+        ? containerRef.current.children
+        : containerRef.current;
+
       gsap.fromTo(
         target,
         {
-          y: 150,
+          y: 60,          // was 150 — too aggressive, causes layout jank
           opacity: 0,
-          scale: 0.9,
-          rotation: stagger ? 0 : 2, // Slight rotation for single sections
+          scale: 0.97,    // was 0.9 — subtle scale, not tumbling
+          // rotation removed — causes repaint on every frame, 
+          // especially damaging on mobile with large images
         },
         {
           y: 0,
           opacity: 1,
           scale: 1,
-          rotation: 0,
           duration: 1,
-          ease: "power4.out", // Luxurious ease
-          stagger: stagger ? 0.2 : 0,
+          ease: "power4.out",
+          stagger: stagger ? 0.15 : 0,  // was 0.2 — tighter sequence
           scrollTrigger: {
             trigger: containerRef.current,
-            start: window.innerWidth <=800 ? "top 95%" : "top 90%", // Trigger earlier on mobile
-            toggleActions: "play none none reverse",
+            start: isMobile ? "top 95%" : "top 88%",
+            toggleActions: "play none none none", // was "reverse" — sections
+            // should stay visible when scrolling back up, not disappear
           },
         }
       );

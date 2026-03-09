@@ -11,96 +11,151 @@ const images = [
 
 const Carousel = () => {
   const [current, setCurrent] = useState(0);
-
+  const [paused,  setPaused]  = useState(false);
   const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
+  const touchEndX   = useRef(0);
 
-  // 🔹 Auto slide
+  // Auto-slide — pauses on hover
   useEffect(() => {
+    if (paused) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 4000);
-
+    }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [paused]);
 
-  // 🔹 Touch handlers (Android swipe)
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
+  const prev = () => setCurrent((p) => (p === 0 ? images.length - 1 : p - 1));
+  const next = () => setCurrent((p) => (p + 1) % images.length);
 
-  const handleTouchMove = (e) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    const distance = touchStartX.current - touchEndX.current;
-
-    if (distance > 50) {
-      // swipe left → next
-      setCurrent((prev) => (prev + 1) % images.length);
-    } else if (distance < -50) {
-      // swipe right → previous
-      setCurrent((prev) =>
-        prev === 0 ? images.length - 1 : prev - 1
-      );
-    }
+  const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const handleTouchMove  = (e) => { touchEndX.current   = e.touches[0].clientX; };
+  const handleTouchEnd   = () => {
+    const d = touchStartX.current - touchEndX.current;
+    if (d > 50) next();
+    else if (d < -50) prev();
   };
 
   return (
     <section
-      className="relative w-full h-[70vh] md:h-screen overflow-hidden bg-black"
+      className="relative w-full h-[55vh] md:h-[72vh] overflow-hidden bg-black"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      
-      {/* Images - Only render current and next for performance */}
-      {images.map((img, index) => {
-        const isCurrent = index === current;
-        const isNext = index === (current + 1) % images.length;
-        const shouldRender = isCurrent || isNext;
-        
-        if (!shouldRender) return null;
-        
-        return (
-          <img
-            key={index}
-            src={img}
-            alt="Basti Ram Palace ambience"
-            className={`
-              absolute inset-0 w-full h-full object-cover
-              transition-opacity duration-1000 will-change-opacity
-              ${isCurrent ? "opacity-100" : "opacity-0"}
-            `}
-            loading={index === 0 ? "eager" : "lazy"}
-            decoding="async"
-            fetchPriority={index === 0 ? "high" : "auto"}
-          />
-        );
-      })}
+      {/* ── IMAGES — all mounted, fade via opacity only ──
+          Keeps previous slide visible during transition.
+          Prevents flash-to-black bug on last→first loop.  */}
+      {images.map((img, index) => (
+        <img
+          key={index}
+          src={img}
+          alt={`Basti Ram Palace — slide ${index + 1}`}
+          className={`
+            absolute inset-0 w-full h-full object-cover
+            transition-opacity duration-1000
+            ${index === current ? "opacity-100 z-10" : "opacity-0 z-0"}
+          `}
+          loading={index === 0 ? "eager" : "lazy"}
+          decoding="async"
+        />
+      ))}
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/20"></div>
+      {/* ── BOTTOM GRADIENT — legibility only, top stays bright ── */}
+      <div
+        className="absolute inset-0 z-20 pointer-events-none"
+        style={{
+          background: `linear-gradient(
+            to top,
+            rgba(0,0,0,0.65) 0%,
+            rgba(0,0,0,0.20) 30%,
+            transparent      55%
+          )`,
+        }}
+      />
 
-      {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrent(index)}
-            className={`
-              w-2.5 h-2.5 rounded-full transition-all duration-300
-              ${
-                index === current
-                  ? "bg-white scale-110"
-                  : "bg-white/40 hover:bg-white/70 hover:scale-110"
-              }
-            `}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
+      {/* ── BRAND LABEL — bottom left ── */}
+      <div className="absolute bottom-10 left-6 md:bottom-12 md:left-12 z-30">
+        <p className="text-[9px] md:text-[10px] tracking-[4px] uppercase text-[#C9A84C] mb-1.5">
+          Basti Ram Palace
+        </p>
+        <p className="text-white/70 text-[11px] md:text-sm font-light tracking-wide">
+          Every detail, crafted for your celebration
+        </p>
       </div>
+
+      {/* ── ARROW NAVIGATION — desktop only ── */}
+      <button
+        onClick={prev}
+        aria-label="Previous slide"
+        className="
+          hidden md:flex
+          absolute left-5 top-1/2 -translate-y-1/2 z-30
+          w-10 h-10 items-center justify-center
+          border border-white/30 text-white/60
+          hover:border-white/80 hover:text-white hover:bg-white/10
+          transition-all duration-300
+        "
+      >
+        ←
+      </button>
+      <button
+        onClick={next}
+        aria-label="Next slide"
+        className="
+          hidden md:flex
+          absolute right-5 top-1/2 -translate-y-1/2 z-30
+          w-10 h-10 items-center justify-center
+          border border-white/30 text-white/60
+          hover:border-white/80 hover:text-white hover:bg-white/10
+          transition-all duration-300
+        "
+      >
+        →
+      </button>
+
+      {/* ── DOTS + COUNTER — bottom right ── */}
+      <div className="absolute bottom-10 right-6 md:bottom-12 md:right-12 z-30 flex items-center gap-4">
+
+        {/* Slide counter */}
+        <span className="text-[10px] tracking-[2px] text-white/40 tabular-nums hidden md:block">
+          {String(current + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+        </span>
+
+        {/* Pill dots — active becomes a gold bar */}
+        <div className="flex items-center gap-2">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrent(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`
+                transition-all duration-300
+                ${index === current
+                  ? "w-5 h-1.5 bg-[#C9A84C]"
+                  : "w-1.5 h-1.5 rounded-full bg-white/35 hover:bg-white/65"}
+              `}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ── PROGRESS BAR — resets on slide change ── */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10 z-30">
+        <div
+          key={current}
+          className="h-full bg-[#C9A84C]"
+          style={{ animation: paused ? "none" : "carousel-progress 5s linear forwards" }}
+        />
+      </div>
+
+      <style>{`
+        @keyframes carousel-progress {
+          from { width: 0%; }
+          to   { width: 100%; }
+        }
+      `}</style>
     </section>
   );
 };
