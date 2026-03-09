@@ -1,0 +1,272 @@
+{
+  "seededAt": "2026-03-09T09:22:49.429Z",
+  "summary": {
+    "uploaded": 29,
+    "skipped": 0,
+    "failed": 0,
+    "moved": 29
+  },
+  "results": [
+    {
+      "file": "amish-thakkar-1rLF6hxmm7M-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\amish-thakkar-1rLF6hxmm7M-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\amish-thakkar-1rLF6hxmm7M-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/amish-thakkar-1rLF6hxmm7M-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048109/ram-palace/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "amish-thakkar-7O422yG_b80-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\amish-thakkar-7O422yG_b80-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\amish-thakkar-7O422yG_b80-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/amish-thakkar-7O422yG_b80-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048110/ram-palace/gallery/amish-thakkar-7O422yG_b80-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048111/ram-palace/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "cody-chan-7jgtAhJkjwk-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\cody-chan-7jgtAhJkjwk-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\cody-chan-7jgtAhJkjwk-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/cody-chan-7jgtAhJkjwk-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048112/ram-palace/gallery/cody-chan-7jgtAhJkjwk-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "danie-franco-7XqL_DVuBMw-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\danie-franco-7XqL_DVuBMw-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\danie-franco-7XqL_DVuBMw-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/danie-franco-7XqL_DVuBMw-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048114/ram-palace/gallery/danie-franco-7XqL_DVuBMw-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "drew-coffman-llWjwo200fo-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\drew-coffman-llWjwo200fo-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\drew-coffman-llWjwo200fo-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/drew-coffman-llWjwo200fo-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048115/ram-palace/gallery/drew-coffman-llWjwo200fo-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048116/ram-palace/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "evelina-friman-hw_sKmjb0ns-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\evelina-friman-hw_sKmjb0ns-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\evelina-friman-hw_sKmjb0ns-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/evelina-friman-hw_sKmjb0ns-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048118/ram-palace/gallery/evelina-friman-hw_sKmjb0ns-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "junior-reis-xMDo8y776uE-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\junior-reis-xMDo8y776uE-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\junior-reis-xMDo8y776uE-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/junior-reis-xMDo8y776uE-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048120/ram-palace/gallery/junior-reis-xMDo8y776uE-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/khadija-yousaf-lKwp3-FQomY-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048121/ram-palace/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "leonardo-miranda-riHGdvluDk8-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\leonardo-miranda-riHGdvluDk8-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\leonardo-miranda-riHGdvluDk8-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/leonardo-miranda-riHGdvluDk8-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048122/ram-palace/gallery/leonardo-miranda-riHGdvluDk8-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "nathan-dumlao-5BB_atDT4oA-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\nathan-dumlao-5BB_atDT4oA-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\nathan-dumlao-5BB_atDT4oA-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/nathan-dumlao-5BB_atDT4oA-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048123/ram-palace/gallery/nathan-dumlao-5BB_atDT4oA-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "photos-by-lanty-O38Id_cyV4M-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\photos-by-lanty-O38Id_cyV4M-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\photos-by-lanty-O38Id_cyV4M-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/photos-by-lanty-O38Id_cyV4M-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048124/ram-palace/gallery/photos-by-lanty-O38Id_cyV4M-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "pixel-studios-IFCN-tBVNPI-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\pixel-studios-IFCN-tBVNPI-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\pixel-studios-IFCN-tBVNPI-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/pixel-studios-IFCN-tBVNPI-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048126/ram-palace/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048127/ram-palace/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "samantha-gades-x40Q9jrEVT0-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\samantha-gades-x40Q9jrEVT0-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\samantha-gades-x40Q9jrEVT0-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/samantha-gades-x40Q9jrEVT0-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048128/ram-palace/gallery/samantha-gades-x40Q9jrEVT0-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
+      "localPath": "public\\images\\gallery\\vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
+      "movedTo": "moved-images\\gallery\\vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/gallery",
+      "public_id": "ram-palace/gallery/vadim-paripa-PuXtB1B4zL8-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048130/ram-palace/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
+      "localPath": "public\\images\\Events\\Wedding\\ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
+      "movedTo": "moved-images\\events\\weddings\\ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/weddings",
+      "public_id": "ram-palace/events/weddings/ibrahim-boran-m8YjB0noWiY-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048131/ram-palace/events/weddings/ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
+      "localPath": "public\\images\\Events\\Wedding\\jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
+      "movedTo": "moved-images\\events\\weddings\\jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/weddings",
+      "public_id": "ram-palace/events/weddings/jeremy-wong-weddings-K8KiCHh4WU4-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048132/ram-palace/events/weddings/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "michu-dang-quang-unItqGJIlRY-unsplash.jpg",
+      "localPath": "public\\images\\Events\\Wedding\\michu-dang-quang-unItqGJIlRY-unsplash.jpg",
+      "movedTo": "moved-images\\events\\weddings\\michu-dang-quang-unItqGJIlRY-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/weddings",
+      "public_id": "ram-palace/events/weddings/michu-dang-quang-unItqGJIlRY-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048133/ram-palace/events/weddings/michu-dang-quang-unItqGJIlRY-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg",
+      "localPath": "public\\images\\Events\\Wedding\\vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg",
+      "movedTo": "moved-images\\events\\weddings\\vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/weddings",
+      "public_id": "ram-palace/events/weddings/vaibhav-nagare-0ci9am-l-Dk-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048135/ram-palace/events/weddings/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "al-elmes-ULHxWq8reao-unsplash.jpg",
+      "localPath": "public\\images\\Events\\corporate\\al-elmes-ULHxWq8reao-unsplash.jpg",
+      "movedTo": "moved-images\\events\\corporate\\al-elmes-ULHxWq8reao-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/corporate",
+      "public_id": "ram-palace/events/corporate/al-elmes-ULHxWq8reao-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048136/ram-palace/events/corporate/al-elmes-ULHxWq8reao-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "antenna-ZDN-G1xBWHY-unsplash.jpg",
+      "localPath": "public\\images\\Events\\corporate\\antenna-ZDN-G1xBWHY-unsplash.jpg",
+      "movedTo": "moved-images\\events\\corporate\\antenna-ZDN-G1xBWHY-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/corporate",
+      "public_id": "ram-palace/events/corporate/antenna-ZDN-G1xBWHY-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048137/ram-palace/events/corporate/antenna-ZDN-G1xBWHY-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
+      "localPath": "public\\images\\Events\\corporate\\jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
+      "movedTo": "moved-images\\events\\corporate\\jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/corporate",
+      "public_id": "ram-palace/events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048142/ram-palace/events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
+      "localPath": "public\\images\\Events\\corporate\\quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
+      "movedTo": "moved-images\\events\\corporate\\quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/corporate",
+      "public_id": "ram-palace/events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048163/ram-palace/events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
+      "localPath": "public\\images\\Events\\privateParties\\andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
+      "movedTo": "moved-images\\events\\private-parties\\andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/private-parties",
+      "public_id": "ram-palace/events/private-parties/andrei-marinho-aLoz5hfGJOg-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048164/ram-palace/events/private-parties/andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
+      "localPath": "public\\images\\Events\\privateParties\\enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
+      "movedTo": "moved-images\\events\\private-parties\\enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/private-parties",
+      "public_id": "ram-palace/events/private-parties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048166/ram-palace/events/private-parties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "raju-kumar-93BQ5bUsD-E-unsplash.jpg",
+      "localPath": "public\\images\\Events\\privateParties\\raju-kumar-93BQ5bUsD-E-unsplash.jpg",
+      "movedTo": "moved-images\\events\\private-parties\\raju-kumar-93BQ5bUsD-E-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/private-parties",
+      "public_id": "ram-palace/events/private-parties/raju-kumar-93BQ5bUsD-E-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048167/ram-palace/events/private-parties/raju-kumar-93BQ5bUsD-E-unsplash.jpg",
+      "status": "uploaded"
+    },
+    {
+      "file": "wang-binghua-1ZykZAj15Fw-unsplash.jpg",
+      "localPath": "public\\images\\Events\\privateParties\\wang-binghua-1ZykZAj15Fw-unsplash.jpg",
+      "movedTo": "moved-images\\events\\private-parties\\wang-binghua-1ZykZAj15Fw-unsplash.jpg",
+      "cloudinaryFolder": "ram-palace/events/private-parties",
+      "public_id": "ram-palace/events/private-parties/wang-binghua-1ZykZAj15Fw-unsplash",
+      "secure_url": "https://res.cloudinary.com/ds1xu4cxk/image/upload/v1773048168/ram-palace/events/private-parties/wang-binghua-1ZykZAj15Fw-unsplash.jpg",
+      "status": "uploaded"
+    }
+  ]
+}

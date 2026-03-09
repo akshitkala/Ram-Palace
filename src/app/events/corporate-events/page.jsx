@@ -1,10 +1,38 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import EventLayout from "@/components/EventLayout";
 import { eventDetails } from "@/Data/events";
 
 export default function CorporateEventsPage() {
-  const data = eventDetails.corporateEvents;
+  const [data, setData] = useState(eventDetails.corporateEvents);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/images/events/corporate');
+        const json = await res.json();
+        
+        if (json.images && json.images.length > 0) {
+          const imgs = json.images;
+          const newData = JSON.parse(JSON.stringify(eventDetails.corporateEvents)); // deep copy
+          
+          if (imgs[0]) newData.hero.image = imgs[0].secure_url;
+          
+          for (let i = 0; i < newData.storySections.length; i++) {
+            if (imgs[i + 1]) {
+              newData.storySections[i].image = imgs[i + 1].secure_url;
+            }
+          }
+          setData(newData);
+        }
+      } catch (error) {
+        console.error("Failed to load corporate images", error);
+      }
+    };
+    
+    fetchImages();
+  }, []);
 
   return (
     <EventLayout

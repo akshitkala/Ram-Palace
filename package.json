@@ -6,19 +6,27 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:cloudinary": "node scripts/seed-cloudinary.mjs",
+    "audit:images": "node scripts/image-audit.mjs",
+    "cleanup:images": "node scripts/image-audit.mjs --cleanup"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.36.1",
     "@tailwindcss/postcss": "^4.1.18",
+    "cloudinary": "^2.9.0",
+    "dotenv": "^17.3.1",
     "framer-motion": "^12.29.0",
     "gsap": "^3.14.2",
     "locomotive-scroll": "^5.0.1",
+    "multer": "^2.1.1",
     "next": "^15.3.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
     "tailwindcss": "^4.1.18"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/multer": "^2.1.0"
+  }
 }
