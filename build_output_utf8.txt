@@ -1,0 +1,70 @@
+﻿
+> hall@0.0.0 build
+> next build
+
+   Γû▓ Next.js 15.5.12
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 21.5s
+   Linting and checking validity of types ...
+   Collecting page data ...
+node.exe : Error: 
+Missing API key. Pass it 
+to the constructor `new 
+Resend("re_123")`
+At C:\nvm4w\nodejs\npm.ps
+1:29 char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
+    + CategoryInfo       
+       : NotSpe    
+cified: (Error:     
+Missing ...send(    
+"re_123")`:Strin    g) 
+[], RemoteExc    eption
+    + FullyQualified    
+ErrorId : Native    
+CommandError
+ 
+    at new <anonymous> 
+(E:\vs code\projects\sign
+ifico\hall\.next\server\a
+pp\api\enquiry\route.js:5
+:28132)
+    at 649 (E:\vs code\pr
+ojects\significo\hall\.ne
+xt\server\app\api\enquiry
+\route.js:5:27663)
+    at c (E:\vs code\proj
+ects\significo\hall\.next
+\server\webpack-runtime.j
+s:1:143)
+    at <unknown> (E:\vs c
+ode\projects\significo\ha
+ll\.next\server\app\api\e
+nquiry\route.js:290:82307
+)
+    at c.X (E:\vs code\pr
+ojects\significo\hall\.ne
+xt\server\webpack-runtime
+.js:1:1285)
+    at <unknown> (E:\vs c
+ode\projects\significo\ha
+ll\.next\server\app\api\e
+nquiry\route.js:290:82289
+)
+    at 
+Object.<anonymous> 
+(E:\vs code\projects\sign
+ifico\hall\.next\server\a
+pp\api\enquiry\route.js:2
+90:82337)
+
+> Build error occurred
+[Error: Failed to 
+collect page data for 
+/api/enquiry] { type: 
+'Error' }

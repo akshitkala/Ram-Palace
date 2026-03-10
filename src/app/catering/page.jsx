@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useLayoutEffect, useState, useEffect } from "react";
+import { useRef, useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
@@ -17,17 +17,16 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ─────────────────────────────── PAGE ─────────────────────────────── */
 export default function CateringPage() {
   const pageRef = useRef(null);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      /* Fade‑up utility for all .reveal elements */
       gsap.utils.toArray(".reveal").forEach((el) => {
         gsap.fromTo(
           el,
-          { opacity: 0, y: 60 },
+          { opacity: 0, y: 55 },
           {
             opacity: 1,
             y: 0,
@@ -42,9 +41,8 @@ export default function CateringPage() {
         );
       });
 
-      /* Hero parallax */
       gsap.to(".hero-bg", {
-        yPercent: 20,
+        yPercent: 22,
         ease: "none",
         scrollTrigger: {
           trigger: ".hero-section",
@@ -54,7 +52,6 @@ export default function CateringPage() {
         },
       });
 
-      /* Spectrum cards stagger */
       gsap.fromTo(
         ".spectrum-card",
         { opacity: 0, y: 50, scale: 0.96 },
@@ -63,62 +60,78 @@ export default function CateringPage() {
           y: 0,
           scale: 1,
           duration: 0.8,
-          stagger: 0.15,
+          stagger: 0.12,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".spectrum-grid",
-            start: "top 80%",
-          },
+          scrollTrigger: { trigger: ".spectrum-grid", start: "top 82%" },
         }
       );
 
-      /* Event cards stagger */
       gsap.fromTo(
-        ".event-card",
-        { opacity: 0, y: 40 },
+        ".spectrum-card",
+        { opacity: 0, y: 50, scale: 0.96 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.7,
-          stagger: 0.08,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".events-grid",
-            start: "top 80%",
-          },
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ".spectrum-grid", start: "top 82%" },
         }
       );
 
-      /* Service checkmarks */
+      gsap.fromTo(
+        ".event-tag",
+        { opacity: 0, scale: 0.88 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: "back.out(1.4)",
+          scrollTrigger: { trigger: ".events-wrap", start: "top 82%" },
+        }
+      );
+
       gsap.fromTo(
         ".service-item",
-        { opacity: 0, x: -30 },
+        { opacity: 0, x: -28 },
         {
           opacity: 1,
           x: 0,
           duration: 0.6,
-          stagger: 0.1,
+          stagger: 0.09,
           ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".service-grid",
-            start: "top 80%",
-          },
+          scrollTrigger: { trigger: ".service-grid", start: "top 80%" },
         }
       );
 
-      /* Gallery items */
       ScrollTrigger.batch(".gallery-item", {
         onEnter: (batch) =>
           gsap.to(batch, {
             opacity: 1,
             y: 0,
             duration: 0.7,
-            stagger: 0.1,
+            stagger: 0.09,
             ease: "power3.out",
             overwrite: true,
           }),
-        start: "top 90%",
+        start: "top 92%",
         once: true,
+      });
+
+      gsap.utils.toArray(".stat-num").forEach((el) => {
+        const target = parseInt(el.dataset.target, 10);
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: target,
+          duration: 2,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 88%", once: true },
+          onUpdate() {
+            el.textContent = Math.round(obj.val) + "+";
+          },
+        });
       });
     }, pageRef);
 
@@ -126,361 +139,321 @@ export default function CateringPage() {
   }, []);
 
   return (
-    <div ref={pageRef} className="bg-[#FAF7F2]">
-      <style>{`
-        .gold-underline {
-          position: relative;
-          display: inline-block;
-        }
-        .gold-underline::after {
-          content: '';
-          position: absolute;
-          bottom: -12px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 80px;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, #C9A96E, transparent);
-        }
-        .marquee-track {
-          animation: marquee-scroll 30s linear infinite;
-        }
-        .marquee-track:hover {
-          animation-play-state: paused;
-        }
-        @keyframes marquee-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .cta-glow {
-          box-shadow: 0 0 0 0 rgba(201, 169, 110, 0);
-          transition: all 0.4s ease;
-        }
-        .cta-glow:hover {
-          box-shadow: 0 0 30px rgba(201, 169, 110, 0.3);
-          transform: translateY(-2px);
-        }
-        .spectrum-card-inner {
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .spectrum-card:hover .spectrum-card-inner {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(201,169,110,0.3);
-        }
-        .event-card-inner {
-          transition: all 0.35s ease;
-        }
-        .event-card:hover .event-card-inner {
-          background: #FAF7F2;
-          border-color: #C9A96E;
-        }
-        .gallery-item img {
-          transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .gallery-item:hover img {
-          transform: scale(1.05);
-        }
-        .particle {
-          position: absolute;
-          width: 4px;
-          height: 4px;
-          background: #C9A96E;
-          border-radius: 50%;
-          opacity: 0.15;
-          animation: float-particle 8s ease-in-out infinite;
-        }
-        @keyframes float-particle {
-          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.1; }
-          50% { transform: translateY(-40px) translateX(20px); opacity: 0.25; }
-        }
-        .fade-edge-left {
-          mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-          -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-        }
-      `}</style>
+    <div ref={pageRef} className="bg-[#FAF7F2] overflow-x-hidden">
 
-      {/* ═══════════════ 1. HERO ═══════════════ */}
-      <section className="hero-section relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-        {/* BG */}
+      {/* ═══ 1. HERO ═══ */}
+      <section className="hero-section relative h-screen min-h-[680px] flex items-center justify-center overflow-hidden">
         <div className="hero-bg absolute inset-0 z-0">
           <img
             src={cateringHero.image}
             alt="Luxury catering setup"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/75" />
         </div>
 
-        {/* Content */}
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <p className="reveal font-body text-[#C9A96E] text-sm md:text-base tracking-[0.3em] uppercase mb-6 font-semibold">
-            Ram Palace Catering Division
-          </p>
-          <h1 className="reveal font-heading text-4xl sm:text-5xl md:text-7xl text-white leading-tight mb-6 gold-underline">
+          <div className="reveal flex items-center justify-center gap-3 mb-8">
+            <span className="block w-12 h-px bg-gradient-to-r from-transparent to-[#C9A96E]" />
+            <span className="font-body text-[#C9A96E] text-xs tracking-[0.35em] uppercase font-semibold">
+              GD Foods India · Basti Ram Palace
+            </span>
+            <span className="block w-12 h-px bg-gradient-to-l from-transparent to-[#C9A96E]" />
+          </div>
+
+          <h1 className="reveal font-heading text-5xl sm:text-6xl md:text-8xl text-white leading-tight mb-8">
             {cateringHero.headline}
           </h1>
-          <p className="reveal font-body text-white/85 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mt-10 mb-4">
+
+          <p className="reveal font-body text-white/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-3">
             {cateringHero.description}
           </p>
-          <p className="reveal font-body text-white/65 text-sm md:text-base italic mb-10">
+          <p className="reveal font-heading-italic text-white/55 text-lg md:text-xl mb-12">
             {cateringHero.subtext}
           </p>
 
           <div className="reveal flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#culinary-spectrum"
-              className="cta-glow bg-gradient-to-r from-[#C9A96E] to-[#A8883D] text-[#2B1E14] font-bold uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm"
+              className="bg-gradient-to-br from-[#C9A96E] to-[#A8883D] text-[#1a0f08] font-body font-bold
+                         uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm
+                         transition-all duration-300 hover:shadow-[0_8px_32px_rgba(201,169,110,0.45)] hover:-translate-y-0.5"
             >
-              Explore Culinary Experience
+              Explore the Menu
             </a>
             <Link
               href="/enquiry"
-              className="cta-glow border border-white/30 text-white font-semibold uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-colors"
+              className="border border-white/30 text-white/90 font-body font-semibold uppercase
+                         tracking-[0.15em] px-8 py-4 rounded-lg text-sm backdrop-blur-sm bg-white/5
+                         transition-all duration-300 hover:bg-white/10"
             >
-              Request Custom Proposal
+              Request a Proposal
             </Link>
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-          <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
-          <div className="w-[1px] h-8 bg-gradient-to-b from-white/40 to-transparent animate-pulse" />
+          <div className="w-px h-10 bg-gradient-to-b from-transparent via-[#C9A96E]/60 to-transparent animate-pulse" />
+          <span className="font-body text-white/30 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
         </div>
       </section>
 
-      {/* ═══════════════ 2. CULINARY PHILOSOPHY ═══════════════ */}
-      <section className="py-20 md:py-32 px-6 bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Text */}
+      {/* ═══ 2. STATS STRIP ═══ */}
+      <section className="bg-[#2B1810] py-10 px-6">
+        <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-12">
+          {[
+            { target: 500, label: "Events Catered" },
+            { target: 14,  label: "Trusted Clients" },
+            { target: 8,   label: "Live Counter Concepts" },
+            { target: 200, label: "Menu Items" },
+          ].map((s, i) => (
+            <div
+              key={i}
+              className={`text-center ${
+                i > 0 ? "border-l border-[#C9A96E]/20 pl-12" : ""
+              }`}
+            >
+              <div className="font-heading text-4xl md:text-5xl text-[#C9A96E] font-semibold">
+                <span className="stat-num" data-target={s.target}>0+</span>
+              </div>
+              <div className="font-body text-white/45 text-xs tracking-widest uppercase mt-1">
+                {s.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 3. CULINARY PHILOSOPHY ═══ */}
+      <section className="py-24 md:py-36 px-6 bg-[#FAF7F2]">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-28 items-center">
           <div className="reveal">
-            <p className="text-[#C9A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Our Philosophy
-            </p>
-            <h2 className="font-heading text-3xl md:text-5xl text-[#2A1F15] leading-tight mb-6">
+            </span>
+            <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] leading-tight mb-5">
               {culinaryPhilosophy.heading}
             </h2>
-            <p className="font-heading-italic text-xl md:text-2xl text-[#8B7A6A] mb-6">
+            <p className="font-heading-italic text-[#8B7A6A] text-xl md:text-2xl mb-7">
               {culinaryPhilosophy.tagline}
             </p>
-            <p className="font-body text-base md:text-lg text-[#555] leading-relaxed mb-8">
+            <p className="font-body text-[#555] text-base leading-relaxed mb-8">
               {culinaryPhilosophy.description}
             </p>
-
-            <p className="text-[#2A1F15] font-semibold text-sm uppercase tracking-wider mb-4">
-              We specialize in:
-            </p>
             <ul className="space-y-3 mb-8">
-              {culinaryPhilosophy.points.map((point, i) => (
-                <li
-                  key={i}
-                  className="flex items-center gap-3 text-[#555] text-base"
-                >
-                  <span className="w-1.5 h-1.5 bg-[#C9A96E] rounded-full flex-shrink-0" />
-                  {point}
+              {culinaryPhilosophy.points.map((pt, i) => (
+                <li key={i} className="flex items-start gap-3 font-body text-[#444] text-sm leading-relaxed">
+                  <span className="mt-2 w-1.5 h-1.5 bg-[#C9A96E] rounded-full flex-shrink-0" />
+                  {pt}
                 </li>
               ))}
             </ul>
-
-            <p className="font-body text-[#8B7A6A] italic text-base">
+            <p className="font-heading-italic text-[#8B7A6A] text-lg">
               {culinaryPhilosophy.closing}
             </p>
           </div>
 
-          {/* Image */}
           <div className="reveal relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            <div className="rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.18)]">
               <img
                 src={culinaryPhilosophy.image}
                 alt="Culinary excellence"
-                className="w-full h-[450px] md:h-[550px] object-cover"
+                className="w-full h-[480px] md:h-[580px] object-cover"
                 loading="lazy"
               />
             </div>
-            {/* Decorative element */}
-            <div className="absolute -bottom-6 -left-6 w-32 h-32 border-2 border-[#C9A96E]/20 rounded-2xl -z-10" />
-            <div className="absolute -top-6 -right-6 w-24 h-24 border-2 border-[#C9A96E]/20 rounded-2xl -z-10" />
+            <div className="absolute -bottom-7 -left-7 w-36 h-36 border border-[#C9A96E]/20 rounded-2xl -z-10" />
+            <div className="absolute -top-7 -right-7 w-28 h-28 border border-[#C9A96E]/20 rounded-2xl -z-10" />
+            <div className="absolute bottom-6 right-6 bg-[#2B1810]/90 backdrop-blur-sm rounded-xl px-5 py-3 border border-[#C9A96E]/25">
+              <span className="font-heading-italic text-[#C9A96E] text-sm block">Culinary</span>
+              <span className="font-body text-white text-xs tracking-widest uppercase">Excellence</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════════════ 3. CULINARY SPECTRUM ═══════════════ */}
+      
+      {/* ═══ 4. CULINARY SPECTRUM ═══ */}
       <section
         id="culinary-spectrum"
-        className="py-20 md:py-32 px-6 bg-white"
+        className="py-24 md:py-36 px-6 bg-white"
       >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 reveal">
-            <p className="text-[#C9A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Our Menu Portfolio
-            </p>
-            <h2 className="font-heading text-3xl md:text-5xl text-[#2A1F15] mb-4">
+            </span>
+            <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] mb-6">
               A Grand Culinary Spectrum
             </h2>
+            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
             <p className="font-body text-[#555] text-base md:text-lg max-w-2xl mx-auto">
-              Our expansive menu portfolio ensures every celebration receives a
-              dining experience tailored to its scale and style.
+              Our expansive menu ensures every celebration receives a dining experience tailored to its
+              scale and style — from traditional delicacies to global favorites.
             </p>
           </div>
 
-          <div className="spectrum-grid grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="spectrum-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {culinarySpectrum.map((item) => (
-              <div key={item.id} className="spectrum-card">
-                <div className="spectrum-card-inner bg-[#FAF7F2] rounded-2xl overflow-hidden border border-[#E8E0D4]">
+              <div key={item.id} className="spectrum-card group">
+                <div className="h-full bg-[#FAF7F2] rounded-2xl overflow-hidden border border-[#EDE5D8] transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:border-[#C9A96E]/30">
                   {/* Card Image */}
-                  <div className="relative h-56 overflow-hidden">
+                  <div className="relative h-60 overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <span className="absolute bottom-4 left-4 text-3xl">
-                      {item.icon}
-                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-5 flex items-center gap-3">
+                       <span className="text-2xl filter drop-shadow-md">{item.icon}</span>
+                       <h3 className="font-heading text-xl text-white drop-shadow-md">
+                         {item.title}
+                       </h3>
+                    </div>
                   </div>
                   {/* Card Content */}
-                  <div className="p-6 md:p-8">
-                    <h3 className="font-heading text-xl md:text-2xl text-[#2A1F15] mb-3">
-                      {item.title}
-                    </h3>
-                    <p className="font-body text-[#555] text-sm md:text-base leading-relaxed">
+                  <div className="p-7">
+                    <p className="font-body text-[#666] text-sm leading-relaxed">
                       {item.description}
                     </p>
+                    <div className="mt-5 pt-5 border-t border-[#EDE5D8] flex items-center justify-between">
+                       <span className="font-body text-[10px] tracking-[2px] uppercase text-[#B5A48F]">
+                         GD Foods India
+                       </span>
+                       <span className="text-[#C9A96E] text-xs">✦</span>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <p className="reveal text-center font-body text-[#8B7A6A] italic mt-12 text-base">
-            Menus are customizable to reflect your event theme and guest
-            preferences.
+          <p className="reveal text-center font-heading-italic text-[#8B7A6A] mt-14 text-base">
+            Menus are fully customizable to reflect your event theme and guest preferences.
           </p>
         </div>
       </section>
 
-      {/* ═══════════════ 4. EVENTS WE CATER ═══════════════ */}
-      <section className="py-20 md:py-32 px-6 bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 reveal">
-            <p className="text-[#C9A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+      {/* ═══ 5. EVENTS WE CATER ═══ */}
+      <section className="py-24 md:py-36 px-6 bg-[#FAF7F2]">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14 reveal">
+            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Our Services
-            </p>
-            <h2 className="font-heading text-3xl md:text-5xl text-[#2A1F15] mb-4">
+            </span>
+            <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] mb-6">
               Catering for Every Occasion
             </h2>
-            <p className="font-body text-[#555] text-base md:text-lg max-w-2xl mx-auto">
-              We provide complete catering solutions for:
+            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
+            <p className="font-body text-[#666] text-base max-w-xl mx-auto">
+              Complete catering solutions delivered with structured coordination and refined
+              hospitality — for events of any scale.
             </p>
           </div>
 
-          <div className="events-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="events-wrap flex flex-wrap justify-center gap-3">
             {eventsWeCater.map((event, i) => (
-              <div key={i} className="event-card">
-                <div className="event-card-inner text-center px-6 py-8 rounded-xl border border-[#E8E0D4] bg-white">
-                  <span className="inline-block w-10 h-10 bg-[#C9A96E]/10 rounded-full flex items-center justify-center mb-4 text-[#C9A96E] text-lg">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="font-body text-[#2A1F15] font-medium text-sm md:text-base">
-                    {event}
-                  </p>
-                </div>
-              </div>
+              <span
+                key={i}
+                className="event-tag font-body text-[#2A1F15] text-sm border border-[#D5C9B8] bg-white
+                           px-5 py-2.5 rounded-full cursor-default
+                           transition-all duration-200
+                           hover:bg-[#C9A96E] hover:text-[#1a0f08] hover:border-[#C9A96E]"
+              >
+                {event}
+              </span>
             ))}
           </div>
 
-          <p className="reveal text-center font-body text-[#8B7A6A] italic mt-12 text-base">
-            Every event is handled with structured coordination and refined
-            hospitality.
+          <p className="reveal text-center font-heading-italic text-[#8B7A6A] mt-12 text-base">
+            Every event is handled with structured coordination and refined hospitality.
           </p>
         </div>
       </section>
 
-      {/* ═══════════════ 5. SERVICE EXCELLENCE ═══════════════ */}
-      <section className="relative py-20 md:py-32 px-6 bg-[#3B1520] overflow-hidden">
-        {/* Subtle texture overlay */}
-        <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMSIgZmlsbD0id2hpdGUiLz48L3N2Zz4=')]" />
+      {/* ═══ 6. SERVICE EXCELLENCE ═══ */}
+      <section className="relative py-24 md:py-36 px-6 bg-[#2B1810] overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px]
+                        bg-[#C9A96E]/5 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <p className="reveal text-[#C9A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
-            Why Choose Us
-          </p>
-          <h2 className="reveal font-heading text-3xl md:text-5xl text-white mb-6">
-            Complete Catering Solutions
-          </h2>
-          <p className="reveal font-body text-white/70 text-base md:text-lg mb-14 max-w-2xl mx-auto">
-            Our team focuses on delivering:
-          </p>
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
+              Why Choose Us
+            </span>
+            <h2 className="reveal font-heading text-4xl md:text-6xl text-white mb-6">
+              Complete Catering Solutions
+            </h2>
+            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
+            <p className="reveal font-body text-white/60 text-base max-w-xl mx-auto">
+              Our team focuses on delivering an experience that goes beyond the food —
+              every detail, every moment, managed with precision.
+            </p>
+          </div>
 
-          <div className="service-grid grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 max-w-2xl mx-auto text-left">
+          <div className="service-grid grid grid-cols-1 sm:grid-cols-2 gap-x-14 gap-y-5 max-w-2xl mx-auto">
             {serviceExcellence.map((item, i) => (
-              <div
-                key={i}
-                className="service-item flex items-center gap-4"
-              >
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#C9A96E]/20 flex items-center justify-center">
-                  <svg
-                    className="w-3.5 h-3.5 text-[#C9A96E]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2.5}
-                      d="M5 13l4 4L19 7"
-                    />
+              <div key={i} className="service-item flex items-center gap-4">
+                <span
+                  className="flex-shrink-0 w-7 h-7 rounded-full bg-[#C9A96E]/15 border border-[#C9A96E]/30
+                               flex items-center justify-center"
+                >
+                  <svg className="w-3.5 h-3.5 text-[#C9A96E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
                 </span>
-                <span className="font-body text-white/90 text-base">
-                  {item}
-                </span>
+                <span className="font-body text-white/85 text-sm leading-relaxed">{item}</span>
               </div>
             ))}
           </div>
 
-          <p className="reveal font-body text-white/50 italic mt-14 text-sm">
-            Every detail is carefully managed to ensure a sophisticated and
-            memorable dining experience.
+          <p className="reveal text-center font-heading-italic text-white/35 mt-14 text-base">
+            Every detail is carefully managed to ensure a sophisticated and memorable dining experience.
           </p>
         </div>
       </section>
 
-      {/* ═══════════════ 6. VISUAL GALLERY ═══════════════ */}
-      <section className="py-20 md:py-32 px-6 bg-white">
+      {/* ═══ 7. GALLERY ═══ */}
+      <section className="py-24 md:py-36 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 reveal">
-            <p className="text-[#C9A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Visual Experience
-            </p>
-            <h2 className="font-heading text-3xl md:text-5xl text-[#2A1F15] mb-4">
+            </span>
+            <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] mb-6">
               Crafted to Impress
             </h2>
-            <p className="font-body text-[#555] text-base md:text-lg max-w-2xl mx-auto">
-              A glimpse into our buffet setups, live stations, outdoor catering
-              layouts, and refined service presentation.
+            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
+            <p className="font-body text-[#666] text-base max-w-xl mx-auto">
+              A glimpse into our buffet setups, live stations, outdoor catering layouts,
+              and refined service presentation.
             </p>
           </div>
 
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-5 space-y-5">
             {cateringGallery.map((img) => (
               <div
                 key={img.id}
-                className="gallery-item opacity-0 translate-y-10 break-inside-avoid relative group rounded-xl overflow-hidden shadow-md bg-white cursor-pointer"
+                className="gallery-item opacity-0 translate-y-10 break-inside-avoid relative group
+                           rounded-xl overflow-hidden shadow-sm cursor-pointer"
               >
                 <img
                   src={img.image}
                   alt={img.alt}
                   loading="lazy"
-                  decoding="async"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <span className="text-white font-body text-xs uppercase tracking-widest border border-white/30 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-sm">
-                    View
+                <div
+                  className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100
+                              transition-opacity duration-300 flex items-end justify-start p-5"
+                >
+                  <span
+                    className="font-body text-white text-xs uppercase tracking-widest
+                                 border border-white/30 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm"
+                  >
+                    {img.alt}
                   </span>
                 </div>
               </div>
@@ -489,39 +462,43 @@ export default function CateringPage() {
         </div>
       </section>
 
-      {/* ═══════════════ 7. TRUST & CLIENTS ═══════════════ */}
-      <section className="py-20 md:py-28 px-6 bg-[#FAF7F2]">
+      {/* ═══ 8. TRUSTED CLIENTS ═══ */}
+      <section className="py-24 md:py-32 px-6 bg-[#FAF7F2]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14 reveal">
-            <p className="text-[#C9A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Our Clients
-            </p>
-            <h2 className="font-heading text-3xl md:text-5xl text-[#2A1F15] mb-4">
+            </span>
+            <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] mb-6">
               Trusted by Leading Organizations
             </h2>
-            <p className="font-body text-[#555] text-base md:text-lg max-w-2xl mx-auto">
-              Our catering services have been chosen by renowned institutions
-              and corporate brands — a testament to our reliability and
-              excellence.
+            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
+            <p className="font-body text-[#666] text-base max-w-xl mx-auto">
+              From global corporations to premier institutions — our catering services have been
+              chosen by brands that demand nothing less than excellence.
             </p>
           </div>
 
-          {/* Logo Marquee */}
-          <div className="reveal overflow-hidden fade-edge-left">
-            <div className="marquee-track flex w-max gap-12 items-center">
+          <div
+            className="reveal overflow-hidden"
+            style={{
+              maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+            }}
+          >
+            <div className="flex w-max gap-8 items-center py-2 [animation:marquee_32s_linear_infinite] hover:[animation-play-state:paused]">
               {[...trustedClients, ...trustedClients].map((client, i) => (
                 <div
                   key={i}
-                  className="flex-shrink-0 w-36 h-20 bg-white rounded-xl border border-[#E8E0D4] flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md hover:border-[#C9A96E]/30"
+                  className="flex-shrink-0 w-36 h-20 bg-white rounded-xl border border-[#EDE5D8]
+                             flex flex-col items-center justify-center gap-1 px-4
+                             grayscale hover:grayscale-0 transition-all duration-300
+                             hover:shadow-md hover:border-[#C9A96E]/40"
                 >
-                  <div className="text-center">
-                    <span className="block font-heading text-lg text-[#8B7A6A]">
-                      {client.initials}
-                    </span>
-                    <span className="block text-[10px] text-[#AAA] tracking-wider uppercase mt-0.5">
-                      {client.name}
-                    </span>
-                  </div>
+                  <span className="font-heading text-xl font-semibold text-[#6B5C4C]">{client.initials}</span>
+                  <span className="font-body text-[9px] text-[#AAA] tracking-wider uppercase text-center leading-tight">
+                    {client.name}
+                  </span>
                 </div>
               ))}
             </div>
@@ -529,63 +506,70 @@ export default function CateringPage() {
         </div>
       </section>
 
-      {/* ═══════════════ 8. FINAL CTA ═══════════════ */}
-      <section className="relative py-24 md:py-36 px-6 bg-[#3B1520] overflow-hidden">
-        {/* Floating particles */}
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="particle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${6 + Math.random() * 6}s`,
-              width: `${2 + Math.random() * 4}px`,
-              height: `${2 + Math.random() * 4}px`,
-            }}
-          />
-        ))}
+      {/* ═══ 9. FINAL CTA ═══ */}
+      <section className="relative py-28 md:py-40 px-6 bg-[#2B1810] overflow-hidden">
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                      w-[600px] h-[400px] bg-[#C9A96E]/5 rounded-full blur-3xl pointer-events-none"
+        />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center">
-          <p className="reveal text-[#C9A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-6">
+          <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-6">
             Ready to Begin?
-          </p>
-          <h2 className="reveal font-heading text-3xl sm:text-4xl md:text-6xl text-white leading-tight mb-6">
+          </span>
+
+          <h2 className="reveal font-heading text-4xl sm:text-5xl md:text-7xl text-white leading-tight mb-6">
             Let Us Curate Your Perfect Menu
           </h2>
-          <p className="reveal font-body text-white/70 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-12">
-            Planning a wedding, corporate gathering, or grand celebration? Our
-            culinary experts will design a customized menu aligned with your
-            event scale, preferences, and vision.
+          <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-8" />
+          <p className="reveal font-body text-white/65 text-base leading-relaxed max-w-xl mx-auto mb-12">
+            From intimate dinners to grand weddings, GD Foods India crafts every menu with care,
+            precision, and a passion for exceptional food. Get in touch — we'd love to be a part of your celebration.
           </p>
 
-          <div className="reveal flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="reveal flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link
               href="/enquiry"
-              className="cta-glow bg-gradient-to-r from-[#C9A96E] to-[#A8883D] text-[#2B1E14] font-bold uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm"
+              className="bg-gradient-to-br from-[#C9A96E] to-[#A8883D] text-[#1a0f08] font-body font-bold
+                         uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm
+                         transition-all duration-300 hover:shadow-[0_8px_32px_rgba(201,169,110,0.45)] hover:-translate-y-0.5"
             >
               Request a Custom Proposal
             </Link>
             <a
-              href="tel:+91XXXXXXXXXX"
-              className="cta-glow border border-[#C9A96E]/40 text-[#C9A96E] font-semibold uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm hover:bg-[#C9A96E]/10 transition-colors"
+              href="tel:+918800190003"
+              className="border border-[#C9A96E]/40 text-[#C9A96E] font-body font-semibold uppercase
+                         tracking-[0.15em] px-8 py-4 rounded-lg text-sm
+                         transition-all duration-300 hover:bg-[#C9A96E]/10"
             >
-              Call Now
+              Call +91-88001 90003
             </a>
             <a
-              href="https://wa.me/91XXXXXXXXXX"
+              href="https://wa.me/919650211469"
               target="_blank"
               rel="noopener noreferrer"
-              className="cta-glow border border-white/20 text-white/80 font-semibold uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm hover:bg-white/5 transition-colors"
+              className="border border-white/20 text-white/75 font-body font-semibold uppercase
+                         tracking-[0.15em] px-8 py-4 rounded-lg text-sm
+                         transition-all duration-300 hover:bg-white/8"
             >
               WhatsApp Us
             </a>
           </div>
+
+          <div className="reveal flex flex-wrap justify-center gap-8 pt-8 border-t border-white/10">
+            {["+91-8800190003", "+91-9650211469", "+91-9810679550"].map((num) => (
+              <a
+                key={num}
+                href={`tel:${num.replace(/-/g, "")}`}
+                className="font-body text-white/35 text-sm tracking-wider hover:text-[#C9A96E] transition-colors"
+              >
+                {num}
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ═══════════════ FOOTER ═══════════════ */}
       <Footer />
     </div>
   );

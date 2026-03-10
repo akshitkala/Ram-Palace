@@ -1,695 +1,864 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import ConfirmDialog from '@/components/admin/ConfirmDialog';
-import { ToastContainer, useToast } from '@/components/admin/ToastSystem';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-const getAuthToken = () => {
-  if (typeof document === 'undefined') return null;
-  const match = document.cookie.match(/(^| )admin_token=([^;]+)/);
-  return match ? match[2] : null;
-};
+const NAV_ITEMS = [
+  { id: "dashboard", label: "Dashboard", icon: "▤" },
+  { id: "gallery", label: "Gallery", icon: "⊞" },
+  { id: "carousel", label: "Carousel", icon: "◫" },
+  { id: "events", label: "Events", icon: "◈" },
+];
 
-export default function AdminDashboard() {
+export default function AdminPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('gallery');
-  const [images, setImages] = useState({ gallery: [], events: { weddings: [], corporate: [], 'private-parties': [] } });
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const fileInputRef = useRef(null);
-  
-  // Custom Hook Toast
-  const { toasts, showToast, removeToast } = useToast();
 
-  // Selection & Dialog State
-  const [selectionMode, setSelectionMode] = useState(false);
-  const [selectedIds, setSelectedIds] = useState(new Set());
-  const [confirmDialog, setConfirmDialog] = useState({
-    isOpen: false,
-    type: null,
-    targetId: null,
-    targetCategory: null,
-    targetTab: null,
-    isLoading: false,
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [stats, setStats] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryLoading, setGalleryLoading] = useState(true);
+  const [galleryUploading, setGalleryUploading] = useState(false);
+  const [galleryError, setGalleryError] = useState("");
+
+  const [carouselImages, setCarouselImages] = useState([]);
+  const [carouselLoading, setCarouselLoading] = useState(true);
+  const [carouselUploading, setCarouselUploading] = useState(false);
+  const [carouselError, setCarouselError] = useState("");
+
+  const [eventCategory, setEventCategory] = useState("weddings");
+  const [eventImages, setEventImages] = useState({
+    weddings: [],
+    corporate: [],
+    "private-parties": [],
   });
+  const [eventLoading, setEventLoading] = useState(false);
+  const [eventUploading, setEventUploading] = useState(false);
+  const [eventError, setEventError] = useState("");
+
+  useEffect(() => {
+    fetchStats();
+    fetchGallery();
+    fetchCarousel();
+    fetchEvents("weddings");
+    fetchEvents("corporate");
+    fetchEvents("private-parties");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch("/api/admin/stats");
+      const data = await res.json();
+      setStats(data);
+    } catch {
+      // silently fail, UI will just not show stats
+    } finally {
+      setStatsLoading(false);
+    }
+  };
 
   const fetchGallery = async () => {
+    setGalleryLoading(true);
     try {
-      const res = await fetch('/api/images/gallery', {
-        headers: { Authorization: getAuthToken() }
-      });
-      if (res.status === 401) {
-        handleLogout();
-        return;
-      }
+      const res = await fetch("/api/images/gallery");
       const data = await res.json();
-      if (data.images) {
-        setImages(prev => ({ ...prev, gallery: data.images }));
-      }
-    } catch (error) {
-      console.error('Error fetching gallery:', error);
-      showToast({ message: 'Failed to load gallery images', type: 'error' });
+      setGalleryImages(data.images || []);
+    } catch {
+      setGalleryError("Failed to load gallery");
+    } finally {
+      setGalleryLoading(false);
     }
   };
 
-  const fetchEvents = async () => {
+  const fetchCarousel = async () => {
+    setCarouselLoading(true);
     try {
-      const categories = ['weddings', 'corporate', 'private-parties'];
-      const results = { weddings: [], corporate: [], 'private-parties': [] };
-      
-      for (const cat of categories) {
-        const res = await fetch(`/api/images/events/${cat}`, {
-          headers: { Authorization: getAuthToken() }
+      const res = await fetch("/api/images/carousel");
+      const data = await res.json();
+      setCarouselImages(data.images || []);
+    } catch {
+      setCarouselError("Failed to load carousel");
+    } finally {
+      setCarouselLoading(false);
+    }
+  };
+
+  const fetchEvents = async (category) => {
+    setEventLoading(true);
+    try {
+      const res = await fetch(`/api/images/events?category=${category}`);
+      const data = await res.json();
+      setEventImages((prev) => ({
+        ...prev,
+        [category]: data.images || [],
+      }));
+    } catch {
+      setEventError("Failed to load event images");
+    } finally {
+      setEventLoading(false);
+    }
+  };
+
+  const handleGalleryUpload = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+
+    setGalleryUploading(true);
+    setGalleryError("");
+    try {
+      for (const file of files) {
+        const form = new FormData();
+        form.append("file", file);
+        const res = await fetch("/api/images/gallery", {
+          method: "POST",
+          body: form,
         });
-        const data = await res.json();
-        if (data.images) {
-          results[cat] = data.images;
+        if (!res.ok) {
+          throw new Error("Upload failed");
         }
       }
-      
-      setImages(prev => ({ ...prev, events: results }));
-    } catch (error) {
-      console.error('Error fetching events:', error);
-      showToast({ message: 'Failed to load event images', type: 'error' });
-    }
-  };
-
-  useEffect(() => {
-    const init = async () => {
-      setLoading(true);
-      if (activeTab === 'gallery') {
-        await fetchGallery();
-      } else {
-        await fetchEvents();
-      }
-      setLoading(false);
-      exitSelectionMode(); // Reset selection on tab switch
-    };
-    init();
-  }, [activeTab]);
-
-  const handleLogout = () => {
-    document.cookie = 'admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
-    router.push('/admin/login');
-  };
-
-  // ---------------------------------------------------------------------------
-  // SELECTION LOGIC
-  // ---------------------------------------------------------------------------
-  
-  const validateCurrentSet = () => {
-    let currentSet = [];
-    if (activeTab === 'gallery') {
-      currentSet = images.gallery;
-    } else {
-      currentSet = [
-        ...images.events.weddings,
-        ...images.events.corporate,
-        ...images.events['private-parties']
-      ];
-    }
-    return currentSet;
-  };
-
-  const toggleSelectionMode = () => {
-    if (selectionMode) {
-      exitSelectionMode();
-    } else {
-      setSelectionMode(true);
-    }
-  };
-
-  const toggleSelection = (public_id) => {
-    setSelectedIds(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(public_id)) newSet.delete(public_id);
-      else newSet.add(public_id);
-      return newSet;
-    });
-  };
-
-  const selectAll = () => {
-    const currentSet = validateCurrentSet();
-    const newSet = new Set(currentSet.map(img => img.public_id));
-    setSelectedIds(newSet);
-  };
-
-  const deselectAll = () => setSelectedIds(new Set());
-  
-  const exitSelectionMode = () => {
-    setSelectionMode(false);
-    deselectAll();
-  };
-
-  // Keyboard Shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (!selectionMode) return;
-      
-      // Ignore if confirm dialog is open
-      if (confirmDialog.isOpen) return;
-
-      if (e.key === 'Escape') {
-        exitSelectionMode();
-      } else if (e.key === 'a' && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault();
-        selectAll();
-      } else if ((e.key === 'Delete' || e.key === 'Backspace') && selectedIds.size > 0) {
-        e.preventDefault();
-        triggerBulkDeleteConfirm();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectionMode, selectedIds, confirmDialog.isOpen, activeTab, images]);
-
-
-  // ---------------------------------------------------------------------------
-  // DELETE LOGIC (API CALLS & DIALOG FLOW)
-  // ---------------------------------------------------------------------------
-
-  const deleteSingleImageAPI = async (public_id, type) => {
-    const endpoint = type === 'gallery' ? '/api/images/gallery' : '/api/images/events';
-    const res = await fetch(endpoint, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: getAuthToken()
-      },
-      body: JSON.stringify({ public_id })
-    });
-    if (!res.ok) throw new Error('API Error');
-    return res;
-  };
-
-  const executeDelete = async () => {
-    setConfirmDialog(prev => ({ ...prev, isLoading: true }));
-
-    try {
-      if (confirmDialog.type === 'single') {
-        await deleteSingleImageAPI(confirmDialog.targetId, confirmDialog.targetTab);
-        showToast({ message: 'Photo deleted successfully' });
-        
-        // Refresh grid
-        if (confirmDialog.targetTab === 'gallery') fetchGallery();
-        else fetchEvents();
-        
-      } else if (confirmDialog.type === 'bulk') {
-        const idsArray = Array.from(selectedIds);
-        
-        // Execute all deletes in parallel
-        const results = await Promise.allSettled(
-          idsArray.map(id => {
-            // Find which tab this image belongs to based on the current active tab
-            // (Assuming you can only bulk delete from the currently active tab)
-            return deleteSingleImageAPI(id, activeTab);
-          })
-        );
-        
-        const successCount = results.filter(r => r.status === 'fulfilled').length;
-        const failCount = results.filter(r => r.status === 'rejected').length;
-
-        if (failCount === 0) {
-          showToast({ message: `${successCount} photo${successCount > 1 ? 's' : ''} deleted successfully` });
-          exitSelectionMode();
-        } else if (successCount > 0) {
-          showToast({ 
-            message: `${successCount} deleted, ${failCount} failed`, 
-            subMessage: 'Failed photos remain selected',
-            type: 'warning'
-          });
-          
-          // Remove successful IDs from selection
-          const successfulIds = new Set(
-            results.map((r, i) => r.status === 'fulfilled' ? idsArray[i] : null).filter(Boolean)
-          );
-          setSelectedIds(prev => {
-            const newSet = new Set(prev);
-            successfulIds.forEach(id => newSet.delete(id));
-            return newSet;
-          });
-        } else {
-          showToast({ message: 'Failed to delete photos. Please try again.', type: 'error' });
-        }
-
-        // Refresh grid
-        if (activeTab === 'gallery') fetchGallery();
-        else fetchEvents();
-      }
-      
-      closeConfirmDialog();
-    } catch (error) {
-      showToast({ message: 'An error occurred during deletion.', type: 'error' });
-      setConfirmDialog(prev => ({ ...prev, isLoading: false }));
-    }
-  };
-
-  // Triggers
-  const triggerSingleDeleteConfirm = (public_id, type, category) => {
-    setConfirmDialog({
-      isOpen: true,
-      type: 'single',
-      targetId: public_id,
-      targetCategory: category,
-      targetTab: type,
-      isLoading: false,
-    });
-  };
-
-  const triggerBulkDeleteConfirm = () => {
-    setConfirmDialog({
-      isOpen: true,
-      type: 'bulk',
-      targetId: null,
-      targetCategory: null,
-      targetTab: null,
-      isLoading: false,
-    });
-  };
-
-  const closeConfirmDialog = () => {
-    setConfirmDialog(prev => ({ ...prev, isOpen: false }));
-  };
-
-  const getPreviewImages = () => {
-    if (confirmDialog.type !== 'bulk' || selectedIds.size === 0) return [];
-    const currentSet = validateCurrentSet();
-    return currentSet.filter(img => selectedIds.has(img.public_id));
-  };
-
-  // ---------------------------------------------------------------------------
-  // MISC ACTIONS
-  // ---------------------------------------------------------------------------
-
-  const copyURL = async (url) => {
-    try {
-      await navigator.clipboard.writeText(url);
-      showToast({ message: 'URL copied to clipboard', type: 'info' });
+      await fetchGallery();
+      await fetchStats();
     } catch (err) {
-      showToast({ message: 'Failed to copy URL', type: 'error' });
+      setGalleryError(err.message || "Failed to upload");
+    } finally {
+      setGalleryUploading(false);
+      e.target.value = "";
     }
   };
 
-  const handleFileUpload = async (files, type, category = null) => {
-    if (!files || files.length === 0) return;
-    
-    setUploading(true);
-    let successCount = 0;
-    let errorCount = 0;
+  const handleGalleryDelete = async (publicId) => {
+    if (!window.confirm("Delete this image permanently?")) return;
+    try {
+      await fetch("/api/images/gallery", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ public_id: publicId }),
+      });
+      setGalleryImages((prev) =>
+        prev.filter((img) => img.public_id !== publicId)
+      );
+      await fetchStats();
+    } catch {
+      setGalleryError("Failed to delete image");
+    }
+  };
 
-    const endpoint = type === 'gallery' ? '/api/images/gallery' : '/api/images/events';
+  const handleCarouselUpload = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
 
-    for (let i = 0; i < files.length; i++) {
-      const formData = new FormData();
-      formData.append('image', files[i]);
-      if (category) {
-        formData.append('category', category);
-      }
+    if (carouselImages.length >= 8) {
+      setCarouselError("Carousel full (8/8)");
+      return;
+    }
 
-      try {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            Authorization: getAuthToken()
-          },
-          body: formData
+    setCarouselUploading(true);
+    setCarouselError("");
+    try {
+      let currentCount = carouselImages.length;
+      for (const file of files) {
+        if (currentCount >= 8) break;
+        const form = new FormData();
+        form.append("file", file);
+        const res = await fetch("/api/images/carousel", {
+          method: "POST",
+          body: form,
         });
-
-        if (res.ok) {
-          successCount++;
-        } else {
-          errorCount++;
+        if (!res.ok) {
+          const d = await res.json().catch(() => null);
+          throw new Error(d?.error || "Upload failed");
         }
-      } catch (error) {
-        errorCount++;
+        currentCount += 1;
       }
-    }
-
-    setUploading(false);
-    if (successCount > 0) {
-      showToast({ message: `Successfully uploaded ${successCount} image(s)` });
-      if (type === 'gallery') fetchGallery();
-      else fetchEvents();
-    }
-    if (errorCount > 0) {
-      showToast({ message: `Failed to upload ${errorCount} image(s)`, type: 'error' });
-    }
-    
-    // Reset file input if needed
-    if (fileInputRef.current) fileInputRef.current.value = '';
-  };
-
-  const onDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const onDropGallery = (e) => {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleFileUpload(e.dataTransfer.files, 'gallery');
+      await fetchCarousel();
+      await fetchStats();
+    } catch (err) {
+      setCarouselError(err.message || "Failed to upload");
+    } finally {
+      setCarouselUploading(false);
+      e.target.value = "";
     }
   };
 
-  // ---------------------------------------------------------------------------
-  // RENDER HELPERS
-  // ---------------------------------------------------------------------------
-
-  const renderImageGrid = (imgs = [], type, category) => {
-    if (!imgs || imgs.length === 0) {
-      return <div className="text-gray-500 py-8 text-center bg-gray-50 rounded-lg border border-dashed">No images found</div>;
+  const handleCarouselDelete = async (publicId) => {
+    if (!window.confirm("Remove this slide?")) return;
+    try {
+      await fetch("/api/images/carousel", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ public_id: publicId }),
+      });
+      setCarouselImages((prev) =>
+        prev.filter((img) => img.public_id !== publicId)
+      );
+      await fetchStats();
+    } catch {
+      setCarouselError("Failed to delete slide");
     }
+  };
+
+  const handleEventUpload = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+
+    setEventUploading(true);
+    setEventError("");
+    try {
+      for (const file of files) {
+        const form = new FormData();
+        form.append("file", file);
+        form.append("category", eventCategory);
+        const res = await fetch("/api/images/events", {
+          method: "POST",
+          body: form,
+        });
+        if (!res.ok) {
+          throw new Error("Upload failed");
+        }
+      }
+      await fetchEvents(eventCategory);
+      await fetchStats();
+    } catch (err) {
+      setEventError(err.message || "Failed to upload");
+    } finally {
+      setEventUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  const handleEventDelete = async (publicId) => {
+    if (!window.confirm("Delete this event photo?")) return;
+    try {
+      await fetch("/api/images/events", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ public_id: publicId }),
+      });
+      setEventImages((prev) => ({
+        ...prev,
+        [eventCategory]: prev[eventCategory].filter(
+          (img) => img.public_id !== publicId
+        ),
+      }));
+      await fetchStats();
+    } catch {
+      setEventError("Failed to delete image");
+    }
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    window.location.href = "/admin/login";
+  };
+
+  const formatBytesToLabel = (bytes) => {
+    if (!bytes || Number.isNaN(bytes)) return "";
+    const mb = bytes / 1024 / 1024;
+    if (mb >= 1) return `${mb.toFixed(1)} MB`;
+    const kb = bytes / 1024;
+    return `${kb.toFixed(0)} KB`;
+  };
+
+  const formatImageSize = (img) => {
+    const bytes = img?.bytes ?? img?.size;
+    return formatBytesToLabel(bytes);
+  };
+
+  const currentEventImages = eventImages[eventCategory] || [];
+  const carouselCount = carouselImages.length;
+  const carouselCapacity = 8;
+  const carouselProgress = Math.min(
+    100,
+    (carouselCount / carouselCapacity) * 100
+  );
+
+  const DashboardTab = () => {
+    if (statsLoading) {
+      return (
+        <div className="space-y-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-28 bg-[#E8E0D0] animate-pulse border border-[#E8E0D0]"
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    const totalImages = stats?.totalImages ?? 0;
+    const galleryCount = stats?.gallery?.count ?? 0;
+    const carouselStatCount = stats?.carousel?.count ?? 0;
+    const eventsTotal = stats?.events?.total ?? 0;
+    const weddingsCount = stats?.events?.weddings ?? 0;
+    const corporateCount = stats?.events?.corporate ?? 0;
+    const partiesCount = stats?.events?.["private-parties"] ?? 0;
+    const storageLabel = formatBytesToLabel(stats?.totalBytes ?? 0);
+    const carouselStatProgress = Math.min(
+      100,
+      (carouselStatCount / carouselCapacity) * 100
+    );
 
     return (
-      <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-6 mt-6">
-        {imgs.map((img) => {
-          const isSelected = selectedIds.has(img.public_id);
-          
-          return (
-            <div 
-              key={img.public_id} 
-              className={`relative group rounded-xl overflow-hidden aspect-square bg-gray-100 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md
-                ${isSelected ? 'border-[3px] border-[#C9A84C]' : 'border border-gray-200'}`}
-              onClick={() => {
-                if (selectionMode) toggleSelection(img.public_id);
-              }}
-            >
-              <Image 
-                src={img.secure_url} 
-                alt="Uploaded image" 
-                fill
-                className={`object-cover transition-transform duration-300 ${isSelected ? 'scale-105' : 'group-hover:scale-105'}`}
-                sizes="(max-width: 768px) 50vw, 25vw"
-              />
-              
-              {/* Overlay states */}
-              {!selectionMode && (
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-end justify-start p-3">
-                  {/* Three-Dot Menu Alternative */}
-                  <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col origin-top-right transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all">
-                    <button onClick={(e) => { e.stopPropagation(); setSelectionMode(true); toggleSelection(img.public_id); }} className="px-4 py-2 text-sm text-left font-medium text-gray-700 hover:bg-gray-50 border-b border-gray-100 flex items-center gap-2">
-                       <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Select
-                    </button>
-                    <button onClick={(e) => { e.stopPropagation(); copyURL(img.secure_url); }} className="px-4 py-2 text-sm text-left font-medium text-gray-700 hover:bg-gray-50 border-b border-gray-100 flex items-center gap-2">
-                       <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> Copy URL
-                    </button>
-                    <button onClick={(e) => { e.stopPropagation(); triggerSingleDeleteConfirm(img.public_id, type, category); }} className="px-4 py-2 text-sm text-left font-medium text-red-600 hover:bg-red-50 flex items-center gap-2">
-                       <svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg> Delete
-                    </button>
-                  </div>
-                </div>
-              )}
+      <div className="space-y-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white border border-[#E8E0D0] p-6">
+            <p className="text-[11px] tracking-[0.22em] uppercase text-[#A99686] font-body">
+              Total Images
+            </p>
+            <p className="mt-3 text-4xl text-[#1C1C1E] font-heading">
+              {totalImages}
+            </p>
+            <p className="mt-2 text-[13px] text-[#6B5E4E] font-body">
+              Across all sections
+            </p>
+          </div>
 
-              {/* Selection Checkbox */}
-              {selectionMode && (
-                <div className="absolute top-3 left-3 z-10">
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                    isSelected ? 'bg-[#C9A84C] border-[#C9A84C]' : 'bg-black/20 border-white hover:bg-black/40'
-                  }`}>
-                    {isSelected && (
-                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                  </div>
-                </div>
-              )}
+          <div className="bg-white border border-[#E8E0D0] p-6">
+            <p className="text-[11px] tracking-[0.22em] uppercase text-[#A99686] font-body">
+              Gallery Photos
+            </p>
+            <p className="mt-3 text-4xl text-[#1C1C1E] font-heading">
+              {galleryCount}
+            </p>
+            <p className="mt-2 text-[13px] text-[#6B5E4E] font-body">
+              Venue gallery
+            </p>
+          </div>
 
+          <div className="bg-white border border-[#E8E0D0] p-6">
+            <p className="text-[11px] tracking-[0.22em] uppercase text-[#A99686] font-body">
+              Carousel Slides
+            </p>
+            <p className="mt-3 text-4xl text-[#1C1C1E] font-heading">
+              {carouselStatCount}/8
+            </p>
+            <div className="mt-3 h-[2px] bg-[#C9A84C]" style={{ width: `${carouselStatProgress}%` }} />
+            <p className="mt-2 text-[13px] text-[#6B5E4E] font-body">
+              Homepage carousel
+            </p>
+          </div>
+
+          <div className="bg-white border border-[#E8E0D0] p-6">
+            <p className="text-[11px] tracking-[0.22em] uppercase text-[#A99686] font-body">
+              Event Photos
+            </p>
+            <p className="mt-3 text-4xl text-[#1C1C1E] font-heading">
+              {eventsTotal}
+            </p>
+            <p className="mt-2 text-[13px] text-[#6B5E4E] font-body">
+              Weddings · Corporate · Parties
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white border border-[#E8E0D0]">
+          <div className="border-b border-[#E8E0D0] px-6 py-3">
+            <p className="text-[12px] tracking-[0.18em] uppercase text-[#A99686] font-body">
+              Event Category Breakdown
+            </p>
+          </div>
+          <div className="divide-y divide-[#E8E0D0] font-body">
+            <div className="flex items-center justify-between px-6 py-3">
+              <span className="text-sm text-[#1C1C1E]">Weddings</span>
+              <span className="text-sm text-[#C9A84C]">{weddingsCount}</span>
             </div>
-          );
-        })}
+            <div className="flex items-center justify-between px-6 py-3">
+              <span className="text-sm text-[#1C1C1E]">Corporate</span>
+              <span className="text-sm text-[#C9A84C]">{corporateCount}</span>
+            </div>
+            <div className="flex items-center justify-between px-6 py-3">
+              <span className="text-sm text-[#1C1C1E]">Private Parties</span>
+              <span className="text-sm text-[#C9A84C]">{partiesCount}</span>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-[12px] text-[#A99686] font-body">
+          Storage Used: {storageLabel}
+        </p>
       </div>
     );
   };
 
-  return (
-    <div className="min-h-screen bg-[#FFFFF0] text-gray-800 font-sans pb-32">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            Ram Palace <span className="font-light text-gray-500 hidden sm:inline">| Admin Panel</span>
-          </h1>
-          <button 
-            onClick={handleLogout}
-            className="text-sm font-medium px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            Logout
-          </button>
+  const GalleryTab = () => (
+    <div className="space-y-6">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h3 className="font-heading text-xl text-[#1C1C1E]">
+            Gallery Photos
+          </h3>
+          <p className="mt-1 text-[13px] text-[#A99686] font-body">
+            {galleryImages.length} images
+          </p>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
-        
-        {/* Tabs */}
-        <div className="flex space-x-4 border-b border-gray-200 mb-8">
+        <div className="font-body">
+          <input
+            id="gallery-upload-input"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleGalleryUpload}
+            className="hidden"
+          />
           <button
-            onClick={() => setActiveTab('gallery')}
-            className={`py-3 px-6 font-medium text-sm transition-colors border-b-2 ${activeTab === 'gallery' ? 'border-[#C9A84C] text-[#C9A84C]' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+            type="button"
+            onClick={() =>
+              document.getElementById("gallery-upload-input")?.click()
+            }
+            className="px-4 py-2 bg-[#1C1C1E] text-white text-[11px] tracking-[0.22em] uppercase font-body transition-colors duration-200 hover:bg-[#C9A84C] hover:text-[#1C1C1E]"
           >
-            Gallery
-          </button>
-          <button
-            onClick={() => setActiveTab('events')}
-            className={`py-3 px-6 font-medium text-sm transition-colors border-b-2 ${activeTab === 'events' ? 'border-[#C9A84C] text-[#C9A84C]' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-          >
-            Events
-          </button>
-        </div>
-
-        {uploading && (
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg flex items-center gap-3 shadow-inner">
-            <svg className="animate-spin h-5 w-5 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            <span className="font-medium">Uploading images, please wait...</span>
-          </div>
-        )}
-
-        {/* Gallery Tab */}
-        {activeTab === 'gallery' && (
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold">Gallery Images</h2>
-              <div className="flex items-center gap-3">
-                
-                {/* Selection Toggle */}
-                {!loading && images.gallery.length > 0 && (
-                  <button 
-                    onClick={toggleSelectionMode}
-                    className={`px-4 py-2.5 rounded-lg font-medium transition-colors border text-sm flex items-center gap-2 ${selectionMode ? 'bg-[#C9A84C]/10 text-[#C9A84C] border-[#C9A84C]' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'}`}
-                  >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {selectionMode ? 'Cancel Selection' : 'Select'}
-                  </button>
-                )}
-
-                <input 
-                  type="file" 
-                  multiple 
-                  accept="image/*" 
-                  className="hidden" 
-                  id="gallery-upload"
-                  ref={fileInputRef}
-                  onChange={(e) => handleFileUpload(e.target.files, 'gallery')}
-                />
-                <label 
-                  htmlFor="gallery-upload"
-                  className="cursor-pointer bg-[#C9A84C] hover:bg-[#b0923d] text-white px-5 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm shadow-sm"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                  </svg>
-                  Upload Files
-                </label>
-              </div>
-            </div>
-            
-            {/* Drag & Drop Zone */}
-            <div 
-              className="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-gray-50 transition-colors mb-8 cursor-pointer group"
-              onDragOver={onDragOver}
-              onDrop={onDropGallery}
-              onClick={() => document.getElementById('gallery-upload').click()}
-            >
-              <div className="bg-white w-16 h-16 rounded-full shadow-sm flex items-center justify-center mx-auto mb-4 group-hover:bg-[#C9A84C]/10 group-hover:text-[#C9A84C] transition-colors">
-                <svg className="h-8 w-8 text-gray-400 group-hover:text-[#C9A84C] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
-              </div>
-              <p className="text-gray-700 font-medium text-lg">Drag and drop images here, or click to browse</p>
-              <p className="text-gray-500 text-sm mt-2">Supports high-res JPG, PNG, WEBP (Auto-optimized by Cloudinary)</p>
-            </div>
-
-            {loading ? (
-              <div className="py-16 flex justify-center"><div className="animate-pulse w-10 h-10 rounded-full bg-[#C9A84C]"></div></div>
-            ) : (
-              renderImageGrid(images.gallery, 'gallery')
-            )}
-          </div>
-        )}
-
-        {/* Events Tab */}
-        {activeTab === 'events' && (
-          <div className="space-y-8">
-
-            {/* Global Events Selection Toggle (Top Right) */}
-            <div className="flex justify-end gap-3 mb-4">
-              {!loading && (
-                <button 
-                  onClick={toggleSelectionMode}
-                  className={`px-4 py-2.5 rounded-lg font-medium transition-colors border text-sm flex items-center gap-2 ${selectionMode ? 'bg-[#C9A84C]/10 text-[#C9A84C] border-[#C9A84C]' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'}`}
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  {selectionMode ? 'Cancel Selection' : 'Select'}
-                </button>
-              )}
-            </div>
-
-            {/* Weddings Section */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <div className="flex justify-between items-center mb-6 border-b pb-4">
-                <h2 className="text-xl font-semibold">Weddings</h2>
-                <div>
-                  <input 
-                    type="file" 
-                    multiple 
-                    accept="image/*" 
-                    className="hidden" 
-                    id="weddings-upload"
-                    onChange={(e) => {
-                      handleFileUpload(e.target.files, 'events', 'weddings');
-                      e.target.value = '';
-                    }}
-                  />
-                  <label 
-                    htmlFor="weddings-upload"
-                    className="cursor-pointer bg-[#C9A84C] hover:bg-[#b0923d] text-white px-4 py-2 text-sm rounded-lg font-medium transition-colors flex items-center gap-2"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg> Add Photos
-                  </label>
-                </div>
-              </div>
-              {loading ? <div className="py-8 text-center text-gray-500">Loading...</div> : renderImageGrid(images.events.weddings, 'events', 'weddings')}
-            </div>
-
-            {/* Corporate Section */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <div className="flex justify-between items-center mb-6 border-b pb-4">
-                <h2 className="text-xl font-semibold">Corporate Events</h2>
-                <div>
-                  <input 
-                    type="file" 
-                    multiple 
-                    accept="image/*" 
-                    className="hidden" 
-                    id="corporate-upload"
-                    onChange={(e) => {
-                      handleFileUpload(e.target.files, 'events', 'corporate');
-                      e.target.value = '';
-                    }}
-                  />
-                  <label 
-                    htmlFor="corporate-upload"
-                    className="cursor-pointer bg-[#C9A84C] hover:bg-[#b0923d] text-white px-4 py-2 text-sm rounded-lg font-medium transition-colors flex items-center gap-2"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg> Add Photos
-                  </label>
-                </div>
-              </div>
-              {loading ? <div className="py-8 text-center text-gray-500">Loading...</div> : renderImageGrid(images.events.corporate, 'events', 'corporate')}
-            </div>
-
-            {/* Private Parties Section */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <div className="flex justify-between items-center mb-6 border-b pb-4">
-                <h2 className="text-xl font-semibold">Private Parties</h2>
-                <div>
-                  <input 
-                    type="file" 
-                    multiple 
-                    accept="image/*" 
-                    className="hidden" 
-                    id="private-upload"
-                    onChange={(e) => {
-                      handleFileUpload(e.target.files, 'events', 'private-parties');
-                      e.target.value = '';
-                    }}
-                  />
-                  <label 
-                    htmlFor="private-upload"
-                    className="cursor-pointer bg-[#C9A84C] hover:bg-[#b0923d] text-white px-4 py-2 text-sm rounded-lg font-medium transition-colors flex items-center gap-2"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg> Add Photos
-                  </label>
-                </div>
-              </div>
-              {loading ? <div className="py-8 text-center text-gray-500">Loading...</div> : renderImageGrid(images.events['private-parties'], 'events', 'private-parties')}
-            </div>
-          </div>
-        )}
-
-      </main>
-
-      {/* FIXED BOTTOM SELECTION BAR */}
-      <div 
-        className={`fixed bottom-0 left-0 w-full bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.05)] border-t border-gray-200 p-4 sm:px-8 z-50 transform transition-transform duration-300 ease-in-out flex flex-col sm:flex-row justify-between items-center gap-4 ${
-          selectionMode && selectedIds.size > 0 ? 'translate-y-0' : 'translate-y-[150%]'
-        }`}
-      >
-        <div className="flex items-center gap-4 text-gray-800">
-          <div className="bg-[#C9A84C]/10 text-[#C9A84C] px-3 py-1 rounded-full font-bold">
-            {selectedIds.size} selected
-          </div>
-          <span className="text-sm text-gray-500 hidden sm:inline">Tip: Press <kbd className="bg-gray-100 px-1 border rounded text-xs mx-1">Ctrl+A</kbd> to select all &middot; <kbd className="bg-gray-100 px-1 border rounded text-xs mx-1">Esc</kbd> to cancel</span>
-        </div>
-        
-        <div className="flex items-center gap-3">
-          <button 
-            onClick={selectAll} 
-            className="text-sm font-medium px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors border border-gray-200"
-          >
-            Select All
-          </button>
-          <button 
-            onClick={deselectAll} 
-            className="text-sm font-medium px-4 py-2 text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-lg transition-colors"
-          >
-            Deselect
-          </button>
-          <button 
-            onClick={triggerBulkDeleteConfirm} 
-            className="text-sm font-bold px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-colors flex items-center gap-2 shadow-sm"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-            Delete Selected
+            Upload Photos
           </button>
         </div>
       </div>
 
-      {/* Toast Notifications container */}
-      <ToastContainer toasts={toasts} removeToast={removeToast} />
+      {galleryError && (
+        <div className="flex items-center justify-between px-4 py-3 border border-red-200 bg-red-50 font-body text-[13px] text-red-600">
+          <span>{galleryError}</span>
+          <button
+            type="button"
+            onClick={() => setGalleryError("")}
+            className="ml-4 text-xs"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
-      {/* Custom Confirm Dialog Modal */}
-      <ConfirmDialog 
-        isOpen={confirmDialog.isOpen}
-        title={confirmDialog.type === 'bulk' ? `Delete ${selectedIds.size} Photos` : 'Delete Photo'}
-        message={
-          confirmDialog.type === 'bulk' 
-            ? `These ${selectedIds.size} photos will be permanently removed from your website.\nThis cannot be undone.`
-            : 'This photo will be permanently removed from your website.\nThis cannot be undone.'
-        }
-        confirmLabel={confirmDialog.type === 'bulk' ? `Delete ${selectedIds.size} Photos` : 'Delete Photo'}
-        variant="danger"
-        isLoading={confirmDialog.isLoading}
-        onConfirm={executeDelete}
-        onCancel={closeConfirmDialog}
-        previewImages={getPreviewImages()}
-      />
+      {galleryUploading && (
+        <div className="space-y-2 font-body">
+          <div className="h-1 bg-[#C9A84C]/20">
+            <div className="h-full w-1/3 bg-[#C9A84C] animate-pulse" />
+          </div>
+          <p className="text-[13px] text-[#A99686]">Uploading...</p>
+        </div>
+      )}
 
+      {galleryLoading ? (
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="aspect-square bg-[#E8E0D0] animate-pulse" />
+          ))}
+        </div>
+      ) : galleryImages.length === 0 ? (
+        <div className="border border-dashed border-[#E8E0D0] bg-white px-8 py-10 text-center font-body">
+          <p className="text-sm text-[#6B5E4E]">No gallery photos yet</p>
+          <p className="mt-1 text-[13px] text-[#A99686]">
+            Upload images to populate the gallery
+          </p>
+          <button
+            type="button"
+            onClick={() =>
+              document.getElementById("gallery-upload-input")?.click()
+            }
+            className="mt-4 px-4 py-2 bg-[#1C1C1E] text-white text-[11px] tracking-[0.22em] uppercase font-body transition-colors duration-200 hover:bg-[#C9A84C] hover:text-[#1C1C1E]"
+          >
+            Upload Photos
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          {galleryImages.map((img) => (
+            <div
+              key={img.public_id}
+              className="relative aspect-square bg-[#F2EDE4] overflow-hidden group"
+            >
+              <img
+                src={img.secure_url}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+              <button
+                type="button"
+                onClick={() => handleGalleryDelete(img.public_id)}
+                className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity text-[11px] px-3 py-1 bg-red-500 text-white"
+              >
+                Delete
+              </button>
+              {formatImageSize(img) && (
+                <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-black/40 text-white text-[10px] font-body group-hover:opacity-0">
+                  {formatImageSize(img)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const CarouselTab = () => (
+    <div className="space-y-6">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h3 className="font-heading text-xl text-[#1C1C1E]">
+            Carousel Slides
+          </h3>
+          <p className="mt-1 text-[13px] text-[#A99686] font-body">
+            Shown on the homepage hero
+          </p>
+        </div>
+
+        <div className="font-body text-right">
+          <div className="text-sm">
+            <span className="text-[#C9A84C] text-lg">
+              {carouselCount}
+            </span>
+            <span className="text-[#A99686] text-sm"> / 8</span>
+          </div>
+          <p className="text-[11px] text-[#A99686] mt-0.5">Slides</p>
+          <div className="mt-2 h-[2px] bg-[#C9A84C]" style={{ width: `${carouselProgress}%` }} />
+        </div>
+      </div>
+
+      {carouselError && (
+        <div className="flex items-center justify-between px-4 py-3 border border-red-200 bg-red-50 font-body text-[13px] text-red-600">
+          <span>{carouselError}</span>
+          <button
+            type="button"
+            onClick={() => setCarouselError("")}
+            className="ml-4 text-xs"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      {carouselCount >= carouselCapacity ? (
+        <div className="px-4 py-3 border border-amber-200 bg-amber-50 font-body text-[13px] text-[#6B5E4E]">
+          Carousel is full (8/8). Delete a slide to add new.
+        </div>
+      ) : (
+        <div className="font-body">
+          <input
+            id="carousel-upload-input"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleCarouselUpload}
+            className="hidden"
+          />
+          <button
+            type="button"
+            disabled={carouselUploading}
+            onClick={() =>
+              document.getElementById("carousel-upload-input")?.click()
+            }
+            className="w-full border border-dashed border-[#E8E0D0] bg-[#FAF7F2] px-8 py-10 text-center transition-colors duration-200 hover:border-[#C9A84C] hover:bg-white"
+          >
+            <div className="text-2xl mb-2">◫</div>
+            <p className="text-sm text-[#1C1C1E]">Add Carousel Slides</p>
+            <p className="mt-1 text-[13px] text-[#A99686]">
+              {carouselCapacity - carouselCount} slots remaining · JPG, PNG, WebP
+            </p>
+          </button>
+        </div>
+      )}
+
+      {carouselUploading && (
+        <div className="space-y-2 font-body">
+          <div className="h-1 bg-[#C9A84C]/20">
+            <div className="h-full w-1/3 bg-[#C9A84C] animate-pulse" />
+          </div>
+          <p className="text-[13px] text-[#A99686]">Uploading...</p>
+        </div>
+      )}
+
+      {carouselLoading ? (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="aspect-video bg-[#E8E0D0] animate-pulse"
+            />
+          ))}
+        </div>
+      ) : carouselImages.length === 0 ? (
+        <div className="border border-dashed border-[#E8E0D0] bg-white px-8 py-10 text-center font-body">
+          <p className="text-sm text-[#6B5E4E]">No slides yet</p>
+          <p className="mt-1 text-[13px] text-[#A99686]">
+            Upload images to build the homepage carousel
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {carouselImages.map((img, index) => (
+              <div
+                key={img.public_id}
+                className="relative aspect-video bg-[#F2EDE4] overflow-hidden group"
+              >
+                <div className="absolute top-1 left-1 px-2 py-0.5 bg-[#1C1C1E]/80 text-white text-[10px] font-body">
+                  Slide {index + 1}
+                </div>
+                <img
+                  src={img.secure_url}
+                  alt=""
+                  className={`w-full h-full object-cover ${
+                    carouselUploading ? "animate-pulse" : ""
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={() => handleCarouselDelete(img.public_id)}
+                  className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity text-[11px] px-3 py-1 bg-red-500 text-white"
+                >
+                  Remove Slide
+                </button>
+              </div>
+            ))}
+          </div>
+          <p className="mt-2 text-[12px] italic text-[#A99686] font-body">
+            Slides display oldest-first. Delete and re-upload to reorder.
+          </p>
+        </>
+      )}
+    </div>
+  );
+
+  const EventsTab = () => (
+    <div className="space-y-6">
+      <div className="flex flex-wrap gap-2 font-body">
+        {[
+          { id: "weddings", label: "Weddings" },
+          { id: "corporate", label: "Corporate" },
+          { id: "private-parties", label: "Private Parties" },
+        ].map((cat) => {
+          const isActive = eventCategory === cat.id;
+          const count = eventImages[cat.id]?.length ?? 0;
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => {
+                setEventCategory(cat.id);
+                fetchEvents(cat.id);
+              }}
+              className={`px-4 py-2 text-sm border ${
+                isActive
+                  ? "bg-[#1C1C1E] text-white border-[#1C1C1E]"
+                  : "bg-white text-[#6B5E4E] border-[#E8E0D0] hover:border-[#C9A84C]"
+              }`}
+            >
+              <span>{cat.label}</span>
+              <span className="ml-2 text-[12px] text-[#A99686]">
+                {count} photos
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h3 className="font-heading text-xl text-[#1C1C1E]">
+            {eventCategory === "weddings"
+              ? "Weddings Photos"
+              : eventCategory === "corporate"
+              ? "Corporate Photos"
+              : "Private Parties Photos"}
+          </h3>
+          <p className="mt-1 text-[13px] text-[#A99686] font-body">
+            {currentEventImages.length} images
+          </p>
+        </div>
+
+        <div className="font-body">
+          <input
+            id="events-upload-input"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleEventUpload}
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() =>
+              document.getElementById("events-upload-input")?.click()
+            }
+            className="px-4 py-2 bg-[#1C1C1E] text-white text-[11px] tracking-[0.22em] uppercase font-body transition-colors duration-200 hover:bg-[#C9A84C] hover:text-[#1C1C1E]"
+          >
+            Upload to{" "}
+            {eventCategory === "weddings"
+              ? "Weddings"
+              : eventCategory === "corporate"
+              ? "Corporate"
+              : "Private Parties"}
+          </button>
+        </div>
+      </div>
+
+      {eventError && (
+        <div className="flex items-center justify-between px-4 py-3 border border-red-200 bg-red-50 font-body text-[13px] text-red-600">
+          <span>{eventError}</span>
+          <button
+            type="button"
+            onClick={() => setEventError("")}
+            className="ml-4 text-xs"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      {eventUploading && (
+        <div className="space-y-2 font-body">
+          <div className="h-1 bg-[#C9A84C]/20">
+            <div className="h-full w-1/3 bg-[#C9A84C] animate-pulse" />
+          </div>
+          <p className="text-[13px] text-[#A99686]">Uploading...</p>
+        </div>
+      )}
+
+      {eventLoading ? (
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="aspect-square bg-[#E8E0D0] animate-pulse" />
+          ))}
+        </div>
+      ) : currentEventImages.length === 0 ? (
+        <div className="border border-dashed border-[#E8E0D0] bg-white px-8 py-10 text-center font-body">
+          <p className="text-sm text-[#6B5E4E]">
+            {eventCategory === "weddings"
+              ? "No weddings photos yet"
+              : eventCategory === "corporate"
+              ? "No corporate photos yet"
+              : "No private parties photos yet"}
+          </p>
+          <p className="mt-1 text-[13px] text-[#A99686]">
+            Upload images to populate this category
+          </p>
+          <button
+            type="button"
+            onClick={() =>
+              document.getElementById("events-upload-input")?.click()
+            }
+            className="mt-4 px-4 py-2 bg-[#1C1C1E] text-white text-[11px] tracking-[0.22em] uppercase font-body transition-colors duration-200 hover:bg-[#C9A84C] hover:text-[#1C1C1E]"
+          >
+            Upload Photos
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          {currentEventImages.map((img) => (
+            <div
+              key={img.public_id}
+              className="relative aspect-square bg-[#F2EDE4] overflow-hidden group"
+            >
+              <img
+                src={img.secure_url}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+              <button
+                type="button"
+                onClick={() => handleEventDelete(img.public_id)}
+                className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity text-[11px] px-3 py-1 bg-red-500 text-white"
+              >
+                Delete
+              </button>
+              {formatImageSize(img) && (
+                <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-black/40 text-white text-[10px] font-body group-hover:opacity-0">
+                  {formatImageSize(img)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="flex min-h-screen bg-[#FAF7F2] text-[#1C1C1E]">
+      <aside className="w-60 bg-[#1C1C1E] fixed left-0 top-0 h-screen flex flex-col z-50">
+        <div className="px-6 py-8 border-b border-white/10">
+          <p className="text-[#C9A84C] text-[9px] tracking-[0.28em] uppercase font-body mb-1">
+            Admin Panel
+          </p>
+          <h1 className="font-heading text-white text-xl leading-tight">
+            Basti Ram
+            <br />
+            Palace
+          </h1>
+        </div>
+
+        <nav className="flex-1 px-3 py-6 space-y-1 font-body text-sm">
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setActiveTab(item.id)}
+              className={`w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 border-l-2 ${
+                activeTab === item.id
+                  ? "bg-[#C9A84C]/15 text-[#C9A84C] border-[#C9A84C]"
+                  : "text-white/50 hover:text-white/80 hover:bg-white/5 border-transparent"
+              }`}
+            >
+              <span className="text-base">{item.icon}</span>
+              <span>{item.label}</span>
+              {item.id === "carousel" && carouselImages.length > 0 && (
+                <span className="ml-auto text-xs bg-[#C9A84C]/20 text-[#C9A84C] px-2 py-0.5">
+                  {carouselImages.length}/{carouselCapacity}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
+
+        <div className="px-3 py-4 border-t border-white/10">
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 text-white/40 hover:text-white/70 hover:bg-white/5 transition-colors text-sm font-body"
+          >
+            <span>→</span>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </aside>
+
+      <main className="ml-60 flex-1 min-h-screen">
+        <header className="bg-white border-b border-[#E8E0D0] px-8 py-4 flex items-center justify-between sticky top-0 z-40">
+          <div>
+            <h2 className="font-heading text-2xl text-[#1C1C1E] capitalize">
+              {activeTab === "dashboard"
+                ? "Dashboard"
+                : activeTab === "private-parties"
+                ? "Private Parties"
+                : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+            </h2>
+            <p className="text-xs text-[#A99686] mt-0.5 font-body">
+              {activeTab === "dashboard" &&
+                "Overview of your media library"}
+              {activeTab === "gallery" && "Manage venue gallery photos"}
+              {activeTab === "carousel" &&
+                "Manage homepage carousel slides"}
+              {activeTab === "events" &&
+                "Manage event category photos"}
+            </p>
+          </div>
+          <div className="flex items-center gap-2 font-body">
+            <span className="w-2 h-2 bg-green-500 animate-pulse" />
+            <span className="text-xs text-[#A99686]">Live</span>
+          </div>
+        </header>
+
+        <div className="p-8">
+          {activeTab === "dashboard" && <DashboardTab />}
+          {activeTab === "gallery" && <GalleryTab />}
+          {activeTab === "carousel" && <CarouselTab />}
+          {activeTab === "events" && <EventsTab />}
+        </div>
+      </main>
     </div>
   );
 }

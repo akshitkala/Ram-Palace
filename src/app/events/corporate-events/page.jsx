@@ -10,27 +10,24 @@ export default function CorporateEventsPage() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch('/api/images/events/corporate');
+        const res = await fetch("/api/images/events/corporate");
         const json = await res.json();
-        
+
         if (json.images && json.images.length > 0) {
           const imgs = json.images;
-          const newData = JSON.parse(JSON.stringify(eventDetails.corporateEvents)); // deep copy
-          
+          const newData = JSON.parse(JSON.stringify(eventDetails.corporateEvents));
+
           if (imgs[0]) newData.hero.image = imgs[0].secure_url;
-          
           for (let i = 0; i < newData.storySections.length; i++) {
-            if (imgs[i + 1]) {
-              newData.storySections[i].image = imgs[i + 1].secure_url;
-            }
+            if (imgs[i + 1]) newData.storySections[i].image = imgs[i + 1].secure_url;
           }
           setData(newData);
         }
-      } catch (error) {
-        console.error("Failed to load corporate images", error);
+      } catch (err) {
+        console.error("Failed to load corporate images", err);
       }
     };
-    
+
     fetchImages();
   }, []);
 

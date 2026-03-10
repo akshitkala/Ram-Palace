@@ -31,7 +31,7 @@ const Hero = () => {
           filter: "blur(0px)",
           duration: 1.2,
           stagger: 0.12,
-          delay: 1.0,
+          delay: 0.5,
           ease: "power3.out",
         }
       );

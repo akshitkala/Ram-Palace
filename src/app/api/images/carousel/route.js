@@ -1,20 +1,21 @@
 import { NextResponse } from 'next/server';
 import cloudinary from '@/lib/cloudinary';
 
-const FOLDER = 'ram-palace/gallery';
+const FOLDER = 'ram-palace/carousel';
+const MAX_SLIDES = 8;
 
 export async function GET() {
   try {
     const result = await cloudinary.api.resources({
       type: 'upload',
       prefix: FOLDER,
-      max_results: 500,
+      max_results: 10,
     });
 
     const images = result.resources
       .sort(
         (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
       )
       .map((img) => ({
         public_id: img.public_id,
@@ -27,9 +28,9 @@ export async function GET() {
 
     return NextResponse.json({ images });
   } catch (error) {
-    console.error('Cloudinary GET error:', error);
+    console.error('Carousel GET error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch images' },
+      { error: 'Failed to fetch carousel images' },
       { status: 500 }
     );
   }
@@ -37,11 +38,30 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    const existing = await cloudinary.api.resources({
+      type: 'upload',
+      prefix: FOLDER,
+      max_results: 10,
+    });
+
+    if (existing.resources.length >= MAX_SLIDES) {
+      return NextResponse.json(
+        {
+          error:
+            'Carousel is full (8/8). Delete a slide to add a new one.',
+        },
+        { status: 400 }
+      );
+    }
+
     const formData = await request.formData();
     const file = formData.get('file') || formData.get('image');
 
     if (!file) {
-      return NextResponse.json({ error: 'Missing file' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Missing file' },
+        { status: 400 }
+      );
     }
 
     const bytes = await file.arrayBuffer();
@@ -71,9 +91,9 @@ export async function POST(request) {
 
     return NextResponse.json(image, { status: 200 });
   } catch (error) {
-    console.error('Cloudinary POST error:', error);
+    console.error('Carousel POST error:', error);
     return NextResponse.json(
-      { error: 'Failed to upload image' },
+      { error: 'Failed to upload carousel image' },
       { status: 500 }
     );
   }
@@ -93,7 +113,7 @@ export async function DELETE(request) {
 
     if (!public_id.startsWith(FOLDER)) {
       return NextResponse.json(
-        { error: 'Invalid public_id for gallery' },
+        { error: 'Invalid public_id for carousel' },
         { status: 400 }
       );
     }
@@ -101,10 +121,11 @@ export async function DELETE(request) {
     await cloudinary.uploader.destroy(public_id);
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error('Cloudinary DELETE error:', error);
+    console.error('Carousel DELETE error:', error);
     return NextResponse.json(
-      { error: 'Failed to delete image' },
+      { error: 'Failed to delete carousel image' },
       { status: 500 }
     );
   }
 }
+

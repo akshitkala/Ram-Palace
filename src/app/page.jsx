@@ -10,7 +10,7 @@ import testimonials from "@/Data/Testimonial";
 import AntiGravitySection from "@/components/AntiGravitySection";
 import MiniGallery from "@/components/MiniGallery";
 import LocomotiveScroll from "locomotive-scroll";
-
+import CateringFeature from "@/components/CateringFeature";
 export default function Home() {
   return (
     <div>
@@ -26,6 +26,7 @@ export default function Home() {
       <AntiGravitySection>
         <Events />
       </AntiGravitySection>
+      <CateringFeature/>
       <AntiGravitySection>
         <MiniGallery />
       </AntiGravitySection>

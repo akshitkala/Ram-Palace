@@ -139,3 +139,37 @@ async function runSeeder() {
 }
 
 runSeeder().catch(console.error);
+
+// Seed carousel
+const carouselFiles = [
+  'public/images/carousel/carousel1.webp',
+  'public/images/carousel/carousel2.webp',
+  'public/images/carousel/carousel3.webp',
+  'public/images/carousel/carousel4.webp',
+];
+
+console.log('\n🎠 Seeding carousel...');
+for (const filePath of carouselFiles) {
+  try {
+    const fsModule = await import('fs');
+    const fsLocal = fsModule.default ?? fsModule;
+
+    if (!fsLocal.existsSync(filePath)) {
+      console.log('⚠ Skipped (not found):', filePath);
+      continue;
+    }
+
+    const result = await cloudinary.uploader.upload(filePath, {
+      folder: 'ram-palace/carousel',
+      use_filename: true,
+      unique_filename: false,
+      overwrite: false,
+    });
+
+    console.log('✓ Uploaded:', result.public_id);
+  } catch (err) {
+    console.log('✗ Failed:', filePath, err.message);
+  }
+}
+
+

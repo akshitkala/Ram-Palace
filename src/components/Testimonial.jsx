@@ -1,169 +1,167 @@
 "use client";
 
-import {
-  IconArrowLeft,
-  IconArrowRight,
-  IconStarFilled,
-  IconStar,
-} from "@tabler/icons-react";
+import { IconArrowLeft, IconArrowRight, IconStarFilled, IconStar } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-// class merge helper
-const cn = (...classes) => classes.filter(Boolean).join(" ");
+const AUTOPLAY_INTERVAL = 5500;
 
-const Testimonial = ({
-  testimonials,
-  autoplay = false,
-  autoplayInterval = 3000,
-  className,
-}) => {
-  const [active, setActive] = useState(0);
-  const [randomRotations, setRandomRotations] = useState([]);
+const Testimonial = ({ testimonials, autoplay = true, className = "" }) => {
+  const [active, setActive]     = useState(0);
+  const [paused, setPaused]     = useState(false);
+  const [direction, setDirection] = useState(1);
 
-  // Fix hydration mismatch by generating random values only on client
-  useEffect(() => {
-    setRandomRotations(testimonials.map(() => Math.floor(Math.random() * 21) - 10));
-  }, [testimonials]);
+  const goTo = useCallback((index, dir = 1) => {
+    setDirection(dir);
+    setActive(index);
+  }, []);
 
   const handleNext = useCallback(() => {
-    setActive((prev) => (prev + 1) % testimonials.length);
-  }, [testimonials.length]);
+    goTo((active + 1) % testimonials.length, 1);
+  }, [active, testimonials.length, goTo]);
 
   const handlePrev = useCallback(() => {
-    setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  }, [testimonials.length]);
-
-  const isActive = (index) => index === active;
+    goTo((active - 1 + testimonials.length) % testimonials.length, -1);
+  }, [active, testimonials.length, goTo]);
 
   useEffect(() => {
-    if (autoplay) {
-      const interval = setInterval(handleNext, autoplayInterval);
-      return () => clearInterval(interval);
-    }
-  }, [autoplay, autoplayInterval, handleNext]);
+    if (!autoplay || paused) return;
+    const t = setInterval(handleNext, AUTOPLAY_INTERVAL);
+    return () => clearInterval(t);
+  }, [autoplay, paused, handleNext]);
+
+  const current = testimonials[active];
 
   return (
     <section
-      className={cn(
-        "min-h-screen md:min-h-0 flex items-center justify-center px-4 md:px-8 lg:px-12 py-10 md:py-20",
-        className
-      )}
+      className={`relative bg-[#FAF7F2] px-6 md:px-12 lg:px-20 py-20 md:py-28 overflow-hidden ${className}`}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      <div className="w-full max-w-sm md:max-w-6xl mx-auto">
-        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
-          
-          {/* Image Section */}
-          <div>
-            <div className="relative h-64 md:h-80 w-full">
-              <AnimatePresence>
-                {testimonials.map((testimonial, index) => (
-                  <motion.div
-                    key={testimonial.id}
-                    initial={{
-                      opacity: 0,
-                      scale: 0.9,
-                      rotate: randomRotations[index],
-                    }}
-                    animate={{
-                      opacity: isActive(index) ? 1 : 0.7,
-                      scale: isActive(index) ? 1 : 0.95,
-                      rotate: isActive(index) ? 0 : randomRotations[index],
-                      zIndex: isActive(index)
-                        ? 999
-                        : testimonials.length + 2 - index,
-                      y: isActive(index) ? [0, -40, 0] : 0,
-                    }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                    className="absolute inset-0 origin-bottom"
+      {/* Faint watermark */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                   font-heading text-[18vw] leading-none text-[#2B1810]/[0.025]
+                   pointer-events-none select-none whitespace-nowrap"
+        aria-hidden="true"
+      >
+        Reviews
+      </div>
+
+      <div className="relative z-10 max-w-3xl mx-auto">
+
+        {/* Section label */}
+        <div className="flex items-center gap-3 mb-12 md:mb-16">
+          <span className="w-8 h-px bg-[#C9A84C]" />
+          <span className="font-body text-[#C9A84C] text-[10px] tracking-[0.4em] uppercase font-semibold">
+            What Our Guests Say
+          </span>
+        </div>
+
+        {/* Large decorative quote mark */}
+        <span
+          className="block font-heading text-[96px] md:text-[128px] leading-none
+                     text-[#C9A84C]/15 select-none mb-2"
+          aria-hidden="true"
+        >
+          "
+        </span>
+
+        {/* Animated content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: direction > 0 ? 24 : -24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{   opacity: 0, y: direction > 0 ? -24 : 24 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+          >
+            {/* Stars */}
+            <div className="flex gap-1 mb-6">
+              {[...Array(5)].map((_, i) =>
+                i < current.rating
+                  ? <IconStarFilled key={i} size={18} className="text-[#C9A84C]" />
+                  : <IconStar       key={i} size={18} className="text-[#D5C9B8]" />
+              )}
+            </div>
+
+            {/* Quote */}
+            <blockquote className="mb-8">
+              <p className="font-body text-[#4A3728] text-lg md:text-xl leading-relaxed">
+                {current.quote.split(" ").map((word, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, delay: 0.015 * i }}
+                    className="inline-block mr-1"
                   >
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      draggable={false}
-                      loading="lazy"
-                      className="h-full w-full rounded-3xl object-cover object-center shadow-xl"
-                    />
-                  </motion.div>
+                    {word}
+                  </motion.span>
                 ))}
-              </AnimatePresence>
-            </div>
-          </div>
+              </p>
+            </blockquote>
 
-          {/* Text Section */}
-          <div className="flex flex-col justify-between h-full">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <h3 className="text-2xl md:text-3xl font-bold">
-                  {testimonials[active].name}
-                </h3>
-
-                <p className="text-sm text-gray-500 mt-1">
-                  {testimonials[active].designation}
+            {/* Name + designation */}
+            <div className="flex items-center gap-4">
+              <span className="w-8 h-px bg-[#C9A84C]/50" />
+              <div>
+                <p className="font-heading text-xl text-[#2B1810] leading-none mb-1">
+                  {current.name}
                 </p>
-
-                {/* ⭐ Rating */}
-                <div className="flex gap-1 mt-3 mb-4">
-                  {[...Array(5)].map((_, i) =>
-                    i < testimonials[active].rating ? (
-                      <IconStarFilled
-                        key={i}
-                        size={18}
-                        className="text-yellow-500"
-                      />
-                    ) : (
-                      <IconStar
-                        key={i}
-                        size={18}
-                        className="text-gray-300"
-                      />
-                    )
-                  )}
-                </div>
-
-                <motion.p className="text-lg text-gray-600 mt-4 leading-relaxed">
-                  {testimonials[active].quote.split(" ").map((word, index) => (
-                    <motion.span
-                      key={index}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        delay: 0.02 * index,
-                      }}
-                      className="inline-block"
-                    >
-                      {word}&nbsp;
-                    </motion.span>
-                  ))}
-                </motion.p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Controls */}
-            <div className="flex gap-4 mt-10">
-              <button
-                onClick={handlePrev}
-                className="h-9 w-9 rounded-full bg-gray-200 flex items-center justify-center hover:scale-110 transition"
-              >
-                <IconArrowLeft size={18} />
-              </button>
-
-              <button
-                onClick={handleNext}
-                className="h-9 w-9 rounded-full bg-gray-200 flex items-center justify-center hover:scale-110 transition"
-              >
-                <IconArrowRight size={18} />
-              </button>
+                <p className="font-body text-[#8B7A6A] text-xs tracking-wide">
+                  {current.designation}
+                </p>
+              </div>
             </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Controls */}
+        <div className="flex items-center justify-between mt-10 pt-8 border-t border-[#EDE5D8]">
+
+          {/* Arrows */}
+          <div className="flex gap-3">
+            <button
+              onClick={handlePrev}
+              aria-label="Previous testimonial"
+              className="w-10 h-10 rounded-full border border-[#2B1810]/20 bg-white
+                         flex items-center justify-center text-[#2B1810]
+                         hover:bg-[#2B1810] hover:text-[#C9A84C] hover:border-[#2B1810]
+                         transition-all duration-300"
+            >
+              <IconArrowLeft size={16} />
+            </button>
+            <button
+              onClick={handleNext}
+              aria-label="Next testimonial"
+              className="w-10 h-10 rounded-full bg-[#2B1810]
+                         flex items-center justify-center text-[#C9A84C]
+                         hover:bg-[#3B2218] transition-all duration-300"
+            >
+              <IconArrowRight size={16} />
+            </button>
           </div>
+
+          {/* Dot indicators */}
+          <div className="flex gap-2 items-center">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i, i > active ? 1 : -1)}
+                aria-label={`Go to testimonial ${i + 1}`}
+                className={`rounded-full transition-all duration-300
+                            ${i === active
+                              ? "w-6 h-2 bg-[#C9A84C]"
+                              : "w-2 h-2 bg-[#D5C9B8] hover:bg-[#C9A84C]/50"}`}
+              />
+            ))}
+          </div>
+
+          {/* Counter */}
+          <span className="font-body text-[#8B7A6A] text-xs tracking-[2px]">
+            {String(active + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")}
+          </span>
 
         </div>
       </div>
