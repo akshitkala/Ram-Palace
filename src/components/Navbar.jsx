@@ -132,8 +132,8 @@ const Navbar = () => {
               { label: "Corporate Events", path: "/events/corporate-events" },
               { label: "Private Parties", path: "/events/private-parties" },
               { label: "Catering", path: "/catering" },
-              { label: "Gallery", path: "/gallery" },
               { label: "Menu", path: "/Menu" },
+              { label: "Gallery", path: "/gallery" },
               { label: "Contact", path: "/contact" }
             ].map((item, i) => (
               <Link
