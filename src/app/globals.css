@@ -1,11 +1,18 @@
 @import "tailwindcss";
 
+html, body {
+  background-color: #161412;
+}
+
 @theme {
   --color-gold: #C9A84C;
   --color-gold-dark: #b8963e;
   --color-charcoal: #1C1C1E;
   --color-ivory: #F5F1EC;
   --color-palace-tan: #A99686;
+
+  --font-heading: "Playfair Display", serif;
+  --font-body: "DM Sans", sans-serif;
 }
 
 @keyframes scroll-line {
@@ -57,6 +64,7 @@
   html,
   body {
     @apply overflow-x-hidden max-w-full;
+    font-family: var(--font-body);
   }
 }
 
@@ -159,7 +167,7 @@
     border: none;
     background-image: linear-gradient(135deg, #D6BA96, #B8956A);
     color: #24160E;
-    font-family: "Acumin Pro Wide", sans-serif;
+    font-family: var(--font-body);
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -189,89 +197,51 @@
   }
 }
 
-/* Font Face Declarations */
-/* NOTE: acumin-pro-wide.otf is missing from the repo.
-   If you have the file, place it in public/fonts/ and uncomment below. */
-/*
-@font-face {
-  font-family: "Acumin Pro Wide";
-  src: url("/fonts/acumin-pro-wide.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-*/
-
-@font-face {
-  font-family: "Playfair Display";
-  src: url("/fonts/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Playfair Display";
-  src: url("/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
-
 /* Font Family Utility Classes */
-.font-acumin {
-  font-family: "Acumin Pro Wide", sans-serif;
-}
-
-.font-playfair {
-  font-family: "Playfair Display", serif;
-}
-
-/* Semantic Use Case Classes */
 .font-heading {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-heading);
   font-weight: 600;
 }
 
 .font-heading-light {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-heading);
   font-weight: 300;
 }
 
 .font-heading-bold {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-heading);
   font-weight: 700;
 }
 
 .font-heading-italic {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-heading);
   font-style: italic;
   font-weight: 600;
 }
 
 .font-body {
-  font-family: "Acumin Pro Wide", sans-serif;
+  font-family: var(--font-body);
   font-weight: normal;
 }
 
 .font-body-light {
-  font-family: "Acumin Pro Wide", sans-serif;
+  font-family: var(--font-body);
   font-weight: 300;
 }
 
 .font-body-bold {
-  font-family: "Acumin Pro Wide", sans-serif;
+  font-family: var(--font-body);
   font-weight: 700;
 }
 
 .font-elegant {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-heading);
   font-weight: 400;
   font-style: italic;
 }
 
 .font-display {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   letter-spacing: 0.02em;
 }

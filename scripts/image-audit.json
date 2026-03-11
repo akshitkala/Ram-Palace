@@ -1,18 +1,30 @@
 {
-  "generatedAt": "2026-03-09T09:23:13.989Z",
+  "generatedAt": "2026-03-11T12:54:32.861Z",
   "summary": {
-    "totalImages": 45,
-    "totalSizeMB": 14.2,
-    "movedToCloudinary": 29,
-    "stillLocal": 16,
+    "totalImages": 28,
+    "totalSizeMB": 7.4,
+    "movedToCloudinary": 21,
+    "stillLocal": 7,
     "failed": 0,
     "unreferenced": 0,
-    "brokenReferences": 44
+    "brokenReferences": 1
   },
   "categories": {
+    "gallery": {
+      "count": 17,
+      "sizeMB": 3,
+      "status": "moved"
+    },
+    "events": {
+      "corporate": {
+        "count": 4,
+        "sizeMB": 0.7,
+        "status": "moved"
+      }
+    },
     "hero": {
-      "count": 5,
-      "sizeMB": 6.1,
+      "count": 1,
+      "sizeMB": 2.8,
       "status": "local"
     },
     "carousel": {
@@ -20,37 +32,10 @@
       "sizeMB": 0.8,
       "status": "local"
     },
-    "spaces": {
-      "count": 4,
-      "sizeMB": 0.8,
-      "status": "local"
-    },
     "root-images": {
-      "count": 2,
-      "sizeMB": 0.4,
+      "count": 1,
+      "sizeMB": 0,
       "status": "local"
-    },
-    "gallery": {
-      "count": 17,
-      "sizeMB": 3,
-      "status": "moved"
-    },
-    "events": {
-      "weddings": {
-        "count": 4,
-        "sizeMB": 1.1,
-        "status": "moved"
-      },
-      "corporate": {
-        "count": 4,
-        "sizeMB": 0.7,
-        "status": "moved"
-      },
-      "private": {
-        "count": 4,
-        "sizeMB": 1.1,
-        "status": "moved"
-      }
     },
     "branding": {
       "count": 1,
@@ -59,105 +44,228 @@
     }
   },
   "warnings": [
-    "Broken image reference in src/app/gallery/page.jsx -> /images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/michu-dang-quang-unItqGJIlRY-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/corporate/al-elmes-ULHxWq8reao-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/corporate/antenna-ZDN-G1xBWHY-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/privateParties/wang-binghua-1ZykZAj15Fw-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/privateParties/wang-binghua-1ZykZAj15Fw-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/privateParties/andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/privateParties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/privateParties/raju-kumar-93BQ5bUsD-E-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/michu-dang-quang-unItqGJIlRY-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/corporate/al-elmes-ULHxWq8reao-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/corporate/antenna-ZDN-G1xBWHY-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/privateParties/andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/privateParties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
-    "Broken image reference in src/Data/events.js -> /images/Events/privateParties/raju-kumar-93BQ5bUsD-E-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/junior-reis-xMDo8y776uE-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/drew-coffman-llWjwo200fo-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/cody-chan-7jgtAhJkjwk-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/samantha-gades-x40Q9jrEVT0-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/leonardo-miranda-riHGdvluDk8-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/amish-thakkar-7O422yG_b80-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/nathan-dumlao-5BB_atDT4oA-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/danie-franco-7XqL_DVuBMw-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/photos-by-lanty-O38Id_cyV4M-unsplash.jpg",
-    "Broken image reference in src/Data/gallery.js -> /images/gallery/evelina-friman-hw_sKmjb0ns-unsplash.jpg",
-    "Duplicate filename across categories: carousel1.webp appears 2 times.",
-    "Duplicate filename across categories: carousel2.webp appears 2 times.",
-    "Duplicate filename across categories: carousel3.webp appears 2 times.",
-    "Duplicate filename across categories: carousel4.webp appears 2 times."
+    "Broken image reference in src/app/Menu/page.jsx -> /images/catering/hero.jpg"
   ],
   "files": [
     {
-      "filename": "bg.webp",
-      "extension": ".webp",
-      "sizeKB": 55.3,
-      "folder": "public/images/hero",
-      "category": "Hero",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\bg.webp"
+      "filename": "amish-thakkar-1rLF6hxmm7M-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 283.2,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\amish-thakkar-1rLF6hxmm7M-unsplash.jpg"
     },
     {
-      "filename": "day.webp",
-      "extension": ".webp",
-      "sizeKB": 251,
-      "folder": "public/images/hero",
-      "category": "Hero",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\day.webp"
+      "filename": "amish-thakkar-7O422yG_b80-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 242.6,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\amish-thakkar-7O422yG_b80-unsplash.jpg"
     },
     {
-      "filename": "day_hero_background.png",
+      "filename": "awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 199.5,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg"
+    },
+    {
+      "filename": "cody-chan-7jgtAhJkjwk-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 162,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\cody-chan-7jgtAhJkjwk-unsplash.jpg"
+    },
+    {
+      "filename": "danie-franco-7XqL_DVuBMw-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 158,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\danie-franco-7XqL_DVuBMw-unsplash.jpg"
+    },
+    {
+      "filename": "drew-coffman-llWjwo200fo-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 125.5,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\drew-coffman-llWjwo200fo-unsplash.jpg"
+    },
+    {
+      "filename": "eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 192.5,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg"
+    },
+    {
+      "filename": "evelina-friman-hw_sKmjb0ns-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 103.1,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\evelina-friman-hw_sKmjb0ns-unsplash.jpg"
+    },
+    {
+      "filename": "junior-reis-xMDo8y776uE-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 258,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\junior-reis-xMDo8y776uE-unsplash.jpg"
+    },
+    {
+      "filename": "khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 174.9,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\khadija-yousaf-lKwp3-FQomY-unsplash.jpg"
+    },
+    {
+      "filename": "leonardo-miranda-riHGdvluDk8-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 211.5,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\leonardo-miranda-riHGdvluDk8-unsplash.jpg"
+    },
+    {
+      "filename": "nathan-dumlao-5BB_atDT4oA-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 107.7,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\nathan-dumlao-5BB_atDT4oA-unsplash.jpg"
+    },
+    {
+      "filename": "photos-by-lanty-O38Id_cyV4M-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 154.7,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\photos-by-lanty-O38Id_cyV4M-unsplash.jpg"
+    },
+    {
+      "filename": "pixel-studios-IFCN-tBVNPI-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 186.9,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\pixel-studios-IFCN-tBVNPI-unsplash.jpg"
+    },
+    {
+      "filename": "pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 246.3,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg"
+    },
+    {
+      "filename": "samantha-gades-x40Q9jrEVT0-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 123.3,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\samantha-gades-x40Q9jrEVT0-unsplash.jpg"
+    },
+    {
+      "filename": "vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 182.6,
+      "folder": "public/images/gallery",
+      "category": "Gallery",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\vadim-paripa-PuXtB1B4zL8-unsplash.jpg"
+    },
+    {
+      "filename": "al-elmes-ULHxWq8reao-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 149,
+      "folder": "public/images/Events/corporate",
+      "category": "Events / Corporate",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\Events\\corporate\\al-elmes-ULHxWq8reao-unsplash.jpg"
+    },
+    {
+      "filename": "antenna-ZDN-G1xBWHY-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 214,
+      "folder": "public/images/Events/corporate",
+      "category": "Events / Corporate",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\Events\\corporate\\antenna-ZDN-G1xBWHY-unsplash.jpg"
+    },
+    {
+      "filename": "jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 235.3,
+      "folder": "public/images/Events/corporate",
+      "category": "Events / Corporate",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\Events\\corporate\\jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg"
+    },
+    {
+      "filename": "quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
+      "extension": ".jpg",
+      "sizeKB": 163.5,
+      "folder": "public/images/Events/corporate",
+      "category": "Events / Corporate",
+      "status": "moved",
+      "isStatic": false,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\Events\\corporate\\quan-nguyen-yDSe7sggb9Q-unsplash.jpg"
+    },
+    {
+      "filename": "hero.png",
       "extension": ".png",
-      "sizeKB": 2772.1,
+      "sizeKB": 2824.2,
       "folder": "public/images/hero",
       "category": "Hero",
       "status": "local",
       "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\day_hero_background.png"
-    },
-    {
-      "filename": "night_hero_background.png",
-      "extension": ".png",
-      "sizeKB": 2867.3,
-      "folder": "public/images/hero",
-      "category": "Hero",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\night_hero_background.png"
-    },
-    {
-      "filename": "palace.webp",
-      "extension": ".webp",
-      "sizeKB": 334.2,
-      "folder": "public/images/hero",
-      "category": "Hero",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\palace.webp"
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\hero.png"
     },
     {
       "filename": "carousel1.webp",
@@ -200,354 +308,14 @@
       "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\carousel\\carousel4.webp"
     },
     {
-      "filename": "carousel1.webp",
-      "extension": ".webp",
-      "sizeKB": 180.8,
-      "folder": "public/images/spaces",
-      "category": "Spaces",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\spaces\\carousel1.webp"
-    },
-    {
-      "filename": "carousel2.webp",
-      "extension": ".webp",
-      "sizeKB": 445.2,
-      "folder": "public/images/spaces",
-      "category": "Spaces",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\spaces\\carousel2.webp"
-    },
-    {
-      "filename": "carousel3.webp",
-      "extension": ".webp",
-      "sizeKB": 85.1,
-      "folder": "public/images/spaces",
-      "category": "Spaces",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\spaces\\carousel3.webp"
-    },
-    {
-      "filename": "carousel4.webp",
-      "extension": ".webp",
-      "sizeKB": 143,
-      "folder": "public/images/spaces",
-      "category": "Spaces",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\spaces\\carousel4.webp"
-    },
-    {
       "filename": "hall3.webp",
       "extension": ".webp",
-      "sizeKB": 115.1,
+      "sizeKB": 31.8,
       "folder": "public/images",
       "category": "Root Images",
       "status": "local",
       "isStatic": true,
       "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hall3.webp"
-    },
-    {
-      "filename": "logo.png",
-      "extension": ".png",
-      "sizeKB": 288.1,
-      "folder": "public/images",
-      "category": "Root Images",
-      "status": "local",
-      "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\logo.png"
-    },
-    {
-      "filename": "amish-thakkar-1rLF6hxmm7M-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 283.2,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\amish-thakkar-1rLF6hxmm7M-unsplash.jpg"
-    },
-    {
-      "filename": "amish-thakkar-7O422yG_b80-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 242.6,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\amish-thakkar-7O422yG_b80-unsplash.jpg"
-    },
-    {
-      "filename": "awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 199.5,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg"
-    },
-    {
-      "filename": "cody-chan-7jgtAhJkjwk-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 162,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\cody-chan-7jgtAhJkjwk-unsplash.jpg"
-    },
-    {
-      "filename": "danie-franco-7XqL_DVuBMw-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 158,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\danie-franco-7XqL_DVuBMw-unsplash.jpg"
-    },
-    {
-      "filename": "drew-coffman-llWjwo200fo-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 125.5,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\drew-coffman-llWjwo200fo-unsplash.jpg"
-    },
-    {
-      "filename": "eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 192.5,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg"
-    },
-    {
-      "filename": "evelina-friman-hw_sKmjb0ns-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 103.1,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\evelina-friman-hw_sKmjb0ns-unsplash.jpg"
-    },
-    {
-      "filename": "junior-reis-xMDo8y776uE-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 258,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\junior-reis-xMDo8y776uE-unsplash.jpg"
-    },
-    {
-      "filename": "khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 174.9,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\khadija-yousaf-lKwp3-FQomY-unsplash.jpg"
-    },
-    {
-      "filename": "leonardo-miranda-riHGdvluDk8-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 211.5,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\leonardo-miranda-riHGdvluDk8-unsplash.jpg"
-    },
-    {
-      "filename": "nathan-dumlao-5BB_atDT4oA-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 107.7,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\nathan-dumlao-5BB_atDT4oA-unsplash.jpg"
-    },
-    {
-      "filename": "photos-by-lanty-O38Id_cyV4M-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 154.7,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\photos-by-lanty-O38Id_cyV4M-unsplash.jpg"
-    },
-    {
-      "filename": "pixel-studios-IFCN-tBVNPI-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 186.9,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\pixel-studios-IFCN-tBVNPI-unsplash.jpg"
-    },
-    {
-      "filename": "pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 246.3,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg"
-    },
-    {
-      "filename": "samantha-gades-x40Q9jrEVT0-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 123.3,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\samantha-gades-x40Q9jrEVT0-unsplash.jpg"
-    },
-    {
-      "filename": "vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 182.6,
-      "folder": "moved-images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\gallery\\vadim-paripa-PuXtB1B4zL8-unsplash.jpg"
-    },
-    {
-      "filename": "ibrahim-boran-m8YjB0noWiY-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 287.7,
-      "folder": "moved-images/events/weddings",
-      "category": "Events / Weddings",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\weddings\\ibrahim-boran-m8YjB0noWiY-unsplash.jpg"
-    },
-    {
-      "filename": "jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 271.8,
-      "folder": "moved-images/events/weddings",
-      "category": "Events / Weddings",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\weddings\\jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg"
-    },
-    {
-      "filename": "michu-dang-quang-unItqGJIlRY-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 317.1,
-      "folder": "moved-images/events/weddings",
-      "category": "Events / Weddings",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\weddings\\michu-dang-quang-unItqGJIlRY-unsplash.jpg"
-    },
-    {
-      "filename": "vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 259.1,
-      "folder": "moved-images/events/weddings",
-      "category": "Events / Weddings",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\weddings\\vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg"
-    },
-    {
-      "filename": "al-elmes-ULHxWq8reao-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 149,
-      "folder": "moved-images/events/corporate",
-      "category": "Events / Corporate",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\corporate\\al-elmes-ULHxWq8reao-unsplash.jpg"
-    },
-    {
-      "filename": "antenna-ZDN-G1xBWHY-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 214,
-      "folder": "moved-images/events/corporate",
-      "category": "Events / Corporate",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\corporate\\antenna-ZDN-G1xBWHY-unsplash.jpg"
-    },
-    {
-      "filename": "jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 235.3,
-      "folder": "moved-images/events/corporate",
-      "category": "Events / Corporate",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\corporate\\jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg"
-    },
-    {
-      "filename": "quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 163.5,
-      "folder": "moved-images/events/corporate",
-      "category": "Events / Corporate",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\corporate\\quan-nguyen-yDSe7sggb9Q-unsplash.jpg"
-    },
-    {
-      "filename": "andrei-marinho-aLoz5hfGJOg-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 222,
-      "folder": "moved-images/events/private-parties",
-      "category": "Events / Private",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\private-parties\\andrei-marinho-aLoz5hfGJOg-unsplash.jpg"
-    },
-    {
-      "filename": "enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 257.6,
-      "folder": "moved-images/events/private-parties",
-      "category": "Events / Private",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\private-parties\\enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg"
-    },
-    {
-      "filename": "raju-kumar-93BQ5bUsD-E-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 240.5,
-      "folder": "moved-images/events/private-parties",
-      "category": "Events / Private",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\private-parties\\raju-kumar-93BQ5bUsD-E-unsplash.jpg"
-    },
-    {
-      "filename": "wang-binghua-1ZykZAj15Fw-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 421.4,
-      "folder": "moved-images/events/private-parties",
-      "category": "Events / Private",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\moved-images\\events\\private-parties\\wang-binghua-1ZykZAj15Fw-unsplash.jpg"
     },
     {
       "filename": "vite.svg",

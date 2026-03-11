@@ -72,6 +72,8 @@ export default function TestFetch() {
                 alt="test" 
                 width={200} 
                 height={150}
+                quality={70}
+                sizes="(max-width: 768px) 100vw, 25vw"
                 style={{ objectFit: 'cover', borderRadius: 4 }}
               />
               <p style={{ fontSize: 11, color: '#666', wordBreak: 'break-all' }}>

@@ -2,9 +2,10 @@
 
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 
-const bg = "/images/hero/bg.webp";
-const palace = "/images/hero/palace.webp";
+const bg = "/images/hero/hero.png";
+const palace = "/images/hero/hero.png";
 
 const HeroImageAnimation = () => {
   const containerRef = useRef(null);
@@ -39,16 +40,20 @@ const HeroImageAnimation = () => {
       className="absolute inset-0 w-full h-full overflow-hidden"
     >
       {/* Background (static) */}
-      <img
+      <Image
         src={bg}
         alt="Background"
+        fill
+        sizes="100vw"
         className="absolute inset-0 w-full h-full object-cover brightness-110 bg-image"
       />
 
       {/* Palace (animated from bottom) */}
-      <img
+      <Image
         src={palace}
         alt="Palace"
+        fill
+        sizes="100vw"
         className="absolute inset-0 w-full h-full object-cover palace translate-y-full brightness-110"
       />
     </div>

@@ -106,6 +106,7 @@ export default function GalleryPage() {
       {/* 1. Cinematic Hero Section */}
       <section ref={heroRef} className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Parallax Background */}
+        {/* TODO: migrate to <Image fill> for optimization */}
         <div 
             className="absolute inset-0 z-0 bg-fixed bg-center bg-cover"
             style={{ 
@@ -144,6 +145,7 @@ export default function GalleryPage() {
                   alt="Gallery image"
                   width={img.width || 800}
                   height={img.height || 600}
+                  quality={70}
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />

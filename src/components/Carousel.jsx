@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
-const images = [
+const STATIC_FALLBACKS = [
   "/images/carousel/carousel1.webp",
   "/images/carousel/carousel2.webp",
   "/images/carousel/carousel3.webp",
@@ -10,19 +11,38 @@ const images = [
 ];
 
 const Carousel = () => {
+  const [images, setImages] = useState(STATIC_FALLBACKS);
   const [current, setCurrent] = useState(0);
   const [paused,  setPaused]  = useState(false);
   const touchStartX = useRef(0);
   const touchEndX   = useRef(0);
 
+  // Fetch images from backend
+  useEffect(() => {
+    async function fetchCarousel() {
+      try {
+        const res = await fetch("/api/images/carousel");
+        const data = await res.json();
+        if (data.images && data.images.length > 0) {
+          // Use secure_url from Cloudinary
+          setImages(data.images.map(img => img.secure_url));
+        }
+      } catch (error) {
+        console.error("Failed to fetch carousel images:", error);
+        // Fallback already set in state
+      }
+    }
+    fetchCarousel();
+  }, []);
+
   // Auto-slide — pauses on hover
   useEffect(() => {
-    if (paused) return;
+    if (paused || images.length <= 1) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [paused]);
+  }, [paused, images.length]);
 
   const prev = () => setCurrent((p) => (p === 0 ? images.length - 1 : p - 1));
   const next = () => setCurrent((p) => (p + 1) % images.length);
@@ -48,17 +68,19 @@ const Carousel = () => {
           Keeps previous slide visible during transition.
           Prevents flash-to-black bug on last→first loop.  */}
       {images.map((img, index) => (
-        <img
+        <Image
           key={index}
           src={img}
           alt={`Basti Ram Palace — slide ${index + 1}`}
+          fill
+          priority={index === 0}
+          quality={85}
+          sizes="100vw"
           className={`
             absolute inset-0 w-full h-full object-cover
             transition-opacity duration-1000
             ${index === current ? "opacity-100 z-10" : "opacity-0 z-0"}
           `}
-          loading={index === 0 ? "eager" : "lazy"}
-          decoding="async"
         />
       ))}
 
@@ -77,10 +99,10 @@ const Carousel = () => {
 
       {/* ── BRAND LABEL — bottom left ── */}
       <div className="absolute bottom-10 left-6 md:bottom-12 md:left-12 z-30">
-        <p className="text-[9px] md:text-[10px] tracking-[4px] uppercase text-[#C9A84C] mb-1.5">
+        <p className="text-[9px] md:text-[10px] tracking-[4px] uppercase text-[#C9A84C] mb-1.5 font-body">
           Basti Ram Palace
         </p>
-        <p className="text-white/70 text-[11px] md:text-sm font-light tracking-wide">
+        <p className="text-white/70 text-[11px] md:text-sm font-light tracking-wide font-body">
           Every detail, crafted for your celebration
         </p>
       </div>
@@ -119,7 +141,7 @@ const Carousel = () => {
       <div className="absolute bottom-10 right-6 md:bottom-12 md:right-12 z-30 flex items-center gap-4">
 
         {/* Slide counter */}
-        <span className="text-[10px] tracking-[2px] text-white/40 tabular-nums hidden md:block">
+        <span className="text-[10px] tracking-[2px] text-white/40 tabular-nums hidden md:block font-body">
           {String(current + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
         </span>
 

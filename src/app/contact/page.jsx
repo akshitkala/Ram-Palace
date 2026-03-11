@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Footer from "@/components/Footer";
 
 const backgroundImages = [
   "/images/hall3.webp",
-  "/images/hero/bg.webp",
-  "/images/hero/palace.webp"
+  "/images/hero/hero.png",
+  "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg"
 ];
 
 export default function ContactPage() {
@@ -69,9 +70,11 @@ export default function ContactPage() {
             index === currentSlide ? 'opacity-100 z-0' : 'opacity-0 z-0'
           }`}
         >
-          <img
+          <Image
             src={img}
             alt={`Luxury Background ${index + 1}`}
+            fill
+            sizes="100vw"
             className={`w-full h-full object-cover transition-transform duration-[7000ms] ease-out ${
               index === currentSlide ? 'scale-110' : 'scale-100'
             }`}
@@ -87,7 +90,7 @@ export default function ContactPage() {
         
         {/* Page Header - Moved Outside */}
         <div className="text-center mb-12 animate-fade-in-up">
-          <p className="font-body text-[#C6A75E] text-sm md:text-base tracking-[0.2em] uppercase mb-4 font-semibold">
+          <p className="font-body text-[#C9A84C] text-sm md:text-base tracking-[0.2em] uppercase mb-4 font-semibold">
             Contact Us
           </p>
           <h1 className="font-heading text-4xl md:text-6xl text-white mb-4">
@@ -114,7 +117,7 @@ export default function ContactPage() {
                 value={formData.name}
                 onChange={handleChange}
                 required 
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C6A75E]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 backdrop-blur-sm"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 backdrop-blur-sm"
                 placeholder="Ex. John Doe"
               />
             </div>
@@ -129,7 +132,7 @@ export default function ContactPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required 
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C6A75E]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 backdrop-blur-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 backdrop-blur-sm"
                   placeholder="john@example.com"
                 />
               </div>
@@ -141,7 +144,7 @@ export default function ContactPage() {
                   value={formData.phone}
                   onChange={handleChange}
                   required 
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C6A75E]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 backdrop-blur-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 backdrop-blur-sm"
                   placeholder="+91 98765 43210"
                 />
               </div>
@@ -156,7 +159,7 @@ export default function ContactPage() {
                     name="eventType"
                     value={formData.eventType}
                     onChange={handleChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#C6A75E]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 appearance-none cursor-pointer backdrop-blur-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 appearance-none cursor-pointer backdrop-blur-sm"
                     defaultValue=""
                     required
                   >
@@ -178,7 +181,7 @@ export default function ContactPage() {
                   name="guestCount"
                   value={formData.guestCount}
                   onChange={handleChange}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C6A75E]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 backdrop-blur-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 backdrop-blur-sm"
                   placeholder="Ex. 200"
                 />
               </div>
@@ -193,7 +196,7 @@ export default function ContactPage() {
                 value={formData.eventDate}
                 onChange={handleChange}
                 required 
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C6A75E]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 calendar-white backdrop-blur-sm"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 calendar-white backdrop-blur-sm"
               />
             </div>
 
@@ -205,7 +208,7 @@ export default function ContactPage() {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C6A75E]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 resize-none backdrop-blur-sm"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#C9A84C]/50 focus:bg-white/10 focus:shadow-[0_0_15px_rgba(198,167,94,0.1)] transition-all duration-300 resize-none backdrop-blur-sm"
                 placeholder="Tell us more about your vision..."
               ></textarea>
             </div>
@@ -215,10 +218,10 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={status === "loading" || status === "success"}
-                className={`w-full bg-gradient-to-r from-[#C6A75E] to-[#B08D55] 
+                className={`w-full bg-gradient-to-r from-[#C9A84C] to-[#B08D55] 
                   text-[#2B1E14] font-bold uppercase tracking-[0.15em] 
                   py-5 rounded-xl shadow-lg 
-                  hover:shadow-[#C6A75E]/30 hover:scale-[1.01] 
+                  hover:shadow-[#C9A84C]/30 hover:scale-[1.01] 
                   transition-all duration-300
                   disabled:opacity-60 disabled:cursor-not-allowed 
                   disabled:hover:scale-100`}
@@ -231,9 +234,9 @@ export default function ContactPage() {
               </button>
 
               {status === "success" && (
-                <div className={`mt-4 p-4 border border-[#C6A75E]/30 
-                  bg-[#C6A75E]/5 text-center`}>
-                  <p className="text-[#C6A75E] text-sm font-medium">
+                <div className={`mt-4 p-4 border border-[#C9A84C]/30 
+                  bg-[#C9A84C]/5 text-center`}>
+                  <p className="text-[#C9A84C] text-sm font-medium">
                     Thank you! We&apos;ll be in touch within 24 hours.
                   </p>
                   <p className="text-white/40 text-xs mt-1">

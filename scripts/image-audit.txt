@@ -1,37 +1,34 @@
 =====================================================
        RAM PALACE — IMAGE AUDIT REPORT
-       Generated: 2026-03-09T09:23:13.985Z
+       Generated: 2026-03-11T12:54:32.859Z
 =====================================================
 
 📁 CATEGORY BREAKDOWN
 -----------------------------------------------------
 Category              | Count | Total Size | Status
 -----------------------------------------------------
-Hero                  | 5     | 6.1 MB     | local (static)
-Carousel              | 4     | 0.8 MB     | local (static)
-Spaces                | 4     | 0.8 MB     | local (static)
-Root Images           | 2     | 0.4 MB     | local (static)
 Gallery               | 17    | 3.0 MB     | 17 moved
-Events / Weddings     | 4     | 1.1 MB     | 4 moved
 Events / Corporate    | 4     | 0.7 MB     | 4 moved
-Events / Private      | 4     | 1.1 MB     | 4 moved
+Hero                  | 1     | 2.8 MB     | local (static)
+Carousel              | 4     | 0.8 MB     | local (static)
+Root Images           | 1     | 0.0 MB     | local (static)
 Branding              | 1     | 0.0 MB     | local (static)
 -----------------------------------------------------
-TOTAL                 |  45   |  14.2 MB   |
+TOTAL                 |  28   |  7.4 MB   |
 =====================================================
 
 📦 SEEDING STATUS
 -----------------------------------------------------
-✓ Moved to Cloudinary  : 29 images
-⚠ Still local (static) : 16 images
+✓ Moved to Cloudinary  : 21 images
+⚠ Still local (static) : 7 images
 ✗ Failed / Not moved   : 0 images
 =====================================================
 
 🔍 USAGE IN CODE
 -----------------------------------------------------
-Total image references found in src/  : 55
+Total image references found in src/  : 89
   ├── Cloudinary URLs                 : 0
-  └── Local paths (/images/...)       : 55
+  └── Local paths (/images/...)       : 89
 
 Unreferenced images (in folder but    : 0
 not used anywhere in code)
@@ -39,54 +36,7 @@ not used anywhere in code)
 
 ⚠ WARNINGS
 -----------------------------------------------------
-- Broken image reference in src/app/gallery/page.jsx -> /images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/ibrahim-boran-m8YjB0noWiY-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/michu-dang-quang-unItqGJIlRY-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/corporate/quan-nguyen-yDSe7sggb9Q-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/corporate/al-elmes-ULHxWq8reao-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/corporate/antenna-ZDN-G1xBWHY-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/privateParties/wang-binghua-1ZykZAj15Fw-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/privateParties/wang-binghua-1ZykZAj15Fw-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/privateParties/andrei-marinho-aLoz5hfGJOg-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/privateParties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/privateParties/raju-kumar-93BQ5bUsD-E-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/ibrahim-boran-m8YjB0noWiY-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/michu-dang-quang-unItqGJIlRY-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/Wedding/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/corporate/al-elmes-ULHxWq8reao-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/corporate/antenna-ZDN-G1xBWHY-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/corporate/jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/privateParties/andrei-marinho-aLoz5hfGJOg-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/privateParties/enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg
-- Broken image reference in src/Data/events.js -> /images/Events/privateParties/raju-kumar-93BQ5bUsD-E-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/junior-reis-xMDo8y776uE-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/drew-coffman-llWjwo200fo-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/cody-chan-7jgtAhJkjwk-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/samantha-gades-x40Q9jrEVT0-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/leonardo-miranda-riHGdvluDk8-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/amish-thakkar-7O422yG_b80-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/nathan-dumlao-5BB_atDT4oA-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/danie-franco-7XqL_DVuBMw-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/photos-by-lanty-O38Id_cyV4M-unsplash.jpg
-- Broken image reference in src/Data/gallery.js -> /images/gallery/evelina-friman-hw_sKmjb0ns-unsplash.jpg
-- Duplicate filename across categories: carousel1.webp appears 2 times.
-- Duplicate filename across categories: carousel2.webp appears 2 times.
-- Duplicate filename across categories: carousel3.webp appears 2 times.
-- Duplicate filename across categories: carousel4.webp appears 2 times.
+- Broken image reference in src/app/Menu/page.jsx -> /images/catering/hero.jpg
 =====================================================
 
 📋 FULL FILE LIST
@@ -107,18 +57,6 @@ not used anywhere in code)
   jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg 0.2 MB      ✓ moved
   quan-nguyen-yDSe7sggb9Q-unsplash.jpg 0.2 MB      ✓ moved
 
-[EVENTS / PRIVATE — 4 images — moved to Cloudinary]
-  andrei-marinho-aLoz5hfGJOg-unsplash.jpg 0.2 MB      ✓ moved
-  enmanuel-betances-santos-Xxe37tN-Rcs-unsplash.jpg 0.3 MB      ✓ moved
-  raju-kumar-93BQ5bUsD-E-unsplash.jpg 0.2 MB      ✓ moved
-  wang-binghua-1ZykZAj15Fw-unsplash.jpg 0.4 MB      ✓ moved
-
-[EVENTS / WEDDINGS — 4 images — moved to Cloudinary]
-  ibrahim-boran-m8YjB0noWiY-unsplash.jpg 0.3 MB      ✓ moved
-  jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg 0.3 MB      ✓ moved
-  michu-dang-quang-unItqGJIlRY-unsplash.jpg 0.3 MB      ✓ moved
-  vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg 0.3 MB      ✓ moved
-
 [GALLERY — 17 images — moved to Cloudinary]
   amish-thakkar-1rLF6hxmm7M-unsplash.jpg 0.3 MB      ✓ moved
   amish-thakkar-7O422yG_b80-unsplash.jpg 0.2 MB      ✓ moved
@@ -138,20 +76,9 @@ not used anywhere in code)
   samantha-gades-x40Q9jrEVT0-unsplash.jpg 0.1 MB      ✓ moved
   vadim-paripa-PuXtB1B4zL8-unsplash.jpg 0.2 MB      ✓ moved
 
-[HERO — 5 images — local/static]
-  bg.webp              0.1 MB      local
-  day.webp             0.2 MB      local
-  day_hero_background.png 2.7 MB      local
-  night_hero_background.png 2.8 MB      local
-  palace.webp          0.3 MB      local
+[HERO — 1 images — local/static]
+  hero.png             2.8 MB      local
 
-[ROOT IMAGES — 2 images — local/static]
-  hall3.webp           0.1 MB      local
-  logo.png             0.3 MB      local
-
-[SPACES — 4 images — local/static]
-  carousel1.webp       0.2 MB      local
-  carousel2.webp       0.4 MB      local
-  carousel3.webp       0.1 MB      local
-  carousel4.webp       0.1 MB      local
+[ROOT IMAGES — 1 images — local/static]
+  hall3.webp           0.0 MB      local
 =====================================================

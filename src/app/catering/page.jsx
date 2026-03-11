@@ -4,6 +4,7 @@ import { useRef, useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import Image from "next/image";
 import Footer from "@/components/Footer";
 import {
   cateringHero,
@@ -144,9 +145,11 @@ export default function CateringPage() {
       {/* ═══ 1. HERO ═══ */}
       <section className="hero-section relative h-screen min-h-[680px] flex items-center justify-center overflow-hidden">
         <div className="hero-bg absolute inset-0 z-0">
-          <img
+          <Image
             src={cateringHero.image}
             alt="Luxury catering setup"
+            fill
+            sizes="100vw"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/75" />
@@ -255,11 +258,14 @@ export default function CateringPage() {
 
           <div className="reveal relative">
             <div className="rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.18)]">
-              <img
+              <Image
                 src={culinaryPhilosophy.image}
                 alt="Culinary excellence"
+                width={1200}
+                height={800}
+                quality={70}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="w-full h-[480px] md:h-[580px] object-cover"
-                loading="lazy"
               />
             </div>
             <div className="absolute -bottom-7 -left-7 w-36 h-36 border border-[#C9A96E]/20 rounded-2xl -z-10" />
@@ -299,11 +305,13 @@ export default function CateringPage() {
                 <div className="h-full bg-[#FAF7F2] rounded-2xl overflow-hidden border border-[#EDE5D8] transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:border-[#C9A96E]/30">
                   {/* Card Image */}
                   <div className="relative h-60 overflow-hidden">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
+                      fill
+                      quality={70}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                     <div className="absolute bottom-4 left-5 flex items-center gap-3">
@@ -439,10 +447,13 @@ export default function CateringPage() {
                 className="gallery-item opacity-0 translate-y-10 break-inside-avoid relative group
                            rounded-xl overflow-hidden shadow-sm cursor-pointer"
               >
-                <img
+                <Image
                   src={img.image}
                   alt={img.alt}
-                  loading="lazy"
+                  width={800}
+                  height={600}
+                  quality={70}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div

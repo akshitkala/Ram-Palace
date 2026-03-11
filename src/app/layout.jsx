@@ -1,47 +1,28 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import LocomotiveScroll from "locomotive-scroll";
-import { usePathname } from "next/navigation";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Navbar from "@/components/Navbar";
+import RootLayoutClient from "@/components/RootLayoutClient";
+import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 import "./globals.css";
 
-gsap.registerPlugin(ScrollTrigger);
+export const metadata = {
+  title: "Basti Ram Palace — Premier Wedding & Events Venue in Basti, UP",
+  description: "Basti Ram Palace is Basti's finest banquet and events venue. Grand halls, luxury décor, and world-class catering by GD Foods India for weddings, corporate events, and private celebrations.",
+};
 
 export default function RootLayout({ children }) {
-  const scrollRef = useRef(null);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    const locomotiveScroll = new LocomotiveScroll();
-    
-    // Ensure GSAP ScrollTrigger is aware of the new scroll container's layout
-    setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
-
-    return () => {
-      if (locomotiveScroll) {
-        locomotiveScroll.destroy();
-      }
-    };
-  }, [pathname]);
-
   return (
     <html lang="en">
       <head>
-        <title>Basti Ram Palace</title>
-        <meta name="description" content="A premium banquet hall for weddings, birthday parties, corporate events, and private celebrations in Basti, Uttar Pradesh." />
         <link rel="icon" type="image/png" href="/images/branding/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
-        <div data-scroll-container ref={scrollRef} className="overflow-x-hidden">
-          <Navbar />
-          {children}
-        </div>
+        <RootLayoutClient>
+          <ClientLayoutWrapper>
+            {children}
+          </ClientLayoutWrapper>
+        </RootLayoutClient>
       </body>
     </html>
   );

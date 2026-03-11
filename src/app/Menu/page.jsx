@@ -4,6 +4,7 @@ import { useRef, useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import Image from "next/image";
 import Footer from "@/components/Footer";
 import { menuCategories } from "@/Data/menu";
 
@@ -13,16 +14,16 @@ gsap.registerPlugin(ScrollTrigger);
    Each category gets a hero image + number
 ───────────────────────────────────────────────────────── */
 const CAT_META = {
-  beverages:       { img: "/images/catering/beverages.jpg",  tint: "from-amber-950/80",   num: "01" },
-  "soups-salads":  { img: "/images/catering/salads.jpg",     tint: "from-green-950/80",   num: "02" },
-  fruits:          { img: "/images/catering/fruits.jpg",     tint: "from-rose-950/70",    num: "03" },
-  "savoury-house": { img: "/images/catering/chaat.jpg",      tint: "from-orange-950/80",  num: "04" },
-  snacks:          { img: "/images/catering/starters.jpg",   tint: "from-stone-950/80",   num: "05" },
-  "live-stations": { img: "/images/catering/live.jpg",       tint: "from-zinc-950/75",    num: "06" },
-  "indian-mains":  { img: "/images/catering/mains.jpg",      tint: "from-red-950/80",     num: "07" },
-  "breads-rice":   { img: "/images/catering/breads.jpg",     tint: "from-yellow-950/80",  num: "08" },
-  desserts:        { img: "/images/catering/desserts.jpg",   tint: "from-pink-950/75",    num: "09" },
-  "pheron-service":{ img: "/images/catering/welcome.jpg",    tint: "from-indigo-950/80",  num: "10" },
+  beverages:       { img: "/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.jpg", tint: "from-amber-950/80",   num: "01" },
+  "soups-salads":  { img: "/images/gallery/danie-franco-7XqL_DVuBMw-unsplash.jpg", tint: "from-green-950/80",   num: "02" },
+  fruits:          { img: "/images/gallery/junior-reis-xMDo8y776uE-unsplash.jpg",  tint: "from-rose-950/70",    num: "03" },
+  "savoury-house": { img: "/images/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg", tint: "from-orange-950/80",  num: "04" },
+  snacks:          { img: "/images/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.jpg", tint: "from-stone-950/80",   num: "05" },
+  "live-stations": { img: "/images/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg", tint: "from-zinc-950/75",    num: "06" },
+  "indian-mains":  { img: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg",  tint: "from-red-950/80",     num: "07" },
+  "breads-rice":   { img: "/images/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg", tint: "from-yellow-950/80",  num: "08" },
+  desserts:        { img: "/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg", tint: "from-pink-950/75",    num: "09" },
+  "pheron-service":{ img: "/images/gallery/samantha-gades-x40Q9jrEVT0-unsplash.jpg", tint: "from-indigo-950/80",  num: "10" },
 };
 
 /* ─────────────────────────────────────────────────────────
@@ -138,9 +139,13 @@ const CategoryHero = ({ cat, meta, index }) => {
 
   return (
     <div ref={ref} className="relative h-[44vh] min-h-[300px] overflow-hidden">
-      <img src={meta.img} alt={cat.label}
+      <Image
+        src={meta.img}
+        alt={cat.label}
+        fill
+        quality={70}
+        sizes="100vw"
         className="cbg absolute inset-0 w-full h-[115%] object-cover -top-[7.5%]"
-        loading="lazy"
       />
       {/* Dark gradient overlays */}
       <div className={`absolute inset-0 bg-gradient-to-t ${meta.tint} via-black/50 to-black/5`} />
@@ -192,7 +197,7 @@ const CategoryHero = ({ cat, meta, index }) => {
    Full category block
 ───────────────────────────────────────────────────── */
 const CategoryBlock = ({ cat, index }) => {
-  const meta = CAT_META[cat.id] || { img: "/images/catering/hero.jpg", tint: "from-stone-950/80", num: `0${index+1}` };
+  const meta = CAT_META[cat.id] || { img: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg", tint: "from-stone-950/80", num: `0${index+1}` };
   const cols = cat.subcategories.length === 1 ? "max-w-2xl mx-auto"
              : cat.subcategories.length === 2 ? "grid md:grid-cols-2"
              : "grid md:grid-cols-2 lg:grid-cols-3";
@@ -328,12 +333,19 @@ export default function MenuPage() {
 
       {/* ════════════════════════ HERO ════════════════════════ */}
       <section className="mh-section relative min-h-screen flex flex-col justify-end overflow-hidden bg-[#1A0D08]">
-        <div className="mh-bg absolute inset-0 z-0 scale-110">
-          <img src="/images/catering/hero.jpg" alt="" className="w-full h-full object-cover" />
+        <div className="mh-bg absolute inset-0 z-0 ">
+          <Image
+            src="/images/hero/Menu.png"
+            alt=""
+            fill
+            sizes="100vw"
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-[#1A0D08]" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1A0D08]/55 via-transparent to-transparent" />
         </div>
         {/* Grain */}
+        {/* TODO: migrate to <Image fill> for optimization */}
         <div className="absolute inset-0 opacity-[0.035] pointer-events-none"
           style={{ backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize:"180px" }}
         />

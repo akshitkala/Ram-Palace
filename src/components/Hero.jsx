@@ -3,6 +3,7 @@
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import Link from "next/link";
+import Image from "next/image";
 
 const Hero = () => {
   const contentRef = useRef(null);
@@ -48,10 +49,14 @@ const Hero = () => {
       <div data-scroll data-scroll-speed="-0.3" className="absolute inset-0">
 
         {/* ── BACKGROUND IMAGE ── */}
-        <img
+        <Image
           ref={bgRef}
           src="/images/hero/hero.png"
           alt="Basti Ram Palace"
+          fill
+          priority
+          quality={85}
+          sizes="100vw"
           className="absolute inset-0 w-full h-full object-cover will-change-transform"
           style={{ objectPosition: "center 35%" }}
         />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 // ── EVENT CARD STATIC DATA ───────────────────────────────────────────
 // Images fetched from Cloudinary. Only copy + links hardcoded here.
@@ -61,17 +62,18 @@ const EventCard = ({ config, images, loading }) => {
         )}
 
         {!loading && images && images.map((img, i) => (
-          <img
+          <Image
             key={img.public_id || i}
             src={img.secure_url}
             alt={`${config.title} at Basti Ram Palace`}
+            fill
+            quality={70}
+            sizes="(max-width: 768px) 100vw, 25vw"
             className={`
               absolute inset-0 w-full h-full object-cover
               transition-opacity duration-1000
               ${i === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"}
             `}
-            loading={i === 0 ? "eager" : "lazy"}
-            decoding="async"
           />
         ))}
 

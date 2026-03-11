@@ -98,6 +98,7 @@ export default function ConfirmDialog({
                               src={img.secure_url} 
                               alt="thumbnail preview" 
                               fill 
+                              quality={70}
                               className="object-cover"
                               sizes="100px"
                             />

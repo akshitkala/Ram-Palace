@@ -5,6 +5,7 @@ import Link from "next/link";
 import Footer from "./Footer";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,9 +118,11 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
       <section className="hero-section relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden">
         {/* BG */}
         <div className="hero-bg absolute inset-0 z-0">
-          <img
+          <Image
             src={hero.image}
             alt={hero.title}
+            fill
+            sizes="100vw"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
@@ -198,9 +201,12 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
                 className={`s-visual relative h-[55vw] max-h-[640px] lg:h-auto overflow-hidden
                              ${isImageLeft ? "lg:order-1" : "lg:order-2"}`}
               >
-                <img
+                <Image
                   src={section.image}
                   alt={section.title}
+                  fill
+                  quality={70}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="w-full h-full object-cover transition-transform duration-[1200ms] hover:scale-105"
                 />
                 {/* Number watermark */}

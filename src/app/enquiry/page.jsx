@@ -14,8 +14,8 @@ export default function EnquiryPage() {
     message: ""
   });
 
-  const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,74 +23,31 @@ export default function EnquiryPage() {
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ""
-      }));
-    }
   };
 
-  const validate = () => {
-    const newErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) {
-      newErrors.phone = "Please enter a valid 10-digit phone number";
-    }
-
-    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
-
-    if (!formData.eventType) {
-      newErrors.eventType = "Please select an event type";
-    }
-
-    if (!formData.eventDate) {
-      newErrors.eventDate = "Event date is required";
-    }
-
-    if (!formData.guestCount.trim()) {
-      newErrors.guestCount = "Guest count is required";
-    } else if (isNaN(formData.guestCount) || parseInt(formData.guestCount) < 1) {
-      newErrors.guestCount = "Please enter a valid number of guests";
-    }
-
-    return newErrors;
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const newErrors = validate();
-    
-    if (Object.keys(newErrors).length === 0) {
-      // Form is valid
-      console.log("Form submitted:", formData);
-      setSubmitted(true);
-      
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setFormData({
-          name: "",
-          phone: "",
-          email: "",
-          eventType: "",
-          eventDate: "",
-          guestCount: "",
-          message: ""
-        });
-        setSubmitted(false);
-      }, 3000);
-    } else {
-      setErrors(newErrors);
+    setStatus("loading");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      setStatus("success");
+      setFormData({
+        name: "", email: "", phone: "",
+        eventType: "", guestCount: "",
+        eventDate: "", message: "",
+      });
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -109,7 +66,7 @@ export default function EnquiryPage() {
       {/* Form Section */}
       <section className="px-6 py-16 md:py-24">
         <div className="max-w-2xl mx-auto">
-          {submitted ? (
+          {status === "success" ? (
             <div className="bg-white p-8 rounded-lg shadow-lg text-center">
               <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,8 +74,11 @@ export default function EnquiryPage() {
                 </svg>
               </div>
               <h2 className="font-heading text-2xl md:text-3xl mb-2">Thank You!</h2>
-              <p className="text-lg text-[#555]">
-                We&apos;ve received your enquiry and will get back to you shortly.
+              <p className="text-[#C9A84C] text-sm font-medium">
+                Thank you! We&apos;ll be in touch within 24 hours.
+              </p>
+              <p className="text-gray-500 text-xs mt-1">
+                A confirmation has been sent to your email.
               </p>
             </div>
           ) : (
@@ -134,10 +94,10 @@ export default function EnquiryPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]`}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]"
                   placeholder="Your full name"
                 />
-                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+
               </div>
 
               {/* Phone */}
@@ -151,10 +111,10 @@ export default function EnquiryPage() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]`}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]"
                   placeholder="Your phone number"
                 />
-                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+
               </div>
 
               {/* Email */}
@@ -168,10 +128,10 @@ export default function EnquiryPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]`}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]"
                   placeholder="your.email@example.com"
                 />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+
               </div>
 
               {/* Event Type */}
@@ -184,7 +144,7 @@ export default function EnquiryPage() {
                   name="eventType"
                   value={formData.eventType}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border ${errors.eventType ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]`}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]"
                 >
                   <option value="">Select event type</option>
                   <option value="wedding">Wedding &amp; Reception</option>
@@ -193,7 +153,7 @@ export default function EnquiryPage() {
                   <option value="anniversary">Anniversary</option>
                   <option value="other">Other</option>
                 </select>
-                {errors.eventType && <p className="text-red-500 text-sm mt-1">{errors.eventType}</p>}
+
               </div>
 
               {/* Event Date */}
@@ -208,9 +168,9 @@ export default function EnquiryPage() {
                   value={formData.eventDate}
                   onChange={handleChange}
                   min={new Date().toISOString().split('T')[0]}
-                  className={`w-full px-4 py-3 border ${errors.eventDate ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]`}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]"
                 />
-                {errors.eventDate && <p className="text-red-500 text-sm mt-1">{errors.eventDate}</p>}
+
               </div>
 
               {/* Guest Count */}
@@ -224,11 +184,11 @@ export default function EnquiryPage() {
                   name="guestCount"
                   value={formData.guestCount}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border ${errors.guestCount ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]`}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A99686]"
                   placeholder="Number of guests"
                   min="1"
                 />
-                {errors.guestCount && <p className="text-red-500 text-sm mt-1">{errors.guestCount}</p>}
+
               </div>
 
               {/* Message */}
@@ -250,10 +210,23 @@ export default function EnquiryPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-[#A99686] text-white px-8 py-4 rounded-md text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-105 hover:shadow-lg"
+                disabled={status === "loading" || status === "success"}
+                className="w-full bg-[#A99686] text-white px-8 py-4 rounded-md text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-105 hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                Submit Enquiry
+                {status === "loading"
+                  ? "Sending..."
+                  : status === "success"
+                  ? "✓ Enquiry Sent!"
+                  : "Request a Proposal"}
               </button>
+
+              {status === "error" && (
+                <div className="mt-4 p-4 border border-red-500/20 bg-red-500/5 text-center">
+                  <p className="text-red-400 text-sm">
+                    {errorMsg}
+                  </p>
+                </div>
+              )}
             </form>
           )}
         </div>

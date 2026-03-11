@@ -4,6 +4,7 @@ import { useRef, useLayoutEffect } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -232,12 +233,14 @@ const CateringFeature = () => {
           {/* ── RIGHT: IMAGE ── */}
           <div className="cf-img-wrap relative hidden lg:block">
 
-            <div className="relative overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(43,24,16,0.15)]">
-              <img
-                src="/images/cateringHome.jpg"
+            <div className="relative overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(43,24,16,0.15)] h-[560px]">
+              <Image
+                src="/images/hero/Menu.png"
                 alt="GD Foods India catering spread"
-                className="w-full h-[560px] object-cover"
-                loading="lazy"
+                fill
+                quality={70}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2B1810]/15 via-transparent to-transparent pointer-events-none" />
             </div>

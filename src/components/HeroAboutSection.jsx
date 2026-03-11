@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,11 +66,14 @@ const HeroAboutSection = () => {
           <div className="relative order-1">
             <div ref={imageRef} className="relative">
 
-              <div className="relative overflow-hidden">
-                <img
-                  src="/images/hall3.webp"
+              <div className="relative overflow-hidden w-full h-[260px] sm:h-[340px] md:h-[460px] lg:h-[580px]">
+                <Image
+                  src="/images/venue/heroAbout.png"
                   alt="Basti Ram Palace Interior"
-                  className="w-full h-[260px] sm:h-[340px] md:h-[460px] lg:h-[580px] object-cover"
+                  fill
+                  quality={70}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
               </div>

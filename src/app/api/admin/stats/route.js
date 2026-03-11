@@ -11,22 +11,27 @@ export async function GET() {
       parties,
     ] = await Promise.all([
       cloudinary.api.resources({
+        type: 'upload',
         prefix: 'ram-palace/gallery',
         max_results: 500,
       }),
       cloudinary.api.resources({
+        type: 'upload',
         prefix: 'ram-palace/carousel',
         max_results: 10,
       }),
       cloudinary.api.resources({
+        type: 'upload',
         prefix: 'ram-palace/events/weddings',
         max_results: 500,
       }),
       cloudinary.api.resources({
+        type: 'upload',
         prefix: 'ram-palace/events/corporate',
         max_results: 500,
       }),
       cloudinary.api.resources({
+        type: 'upload',
         prefix: 'ram-palace/events/private-parties',
         max_results: 500,
       }),
@@ -80,9 +85,9 @@ export async function GET() {
         max: 8,
       },
       events: {
-        weddings: { count: weddingsCount },
-        corporate: { count: corporateCount },
-        privateParties: { count: partiesCount },
+        weddings: weddingsCount,
+        corporate: corporateCount,
+        "private-parties": partiesCount,
         total: eventsTotal,
       },
       totalImages,
