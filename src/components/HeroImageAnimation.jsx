@@ -4,8 +4,8 @@ import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import Image from "next/image";
 
-const bg = "/images/hero/hero.png";
-const palace = "/images/hero/hero.png";
+const bg = "/images/hero/hero.webp";
+const palace = "/images/hero/hero.webp";
 
 const HeroImageAnimation = () => {
   const containerRef = useRef(null);

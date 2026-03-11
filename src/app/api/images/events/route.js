@@ -30,11 +30,17 @@ export async function GET(request) {
       secure_url: img.secure_url,
       width: img.width,
       height: img.height,
-      created_at: img.created_at,
       bytes: img.bytes,
     }));
 
-    return NextResponse.json({ images, category });
+    return NextResponse.json(
+      { images, category },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      }
+    );
   } catch (error) {
     console.error('Cloudinary events GET error:', error);
     return NextResponse.json(

@@ -1,8 +1,8 @@
 "use client";
 
 import { IconArrowLeft, IconArrowRight, IconStarFilled, IconStar } from "@tabler/icons-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useCallback } from "react";
+import gsap from "gsap";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 const AUTOPLAY_INTERVAL = 5500;
 
@@ -10,6 +10,7 @@ const Testimonial = ({ testimonials, autoplay = true, className = "" }) => {
   const [active, setActive]     = useState(0);
   const [paused, setPaused]     = useState(false);
   const [direction, setDirection] = useState(1);
+  const contentRef = useRef(null);
 
   const goTo = useCallback((index, dir = 1) => {
     setDirection(dir);
@@ -29,6 +30,16 @@ const Testimonial = ({ testimonials, autoplay = true, className = "" }) => {
     const t = setInterval(handleNext, AUTOPLAY_INTERVAL);
     return () => clearInterval(t);
   }, [autoplay, paused, handleNext]);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: direction > 0 ? 15 : -15 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+      );
+    }
+  }, [active, direction]);
 
   const current = testimonials[active];
 
@@ -68,54 +79,36 @@ const Testimonial = ({ testimonials, autoplay = true, className = "" }) => {
         </span>
 
         {/* Animated content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, y: direction > 0 ? 24 : -24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{   opacity: 0, y: direction > 0 ? -24 : 24 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-          >
-            {/* Stars */}
-            <div className="flex gap-1 mb-6">
-              {[...Array(5)].map((_, i) =>
-                i < current.rating
-                  ? <IconStarFilled key={i} size={18} className="text-[#C9A84C]" />
-                  : <IconStar       key={i} size={18} className="text-[#D5C9B8]" />
-              )}
-            </div>
+        <div ref={contentRef}>
+          {/* Stars */}
+          <div className="flex gap-1 mb-6">
+            {[...Array(5)].map((_, i) =>
+              i < current.rating
+                ? <IconStarFilled key={i} size={18} className="text-[#C9A84C]" />
+                : <IconStar       key={i} size={18} className="text-[#D5C9B8]" />
+            )}
+          </div>
 
-            {/* Quote */}
-            <blockquote className="mb-8">
-              <p className="font-body text-[#4A3728] text-lg md:text-xl leading-relaxed">
-                {current.quote.split(" ").map((word, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, delay: 0.015 * i }}
-                    className="inline-block mr-1"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
+          {/* Quote */}
+          <blockquote className="mb-8">
+            <p className="font-body text-[#4A3728] text-lg md:text-xl leading-relaxed">
+              {current.quote}
+            </p>
+          </blockquote>
+
+          {/* Name + designation */}
+          <div className="flex items-center gap-4">
+            <span className="w-8 h-px bg-[#C9A84C]/50" />
+            <div>
+              <p className="font-heading text-xl text-[#2B1810] leading-none mb-1">
+                {current.name}
               </p>
-            </blockquote>
-
-            {/* Name + designation */}
-            <div className="flex items-center gap-4">
-              <span className="w-8 h-px bg-[#C9A84C]/50" />
-              <div>
-                <p className="font-heading text-xl text-[#2B1810] leading-none mb-1">
-                  {current.name}
-                </p>
-                <p className="font-body text-[#8B7A6A] text-xs tracking-wide">
-                  {current.designation}
-                </p>
-              </div>
+              <p className="font-body text-[#8B7A6A] text-xs tracking-wide">
+                {current.designation}
+              </p>
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
 
         {/* Controls */}
         <div className="flex items-center justify-between mt-10 pt-8 border-t border-[#EDE5D8]">

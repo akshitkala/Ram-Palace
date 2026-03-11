@@ -8,11 +8,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
+import NavLinks from "./NavLinks";
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
-  const logoRef = useRef(null);
-  const dropdownRef = useRef(null);
   const navRef = useRef(null);
   const menuRef = useRef(null);
   const linksRef = useRef([]);
@@ -28,14 +28,14 @@ const Navbar = () => {
           if (self.isActive) {
             gsap.to(navRef.current, { 
               backgroundColor: 'rgba(28,28,30,0.95)',
-              backdropFilter: 'blur(20px)',
+              backdropFilter: 'blur(8px)', // Reduced from 20px as per FIX 11
               duration: 0.4,
               overwrite: 'auto'
             });
           } else {
             gsap.to(navRef.current, { 
               backgroundColor: 'rgba(0,0,0,0.40)',
-              backdropFilter: 'blur(12px)',
+              backdropFilter: 'blur(8px)', // Consistent with FIX 11
               duration: 0.4,
               overwrite: 'auto'
             });
@@ -55,11 +55,11 @@ const Navbar = () => {
         }
       });
 
-      // 3. Logo Scaling
+      // 3. Logo Scaling (using class selector)
       ScrollTrigger.create({
         start: "top -50",
         onUpdate: (self) => {
-          gsap.to(logoRef.current, { 
+          gsap.to(".nav-logo", { 
             scale: self.isActive ? 0.8 : 1, 
             duration: 0.4, 
             ease: "power2.out",
@@ -70,20 +70,6 @@ const Navbar = () => {
     });
 
     return () => ctx.revert();
-  }, []);
-
-  // 🔹 DROPDOWN ANIMATION
-  const handleDropdownEnter = () => {
-    gsap.to(dropdownRef.current, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" });
-  };
-  
-  const handleDropdownLeave = () => {
-    gsap.to(dropdownRef.current, { autoAlpha: 0, y: 10, duration: 0.2, ease: "power2.in" });
-  };
-
-  // Initial set for dropdown
-  useEffect(() => {
-     gsap.set(dropdownRef.current, { autoAlpha: 0, y: 10 });
   }, []);
 
   // 🔹 MOBILE MENU TIMELINE (OPEN + CLOSE)
@@ -118,125 +104,10 @@ const Navbar = () => {
       {/* NAVBAR */}
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 w-full z-50 text-white bg-black/40 backdrop-blur-md border-b border-white/10 shadow-lg"
+        className="fixed top-0 left-0 w-full z-50 text-white bg-black/40 backdrop-blur-sm border-b border-white/10 shadow-lg"
       >
         <div className="flex items-center justify-between px-4 py-4 lg:px-10">
-          <Link 
-            href="/" 
-            ref={logoRef}
-            className="text-2xl md:text-3xl font-serif font-bold text-[#C9A84C] tracking-wider whitespace-nowrap origin-left will-change-transform"
-          >
-            Basti Ram Palace
-          </Link>
-
-            <ul className="hidden lg:flex gap-8 items-center">
-              <li>
-                <Link 
-                  href="/" 
-                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
-                >
-                  Home
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              
-              {/* Events Dropdown */}
-              <li 
-                className="relative group h-full"
-                onMouseEnter={handleDropdownEnter}
-                onMouseLeave={handleDropdownLeave}
-              >
-                <button className="relative text-white transition-all duration-300 hover:text-[#C9A84C] flex items-center gap-1 py-4">
-                  Events
-                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
-                </button>
-                
-                {/* Dropdown Menu */}
-                <div 
-                  ref={dropdownRef}
-                  className="absolute top-full left-0 mt-0 w-56 bg-white rounded-md shadow-lg overflow-hidden will-change-transform"
-                >
-                  <div className="py-2">
-                    <Link
-                      href="/events/weddings"
-                      className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
-                    >
-                      Weddings & Receptions
-                    </Link>
-                    <Link
-                      href="/events/corporate-events"
-                      className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
-                    >
-                      Corporate Events
-                    </Link>
-                    <Link
-                      href="/events/private-parties"
-                      className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
-                    >
-                      Private Parties
-                    </Link>
-                  </div>
-                </div>
-              </li>
-              
-              <li>
-                <Link 
-                  href="/catering" 
-                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
-                >
-                  Catering
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/Menu" 
-                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
-                >
-                  Menu
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/gallery" 
-                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
-                >
-                  Gallery
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/contact" 
-                  className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
-                >
-                  Contact
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-            </ul>
-
-            {/* FIX 4 — RESERVE NOW BUTTON */}
-            <Link 
-              href="/contact" 
-              className="hidden lg:block ml-4"
-            >
-              <button className="
-                bg-[#C9A84C] text-[#1C1C1E]
-                px-6 py-2.5
-                text-xs tracking-[2px] uppercase font-medium
-                transition-all duration-300
-                hover:bg-[#b8963e] 
-                hover:scale-105 
-                hover:shadow-[0_4px_20px_rgba(201,168,76,0.4)]
-              ">
-                Reserve Now
-              </button>
-            </Link>
+          <NavLinks />
 
           <button
             onClick={() => setOpen(!open)}
@@ -262,6 +133,7 @@ const Navbar = () => {
               { label: "Private Parties", path: "/events/private-parties" },
               { label: "Catering", path: "/catering" },
               { label: "Gallery", path: "/gallery" },
+              { label: "Menu", path: "/Menu" },
               { label: "Contact", path: "/contact" }
             ].map((item, i) => (
               <Link

@@ -5,7 +5,7 @@
 
 // ── 1. HERO ──────────────────────────────────────────────────────────────────
 export const cateringHero = {
-  image: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg", 
+  image: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.webp", 
   headline: "Where Flavour Meets Precision",
   description:
     "GD Foods India is a trusted catering partner delivering flavorful, hygienic, and thoughtfully crafted meals for corporate offices, institutions, and special events.",
@@ -15,7 +15,7 @@ export const cateringHero = {
 
 // ── 2. CULINARY PHILOSOPHY ────────────────────────────────────────────────────
 export const culinaryPhilosophy = {
-  image: "/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.jpg", 
+  image: "/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.webp", 
   heading: "Food Crafted with Responsibility",
   tagline: "Every dish prepared with precision. Every event handled with care.",
   description:
@@ -37,7 +37,7 @@ export const culinarySpectrum = [
     id: 1,
     icon: "🥗",
     title: "Starters & Chaat Counter",
-    image: "/images/gallery/danie-franco-7XqL_DVuBMw-unsplash.jpg",
+    image: "/images/gallery/danie-franco-7XqL_DVuBMw-unsplash.webp",
     description:
       "Gol Gappe with three types of water, Dahi Bhalla with Papri, Crispy Aloo Tikki with Chole, Paneer Tikka, Mushroom Tikka, Tandoori Aloo, Hara Bhara Kebab, Veg Seekh Kebab, Cocktail Samosa, Spring Rolls, French Fries, and more — all served with mint chutney and tomato ketchup.",
   },
@@ -45,7 +45,7 @@ export const culinarySpectrum = [
     id: 2,
     icon: "🍛",
     title: "Indian Vegetarian Mains",
-    image: "/images/gallery/junior-reis-xMDo8y776uE-unsplash.jpg",
+    image: "/images/gallery/junior-reis-xMDo8y776uE-unsplash.webp",
     description:
       "Paneer Lababdar, Kadhai Paneer, Dal Makhani, Malai Kofta Nargisi, Mix Vegetable / Navratan Korma, Matar Mushroom, Pindi Chole, Dum Aloo, Palak Corn Paneer, Dal Tadka, Rajma Masala, Sarson ka Saag (seasonal), and more — paired with Jeera Rice, Veg Biryani, and freshly made breads.",
   },
@@ -53,7 +53,7 @@ export const culinarySpectrum = [
     id: 3,
     icon: "🌍",
     title: "Live Multi-Cuisine Counters",
-    image: "/images/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
+    image: "/images/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.webp",
     description:
       "Stone-Fired Pizzeria (thin-crust, Farm House, Veggie Lover's), Italian Live Pasta Bar (Penne / Fusilli / Farfalle in Arrabiatta, Mushroom Creamy or Cheese sauce), Chinese Tadka (Hakka Noodles, Veg Manchurian, Fried Rice), South Indian (Dosa, Idli Sambhar, Medu Vada), Chandni Chowk Special (Bedmi Poori, Sitafal ki Sabji), and Agra ke Paranthe.",
   },
@@ -61,7 +61,7 @@ export const culinarySpectrum = [
     id: 4,
     icon: "🍨",
     title: "Desserts & Sweet Counters",
-    image: "/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg",
+    image: "/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.webp",
     description:
       "Hot Serving: Gulab Jamun, Moong Dal ka Halwa, Gajar ka Halwa, Jalebi with Rabri, Mathura ka Kadhai Doodh. Cold Serving: Ras Malai, Raj Bhog, Gulab Kheer, Tila Kulfi, Kulfi Mania (Aam, Kesar, Pista, Anar, Cream), Kulfi Faluda, Ice Cream. Plus Ice Cream Parlour, Cake & Pastry Counter, and Pan Shoppe.",
   },
@@ -69,7 +69,7 @@ export const culinarySpectrum = [
     id: 5,
     icon: "🥤",
     title: "Beverages & Mocktail Bar",
-    image: "/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
+    image: "/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.webp",
     description:
       "Mocktail Bar: Vergin Mojito, Pina Colada, Blue Angle, Green Vally, Vanilla / Strawberry / Chocolate / Mango / Oreo / Chiku Shakes, Fresh Orange, Watermelon and Guava Juices, Sweet Lime, and Black Grapes. Hot Drinks: Masala Kullad Tea and Espresso. Coffee Parlour: Cappuccino, Mochaccino, Cold Coffee, Iced Tea, and Cookies.",
   },
@@ -77,7 +77,7 @@ export const culinarySpectrum = [
     id: 6,
     icon: "🫕",
     title: "Soups, Salads & Raitas",
-    image: "/images/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
+    image: "/images/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.webp",
     description:
       "Soups: Cream of Tomato, Vegetable Sweet Corn, Hot 'N' Sour, Manchow, Tamatar aur Dhaniya ka Shorba. Salads: Garden Green, Kachumbar, Russian, Sweet Corn, Beetroot, Mix Fruit, Aloo Chana Chaat, Pasta & Macaroni. Raitas: Boondi, Mix, Pineapple, Fruit, Burani, and Masala Chach.",
   },
@@ -118,18 +118,18 @@ export const serviceExcellence = [
 // ── 6. GALLERY ────────────────────────────────────────────────────────────────
 // Replace these paths with your actual uploaded gallery images
 export const cateringGallery = [
-  { id: 1, image: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg", alt: "Grand buffet setup at Basti Ram Palace" },
-  { id: 2, image: "/images/gallery/amish-thakkar-7O422yG_b80-unsplash.jpg", alt: "Elegant food counter display" },
-  { id: 3, image: "/images/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg", alt: "Service staff lineup ready to serve" },
-  { id: 4, image: "/images/gallery/cody-chan-7jgtAhJkjwk-unsplash.jpg", alt: "Outdoor catering with decorated counters" },
-  { id: 5, image: "/images/gallery/drew-coffman-llWjwo200fo-unsplash.jpg", alt: "Basti Ram Palace main entrance" },
-  { id: 6, image: "/images/gallery/evelina-friman-hw_sKmjb0ns-unsplash.jpg", alt: "Banquet hall interior setup" },
-  { id: 7, image: "/images/gallery/leonardo-miranda-riHGdvluDk8-unsplash.jpg", alt: "Live kitchen stations at event" },
-  { id: 8, image: "/images/gallery/nathan-dumlao-5BB_atDT4oA-unsplash.jpg", alt: "Wedding reception catering layout" },
-  { id: 9, image: "/images/gallery/photos-by-lanty-O38Id_cyV4M-unsplash.jpg", alt: "Outdoor garden event setup" },
-  { id: 10, image: "/images/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg", alt: "Corporate dining arrangement" },
-  { id: 11, image: "/images/gallery/samantha-gades-x40Q9jrEVT0-unsplash.jpg", alt: "Institutional catering service" },
-  { id: 12, image: "/images/events/weddings/vaibhav-nagare-0ci9am-l-Dk-unsplash.jpg", alt: "Luxury dessert counter" },
+  { id: 1, image: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.webp", alt: "Grand buffet setup at Basti Ram Palace" },
+  { id: 2, image: "/images/gallery/amish-thakkar-7O422yG_b80-unsplash.webp", alt: "Elegant food counter display" },
+  { id: 3, image: "/images/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.webp", alt: "Service staff lineup ready to serve" },
+  { id: 4, image: "/images/gallery/cody-chan-7jgtAhJkjwk-unsplash.webp", alt: "Outdoor catering with decorated counters" },
+  { id: 5, image: "/images/gallery/drew-coffman-llWjwo200fo-unsplash.webp", alt: "Basti Ram Palace main entrance" },
+  { id: 6, image: "/images/gallery/evelina-friman-hw_sKmjb0ns-unsplash.webp", alt: "Banquet hall interior setup" },
+  { id: 7, image: "/images/gallery/leonardo-miranda-riHGdvluDk8-unsplash.webp", alt: "Live kitchen stations at event" },
+  { id: 8, image: "/images/gallery/nathan-dumlao-5BB_atDT4oA-unsplash.webp", alt: "Wedding reception catering layout" },
+  { id: 9, image: "/images/gallery/photos-by-lanty-O38Id_cyV4M-unsplash.webp", alt: "Outdoor garden event setup" },
+  { id: 10, image: "/images/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.webp", alt: "Corporate dining arrangement" },
+  { id: 11, image: "/images/gallery/samantha-gades-x40Q9jrEVT0-unsplash.webp", alt: "Institutional catering service" },
+  { id: 12, image: "/images/events/weddings/vaibhav-nagare-0ci9am-l-Dk-unsplash.webp", alt: "Luxury dessert counter" },
 ];
 
 // ── 7. TRUSTED CLIENTS ────────────────────────────────────────────────────────

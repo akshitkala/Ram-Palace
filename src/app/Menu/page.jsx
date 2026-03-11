@@ -338,7 +338,7 @@ export default function MenuPage() {
       <section className="mh-section relative min-h-screen flex flex-col justify-end overflow-hidden bg-[#1A0D08]">
         <div className="mh-bg absolute inset-0 z-0 ">
           <Image
-            src="/images/hero/Menu.png"
+            src="/images/hero/Menu.webp"
             alt=""
             fill
             sizes="100vw"

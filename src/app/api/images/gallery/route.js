@@ -26,15 +26,21 @@ export async function GET(req) {
       secure_url: img.secure_url,
       width: img.width,
       height: img.height,
-      created_at: img.created_at,
       bytes: img.bytes,
     }));
 
-    return NextResponse.json({ 
-      images,
-      nextCursor: result.next_cursor || null,
-      hasMore: !!result.next_cursor,
-    });
+    return NextResponse.json(
+      { 
+        images,
+        nextCursor: result.next_cursor || null,
+        hasMore: !!result.next_cursor,
+      },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      }
+    );
   } catch (error) {
     console.error('Cloudinary GET error:', error);
     return NextResponse.json(

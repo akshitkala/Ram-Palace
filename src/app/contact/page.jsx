@@ -6,8 +6,8 @@ import Footer from "@/components/Footer";
 
 const backgroundImages = [
   "/images/hall3.webp",
-  "/images/hero/hero.png",
-  "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg"
+  "/images/hero/hero.webp",
+  "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.webp"
 ];
 
 export default function ContactPage() {

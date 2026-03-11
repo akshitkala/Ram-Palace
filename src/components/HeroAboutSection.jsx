@@ -68,7 +68,7 @@ const HeroAboutSection = () => {
 
               <div className="relative overflow-hidden w-full h-[260px] sm:h-[340px] md:h-[460px] lg:h-[580px]">
                 <Image
-                  src="/images/venue/heroAbout.png"
+                  src="/images/venue/heroAbout.webp"
                   alt="Basti Ram Palace Interior"
                   fill
                   quality={70}

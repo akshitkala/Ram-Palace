@@ -10,7 +10,7 @@ const MIN_MS     = 1000;
 // The hero image src — used to detect
 // when the above-fold image has loaded.
 // Update this path if hero image changes.
-const HERO_IMAGE_SRC = "/images/hero/hero.png";
+const HERO_IMAGE_SRC = "/images/hero/hero.webp";
 
 export default function Preloader({ onComplete }) {
   const containerRef  = useRef(null);

@@ -3,100 +3,63 @@ import cloudinary from '@/lib/cloudinary';
 
 export async function GET() {
   try {
-    const [
-      gallery,
-      carousel,
-      weddings,
-      corporate,
-      parties,
-    ] = await Promise.all([
+    const [galleryResult, carouselResult, eventsResult] = await Promise.all([
       cloudinary.api.resources({
-        type: 'upload',
-        prefix: 'ram-palace/gallery',
-        max_results: 500,
+        type: "upload",
+        prefix: "ram-palace/gallery",
+        max_results: 1,
       }),
       cloudinary.api.resources({
-        type: 'upload',
-        prefix: 'ram-palace/carousel',
+        type: "upload",
+        prefix: "ram-palace/carousel",
         max_results: 10,
       }),
       cloudinary.api.resources({
-        type: 'upload',
-        prefix: 'ram-palace/events/weddings',
-        max_results: 500,
-      }),
-      cloudinary.api.resources({
-        type: 'upload',
-        prefix: 'ram-palace/events/corporate',
-        max_results: 500,
-      }),
-      cloudinary.api.resources({
-        type: 'upload',
-        prefix: 'ram-palace/events/private-parties',
+        type: "upload",
+        prefix: "ram-palace/events",
         max_results: 500,
       }),
     ]);
 
-    const galleryCount = gallery.resources.length;
-    const carouselCount = carousel.resources.length;
-    const weddingsCount = weddings.resources.length;
-    const corporateCount = corporate.resources.length;
-    const partiesCount = parties.resources.length;
+    const galleryCount = galleryResult.total_count || 0;
+    const carouselImages = carouselResult.resources || [];
+    const eventImages = eventsResult.resources || [];
 
-    const galleryBytes = gallery.resources.reduce(
-      (sum, r) => sum + (r.bytes || 0),
-      0
-    );
-    const carouselBytes = carousel.resources.reduce(
-      (sum, r) => sum + (r.bytes || 0),
-      0
-    );
-    const weddingsBytes = weddings.resources.reduce(
-      (sum, r) => sum + (r.bytes || 0),
-      0
-    );
-    const corporateBytes = corporate.resources.reduce(
-      (sum, r) => sum + (r.bytes || 0),
-      0
-    );
-    const partiesBytes = parties.resources.reduce(
-      (sum, r) => sum + (r.bytes || 0),
-      0
-    );
+    const weddingCount = eventImages.filter(r => r.public_id.includes("/weddings/")).length;
+    const corporateCount = eventImages.filter(r => r.public_id.includes("/corporate/")).length;
+    const partiesCount = eventImages.filter(r => r.public_id.includes("/private-parties/")).length;
 
-    const eventsTotal =
-      weddingsCount + corporateCount + partiesCount;
-    const totalImages =
-      galleryCount + carouselCount + eventsTotal;
-    const totalBytes =
-      galleryBytes +
-      carouselBytes +
-      weddingsBytes +
-      corporateBytes +
-      partiesBytes;
+    const totalBytes = [...carouselImages, ...eventImages].reduce((sum, r) => sum + (r.bytes || 0), 0);
 
-    return NextResponse.json({
-      gallery: {
-        count: galleryCount,
-        bytes: galleryBytes,
-      },
-      carousel: {
-        count: carouselCount,
-        max: 8,
-      },
-      events: {
-        weddings: weddingsCount,
-        corporate: corporateCount,
-        "private-parties": partiesCount,
-        total: eventsTotal,
-      },
-      totalImages,
-      totalBytes,
-    });
-  } catch (error) {
-    console.error('Admin stats error:', error);
     return NextResponse.json(
-      { error: 'Failed to load Cloudinary stats' },
+      {
+        gallery: {
+          count: galleryCount,
+          bytes: 0, // skip for speed as per FIX 10 notes
+        },
+        carousel: {
+          count: carouselImages.length,
+          max: 8,
+        },
+        events: {
+          weddings: weddingCount,
+          corporate: corporateCount,
+          "private-parties": partiesCount,
+          total: weddingCount + corporateCount + partiesCount,
+        },
+        totalImages: galleryCount + carouselImages.length + weddingCount + corporateCount + partiesCount,
+        totalBytes,
+      },
+      {
+        headers: {
+          "Cache-Control": "private, s-maxage=30, stale-while-revalidate=60",
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Stats error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch stats" },
       { status: 500 }
     );
   }

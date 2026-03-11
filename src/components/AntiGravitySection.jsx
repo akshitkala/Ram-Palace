@@ -48,7 +48,7 @@ const AntiGravitySection = ({ children, className = "", stagger = false }) => {
   }, [stagger]);
 
   return (
-    <div ref={containerRef} className={`${className} will-change-transform`}>
+    <div ref={containerRef} className={className}>
       {children}
     </div>
   );

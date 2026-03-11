@@ -27,14 +27,14 @@ const MiniGallery = () => {
             image: img.secure_url,
             alt: "Basti Ram Palace Gallery"
           }));
-          // Triple them for infinite loop
-          setImages([...liveImages, ...liveImages, ...liveImages]);
+          // Double them for infinite loop
+          setImages([...liveImages, ...liveImages]);
         } else {
           // Fallback to static
-          setImages([...galleryImages, ...galleryImages, ...galleryImages]);
+          setImages([...galleryImages, ...galleryImages]);
         }
       } catch (error) {
-        setImages([...galleryImages, ...galleryImages, ...galleryImages]);
+        setImages([...galleryImages, ...galleryImages]);
       }
     }
     fetchGallery();
@@ -111,6 +111,7 @@ const MiniGallery = () => {
                   fill
                   quality={70}
                   sizes="(max-width: 768px) 100vw, 25vw"
+                  loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 

@@ -235,7 +235,7 @@ const CateringFeature = () => {
 
             <div className="relative overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(43,24,16,0.15)] h-[560px]">
               <Image
-                src="/images/hero/Menu.png"
+                src="/images/hero/Menu.webp"
                 alt="GD Foods India catering spread"
                 fill
                 quality={70}

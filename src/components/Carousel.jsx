@@ -55,6 +55,13 @@ const Carousel = () => {
     else if (d < -50) prev();
   };
 
+  const shouldRender = (i) => {
+    const total = images.length;
+    const prev = (current - 1 + total) % total;
+    const next = (current + 1) % total;
+    return i === current || i === prev || i === next;
+  };
+
   return (
     <section
       className="relative w-full h-[55vh] md:h-[72vh] overflow-hidden bg-black"
@@ -64,24 +71,25 @@ const Carousel = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* ── IMAGES — all mounted, fade via opacity only ──
-          Keeps previous slide visible during transition.
-          Prevents flash-to-black bug on last→first loop.  */}
+      {/* ── IMAGES — only 3 rendered at a time ── */}
       {images.map((img, index) => (
-        <Image
-          key={index}
-          src={img}
-          alt={`Basti Ram Palace — slide ${index + 1}`}
-          fill
-          priority={index === 0}
-          quality={85}
-          sizes="100vw"
-          className={`
-            absolute inset-0 w-full h-full object-cover
-            transition-opacity duration-1000
-            ${index === current ? "opacity-100 z-10" : "opacity-0 z-0"}
-          `}
-        />
+        shouldRender(index) ? (
+          <Image
+            key={index}
+            src={img}
+            alt={`Basti Ram Palace — slide ${index + 1}`}
+            fill
+            priority={index === current}
+            quality={85}
+            sizes="100vw"
+            loading={index === current ? "eager" : "lazy"}
+            className={`
+              absolute inset-0 w-full h-full object-cover
+              transition-opacity duration-1000
+              ${index === current ? "opacity-100 z-10" : "opacity-0 z-0"}
+            `}
+          />
+        ) : null
       ))}
 
       {/* ── BOTTOM GRADIENT — legibility only, top stays bright ── */}

@@ -22,11 +22,17 @@ export async function GET() {
         secure_url: img.secure_url,
         width: img.width,
         height: img.height,
-        created_at: img.created_at,
         bytes: img.bytes,
       }));
 
-    return NextResponse.json({ images });
+    return NextResponse.json(
+      { images },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      }
+    );
   } catch (error) {
     console.error('Carousel GET error:', error);
     return NextResponse.json(

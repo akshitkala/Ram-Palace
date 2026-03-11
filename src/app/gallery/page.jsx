@@ -135,7 +135,7 @@ export default function GalleryPage() {
         <div 
             className="absolute inset-0 z-0 bg-fixed bg-center bg-cover"
             style={{ 
-                backgroundImage: "url('/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg')",
+                backgroundImage: "url('/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.webp')",
                 willChange: "transform"
             }}
         >
@@ -188,16 +188,16 @@ export default function GalleryPage() {
             {images.map((img, i) => (
               <div
                 key={img.public_id}
-                className="aspect-square bg-[#F2EDE4] overflow-hidden group cursor-pointer rounded-sm"
+                className="relative aspect-square bg-[#F2EDE4] overflow-hidden group cursor-pointer rounded-sm"
                 onClick={() => setSelectedImage(img)}
               >
-                <img
+                <Image
                   src={img.secure_url}
                   alt={`Gallery ${i + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
-                  width={img.width  || 600}
-                  height={img.height || 600}
                 />
               </div>
             ))}

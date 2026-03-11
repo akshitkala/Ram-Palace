@@ -51,7 +51,7 @@ const Hero = () => {
         {/* ── BACKGROUND IMAGE ── */}
         <Image
           ref={bgRef}
-          src="/images/hero/hero.png"
+          src="/images/hero/hero.webp"
           alt="Basti Ram Palace"
           fill
           priority
