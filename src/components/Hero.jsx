@@ -111,7 +111,7 @@ const Hero = () => {
                 text-[10px] md:text-xs
                 tracking-[6px] uppercase
                 text-[#C9A84C]
-                mb-4 md:mb-6
+                mb-2 md:mb-6
                 font-medium
                 fade-in opacity-0
                 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]
@@ -124,11 +124,11 @@ const Hero = () => {
             <h1
               className="
                 font-heading
-                text-4xl md:text-6xl lg:text-[76px]
-                leading-[1.08]
+                text-3xl md:text-5xl lg:text-[76px]
+                leading-[1.1]
                 text-luxury
                 fade-in opacity-0
-                mb-8 md:mb-10
+                mb-6 md:mb-10
               "
             >
               Where Every Occasion
@@ -142,12 +142,15 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="
-              flex gap-3 md:gap-4
+              flex flex-col md:flex-row gap-3 md:gap-4
               justify-center md:justify-start
+              items-center
               fade-in opacity-0
+              w-full
             ">
-              <Link href="/contact">
+              <Link href="/contact" className="w-full md:w-auto">
                 <button className="
+                  w-full md:w-auto
                   bg-[#C9A84C] text-[#1C1C1E]
                   px-6 py-3.5 md:px-8 md:py-4
                   text-[10px] md:text-xs
@@ -161,8 +164,9 @@ const Hero = () => {
                   Reserve Your Date
                 </button>
               </Link>
-              <Link href="/gallery">
+              <Link href="/gallery" className="w-full md:w-auto">
                 <button className="
+                  w-full md:w-auto
                   bg-transparent text-white
                   border border-white/60
                   px-6 py-3.5 md:px-8 md:py-4
@@ -204,7 +208,7 @@ const Hero = () => {
 
           {/* TRUST SIGNALS — desktop only */}
           <div className="
-            hidden md:flex
+            hidden lg:flex
             absolute
             bottom-6
             left-1/2 -translate-x-1/2
@@ -239,7 +243,7 @@ const Hero = () => {
 
           {/* DIVIDER LINE above trust signals */}
           <div className="
-            hidden md:block
+            hidden lg:block
             absolute bottom-[72px]
             left-1/2 -translate-x-1/2
             w-px h-8
@@ -249,7 +253,7 @@ const Hero = () => {
 
           {/* SCROLL INDICATOR — mobile only */}
           <div className="
-            md:hidden
+            lg:hidden
             absolute bottom-8
             left-1/2 -translate-x-1/2
             flex flex-col items-center gap-2

@@ -5,7 +5,7 @@
 
 // ── 1. HERO ──────────────────────────────────────────────────────────────────
 export const cateringHero = {
-  image: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.webp", 
+  image: "/images/hero/Catering.webp",
   headline: "Where Flavour Meets Precision",
   description:
     "GD Foods India is a trusted catering partner delivering flavorful, hygienic, and thoughtfully crafted meals for corporate offices, institutions, and special events.",
