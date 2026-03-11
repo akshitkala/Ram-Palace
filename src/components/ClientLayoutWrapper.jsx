@@ -5,7 +5,7 @@ import LocomotiveScroll from "locomotive-scroll";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,7 +30,7 @@ export default function ClientLayoutWrapper({ children }) {
 
   return (
     <div data-scroll-container ref={scrollRef} className="overflow-x-hidden">
-      <Navbar />
+      <NavbarWrapper />
       {children}
     </div>
   );

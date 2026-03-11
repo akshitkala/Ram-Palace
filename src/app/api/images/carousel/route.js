@@ -72,10 +72,13 @@ export async function POST(request) {
 
     const result = await cloudinary.uploader.upload(base64String, {
       folder: FOLDER,
-      transformation: {
-        quality: 'auto',
-        fetch_format: 'auto',
-      },
+      transformation: [
+        {
+          width: 1920,
+          crop: "limit",
+          quality: "auto:good",
+        }
+      ],
       use_filename: true,
       unique_filename: true,
     });

@@ -3,29 +3,38 @@ import cloudinary from '@/lib/cloudinary';
 
 const FOLDER = 'ram-palace/gallery';
 
-export async function GET() {
+export async function GET(req) {
   try {
-    const result = await cloudinary.api.resources({
-      type: 'upload',
-      prefix: FOLDER,
-      max_results: 500,
+    const { searchParams } = new URL(req.url);
+    const cursor = searchParams.get("cursor") || null;
+    const limit  = 24; // Increased to 24 for better initial load as per PART B checklist
+
+    const options = {
+      type:        "upload",
+      prefix:      FOLDER,
+      max_results: limit,
+    };
+
+    if (cursor) {
+      options.next_cursor = cursor;
+    }
+
+    const result = await cloudinary.api.resources(options);
+
+    const images = result.resources.map((img) => ({
+      public_id: img.public_id,
+      secure_url: img.secure_url,
+      width: img.width,
+      height: img.height,
+      created_at: img.created_at,
+      bytes: img.bytes,
+    }));
+
+    return NextResponse.json({ 
+      images,
+      nextCursor: result.next_cursor || null,
+      hasMore: !!result.next_cursor,
     });
-
-    const images = result.resources
-      .sort(
-        (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      )
-      .map((img) => ({
-        public_id: img.public_id,
-        secure_url: img.secure_url,
-        width: img.width,
-        height: img.height,
-        created_at: img.created_at,
-        bytes: img.bytes,
-      }));
-
-    return NextResponse.json({ images });
   } catch (error) {
     console.error('Cloudinary GET error:', error);
     return NextResponse.json(
@@ -52,10 +61,13 @@ export async function POST(request) {
 
     const result = await cloudinary.uploader.upload(base64String, {
       folder: FOLDER,
-      transformation: {
-        quality: 'auto',
-        fetch_format: 'auto',
-      },
+      transformation: [
+        {
+          width: 2000,
+          crop: "limit",
+          quality: "auto:good",
+        }
+      ],
       use_filename: true,
       unique_filename: true,
     });

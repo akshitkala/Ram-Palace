@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef, useLayoutEffect, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FiX, FiArrowLeft, FiArrowRight } from "react-icons/fi";
@@ -10,28 +10,73 @@ import Image from "next/image";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function GalleryPage() {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [images,      setImages]      = useState([]);
+  const [loading,     setLoading]     = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error,       setError]       = useState(false);
+  const [hasMore,     setHasMore]     = useState(true);
+  const [nextCursor,  setNextCursor]  = useState(null);
+  
   const [selectedImage, setSelectedImage] = useState(null);
+  
   const heroRef = useRef(null);
-  const gridRef = useRef(null);
+  const sentinelRef = useRef(null);
+  const fetchingRef = useRef(false);
+
+  const fetchImages = useCallback(async (cursor = null) => {
+    if (fetchingRef.current) return;
+    fetchingRef.current = true;
+
+    if (!cursor) {
+      setLoading(true);
+      setError(false);
+    } else {
+      setLoadingMore(true);
+    }
+
+    try {
+      const url = cursor
+        ? `/api/images/gallery?cursor=${cursor}`
+        : `/api/images/gallery`;
+
+      const res  = await fetch(url);
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error);
+
+      setImages(prev => cursor ? [...prev, ...data.images] : data.images);
+      setNextCursor(data.nextCursor || null);
+      setHasMore(data.hasMore || false);
+    } catch (err) {
+      console.error("Gallery fetch error:", err);
+      setError(true);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+      fetchingRef.current = false;
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const res = await fetch('/api/images/gallery');
-        const data = await res.json();
-        if (data.images) {
-          setImages(data.images);
-        }
-      } catch (error) {
-        console.error('Failed to fetch gallery images', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchImages();
-  }, []);
+  }, [fetchImages]);
+
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const sentinel = entries[0];
+        if (sentinel.isIntersecting && hasMore && !fetchingRef.current && nextCursor) {
+          fetchImages(nextCursor);
+        }
+      },
+      { rootMargin: "400px", threshold: 0 }
+    );
+
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [hasMore, nextCursor, fetchImages]);
 
   // GSAP Animations
   useLayoutEffect(() => {
@@ -44,27 +89,7 @@ export default function GalleryPage() {
         ease: "power3.out",
         stagger: 0.2,
       });
-
-      // Grid Animation (runs when images changes)
-      if (!loading && images.length > 0) {
-        setTimeout(() => {
-            ScrollTrigger.batch(".gallery-card", {
-              onEnter: (batch) =>
-                gsap.to(batch, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.8,
-                  stagger: 0.1,
-                  ease: "power3.out",
-                  overwrite: true
-                }),
-              start: "top 90%",
-              once: true
-            });
-        }, 100);
-      }
-
-    }, [gridRef, heroRef]);
+    }, heroRef);
 
     return () => ctx.revert();
   }, [images, loading]);
@@ -128,42 +153,91 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Main Gallery Grid (Masonry-ish) */}
+      {/* Main Gallery Grid */}
       <div className="max-w-7xl mx-auto px-6 py-16">
-        {loading ? (
-          <div className="py-20 flex justify-center"><div className="animate-pulse w-10 h-10 rounded-full bg-[#C9A84C]"></div></div>
-        ) : (
-          <div ref={gridRef} className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
-            {images.map((img) => (
+        
+        {/* Initial load skeleton */}
+        {loading && images.length === 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {Array.from({ length: 24 }).map((_, i) => (
+              <div
+                key={i}
+                className="aspect-square bg-[#E8E0D0] animate-pulse"
+                style={{ animationDelay: `${i * 0.03}s` }}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Error state */}
+        {error && (
+          <div className="text-center py-20">
+            <p className="text-[#A99686] text-sm font-body">Unable to load gallery.</p>
+            <button
+              onClick={() => fetchImages()}
+              className="mt-4 text-xs text-[#C9A84C] underline font-body"
+            >
+              Try again
+            </button>
+          </div>
+        )}
+
+        {/* Image grid */}
+        {images.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {images.map((img, i) => (
               <div
                 key={img.public_id}
-                className="gallery-card opacity-0 translate-y-10 break-inside-avoid relative group rounded-xl overflow-hidden shadow-md cursor-pointer bg-white"
+                className="aspect-square bg-[#F2EDE4] overflow-hidden group cursor-pointer rounded-sm"
                 onClick={() => setSelectedImage(img)}
               >
-                <Image
+                <img
                   src={img.secure_url}
-                  alt="Gallery image"
-                  width={img.width || 800}
+                  alt={`Gallery ${i + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  width={img.width  || 600}
                   height={img.height || 600}
-                  quality={70}
-                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
-                  <span className="text-white/80 font-body text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    View
-                  </span>
-                </div>
               </div>
             ))}
           </div>
         )}
-        
-        {/* Empty State */}
-        {!loading && images.length === 0 && (
-            <p className="text-center text-[#888] py-20 italic">No images found in gallery.</p>
+
+        {/* Empty state */}
+        {!loading && images.length === 0 && !error && (
+          <div className="text-center py-20">
+            <p className="text-[#A99686] text-sm font-body tracking-widest uppercase">
+              Gallery coming soon
+            </p>
+          </div>
+        )}
+
+        {/* ── SENTINEL ── */}
+        <div ref={sentinelRef} className="w-full h-1" aria-hidden="true" />
+
+        {/* Load more spinner */}
+        {loadingMore && (
+          <div className="flex justify-center items-center py-12 gap-3">
+            {[0, 1, 2].map(i => (
+              <div
+                key={i}
+                className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse"
+                style={{ animationDelay: `${i * 0.15}s` }}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* End of gallery message */}
+        {!hasMore && images.length > 0 && !loadingMore && (
+          <div className="flex flex-col items-center py-12 gap-3">
+            <div className="w-8 h-px bg-[#C9A84C]/30" />
+            <p className="text-[#A99686] text-[10px] tracking-[4px] uppercase font-body">
+              All photos loaded
+            </p>
+            <div className="w-8 h-px bg-[#C9A84C]/30" />
+          </div>
         )}
       </div>
 

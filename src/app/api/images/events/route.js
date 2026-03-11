@@ -76,10 +76,13 @@ export async function POST(request) {
       folder,
       use_filename: true,
       unique_filename: true,
-      transformation: {
-        quality: 'auto',
-        fetch_format: 'auto',
-      },
+      transformation: [
+        {
+          width: 2000,
+          crop: "limit",
+          quality: "auto:good",
+        }
+      ],
     });
 
     const image = {

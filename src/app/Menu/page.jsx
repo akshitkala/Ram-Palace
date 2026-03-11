@@ -14,16 +14,16 @@ gsap.registerPlugin(ScrollTrigger);
    Each category gets a hero image + number
 ───────────────────────────────────────────────────────── */
 const CAT_META = {
-  beverages:       { img: "/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.jpg", tint: "from-amber-950/80",   num: "01" },
-  "soups-salads":  { img: "/images/gallery/danie-franco-7XqL_DVuBMw-unsplash.jpg", tint: "from-green-950/80",   num: "02" },
-  fruits:          { img: "/images/gallery/junior-reis-xMDo8y776uE-unsplash.jpg",  tint: "from-rose-950/70",    num: "03" },
-  "savoury-house": { img: "/images/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg", tint: "from-orange-950/80",  num: "04" },
-  snacks:          { img: "/images/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.jpg", tint: "from-stone-950/80",   num: "05" },
-  "live-stations": { img: "/images/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg", tint: "from-zinc-950/75",    num: "06" },
-  "indian-mains":  { img: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg",  tint: "from-red-950/80",     num: "07" },
-  "breads-rice":   { img: "/images/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg", tint: "from-yellow-950/80",  num: "08" },
-  desserts:        { img: "/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.jpg", tint: "from-pink-950/75",    num: "09" },
-  "pheron-service":{ img: "/images/gallery/samantha-gades-x40Q9jrEVT0-unsplash.jpg", tint: "from-indigo-950/80",  num: "10" },
+  beverages:       { gradient: "from-[#2B1810] via-[#1A0D08] to-[#1A0D08]", accent: "bg-amber-500/10",   num: "01" },
+  "soups-salads":  { gradient: "from-[#142010] via-[#0A1208] to-[#0A1208]", accent: "bg-emerald-500/10", num: "02" },
+  fruits:          { gradient: "from-[#2B0C10] via-[#1A080A] to-[#1A080A]", accent: "bg-rose-500/10",    num: "03" },
+  "savoury-house": { gradient: "from-[#2B1C10] via-[#1A0D08] to-[#1A0D08]", accent: "bg-orange-500/10", num: "04" },
+  snacks:          { gradient: "from-[#1C1C1C] via-[#0F0F0F] to-[#0F0F0F]", accent: "bg-stone-500/10",  num: "05" },
+  "live-stations": { gradient: "from-[#141416] via-[#0A0A0B] to-[#0A0A0B]", accent: "bg-zinc-500/10",   num: "06" },
+  "indian-mains":  { gradient: "from-[#2B0E0E] via-[#1A0505] to-[#1A0505]", accent: "bg-red-500/10",     num: "07" },
+  "breads-rice":   { gradient: "from-[#2B2310] via-[#1A1508] to-[#1A1508]", accent: "bg-yellow-500/10", num: "08" },
+  desserts:        { gradient: "from-[#2B1020] via-[#1A0A15] to-[#1A0A15]", accent: "bg-pink-500/10",   num: "09" },
+  "pheron-service":{ gradient: "from-[#10102B] via-[#0A0A1A] to-[#0A0A1A]", accent: "bg-indigo-500/10", num: "10" },
 };
 
 /* ─────────────────────────────────────────────────────────
@@ -138,25 +138,28 @@ const CategoryHero = ({ cat, meta, index }) => {
   const count = cat.subcategories.reduce((a, s) => a + s.items.length, 0);
 
   return (
-    <div ref={ref} className="relative h-[44vh] min-h-[300px] overflow-hidden">
-      <Image
-        src={meta.img}
-        alt={cat.label}
-        fill
-        quality={70}
-        sizes="100vw"
-        className="cbg absolute inset-0 w-full h-[115%] object-cover -top-[7.5%]"
+    <div ref={ref} className="relative h-[35vh] min-h-[260px] overflow-hidden">
+      {/* Dynamic Gradient Background */}
+      <div className={`cbg absolute inset-0 w-full h-[120%] -top-[10%] bg-gradient-to-br ${meta.gradient}`} />
+      
+      {/* Decorative radial highlight */}
+      <div className={`absolute inset-0 opacity-40 mix-blend-overlay ${meta.accent} blur-[120px] rounded-full scale-150`} />
+
+      {/* Subtle Mesh Texture Layer */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
       />
-      {/* Dark gradient overlays */}
-      <div className={`absolute inset-0 bg-gradient-to-t ${meta.tint} via-black/50 to-black/5`} />
+
+      {/* Dark gradient overlays for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
       <div className={`absolute inset-0 bg-gradient-to-r
-        ${isEven ? "from-[#2B1810]/70 via-transparent to-transparent"
-                 : "from-transparent via-transparent to-[#2B1810]/70"}`} />
+        ${isEven ? "from-black/40 via-transparent to-transparent"
+                 : "from-transparent via-transparent to-black/40"}`} />
 
       {/* Large watermark number */}
       <div className={`cnum absolute top-1/2 -translate-y-1/2
                        font-heading leading-none select-none pointer-events-none
-                       text-[140px] md:text-[200px] text-white/[0.035]
+                       text-[140px] md:text-[200px] text-white/[0.04]
                        ${isEven ? "-right-4 md:right-10" : "-left-4 md:left-10"}`}>
         {meta.num}
       </div>
@@ -197,7 +200,7 @@ const CategoryHero = ({ cat, meta, index }) => {
    Full category block
 ───────────────────────────────────────────────────── */
 const CategoryBlock = ({ cat, index }) => {
-  const meta = CAT_META[cat.id] || { img: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.jpg", tint: "from-stone-950/80", num: `0${index+1}` };
+  const meta = CAT_META[cat.id] || { gradient: "from-[#2B0E0E] via-[#1A0505] to-[#1A0505]", accent: "bg-red-500/10", num: `0${index+1}` };
   const cols = cat.subcategories.length === 1 ? "max-w-2xl mx-auto"
              : cat.subcategories.length === 2 ? "grid md:grid-cols-2"
              : "grid md:grid-cols-2 lg:grid-cols-3";
