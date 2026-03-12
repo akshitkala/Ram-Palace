@@ -36,20 +36,10 @@ const EVENT_CONFIG = [
   },
 ];
 
-// ── IMAGE CYCLING HOOK ───────────────────────────────────────────────
-const useImageCycle = (images, ms = 4500) => {
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    if (!images || images.length <= 1) return;
-    const t = setInterval(() => setIndex((p) => (p + 1) % images.length), ms);
-    return () => clearInterval(t);
-  }, [images, ms]);
-  return index;
-};
+// No longer using a per-card hook for randomized global logic
 
 // ── EVENT CARD ───────────────────────────────────────────────────────
-const EventCard = ({ config, images, loading }) => {
-  const currentIndex = useImageCycle(images);
+const EventCard = ({ config, images, loading, currentIndex }) => {
 
   return (
     <div className="group flex flex-col">
@@ -71,7 +61,6 @@ const EventCard = ({ config, images, loading }) => {
             sizes="(max-width: 768px) 100vw, 25vw"
             className={`
               absolute inset-0 w-full h-full object-cover
-              transition-opacity duration-1000
               ${i === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"}
             `}
           />
@@ -153,6 +142,11 @@ const Events = () => {
   const [imageMap, setImageMap] = useState({});
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState(false);
+  const [currentIndices, setCurrentIndices] = useState({
+    weddings: 0,
+    corporate: 0,
+    "private-parties": 0,
+  });
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -178,6 +172,37 @@ const Events = () => {
     };
     fetchAll();
   }, []);
+
+  // Centralized Random Cycling Logic
+  useEffect(() => {
+    if (loading || error) return;
+
+    let timeoutId;
+
+    const triggerNext = () => {
+      // Random delay between 1000ms and 2000ms
+      const delay = Math.floor(Math.random() * 1000) + 1000;
+
+      timeoutId = setTimeout(() => {
+        // Pick a random category that has images
+        const validCategories = EVENT_CONFIG.filter(cfg => imageMap[cfg.category]?.length > 1).map(cfg => cfg.category);
+        
+        if (validCategories.length > 0) {
+          const randomCat = validCategories[Math.floor(Math.random() * validCategories.length)];
+          
+          setCurrentIndices(prev => ({
+            ...prev,
+            [randomCat]: (prev[randomCat] + 1) % imageMap[randomCat].length
+          }));
+        }
+        
+        triggerNext();
+      }, delay);
+    };
+
+    triggerNext();
+    return () => clearTimeout(timeoutId);
+  }, [loading, error, imageMap]);
 
   return (
     <section className="w-full bg-[#FAF7F2] px-6 py-20 md:py-28 lg:py-36">
@@ -217,6 +242,7 @@ const Events = () => {
                 config={config}
                 images={imageMap[config.category]}
                 loading={loading}
+                currentIndex={currentIndices[config.category]}
               />
             ))}
           </div>
