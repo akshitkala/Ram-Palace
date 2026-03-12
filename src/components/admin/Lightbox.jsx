@@ -94,10 +94,14 @@ export default function Lightbox({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black/20">
-            <img
+            <Image
               src={currentImage.secure_url}
               alt=""
-              className="max-h-[80vh] md:max-h-[85vh] max-w-[90vw] object-contain select-none"
+              width={1600}
+              height={1200}
+              className="max-h-[80vh] md:max-h-[85vh] max-w-[90vw] w-auto h-auto object-contain select-none"
+              priority
+              unoptimized
             />
           </div>
 

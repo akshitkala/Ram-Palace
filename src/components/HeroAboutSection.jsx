@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import Image from "next/image";
+import { GoldHairline, ShimmerLine } from "./Ornaments";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -106,7 +107,7 @@ const HeroAboutSection = () => {
 
             {/* Label */}
             <div className="flex items-center gap-3">
-              <div className="w-6 h-px bg-[#C9A84C]" />
+              <GoldHairline className="w-6" />
               <p className="text-[10px] tracking-[4px] uppercase text-[#C9A84C] font-medium">
                 Our Story
               </p>
@@ -120,7 +121,7 @@ const HeroAboutSection = () => {
             </p>
 
             {/* Divider — hidden on mobile */}
-            <div className="hidden md:block w-12 h-px bg-[#C9A84C]/40" />
+            <GoldHairline className="hidden md:block w-12 opacity-40" />
 
             {/* Heading */}
             <h2 className="font-heading text-2xl md:text-3xl lg:text-[38px] leading-tight text-[#1C1C1E]">

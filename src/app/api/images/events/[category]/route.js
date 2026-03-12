@@ -7,7 +7,7 @@ const folderForCategory = (category) =>
   `ram-palace/events/${category}`;
 
 export async function GET(_request, { params }) {
-  const { category } = params;
+  const { category } = await params;
 
   if (!VALID_CATEGORIES.includes(category)) {
     return NextResponse.json(

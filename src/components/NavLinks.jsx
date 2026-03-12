@@ -5,7 +5,7 @@ export default function NavLinks() {
     <>
       <Link 
         href="/" 
-        className="nav-logo text-2xl md:text-3xl font-serif font-bold text-[#C9A84C] tracking-wider whitespace-nowrap origin-left will-change-transform"
+        className="nav-logo text-xl sm:text-2xl md:text-3xl font-serif font-bold text-[#C9A84C] tracking-wider whitespace-nowrap origin-left will-change-transform"
       >
         Basti Ram Palace
       </Link>

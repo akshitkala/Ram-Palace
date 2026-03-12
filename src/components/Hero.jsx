@@ -61,34 +61,42 @@ const Hero = () => {
           style={{ objectPosition: "center 35%" }}
         />
 
-        {/* ── TECHNIQUE 07: BOTTOM BAND GRADIENT ──
-            Only affects bottom 45% of image.
-            Top 55% (the beautiful floral arches) stays
-            completely untouched and full brightness.       */}
+        {/* ── BOTTOM BAND GRADIENT ── */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: `linear-gradient(
               to top,
-              rgba(10, 8, 5, 0.88) 0%,
-              rgba(10, 8, 5, 0.65) 22%,
-              rgba(10, 8, 5, 0.20) 42%,
+              rgba(10, 8, 5, 0.92) 0%,
+              rgba(10, 8, 5, 0.72) 20%,
+              rgba(10, 8, 5, 0.35) 42%,
               transparent            58%
             )`,
           }}
         />
 
-        {/* ── TECHNIQUE 07b: TOP BAND — navbar legibility only ──
-            Very subtle — just enough to read the nav links
-            against the bright cherry blossom sky.            */}
+        {/* ── TOP BAND — navbar legibility ── */}
         <div
           className="absolute top-0 left-0 right-0 pointer-events-none"
           style={{
             height: "130px",
             background: `linear-gradient(
               to bottom,
-              rgba(0, 0, 0, 0.45) 0%,
+              rgba(0, 0, 0, 0.50) 0%,
               transparent           100%
+            )`,
+          }}
+        />
+
+        {/* ── SIDE GRADIENT — left darkening on desktop ── */}
+        <div
+          className="absolute inset-0 pointer-events-none hidden md:block"
+          style={{
+            background: `linear-gradient(
+              to right,
+              rgba(10, 8, 5, 0.55) 0%,
+              rgba(10, 8, 5, 0.20) 40%,
+              transparent           65%
             )`,
           }}
         />
@@ -96,46 +104,44 @@ const Hero = () => {
         {/* ── HERO CONTENT ── */}
         <div ref={contentRef} className="relative z-10 w-full h-full">
 
-          {/* LEFT CONTENT BLOCK */}
+          {/* ── LEFT CONTENT BLOCK ── */}
           <div className="
-            absolute w-full px-6 text-center
-            top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2
-            md:text-left md:top-auto md:translate-y-0 md:translate-x-0
-            md:left-16 lg:left-24 md:bottom-44
+            absolute
+            bottom-[15vh] left-0 right-0
+            px-6
+            text-center
+            md:text-left md:bottom-44
+            md:left-16 lg:left-24
             md:w-[58%] md:px-0
+            md:right-auto
           ">
 
             {/* Pre-heading label */}
-            <p
-              className="
-                text-[10px] md:text-xs
-                tracking-[6px] uppercase
-                text-[#C9A84C]
-                mb-2 md:mb-6
-                font-medium
-                fade-in opacity-0
-                drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]
-              "
-            >
+            <p className="
+              text-[9px] md:text-xs
+              tracking-[4px] md:tracking-[6px] uppercase
+              text-[#C9A84C]
+              mb-3 md:mb-6
+              font-medium
+              fade-in opacity-0
+              drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]
+            ">
               Basti's Most Beloved Celebration Venue
             </p>
 
             {/* Main Heading */}
-            <h1
-              className="
-                font-heading
-                text-3xl md:text-5xl lg:text-[76px]
-                leading-[1.1]
-                text-luxury
-                fade-in opacity-0
-                mb-6 md:mb-10
-              "
-            >
+            <h1 className="
+              font-heading
+              text-[clamp(2rem,8vw,76px)]
+              leading-[1.1]
+              text-white
+              fade-in opacity-0
+              mb-7 md:mb-10
+              drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]
+            ">
               Where Every Occasion
               <br />
-              <em
-                className="text-luxury-secondary not-italic"
-              >
+              <em className="text-[#C9A84C] not-italic">
                 Becomes a Memory
               </em>
             </h1>
@@ -144,20 +150,19 @@ const Hero = () => {
             <div className="
               flex flex-col md:flex-row gap-3 md:gap-4
               justify-center md:justify-start
-              items-center
+              items-stretch md:items-center
               fade-in opacity-0
-              w-full
             ">
               <Link href="/contact" className="w-full md:w-auto">
                 <button className="
                   w-full md:w-auto
                   bg-[#C9A84C] text-[#1C1C1E]
-                  px-6 py-3.5 md:px-8 md:py-4
+                  px-8 py-4
                   text-[10px] md:text-xs
-                  tracking-[2.5px] uppercase font-medium
+                  tracking-[2.5px] uppercase font-semibold
+                  rounded-lg
                   transition-all duration-300
                   hover:bg-[#b8963e]
-                  hover:scale-105
                   hover:shadow-[0_8px_28px_rgba(201,168,76,0.4)]
                   active:scale-100
                 ">
@@ -168,18 +173,17 @@ const Hero = () => {
                 <button className="
                   w-full md:w-auto
                   bg-transparent text-white
-                  border border-white/60
-                  px-6 py-3.5 md:px-8 md:py-4
+                  border-2 border-white/60
+                  px-8 py-4
                   text-[10px] md:text-xs
-                  tracking-[2.5px] uppercase font-medium
+                  tracking-[2.5px] uppercase font-semibold
+                  rounded-lg
                   transition-all duration-300
                   hover:bg-white/10
-                  hover:border-white
+                  hover:border-white/90
                   active:bg-white/5
                 "
-                style={{
-                  textShadow: "0 1px 4px rgba(0,0,0,0.6)",
-                }}
+                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
                 >
                   Explore Venue
                 </button>
@@ -197,9 +201,11 @@ const Hero = () => {
             text-right
             fade-in opacity-0
           ">
-            <p
-              className="text-sm leading-relaxed text-white/85 font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
-            >
+            <p className="
+              text-sm leading-relaxed text-white/85
+              font-light
+              drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]
+            ">
               From intimate gatherings to grand weddings,
               Basti Ram Palace has been the heart of Basti's
               most treasured celebrations for over 15 years.
@@ -216,24 +222,20 @@ const Hero = () => {
             fade-in opacity-0
           ">
             {[
-              { num: "500+",   label: "Weddings Hosted"    },
-              { num: "1,200+", label: "Events Completed"   },
+              { num: "500+",   label: "Weddings Hosted"     },
+              { num: "1,200+", label: "Events Completed"    },
               { num: "15",     label: "Years of Excellence" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div
                   className="font-heading text-2xl lg:text-3xl text-[#C9A84C] font-light leading-none"
-                  style={{
-                    textShadow: "0 2px 8px rgba(0,0,0,0.8)",
-                  }}
+                  style={{ textShadow: "0 2px 8px rgba(0,0,0,0.8)" }}
                 >
                   {stat.num}
                 </div>
                 <div
                   className="text-[9px] tracking-[2.5px] uppercase text-white/55 mt-1.5"
-                  style={{
-                    textShadow: "0 1px 4px rgba(0,0,0,0.9)",
-                  }}
+                  style={{ textShadow: "0 1px 4px rgba(0,0,0,0.9)" }}
                 >
                   {stat.label}
                 </div>
@@ -246,15 +248,14 @@ const Hero = () => {
             hidden lg:block
             absolute bottom-[72px]
             left-1/2 -translate-x-1/2
-            w-px h-8
-            bg-white/20
+            w-px h-8 bg-white/20
             fade-in opacity-0
           " />
 
-          {/* SCROLL INDICATOR — mobile only */}
-          <div className="
+          {/* SCROLL INDICATOR — mobile & tablet */}
+          {/* <div className="
             lg:hidden
-            absolute bottom-8
+            absolute bottom-6
             left-1/2 -translate-x-1/2
             flex flex-col items-center gap-2
             fade-in opacity-0
@@ -268,7 +269,7 @@ const Hero = () => {
             <div className="w-px h-8 bg-white/20 relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 bg-[#C9A84C] animate-scroll-line" />
             </div>
-          </div>
+          </div> */}
 
         </div>
       </div>

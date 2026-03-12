@@ -106,7 +106,7 @@ const Navbar = () => {
         ref={navRef}
         className="fixed top-0 left-0 w-full z-50 text-white bg-black/40 backdrop-blur-sm border-b border-white/10 shadow-lg"
       >
-        <div className="flex items-center justify-between px-4 py-4 lg:px-10">
+        <div className="flex items-center justify-between px-6 py-4 lg:px-10">
           <NavLinks />
 
           <button

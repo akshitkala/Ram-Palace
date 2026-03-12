@@ -60,12 +60,13 @@ export default function ConfirmDeleteModal({
                   {images.map((img) => (
                     <div 
                       key={img.public_id} 
-                      className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-[#E8E0D4] shadow-sm"
+                      className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-[#E8E0D4] shadow-sm"
                     >
-                      <img
+                      <Image
                         src={img.secure_url}
                         alt=""
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                   ))}
@@ -73,11 +74,12 @@ export default function ConfirmDeleteModal({
               ) : image ? (
                 /* Single Thumbnail */
                 <div className="flex items-center gap-4">
-                  <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-[#F7F4EF] border border-[#E8E0D4]">
-                    <img
+                  <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-[#F7F4EF] border border-[#E8E0D4]">
+                    <Image
                       src={image.secure_url}
                       alt=""
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                   <div className="overflow-hidden">

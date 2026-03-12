@@ -66,10 +66,12 @@ function ImageCard({ img, index, onDelete, label, isVideo = false }) {
     <div
       className={`relative group ${isVideo ? "aspect-video" : "aspect-square"} bg-[#F2EDE4] overflow-hidden rounded-xl border border-[#E8E0D4]`}
     >
-      <img
+      <Image
         src={img.secure_url}
         alt={label || `Image ${index + 1}`}
-        className="w-full h-full object-cover"
+        fill
+        className="object-cover"
+        sizes="(max-width: 1280px) 20vw, 16vw"
         loading="lazy"
       />
 

@@ -4,6 +4,7 @@ import { useRef, useLayoutEffect } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ShimmerLine, GoldHairline } from "./Ornaments";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -112,14 +113,14 @@ const Footer = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-12 lg:px-16 pt-16 md:pt-20 pb-12">
 
         {/* Gold top rule */}
-        <div className="footer-rule w-full h-px bg-gradient-to-r from-[#C9A84C]/60 via-[#C9A84C]/20 to-transparent mb-14" />
+        <ShimmerLine className="footer-rule w-full opacity-60 mb-14" direction="left" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-10">
 
           {/* ── Col 1: Venue identity ── */}
           <div className="footer-col lg:col-span-1">
             <div className="flex items-center gap-3 mb-5">
-              <span className="w-5 h-px bg-[#C9A84C]" />
+              <GoldHairline className="w-5" />
               <span className="font-body text-[#C9A84C] text-[9px] tracking-[0.4em] uppercase font-bold">
                 The Venue
               </span>
@@ -160,7 +161,7 @@ const Footer = () => {
           {/* ── Col 2: Navigation ── */}
           <div className="footer-col">
             <div className="flex items-center gap-3 mb-5">
-              <span className="w-5 h-px bg-[#C9A84C]" />
+              <GoldHairline className="w-5" />
               <span className="font-body text-[#C9A84C] text-[9px] tracking-[0.4em] uppercase font-bold">
                 Explore
               </span>
@@ -186,7 +187,7 @@ const Footer = () => {
           {/* ── Col 3: Contact ── */}
           <div className="footer-col">
             <div className="flex items-center gap-3 mb-5">
-              <span className="w-5 h-px bg-[#C9A84C]" />
+              <GoldHairline className="w-5" />
               <span className="font-body text-[#C9A84C] text-[9px] tracking-[0.4em] uppercase font-bold">
                 Contact
               </span>
@@ -246,7 +247,7 @@ const Footer = () => {
           {/* ── Col 4: Address + Map ── */}
           <div className="footer-col">
             <div className="flex items-center gap-3 mb-5">
-              <span className="w-5 h-px bg-[#C9A84C]" />
+              <GoldHairline className="w-5" />
               <span className="font-body text-[#C9A84C] text-[9px] tracking-[0.4em] uppercase font-bold">
                 Find Us
               </span>
@@ -292,7 +293,7 @@ const Footer = () => {
                   key={i}
                   className={`footer-letter font-heading leading-none text-white/[0.06] select-none
                              ${isP ? "cursor-default pointer-events-auto" : "pointer-events-none"}`}
-                  style={{ fontSize: "clamp(2.5rem, 5.5vw, 6rem)" }}
+                  style={{ fontSize: "clamp(1.8rem, 5.5vw, 6rem)" }}
                 >
                   {char === " " ? "\u00A0" : char}
                 </span>

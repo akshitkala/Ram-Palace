@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import { menuCategories } from "@/Data/menu";
+import { GoldDivider } from "@/components/Ornaments";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,14 +31,7 @@ const CAT_META = {
    Ornamental divider
 ───────────────────────────────────────────────────────── */
 const OrnamentDivider = () => (
-  <div className="flex items-center justify-center gap-4 py-0">
-    <div className="flex-1 h-px bg-gradient-to-r from-transparent to-[#C9A84C]/30" />
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path d="M12 2L13.5 8.5L20 7L15.5 12L20 17L13.5 15.5L12 22L10.5 15.5L4 17L8.5 12L4 7L10.5 8.5Z"
-        fill="#C9A84C" fillOpacity="0.5"/>
-    </svg>
-    <div className="flex-1 h-px bg-gradient-to-l from-transparent to-[#C9A84C]/30" />
-  </div>
+  <GoldDivider className="py-4" />
 );
 
 /* ─────────────────────────────────────────────────────────
@@ -160,7 +154,8 @@ const CategoryHero = ({ cat, meta, index }) => {
       <div className={`cnum absolute top-1/2 -translate-y-1/2
                        font-heading leading-none select-none pointer-events-none
                        text-[140px] md:text-[200px] text-white/[0.04]
-                       ${isEven ? "-right-4 md:right-10" : "-left-4 md:left-10"}`}>
+                       ${isEven ? "-right-4 md:right-10" : "-left-4 md:left-10"}`}
+           aria-hidden="true">
         {meta.num}
       </div>
 
@@ -204,10 +199,11 @@ const CategoryBlock = ({ cat, index }) => {
   const cols = cat.subcategories.length === 1 ? "max-w-2xl mx-auto"
              : cat.subcategories.length === 2 ? "grid md:grid-cols-2"
              : "grid md:grid-cols-2 lg:grid-cols-3";
+
   return (
     <article id={cat.slug}>
       <CategoryHero cat={cat} meta={meta} index={index} />
-      <div className={`px-6 md:px-14 lg:px-20 py-12 md:py-16
+      <div className={`px-6 md:px-14 lg:px-20 py-12 md:py-16 overflow-hidden
                        ${index % 2 === 0 ? "bg-[#FAF7F2]" : "bg-white"}`}>
         <div className={`${cols} gap-x-14 gap-y-2`}>
           {cat.subcategories.map((sub, si) => <SubPanel key={si} sub={sub} />)}
@@ -338,9 +334,10 @@ export default function MenuPage() {
       <section className="mh-section relative min-h-screen flex flex-col justify-end overflow-hidden bg-[#1A0D08]">
         <div className="mh-bg absolute inset-0 z-0 ">
           <Image
-            src="/images/hero/Menu.webp"
-            alt=""
+            src="/images/hero/MenuHero.webp"
+            alt="The Menu — GD Foods India"
             fill
+            priority
             sizes="100vw"
             className="w-full h-full object-cover"
           />
@@ -361,7 +358,7 @@ export default function MenuPage() {
             </span>
           </div>
 
-          <h1 className="font-heading leading-[0.9] mb-8">
+          <h1 className="font-heading leading-[0.8] mb-8 mt-14 lg:mt-20">
             <span className="mh-title-word block text-white text-[clamp(4rem,11vw,140px)]">The</span>
             <span className="mh-title-word block text-[#C9A84C] text-[clamp(4rem,11vw,140px)]">Menu</span>
           </h1>
@@ -485,11 +482,7 @@ export default function MenuPage() {
         <div className="absolute bottom-10 right-10 w-20 h-20 border-b border-r border-[#C9A84C]/15 pointer-events-none" />
 
         <div className="relative z-10 max-w-2xl mx-auto">
-          <div className="flex items-center justify-center gap-5 mb-10">
-            <span className="w-14 h-px bg-gradient-to-r from-transparent to-[#C9A84C]/35" />
-            <span className="text-[#C9A84C]/45 text-xl">✦</span>
-            <span className="w-14 h-px bg-gradient-to-l from-transparent to-[#C9A84C]/35" />
-          </div>
+          <GoldDivider className="mb-10" />
           <h2 className="font-heading text-4xl md:text-6xl text-white leading-tight mb-5">
             Craft Your Perfect<br />
             <em className="not-italic text-[#C9A84C]">Celebration Menu</em>

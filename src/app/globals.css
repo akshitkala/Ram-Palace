@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+:root {
+  --gold:        #C9A84C;
+  --gold-light:  rgba(201, 168, 76, 0.15);
+  --gold-faint:  rgba(201, 168, 76, 0.08);
+  --charcoal:    #1C1C1E;
+  --ivory:       #FAF7F2;
+  --ivory-deep:  #F2EDE4;
+  --palace-tan:  #A99686;
+  --text-primary:#1C1C1E;
+  --text-muted:  #6B5E4E;
+  --border:      #E8E0D0;
+  --preloader-bg:#161412;
+}
+
 html, body {
   background-color: #161412;
 }

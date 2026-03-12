@@ -2,26 +2,35 @@
 import { useState, useCallback } from "react";
 import Preloader from "@/components/Preloader";
 
-export default function RootLayoutClient({
-  children
-}) {
-  const [ready, setReady] = useState(false);
+export default function RootLayoutClient({ children }) {
+  const [phase, setPhase] = useState("loading");
+  // phase: "loading" | "revealing" | "done"
+
+  const handleExiting = useCallback(() => {
+    // Called the moment panels START sliding
+    // Page becomes visible so user sees hero
+    // through the gap as doors open
+    setPhase("revealing");
+  }, []);
 
   const handleComplete = useCallback(() => {
-    setReady(true);
+    // Called when panels fully off screen
+    setPhase("done");
   }, []);
 
   return (
     <>
-      <Preloader onComplete={handleComplete} />
+      <Preloader
+        onExiting={handleExiting}
+        onComplete={handleComplete}
+      />
 
       <div
         style={{
-          opacity:    ready ? 1 : 0,
-          transition: "opacity 0.6s ease",
-          // Slight delay so transition starts
-          // just as panels finish clearing
-          transitionDelay: ready ? "0.05s" : "0s",
+          opacity: phase === "loading" ? 0 : 1,
+          // Instant reveal — no fade
+          // Hero appears the moment doors start opening
+          transition: "none",
         }}
       >
         {children}

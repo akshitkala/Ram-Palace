@@ -15,6 +15,7 @@ import {
   cateringGallery,
   trustedClients,
 } from "@/Data/catering";
+import { GoldDivider, ShimmerLine, SectionDivider } from "@/components/Ornaments";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -143,7 +144,7 @@ export default function CateringPage() {
     <div ref={pageRef} className="bg-[#FAF7F2] overflow-x-hidden">
 
       {/* ═══ 1. HERO ═══ */}
-      <section className="hero-section relative h-screen min-h-[680px] flex items-center justify-center overflow-hidden">
+      <section className="hero-section relative h-screen min-h-[680px] flex items-center justify-center overflow-hidden ">
         <div className="hero-bg absolute inset-0 z-0">
           <Image
             src={cateringHero.image}
@@ -157,11 +158,11 @@ export default function CateringPage() {
 
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <div className="reveal flex items-center justify-center gap-3 mb-8">
-            <span className="block w-12 h-px bg-gradient-to-r from-transparent to-[#C9A96E]" />
-            <span className="font-body text-[#C9A96E] text-xs tracking-[0.35em] uppercase font-semibold">
+            <ShimmerLine className="w-12" direction="left" />
+            <span className="font-body text-[#C9A84C] text-xs tracking-[0.35em] uppercase font-semibold">
               GD Foods India · Basti Ram Palace
             </span>
-            <span className="block w-12 h-px bg-gradient-to-l from-transparent to-[#C9A96E]" />
+            <ShimmerLine className="w-12" direction="right" />
           </div>
 
           <h1 className="reveal font-heading text-5xl sm:text-6xl md:text-8xl text-white leading-tight mb-8">
@@ -178,7 +179,7 @@ export default function CateringPage() {
           <div className="reveal flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#culinary-spectrum"
-              className="bg-gradient-to-br from-[#C9A96E] to-[#A8883D] text-[#1a0f08] font-body font-bold
+              className="bg-gradient-to-br from-[#C9A84C] to-[#A8883D] text-[#1a0f08] font-body font-bold
                          uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm
                          transition-all duration-300 hover:shadow-[0_8px_32px_rgba(201,169,110,0.45)] hover:-translate-y-0.5"
             >
@@ -196,7 +197,7 @@ export default function CateringPage() {
         </div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-          <div className="w-px h-10 bg-gradient-to-b from-transparent via-[#C9A96E]/60 to-transparent animate-pulse" />
+          <div className="w-px h-10 bg-gradient-to-b from-transparent via-[#C9A84C]/60 to-transparent animate-pulse" />
           <span className="font-body text-white/30 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
         </div>
       </section>
@@ -213,10 +214,10 @@ export default function CateringPage() {
             <div
               key={i}
               className={`text-center ${
-                i > 0 ? "border-l border-[#C9A96E]/20 pl-12" : ""
+                i > 0 ? "border-l border-[#C9A84C]/20 pl-12" : ""
               }`}
             >
-              <div className="font-heading text-4xl md:text-5xl text-[#C9A96E] font-semibold">
+              <div className="font-heading text-4xl md:text-5xl text-[#C9A84C] font-semibold">
                 <span className="stat-num" data-target={s.target}>0+</span>
               </div>
               <div className="font-body text-white/45 text-xs tracking-widest uppercase mt-1">
@@ -231,7 +232,7 @@ export default function CateringPage() {
       <section className="py-24 md:py-36 px-6 bg-[#FAF7F2]">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-28 items-center">
           <div className="reveal">
-            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
+            <span className="block font-body text-[#C9A84C] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Our Philosophy
             </span>
             <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] leading-tight mb-5">
@@ -246,7 +247,7 @@ export default function CateringPage() {
             <ul className="space-y-3 mb-8">
               {culinaryPhilosophy.points.map((pt, i) => (
                 <li key={i} className="flex items-start gap-3 font-body text-[#444] text-sm leading-relaxed">
-                  <span className="mt-2 w-1.5 h-1.5 bg-[#C9A96E] rounded-full flex-shrink-0" />
+                  <span className="mt-2 w-1.5 h-1.5 bg-[#C9A84C] rounded-full flex-shrink-0" />
                   {pt}
                 </li>
               ))}
@@ -257,21 +258,20 @@ export default function CateringPage() {
           </div>
 
           <div className="reveal relative">
-            <div className="rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.18)]">
+            <div className="relative rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.18)] h-[480px] md:h-[580px]">
               <Image
                 src={culinaryPhilosophy.image}
                 alt="Culinary excellence"
-                width={1200}
-                height={800}
+                fill
                 quality={70}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="w-full h-[480px] md:h-[580px] object-cover"
+                className="object-cover"
               />
             </div>
-            <div className="absolute -bottom-7 -left-7 w-36 h-36 border border-[#C9A96E]/20 rounded-2xl -z-10" />
-            <div className="absolute -top-7 -right-7 w-28 h-28 border border-[#C9A96E]/20 rounded-2xl -z-10" />
-            <div className="absolute bottom-6 right-6 bg-[#2B1810]/90 backdrop-blur-sm rounded-xl px-5 py-3 border border-[#C9A96E]/25">
-              <span className="font-heading-italic text-[#C9A96E] text-sm block">Culinary</span>
+            <div className="absolute -bottom-7 -left-7 w-36 h-36 border border-[#C9A84C]/20 rounded-2xl -z-10" />
+            <div className="absolute -top-7 -right-7 w-28 h-28 border border-[#C9A84C]/20 rounded-2xl -z-10" />
+            <div className="absolute bottom-6 right-6 bg-[#2B1810]/90 backdrop-blur-sm rounded-xl px-5 py-3 border border-[#C9A84C]/25">
+              <span className="font-heading-italic text-[#C9A84C] text-sm block">Culinary</span>
               <span className="font-body text-white text-xs tracking-widest uppercase">Excellence</span>
             </div>
           </div>
@@ -283,13 +283,13 @@ export default function CateringPage() {
       <section className="py-24 md:py-36 px-6 bg-[#FAF7F2]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14 reveal">
-            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
+            <span className="block font-body text-[#C9A84C] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Our Services
             </span>
             <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] mb-6">
               Catering for Every Occasion
             </h2>
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
+            <ShimmerLine className="w-16 mx-auto mb-6" />
             <p className="font-body text-[#666] text-base max-w-xl mx-auto">
               Complete catering solutions delivered with structured coordination and refined
               hospitality — for events of any scale.
@@ -303,7 +303,7 @@ export default function CateringPage() {
                 className="event-tag font-body text-[#2A1F15] text-sm border border-[#D5C9B8] bg-white
                            px-5 py-2.5 rounded-full cursor-default
                            transition-all duration-200
-                           hover:bg-[#C9A96E] hover:text-[#1a0f08] hover:border-[#C9A96E]"
+                           hover:bg-[#C9A84C] hover:text-[#1a0f08] hover:border-[#C9A84C]"
               >
                 {event}
               </span>
@@ -319,17 +319,17 @@ export default function CateringPage() {
       {/* ═══ 6. SERVICE EXCELLENCE ═══ */}
       <section className="relative py-24 md:py-36 px-6 bg-[#2B1810] overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px]
-                        bg-[#C9A96E]/5 rounded-full blur-3xl pointer-events-none" />
+                        bg-[#C9A84C]/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-4xl mx-auto">
           <div className="text-center mb-14">
-            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
+            <span className="block font-body text-[#C9A84C] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Why Choose Us
             </span>
             <h2 className="reveal font-heading text-4xl md:text-6xl text-white mb-6">
               Complete Catering Solutions
             </h2>
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
+            <ShimmerLine className="w-16 mx-auto mb-6" />
             <p className="reveal font-body text-white/60 text-base max-w-xl mx-auto">
               Our team focuses on delivering an experience that goes beyond the food —
               every detail, every moment, managed with precision.
@@ -340,10 +340,10 @@ export default function CateringPage() {
             {serviceExcellence.map((item, i) => (
               <div key={i} className="service-item flex items-center gap-4">
                 <span
-                  className="flex-shrink-0 w-7 h-7 rounded-full bg-[#C9A96E]/15 border border-[#C9A96E]/30
+                  className="flex-shrink-0 w-7 h-7 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/30
                                flex items-center justify-center"
                 >
-                  <svg className="w-3.5 h-3.5 text-[#C9A96E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 text-[#C9A84C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
                 </span>
@@ -362,13 +362,13 @@ export default function CateringPage() {
       <section className="py-24 md:py-36 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 reveal">
-            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
+            <span className="block font-body text-[#C9A84C] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Visual Experience
             </span>
             <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] mb-6">
               Crafted to Impress
             </h2>
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
+            <ShimmerLine className="w-16 mx-auto mb-6" />
             <p className="font-body text-[#666] text-base max-w-xl mx-auto">
               A glimpse into our buffet setups, live stations, outdoor catering layouts,
               and refined service presentation.
@@ -412,13 +412,13 @@ export default function CateringPage() {
       <section className="py-24 md:py-32 px-6 bg-[#FAF7F2]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14 reveal">
-            <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
+            <span className="block font-body text-[#C9A84C] text-xs font-semibold tracking-[0.35em] uppercase mb-5">
               Our Clients
             </span>
             <h2 className="font-heading text-4xl md:text-6xl text-[#2A1F15] mb-6">
               Trusted by Leading Organizations
             </h2>
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-6" />
+            <ShimmerLine className="w-16 mx-auto mb-6" />
             <p className="font-body text-[#666] text-base max-w-xl mx-auto">
               From global corporations to premier institutions — our catering services have been
               chosen by brands that demand nothing less than excellence.
@@ -439,7 +439,7 @@ export default function CateringPage() {
                   className="flex-shrink-0 w-36 h-20 bg-white rounded-xl border border-[#EDE5D8]
                              flex flex-col items-center justify-center gap-1 px-4
                              grayscale hover:grayscale-0 transition-all duration-300
-                             hover:shadow-md hover:border-[#C9A96E]/40"
+                             hover:shadow-md hover:border-[#C9A84C]/40"
                 >
                   <span className="font-heading text-xl font-semibold text-[#6B5C4C]">{client.initials}</span>
                   <span className="font-body text-[9px] text-[#AAA] tracking-wider uppercase text-center leading-tight">
@@ -456,18 +456,18 @@ export default function CateringPage() {
       <section className="relative py-28 md:py-40 px-6 bg-[#2B1810] overflow-hidden">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                      w-[600px] h-[400px] bg-[#C9A96E]/5 rounded-full blur-3xl pointer-events-none"
+                      w-[600px] h-[400px] bg-[#C9A84C]/5 rounded-full blur-3xl pointer-events-none"
         />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center">
-          <span className="block font-body text-[#C9A96E] text-xs font-semibold tracking-[0.35em] uppercase mb-6">
+          <span className="block font-body text-[#C9A84C] text-xs font-semibold tracking-[0.35em] uppercase mb-6">
             Ready to Begin?
           </span>
 
           <h2 className="reveal font-heading text-4xl sm:text-5xl md:text-7xl text-white leading-tight mb-6">
             Let Us Curate Your Perfect Menu
           </h2>
-          <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mb-8" />
+          <ShimmerLine className="w-16 mx-auto mb-8" />
           <p className="reveal font-body text-white/65 text-base leading-relaxed max-w-xl mx-auto mb-12">
             From intimate dinners to grand weddings, GD Foods India crafts every menu with care,
             precision, and a passion for exceptional food. Get in touch — we'd love to be a part of your celebration.
@@ -476,7 +476,7 @@ export default function CateringPage() {
           <div className="reveal flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link
               href="/enquiry"
-              className="bg-gradient-to-br from-[#C9A96E] to-[#A8883D] text-[#1a0f08] font-body font-bold
+              className="bg-gradient-to-br from-[#C9A84C] to-[#A8883D] text-[#1a0f08] font-body font-bold
                          uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm
                          transition-all duration-300 hover:shadow-[0_8px_32px_rgba(201,169,110,0.45)] hover:-translate-y-0.5"
             >
@@ -484,9 +484,9 @@ export default function CateringPage() {
             </Link>
             <a
               href="tel:+918800190003"
-              className="border border-[#C9A96E]/40 text-[#C9A96E] font-body font-semibold uppercase
+              className="border border-[#C9A84C]/40 text-[#C9A84C] font-body font-semibold uppercase
                          tracking-[0.15em] px-8 py-4 rounded-lg text-sm
-                         transition-all duration-300 hover:bg-[#C9A96E]/10"
+                         transition-all duration-300 hover:bg-[#C9A84C]/10"
             >
               Call +91-88001 90003
             </a>
@@ -507,7 +507,7 @@ export default function CateringPage() {
               <a
                 key={num}
                 href={`tel:${num.replace(/-/g, "")}`}
-                className="font-body text-white/35 text-sm tracking-wider hover:text-[#C9A96E] transition-colors"
+                className="font-body text-white/35 text-sm tracking-wider hover:text-[#C9A84C] transition-colors"
               >
                 {num}
               </a>

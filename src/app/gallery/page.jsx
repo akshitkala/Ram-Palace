@@ -130,17 +130,16 @@ export default function GalleryPage() {
       
       {/* 1. Cinematic Hero Section */}
       <section ref={heroRef} className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Parallax Background */}
-        {/* TODO: migrate to <Image fill> for optimization */}
-        <div 
-            className="absolute inset-0 z-0 bg-fixed bg-center bg-cover"
-            style={{ 
-                backgroundImage: "url('/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.webp')",
-                willChange: "transform"
-            }}
-        >
-            <div className="absolute inset-0 bg-black/40" />
-        </div>
+        {/* Cinematic Hero Background */}
+        <Image 
+          src="/images/hero/GalleryHero.jpg"
+          alt="Basti Ram Palace Gallery"
+          fill
+          priority
+          className="object-cover object-center z-0"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-black/40 z-[1]" />
 
         <div className="relative z-10 text-center text-white px-6">
           <h1 className="hero-text font-heading text-5xl md:text-7xl mb-4 tracking-wide">
