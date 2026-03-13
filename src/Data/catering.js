@@ -118,18 +118,13 @@ export const serviceExcellence = [
 // ── 6. GALLERY ────────────────────────────────────────────────────────────────
 // Replace these paths with your actual uploaded gallery images
 export const cateringGallery = [
-  { id: 1, image: "/images/gallery/amish-thakkar-1rLF6hxmm7M-unsplash.webp", alt: "Grand buffet setup at Basti Ram Palace" },
-  { id: 2, image: "/images/gallery/amish-thakkar-7O422yG_b80-unsplash.webp", alt: "Elegant food counter display" },
-  { id: 3, image: "/images/gallery/awesome-sauce-creative-lvZN2e4LPvg-unsplash.webp", alt: "Service staff lineup ready to serve" },
-  { id: 4, image: "/images/gallery/cody-chan-7jgtAhJkjwk-unsplash.webp", alt: "Outdoor catering with decorated counters" },
-  { id: 5, image: "/images/gallery/drew-coffman-llWjwo200fo-unsplash.webp", alt: "Basti Ram Palace main entrance" },
-  { id: 6, image: "/images/gallery/evelina-friman-hw_sKmjb0ns-unsplash.webp", alt: "Banquet hall interior setup" },
-  { id: 7, image: "/images/gallery/leonardo-miranda-riHGdvluDk8-unsplash.webp", alt: "Live kitchen stations at event" },
-  { id: 8, image: "/images/gallery/nathan-dumlao-5BB_atDT4oA-unsplash.webp", alt: "Wedding reception catering layout" },
-  { id: 9, image: "/images/gallery/photos-by-lanty-O38Id_cyV4M-unsplash.webp", alt: "Outdoor garden event setup" },
-  { id: 10, image: "/images/gallery/pranav-kumar-jain-JZgpnwhdI68-unsplash.webp", alt: "Corporate dining arrangement" },
-  { id: 11, image: "/images/gallery/samantha-gades-x40Q9jrEVT0-unsplash.webp", alt: "Institutional catering service" },
-  { id: 12, image: "/images/events/weddings/vaibhav-nagare-0ci9am-l-Dk-unsplash.webp", alt: "Luxury dessert counter" },
+  { id: 1, image: "/images/Catering/catering-1.png", alt: "Premium catering service at Basti Ram Palace" },
+  { id: 2, image: "/images/Catering/catering-2.png", alt: "Elegant food presentation and buffet setup" },
+  { id: 3, image: "/images/Catering/catering-3.png", alt: "Professional service staff and event hospitality" },
+  { id: 4, image: "/images/Catering/catering-4.png", alt: "Customized culinary delights for special occasions" },
+  { id: 5, image: "/images/Catering/catering-5.png", alt: "Freshly prepared snacks and starters" },
+  { id: 6, image: "/images/Catering/catering-6.png", alt: "Exquisite main course selection and dining" },
+  { id: 7, image: "/images/Catering/catering-7.png", alt: "Desserts and sweet treats for guests" },
 ];
 
 // ── 7. TRUSTED CLIENTS ────────────────────────────────────────────────────────

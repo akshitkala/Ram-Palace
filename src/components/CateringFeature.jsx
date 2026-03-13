@@ -205,7 +205,7 @@ const CateringFeature = () => {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/catering/menu"
+                href="/menu"
                 className="inline-flex items-center justify-center gap-2
                            bg-gradient-to-br from-[#C9A84C] to-[#A8883D] text-white
                            font-body font-bold uppercase tracking-[0.15em]
@@ -217,7 +217,7 @@ const CateringFeature = () => {
                 Explore Full Menu →
               </Link>
               <Link
-                href="/enquiry"
+                href="/contact"
                 className="inline-flex items-center justify-center
                            border border-[#2B1810]/20 text-[#2B1810]/70 bg-white
                            font-body font-semibold uppercase tracking-[0.15em]

@@ -4,7 +4,7 @@ import { IconArrowLeft, IconArrowRight, IconStarFilled, IconStar } from "@tabler
 import gsap from "gsap";
 import { useEffect, useState, useCallback, useRef } from "react";
 
-const AUTOPLAY_INTERVAL = 5500;
+const AUTOPLAY_INTERVAL = 2500;
 
 const Testimonial = ({ testimonials, autoplay = true, className = "" }) => {
   const [active, setActive]     = useState(0);

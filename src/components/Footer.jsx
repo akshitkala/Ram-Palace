@@ -17,7 +17,7 @@ const NAV_LINKS = [
   { label: "Corporate Events", href: "/events/corporate-events" },
   { label: "Private Parties",  href: "/events/private-parties" },
   { label: "Catering",         href: "/catering" },
-  { label: "Enquire Now",      href: "/enquiry" },
+  { label: "Enquire Now",      href: "/contact" },
 ];
 
 const CONTACTS = [

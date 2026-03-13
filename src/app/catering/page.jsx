@@ -186,7 +186,7 @@ export default function CateringPage() {
               Explore the Menu
             </a>
             <Link
-              href="/enquiry"
+              href="/contact"
               className="border border-white/30 text-white/90 font-body font-semibold uppercase
                          tracking-[0.15em] px-8 py-4 rounded-lg text-sm backdrop-blur-sm bg-white/5
                          transition-all duration-300 hover:bg-white/10"
@@ -475,7 +475,7 @@ export default function CateringPage() {
 
           <div className="reveal flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link
-              href="/enquiry"
+              href="/contact"
               className="bg-gradient-to-br from-[#C9A84C] to-[#A8883D] text-[#1a0f08] font-body font-bold
                          uppercase tracking-[0.15em] px-8 py-4 rounded-lg text-sm
                          transition-all duration-300 hover:shadow-[0_8px_32px_rgba(201,169,110,0.45)] hover:-translate-y-0.5"

@@ -391,7 +391,7 @@ export default function MenuPage() {
                          hover:shadow-[0_8px_32px_rgba(201,168,76,0.5)] hover:-translate-y-0.5">
               Browse Menu ↓
             </button>
-            <Link href="/enquiry"
+            <Link href="/contact"
               className="inline-flex items-center gap-2 border border-white/20 text-white/60
                          font-body font-semibold uppercase tracking-[0.15em]
                          px-9 py-4 rounded-lg text-sm transition-all duration-300
@@ -492,7 +492,7 @@ export default function MenuPage() {
             and preferences — we'll craft the experience.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/enquiry"
+            <Link href="/contact"
               className="inline-block bg-gradient-to-br from-[#C9A84C] to-[#A8883D]
                          text-[#1a0f08] font-body font-bold uppercase tracking-[0.18em]
                          px-10 py-4 rounded-lg text-sm transition-all duration-300

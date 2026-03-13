@@ -68,7 +68,7 @@ export default function NavLinks() {
         </li>
         <li>
           <Link 
-            href="/Menu" 
+            href="/menu" 
             className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
           >
             Menu

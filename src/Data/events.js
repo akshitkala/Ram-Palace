@@ -93,7 +93,7 @@ export const eventDetails = {
     ],
     cta: {
       text: "Plan Your Wedding with Us",
-      link: "/enquiry",
+      link: "/contact",
     },
   },
 
@@ -128,7 +128,7 @@ export const eventDetails = {
     ],
     cta: {
       text: "Plan Your Corporate Event with Us",
-      link: "/enquiry",
+      link: "/contact",
     },
   },
 
@@ -163,7 +163,7 @@ export const eventDetails = {
     ],
     cta: {
       text: "Plan Your Party with Us",
-      link: "/enquiry",
+      link: "/contact",
     },
   },
 };
