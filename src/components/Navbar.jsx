@@ -155,9 +155,11 @@ const Navbar = () => {
             <FaInstagram className="text-2xl" />
           </div>
 
-          <button className="text-xl text-white px-6 py-3 bg-[#C9A84C] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-105 hover:shadow-lg">
-            Reserve Now
-          </button>
+          <Link href="/contact" className="w-full">
+            <button className="w-full text-xl text-white px-6 py-3 bg-[#C9A84C] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-105 hover:shadow-lg">
+              Reserve Now
+            </button>
+          </Link>
         </div>
       </div>
     </>

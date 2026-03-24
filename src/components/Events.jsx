@@ -14,7 +14,7 @@ const EVENT_CONFIG = [
     description: "From the ceremony to the last dance — every detail of your wedding day deserves a setting as extraordinary as the occasion itself. Grand hall, adorned to your vision, with cuisine by GD Foods India.",
     features:    ["Grand Banquet Hall", "Custom Décor", "GD Foods Catering"],
     cta:         "Plan Your Wedding",
-    link:        "/contact?event=wedding",
+    link:        "/contact",
   },
   {
     id:          "corporate",
@@ -23,7 +23,7 @@ const EVENT_CONFIG = [
     description: "Boardroom announcements, product launches, annual galas — we bring precision and warmth to every corporate occasion. Trusted by leading organisations through our catering partner GD Foods India.",
     features:    ["AV & Projector Setup", "Conference Layout", "Corporate Catering"],
     cta:         "Request a Proposal",
-    link:        "/contact?event=corporate",
+    link:        "/contact",
   },
   {
     id:          "private-parties",
@@ -32,7 +32,7 @@ const EVENT_CONFIG = [
     description: "Birthdays, anniversaries, engagements, and family milestones. Intimate or grand — every private celebration gets the five-star treatment that Basti's families have come to trust.",
     features:    ["Flexible Capacity", "Themed Décor", "Live Food Stations"],
     cta:         "Plan Your Celebration",
-    link:        "/contact?event=private",
+    link:        "/contact",
   },
 ];
 
