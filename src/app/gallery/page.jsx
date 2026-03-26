@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef, useLayoutEffect, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FiX, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import Footer from "@/components/Footer";
-import Image from "next/image";
+import GalleryHero from "@/components/Gallery/GalleryHero";
+import GalleryGrid from "@/components/Gallery/GalleryGrid";
+import GalleryLightbox from "@/components/Gallery/GalleryLightbox";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -127,165 +128,25 @@ export default function GalleryPage() {
 
   return (
     <div className="bg-[#fefaf6] min-h-screen">
+      <GalleryHero heroRef={heroRef} />
       
-      {/* 1. Cinematic Hero Section */}
-      <section ref={heroRef} className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Cinematic Hero Background */}
-        <Image 
-          src="/images/hero/GalleryHero.jpg"
-          alt="Basti Ram Palace Gallery"
-          fill
-          priority
-          className="object-cover object-center z-0"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-black/40 z-[1]" />
+      <GalleryGrid 
+        images={images}
+        loading={loading}
+        error={error}
+        hasMore={hasMore}
+        loadingMore={loadingMore}
+        sentinelRef={sentinelRef}
+        fetchImages={fetchImages}
+        setSelectedImage={setSelectedImage}
+      />
 
-        <div className="relative z-10 text-center text-white px-6">
-          <h1 className="hero-text font-heading text-5xl md:text-7xl mb-4 tracking-wide">
-            Gallery
-          </h1>
-          <p className="hero-text font-body text-xl md:text-2xl font-light tracking-widest uppercase opacity-90">
-            Moments at Basti Ram Palace
-          </p>
-          <div className="hero-text w-24 h-[1px] bg-[#C9A84C] mx-auto mt-8"></div>
-        </div>
-      </section>
-
-      {/* Main Gallery Grid */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        
-        {/* Initial load skeleton */}
-        {loading && images.length === 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {Array.from({ length: 24 }).map((_, i) => (
-              <div
-                key={i}
-                className="aspect-square bg-[#E8E0D0] animate-pulse"
-                style={{ animationDelay: `${i * 0.03}s` }}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Error state */}
-        {error && (
-          <div className="text-center py-20">
-            <p className="text-[#A99686] text-sm font-body">Unable to load gallery.</p>
-            <button
-              onClick={() => fetchImages()}
-              className="mt-4 text-xs text-[#C9A84C] underline font-body"
-            >
-              Try again
-            </button>
-          </div>
-        )}
-
-        {/* Image grid */}
-        {images.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {images.map((img, i) => (
-              <div
-                key={img.public_id}
-                className="relative aspect-square bg-[#F2EDE4] overflow-hidden group cursor-pointer rounded-sm"
-                onClick={() => setSelectedImage(img)}
-              >
-                <Image
-                  src={img.secure_url}
-                  alt={`Gallery ${i + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Empty state */}
-        {!loading && images.length === 0 && !error && (
-          <div className="text-center py-20">
-            <p className="text-[#A99686] text-sm font-body tracking-widest uppercase">
-              Gallery coming soon
-            </p>
-          </div>
-        )}
-
-        {/* ── SENTINEL ── */}
-        <div ref={sentinelRef} className="w-full h-1" aria-hidden="true" />
-
-        {/* Load more spinner */}
-        {loadingMore && (
-          <div className="flex justify-center items-center py-12 gap-3">
-            {[0, 1, 2].map(i => (
-              <div
-                key={i}
-                className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse"
-                style={{ animationDelay: `${i * 0.15}s` }}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* End of gallery message */}
-        {!hasMore && images.length > 0 && !loadingMore && (
-          <div className="flex flex-col items-center py-12 gap-3">
-            <div className="w-8 h-px bg-[#C9A84C]/30" />
-            <p className="text-[#A99686] text-[10px] tracking-[4px] uppercase font-body">
-              All photos loaded
-            </p>
-            <div className="w-8 h-px bg-[#C9A84C]/30" />
-          </div>
-        )}
-      </div>
-
-      {/* Lightbox Modal */}
-      {selectedImage && (
-        <div 
-            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300"
-            onClick={closeLightbox}
-        >
-          {/* Close Button */}
-          <button 
-            className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors p-2"
-            onClick={closeLightbox}
-          >
-            <FiX size={40} />
-          </button>
-
-          {/* Navigation */}
-          <button 
-            className="absolute left-4 md:left-10 text-white/50 hover:text-white transition-all p-4 hover:bg-white/10 rounded-full"
-            onClick={handlePrev}
-          >
-            <FiArrowLeft size={30} />
-          </button>
-
-          <button 
-            className="absolute right-4 md:right-10 text-white/50 hover:text-white transition-all p-4 hover:bg-white/10 rounded-full"
-            onClick={handleNext}
-          >
-            <FiArrowRight size={30} />
-          </button>
-
-          {/* Image */}
-          <div 
-            className="max-w-5xl max-h-[85vh] relative flex justify-center w-full h-full p-8"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative w-full h-full max-h-[80vh]">
-              <Image
-                src={selectedImage.secure_url}
-                alt="Selected image"
-                fill
-                className="object-contain"
-                sizes="100vw"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      <GalleryLightbox 
+        selectedImage={selectedImage}
+        closeLightbox={closeLightbox}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+      />
 
       <Footer />
     </div>
