@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  IconLayoutDashboard, 
   IconPhoto, 
   IconSlideshow, 
   IconPackage, 
@@ -27,7 +26,6 @@ import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal";
 import Toast from "@/components/admin/Toast";
 
 const NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard", icon: <IconLayoutDashboard size={20} /> },
   { id: "gallery", label: "Gallery", icon: <IconPhoto size={20} /> },
   { id: "carousel", label: "Carousel", icon: <IconSlideshow size={20} /> },
   { id: "events", label: "Events", icon: <IconPackage size={20} /> },
@@ -106,12 +104,10 @@ export default function AdminPage() {
   const router = useRouter();
   
   // Tabs & Navigation
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState("gallery");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // States
-  const [stats, setStats] = useState(null);
-  const [statsLoading, setStatsLoading] = useState(true);
 
   const [galleryImages, setGalleryImages] = useState([]);
   const [galleryLoading, setGalleryLoading] = useState(true);
@@ -150,7 +146,6 @@ export default function AdminPage() {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    fetchStats();
     fetchGallery();
     fetchCarousel();
     fetchEvents("weddings");
@@ -175,17 +170,6 @@ export default function AdminPage() {
   };
 
   // --- API FETCHERS ---
-  const fetchStats = async () => {
-    try {
-      const res = await fetch("/api/admin/stats");
-      const data = await res.json();
-      setStats(data);
-    } catch (err) {
-      console.error("Failed to fetch stats:", err);
-    } finally {
-      setStatsLoading(false);
-    }
-  };
 
   const fetchGallery = async () => {
     setGalleryLoading(true);
@@ -268,7 +252,6 @@ export default function AdminPage() {
     }
 
     await fetchGallery();
-    await fetchStats();
     setGalleryUploading(false);
     setGalleryProgress(0);
   };
@@ -293,7 +276,6 @@ export default function AdminPage() {
         addToast("Delete failed", "error");
       } else {
         addToast("Deleted permanently");
-        await fetchStats();
       }
     } catch {
       await fetchGallery(); // revert
@@ -348,7 +330,6 @@ export default function AdminPage() {
     }
 
     await fetchCarousel();
-    await fetchStats();
     setCarouselUploading(false);
     setCarouselProgress(0);
   };
@@ -373,7 +354,6 @@ export default function AdminPage() {
         addToast("Delete failed", "error");
       } else {
         addToast("Slide removed");
-        await fetchStats();
       }
     } catch {
       await fetchCarousel(); // revert
@@ -424,7 +404,6 @@ export default function AdminPage() {
     }
 
     await fetchEvents(eventCategory);
-    await fetchStats();
     setEventUploading(false);
     setEventProgress(0);
   };
@@ -452,7 +431,6 @@ export default function AdminPage() {
         addToast("Delete failed", "error");
       } else {
         addToast("Deleted permanently");
-        await fetchStats();
       }
     } catch {
       await fetchEvents(eventCategory); // revert
@@ -490,7 +468,6 @@ export default function AdminPage() {
           }
           addToast(`Deleted ${successCount} images`);
           await refreshData();
-          await fetchStats();
           setSelectedIds(new Set());
           setSelectMode(false);
         } catch {
@@ -522,22 +499,6 @@ export default function AdminPage() {
     <div className="aspect-square rounded-xl bg-[#E8E0D4]/40 animate-pulse border border-[#E8E0D4]/50" />
   );
 
-  const StatCard = ({ label, value, sub, active = false }) => (
-    <div className={`bg-white rounded-xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.06)] border border-[#E8E0D4] relative overflow-hidden group
-                    ${active ? "border-b-2 border-b-[#C9A84C]" : ""}`}>
-      <p className="text-[10px] tracking-[0.2em] uppercase text-[#7A6A5A] font-body">
-        {label}
-      </p>
-      <p className="mt-3 text-4xl text-[#1C1009] font-heading font-normal">
-        {value}
-      </p>
-      {sub && (
-        <p className="mt-2 text-xs text-[#7A6A5A] font-body opacity-80">
-          {sub}
-        </p>
-      )}
-    </div>
-  );
 
 
   const PageHeader = ({ title, countLabel, action }) => (
@@ -558,12 +519,6 @@ export default function AdminPage() {
     </div>
   );
 
-  const imagesCount = () => {
-    if (activeTab === "gallery") return galleryImages.length;
-    if (activeTab === "carousel") return carouselImages.length;
-    if (activeTab === "events") return eventImages[eventCategory]?.length || 0;
-    return 0;
-  };
 
   const getActiveImages = () => {
     if (activeTab === "gallery") return galleryImages;
@@ -574,68 +529,6 @@ export default function AdminPage() {
 
   // --- TAB RENDERS ---
 
-  const DashboardTab = () => {
-    if (statsLoading) {
-      return (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-32 bg-[#E8E0D4]/30 rounded-xl animate-pulse" />
-          ))}
-        </div>
-      );
-    }
-
-    const totalImg = stats?.totalImages ?? 0;
-    const galleryCount = stats?.gallery?.count ?? 0;
-    const carouselCount = stats?.carousel?.count ?? 0;
-    const eventsCount = stats?.events?.total ?? 0;
-    const storage = stats?.totalBytes ? (stats.totalBytes / (1024 * 1024)).toFixed(1) : 0;
-
-    return (
-      <div className="space-y-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Total Media" value={totalImg} sub={`Storage: ${storage} MB`} />
-          <StatCard label="Gallery" value={galleryCount} sub="Venue showcase" />
-          <StatCard label="Carousel" value={`${carouselCount}/8`} sub="Hero slides" active={true} />
-          <StatCard label="Events" value={eventsCount} sub="Client memories" />
-        </div>
-
-        <div className="bg-white rounded-xl shadow-sm border border-[#E8E0D4] overflow-hidden">
-          <div className="px-6 py-4 border-b border-[#E8E0D4] bg-[#F7F4EF]/30">
-            <h3 className="text-sm font-semibold uppercase tracking-widest text-[#7A6A5A]">Category Distribution</h3>
-          </div>
-          <div className="p-8 grid md:grid-cols-3 gap-8 items-center">
-            <div className="space-y-4">
-              {[
-                { label: "Weddings", count: stats?.events?.weddings ?? 0, color: "bg-[#C9A84C]" },
-                { label: "Corporate", count: stats?.events?.corporate ?? 0, color: "bg-[#7A6A5A]" },
-                { label: "Private Parties", count: stats?.events?.["private-parties"] ?? 0, color: "bg-[#E8E0D4]" }
-              ].map((item) => (
-                <div key={item.label}>
-                  <div className="flex justify-between text-xs mb-1.5 font-body">
-                    <span className="text-[#1C1009]">{item.label}</span>
-                    <span className="text-[#C9A84C] font-bold">{item.count}</span>
-                  </div>
-                  <div className="h-2 bg-[#F7F4EF] rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full ${item.color}`} 
-                      style={{ width: `${eventsCount > 0 ? (item.count / eventsCount) * 100 : 0}%` }} 
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="md:col-span-2 flex items-center justify-center p-4">
-               <div className="text-center">
-                 <IconPackage size={48} className="mx-auto text-[#E8E0D4] mb-2" />
-                 <p className="text-xs text-[#7A6A5A] font-body">Detailed reporting and re-ordering for these categories are coming soon in v2.0</p>
-               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   const ManagementPage = ({ tab }) => {
     const images = getActiveImages();
@@ -834,7 +727,6 @@ export default function AdminPage() {
       {/* MAIN CONTENT */}
       <main className="flex-1 xl:ml-[220px] min-h-screen pt-16 xl:pt-0">
         <div className="p-4 md:p-8 lg:p-12 max-w-7xl mx-auto">
-          {activeTab === "dashboard" && <DashboardTab />}
           {(activeTab === "gallery" || activeTab === "carousel" || activeTab === "events") && (
             <ManagementPage tab={activeTab} />
           )}

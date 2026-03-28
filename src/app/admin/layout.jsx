@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Admin Dashboard — Basti Ram Palace",
+  title: "Admin Panel — Basti Ram Palace",
   description: "Basti Ram Palace Admin Panel",
   robots: {
     index: false,
