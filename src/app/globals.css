@@ -259,3 +259,20 @@ html, body {
   font-weight: 500;
   letter-spacing: 0.02em;
 }
+
+/* HomeEnquiry form placeholders */
+#name::placeholder,
+#phone::placeholder,
+#email::placeholder,
+#message::placeholder {
+  color: #4A3F35;
+  opacity: 1;
+}
+
+/* Focus border gold */
+#name:focus,
+#phone:focus,
+#email:focus,
+#message:focus {
+  border-color: rgba(201, 168, 76, 0.5);
+}

@@ -11,6 +11,7 @@ import AntiGravitySection from "@/components/AntiGravitySection";
 import MiniGallery from "@/components/MiniGallery";
 import LocomotiveScroll from "locomotive-scroll";
 import CateringFeature from "@/components/CateringFeature";
+import HomeEnquiry from "@/components/HomeEnquiry";
 export default function Home() {
   return (
     <div>
@@ -33,6 +34,7 @@ export default function Home() {
       <AntiGravitySection>
         <Testimonial testimonials={testimonials} autoplay={true} autoplayInterval={2000} />
       </AntiGravitySection>
+      <HomeEnquiry />
       <AntiGravitySection>
         <Footer />
       </AntiGravitySection>

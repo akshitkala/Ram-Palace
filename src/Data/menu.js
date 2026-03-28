@@ -14,8 +14,8 @@ export const menuCategories = [
           "Water Bottle (250ml)", "Soft Drinks", "Vanilla Shake",
           "Strawberry Shake", "Chocolate Shake", "Mango Shake",
           "Chiku Shake", "Oreo Shake", "Sharifa Shake",
-          "Vergin Mojito", "Pina Colada", "Blue Angle",
-          "Green Vally", "Mix Juice", "Fresh Orange Juice",
+          "Virgin Mojito", "Pina Colada", "Blue Angle",
+          "Green Valley", "Mix Juice", "Fresh Orange Juice",
           "Fresh Watermelon Juice", "Sweet Lime", "Red Guava", "Black Grapes",
         ],
       },
@@ -171,7 +171,7 @@ export const menuCategories = [
       {
         title: "Chinese Tadka",
         items: [
-          "Hakka Noddles", "Veg Manchurian",
+          "Hakka Noodles", "Veg Manchurian",
           "Veg Fried Rice", "Chilli Paneer", "Garlic Tadka Noodles",
         ],
       },

@@ -10,8 +10,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MENU_TICKER = [
   "Dal Makhani", "Paneer Tikka", "Jalebi with Rabri", "Gol Gappe",
-  "Kulfi Mania", "Hakka Noddles", "Stone-Fired Pizza", "Ras Malai",
-  "Vergin Mojito", "Dum Aloo", "Gulab Jamun", "Masala Kullad Tea",
+  "Kulfi Mania", "Hakka Noodles", "Stone-Fired Pizza", "Ras Malai",
+  "Virgin Mojito", "Dum Aloo", "Gulab Jamun", "Masala Kullad Tea",
   "Kadhai Paneer", "Veg Biryani", "Shahi Tukda", "Pina Colada",
 ];
 

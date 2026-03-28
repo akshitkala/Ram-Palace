@@ -15,7 +15,7 @@ import MenuFloatingNav from "@/components/Menu/MenuFloatingNav";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function MenuPage() {
+export default function Menu() {
   const pageRef    = useRef(null);
   const tickerRef  = useRef(null);
   const [activeId, setActiveId]   = useState(menuCategories[0].id);

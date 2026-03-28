@@ -5,16 +5,16 @@ import gsap from "gsap";
 import { GoldDivider } from "@/components/Ornaments";
 
 const CAT_META = {
-  beverages:       { gradient: "from-[#2B1810] via-[#1A0D08] to-[#1A0D08]", accent: "bg-amber-500/10",   num: "01" },
-  "soups-salads":  { gradient: "from-[#142010] via-[#0A1208] to-[#0A1208]", accent: "bg-emerald-500/10", num: "02" },
-  fruits:          { gradient: "from-[#2B0C10] via-[#1A080A] to-[#1A080A]", accent: "bg-rose-500/10",    num: "03" },
-  "savoury-house": { gradient: "from-[#2B1C10] via-[#1A0D08] to-[#1A0D08]", accent: "bg-orange-500/10", num: "04" },
-  snacks:          { gradient: "from-[#1C1C1C] via-[#0F0F0F] to-[#0F0F0F]", accent: "bg-stone-500/10",  num: "05" },
-  "live-stations": { gradient: "from-[#141416] via-[#0A0A0B] to-[#0A0A0B]", accent: "bg-zinc-500/10",   num: "06" },
-  "indian-mains":  { gradient: "from-[#2B0E0E] via-[#1A0505] to-[#1A0505]", accent: "bg-red-500/10",     num: "07" },
-  "breads-rice":   { gradient: "from-[#2B2310] via-[#1A1508] to-[#1A1508]", accent: "bg-yellow-500/10", num: "08" },
-  desserts:        { gradient: "from-[#2B1020] via-[#1A0A15] to-[#1A0A15]", accent: "bg-pink-500/10",   num: "09" },
-  "pheron-service":{ gradient: "from-[#10102B] via-[#0A0A1A] to-[#0A0A1A]", accent: "bg-indigo-500/10", num: "10" },
+  beverages:       { gradient: "from-[#2B1810] via-[#1A0D08] to-[#1A0D08]", accent: "bg-amber-500/10",   num: "01", img: "/images/catering/catering-5.png" },
+  "soups-salads":  { gradient: "from-[#142010] via-[#0A1208] to-[#0A1208]", accent: "bg-emerald-500/10", num: "02", img: "/images/catering/catering-6.png" },
+  fruits:          { gradient: "from-[#2B0C10] via-[#1A080A] to-[#1A080A]", accent: "bg-rose-500/10",    num: "03", img: "/images/catering/catering-1.png" },
+  "savoury-house": { gradient: "from-[#2B1C10] via-[#1A0D08] to-[#1A0D08]", accent: "bg-orange-500/10", num: "04", img: "/images/catering/catering-2.png" },
+  snacks:          { gradient: "from-[#1C1C1C] via-[#0F0F0F] to-[#0F0F0F]", accent: "bg-stone-500/10",  num: "05", img: "/images/catering/catering-3.png" },
+  "live-stations": { gradient: "from-[#141416] via-[#0A0A0B] to-[#0A0A0B]", accent: "bg-zinc-500/10",   num: "06", img: "/images/catering/catering-4.png" },
+  "indian-mains":  { gradient: "from-[#2B0E0E] via-[#1A0505] to-[#1A0505]", accent: "bg-red-500/10",     num: "07", img: "/images/catering/catering-7.png" },
+  "breads-rice":   { gradient: "from-[#2B2310] via-[#1A1508] to-[#1A1508]", accent: "bg-yellow-500/10", num: "08", img: "/images/CateringHome.jpg" /* TODO: replace with real catering image */ },
+  desserts:        { gradient: "from-[#2B1020] via-[#1A0A15] to-[#1A0A15]", accent: "bg-pink-500/10",   num: "09", img: "/images/hero/Menu.webp" /* TODO: replace with real catering image */ },
+  "pheron-service":{ gradient: "from-[#10102B] via-[#0A0A1A] to-[#0A0A1A]", accent: "bg-indigo-500/10", num: "10", img: "/images/hero/MenuHero.webp" /* TODO: replace with real catering image */ },
 };
 
 const DishItem = ({ name }) => {
