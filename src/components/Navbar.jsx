@@ -146,6 +146,7 @@ const Navbar = () => {
               { label: "Catering", path: "/catering" },
               { label: "Menu", path: "/menu" },
               { label: "Gallery", path: "/gallery" },
+              { label: "About", path: "/about" }, // BRP-FIX: E-1
               { label: "Contact", path: "/contact" }
             ].map((item, i) => (
               <Link

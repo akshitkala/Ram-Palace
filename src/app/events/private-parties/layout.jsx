@@ -15,10 +15,11 @@ export const metadata = {
     title: "Private Party Venue Manesar Gurugram | Basti Ram Palace",
     description:
       "Birthdays, anniversaries & private celebrations at Basti Ram Palace, Manesar Gurugram.",
-    images: [{ url: "/images/hero/hero.webp", width: 1200, height: 630 }],
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/events/private-parties`, // BRP-FIX: D-1
+    images: [{ url: `${process.env.NEXT_PUBLIC_SITE_URL}/images/hero/hero.webp`, width: 1200, height: 630 }], // BRP-FIX: D-1
   },
   alternates: {
-    canonical: "https://ram-palace.vercel.app/events/private-parties",
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/events/private-parties`, // BRP-FIX: D-1
   },
 };
 

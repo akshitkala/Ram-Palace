@@ -1,3 +1,13 @@
+// BRP-FIX: A-5
+function esc(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+}
+
 export function enquiryNotificationHtml({
   name,
   email,
@@ -50,19 +60,19 @@ export function enquiryNotificationHtml({
     <table width="100%" cellpadding="0" cellspacing="0"
       style="border:1px solid #E8E0D0;">
       ${[
-        ['Full Name', name],
+        ['Full Name', esc(name)], // BRP-FIX: A-5
         [
           'Email',
-          `<a href="mailto:${email}" 
-          style="color:#C9A84C;">${email}</a>`,
+          `<a href="mailto:${esc(email)}" 
+          style="color:#C9A84C;">${esc(email)}</a>`, // BRP-FIX: A-5
         ],
         [
           'Phone',
-          `<a href="tel:${phone}" 
-          style="color:#C9A84C;">${phone}</a>`,
+          `<a href="tel:${esc(phone)}" 
+          style="color:#C9A84C;">${esc(phone)}</a>`, // BRP-FIX: A-5
         ],
-        ['Event Type', eventType],
-        ['Guest Count', guestCount || 'Not specified'],
+        ['Event Type', esc(eventType)], // BRP-FIX: A-5
+        ['Guest Count', esc(guestCount) || 'Not specified'], // BRP-FIX: A-5
         [
           'Event Date',
           eventDate
@@ -96,7 +106,7 @@ export function enquiryNotificationHtml({
           vertical-align:top;width:35%;">Message</td>
         <td style="padding:12px 20px;color:#1C1C1E;
           font-size:14px;line-height:1.7;">
-          ${message || 'No additional message.'}</td>
+          ${esc(message) || 'No additional message.'}</td> // BRP-FIX: A-5
       </tr>
     </table>
 
@@ -104,13 +114,13 @@ export function enquiryNotificationHtml({
     <table width="100%" cellpadding="0" cellspacing="0"
       style="margin-top:28px;">
     <tr><td align="center">
-      <a href="mailto:${email}?subject=Re: Your Enquiry — Basti Ram Palace"
+      <a href="mailto:${esc(email)}?subject=Re: Your Enquiry — Basti Ram Palace"
         style="display:inline-block;background:#C9A84C;
         color:#1C1C1E;font-size:11px;font-weight:700;
         letter-spacing:2px;text-transform:uppercase;
         padding:14px 32px;text-decoration:none;">
-        Reply to ${name}
-      </a>
+        Reply to ${esc(name)}
+      </a> // BRP-FIX: A-5
     </td></tr></table>
 
   </td></tr>

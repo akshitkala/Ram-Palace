@@ -11,9 +11,9 @@ const CAT_META = {
   "savoury-house": { gradient: "from-[#2B1C10] via-[#1A0D08] to-[#1A0D08]", accent: "bg-orange-500/10", num: "04", img: "/images/catering/catering-2.webp" },
   snacks:          { gradient: "from-[#1C1C1C] via-[#0F0F0F] to-[#0F0F0F]", accent: "bg-stone-500/10",  num: "05", img: "/images/catering/catering-3.webp" },
   "live-stations": { gradient: "from-[#141416] via-[#0A0A0B] to-[#0A0A0B]", accent: "bg-zinc-500/10",   num: "06", img: "/images/catering/catering-4.webp" },
-  "indian-mains":  { gradient: "from-[#2B0E0E] via-[#1A0505] to-[#1A0505]", accent: "bg-red-500/10",     num: "07", img: "/images/catering/catering-7.png" },
-  "breads-rice":   { gradient: "from-[#2B2310] via-[#1A1508] to-[#1A1508]", accent: "bg-yellow-500/10", num: "08", img: "/images/CateringHome.jpg" /* TODO: replace with real catering image */ },
-  desserts:        { gradient: "from-[#2B1020] via-[#1A0A15] to-[#1A0A15]", accent: "bg-pink-500/10",   num: "09", img: "/images/hero/Menu.webp" /* TODO: replace with real catering image */ },
+  "indian-mains":  { gradient: "from-[#2B0E0E] via-[#1A0505] to-[#1A0505]", accent: "bg-red-500/10",     num: "07", img: "/images/catering/catering-7.png" }, // BRP-FIX: C-1
+  "breads-rice":   { gradient: "from-[#2B2310] via-[#1A1508] to-[#1A1508]", accent: "bg-yellow-500/10", num: "08", img: "/images/cateringHome.jpg" /* BRP-FIX: C-1 */ },
+  desserts:        { gradient: "from-[#2B1020] via-[#1A0A15] to-[#1A0A15]", accent: "bg-pink-500/10",   num: "09", img: "/images/hero/Catering.webp" /* BRP-FIX: C-1 */ },
   "pheron-service":{ gradient: "from-[#10102B] via-[#0A0A1A] to-[#0A0A1A]", accent: "bg-indigo-500/10", num: "10", img: "/images/hero/MenuHero.webp" /* TODO: replace with real catering image */ },
 };
 

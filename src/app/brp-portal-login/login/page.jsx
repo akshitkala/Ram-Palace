@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminLogin() {
+  const [username, setUsername] = useState(""); // BRP-FIX: A-1
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,13 +19,14 @@ export default function AdminLogin() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }), // BRP-FIX: A-1
       });
 
       if (res.ok) {
-        router.push("/admin");
+        router.push("/brp-portal-login"); // BRP-FIX: A-2
       } else {
-        setError("Incorrect password");
+        const data = await res.json();
+        setError(data.error || "Invalid credentials");
       }
     } catch {
       setError("An error occurred. Please try again.");
@@ -46,6 +48,25 @@ export default function AdminLogin() {
         </div>
 
         <form onSubmit={handleSubmit} className="px-8 py-8 space-y-6 font-body">
+          {/* BRP-FIX: A-1 */}
+          <div className="space-y-2">
+            <label
+              htmlFor="username"
+              className="block text-[11px] tracking-[0.22em] uppercase text-[#A99686]"
+            >
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E8E0D0] text-[#1C1C1E] text-sm font-body focus:border-[#C9A84C] focus:outline-none"
+              autoComplete="username"
+              required
+            />
+          </div>
+
           <div className="space-y-2">
             <label
               htmlFor="password"

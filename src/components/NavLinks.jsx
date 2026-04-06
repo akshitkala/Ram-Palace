@@ -96,6 +96,15 @@ export default function NavLinks() {
         </li>
         <li>
           <Link 
+            href="/about" // BRP-FIX: E-1
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+          >
+            About
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+        </li>
+        <li>
+          <Link 
             href="/contact" 
             className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
           >

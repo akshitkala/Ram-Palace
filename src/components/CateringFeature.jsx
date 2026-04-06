@@ -125,7 +125,7 @@ const CateringFeature = () => {
                    pointer-events-none select-none whitespace-nowrap"
         aria-hidden="true"
       >
-        GD Foods
+        GD Foods India
       </div>
 
       {/* ══════════════ MAIN CONTENT ══════════════ */}
@@ -148,11 +148,10 @@ const CateringFeature = () => {
             </p>
 
             <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl text-[#2B1810] leading-[1.0] mb-2">
-              GD Foods
-              <em className="not-italic text-[#C9A84C]"> India</em>
+              GD Foods India
             </h2>
             <p className="font-heading-italic text-[#8B7A6A] text-2xl md:text-3xl mb-10">
-              Basti Ram Palace's Culinary Soul
+              Basti Ram Palace&apos;s Culinary Soul
             </p>
 
             <p className="font-body text-[#5A4A3A] text-base md:text-lg leading-relaxed mb-5 max-w-lg">
@@ -162,7 +161,7 @@ const CateringFeature = () => {
               that makes your guests remember the night forever.
             </p>
             <p className="font-body text-[#8B7A6A] text-sm leading-relaxed mb-12 max-w-lg">
-              Trusted by Sandvik, Huawei, Masters' Union, Vatika Group, and over
+              Trusted by Sandvik, Huawei, Masters&apos; Union, Vatika Group, and over
               a dozen leading organizations across the region.
             </p>
 
@@ -235,7 +234,7 @@ const CateringFeature = () => {
 
             <div className="relative overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(43,24,16,0.15)] h-[560px]">
               <Image
-                src="/images/CateringHome.jpg"
+                src="/images/cateringHome.jpg"
                 alt="GD Foods India catering spread"
                 fill
                 quality={70}

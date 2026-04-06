@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import { Poppins } from "next/font/google";
 import RootLayoutClient from "@/components/RootLayoutClient";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
+import StructuredData from "@/components/StructuredData"; // BRP-FIX: D-2
 import "./globals.css";
 
 // ── LOCAL FONT — PLAYFAIR DISPLAY ──
@@ -29,7 +30,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://bastirampalace.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://bastirampalace.com"), // BRP-FIX: D-1
   title: {
     default: "Basti Ram Palace — Best Banquet Hall in Manesar, Gurugram",
     template: "%s | Basti Ram Palace",
@@ -64,7 +65,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://bastirampalace.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://bastirampalace.com", // BRP-FIX: D-1
     siteName: "Basti Ram Palace",
     title: "Basti Ram Palace — Best Banquet Hall in Manesar, Gurugram",
     description:
@@ -90,9 +91,7 @@ export const metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
-  alternates: {
-    canonical: "https://bastirampalace.com",
-  },
+  /* originals deleted — BRP-FIX: D-1 */
 };
 
 export default function RootLayout({ children }) {
@@ -101,6 +100,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" type="image/png" href="/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <StructuredData /> {/* BRP-FIX: D-2 */}
       </head>
       <body className={poppins.className}>
         <RootLayoutClient>

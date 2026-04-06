@@ -1,32 +1,32 @@
-import { NextResponse } from 'next/server';
+// BRP-FIX: A-1
+import { jwtVerify } from 'jose'
+import { NextResponse } from 'next/server'
 
-export function middleware(request) {
-  const { pathname } = request.nextUrl;
+const SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
-  // Only protect /brp-portal-login routes
-  if (!pathname.startsWith('/brp-portal-login')) {
-    return NextResponse.next();
+export async function middleware(request) {
+  const { pathname } = request.nextUrl
+
+  const isAdminRoute =
+    pathname.startsWith('/brp-portal-login') &&
+    !pathname.startsWith('/brp-portal-login/login')
+
+  if (isAdminRoute) {
+    const token = request.cookies.get('admin_token')?.value
+    if (!token) {
+      return NextResponse.redirect(new URL('/brp-portal-login/login', request.url))
+    }
+    try {
+      await jwtVerify(token, SECRET)
+      return NextResponse.next()
+    } catch {
+      return NextResponse.redirect(new URL('/brp-portal-login/login', request.url))
+    }
   }
 
-  // Allow login page and login API through
-  if (
-    pathname === '/brp-portal-login/login' ||
-    pathname === '/api/admin/login'
-  ) {
-    return NextResponse.next();
-  }
-
-  // Check for session cookie
-  const session = request.cookies.get('admin_session');
-  if (session?.value !== 'authenticated') {
-    return NextResponse.redirect(
-      new URL('/brp-portal-login/login', request.url)
-    );
-  }
-
-  return NextResponse.next();
+  return NextResponse.next()
 }
 
 export const config = {
   matcher: ['/brp-portal-login/:path*'],
-};
+}

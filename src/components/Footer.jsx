@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { label: "Private Parties",  href: "/events/private-parties" },
   { label: "Catering",         href: "/catering" },
   { label: "Catering & Menu",  href: "/menu" },
+  { label: "About Us",         href: "/about" }, // BRP-FIX: E-1
   { label: "Enquire Now",      href: "/contact" },
 ];
 
@@ -288,29 +289,15 @@ const Footer = () => {
 
         <div className="footer-brand-row mt-16 mb-8 overflow-hidden">
           <div className="flex items-end gap-0">
-            {"BASTI RAM PALACE".split("").map((char, i) => {
-              const isP = i === 10; // The 'P' in PALACE
-              const content = (
-                <span
-                  key={i}
-                  className={`footer-letter font-heading leading-none text-white/[0.06] select-none
-                             ${isP ? "cursor-default pointer-events-auto" : "pointer-events-none"}`}
-                  style={{ fontSize: "clamp(1.8rem, 5.5vw, 6rem)" }}
-                >
-                  {char === " " ? "\u00A0" : char}
-                </span>
-              );
-
-              if (isP) {
-                return (
-                  <Link href="/brp-portal-login/login" key={i} className="inline-block transition-opacity hover:opacity-100">
-                    {content}
-                  </Link>
-                );
-              }
-
-              return content;
-            })}
+            {"BASTI RAM PALACE".split("").map((char, i) => ( // BRP-FIX: E-1
+              <span
+                key={i}
+                className="footer-letter font-heading leading-none text-white/[0.06] select-none pointer-events-none"
+                style={{ fontSize: "clamp(1.8rem, 5.5vw, 6rem)" }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
           </div>
         </div>
 
@@ -330,7 +317,7 @@ const Footer = () => {
             {["Privacy", "Terms"].map((item) => (
               <Link
                 key={item}
-                href={`/${item.toLowerCase()}`}
+                href="/contact" // BRP-FIX: E-1
                 className="font-body text-white/20 text-xs tracking-wide
                            hover:text-white/50 transition-colors duration-300 cursor-pointer"
               >

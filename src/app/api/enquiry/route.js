@@ -36,7 +36,12 @@ const OWNER_EMAILS = [
 ].filter(Boolean);
 
 export async function POST(req) {
-  const ip = req.headers.get("x-forwarded-for") || "anonymous";
+  // BRP-FIX: A-4
+  const ip =
+    req.headers.get('x-real-ip') ??
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    '127.0.0.1'
+
   if (isRateLimited(ip)) {
     return NextResponse.json(
       { error: "Too many requests. Please try again after 10 minutes." },
@@ -55,12 +60,18 @@ export async function POST(req) {
       eventDate
     } = await req.json();
 
-    // ── Basic validation ──
-    if (!name || !email || !phone) {
+    // BRP-FIX: B-2
+    const missing = []
+    if (!name?.trim()) missing.push('name')
+    if (!email?.trim()) missing.push('email')
+    if (!phone?.trim()) missing.push('phone')
+    if (!eventType?.trim()) missing.push('eventType')
+
+    if (missing.length > 0) {
       return NextResponse.json(
-        { error: "Name, email and phone are required." },
+        { success: false, message: `Missing required fields: ${missing.join(', ')}` },
         { status: 400 }
-      );
+      )
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -71,8 +82,16 @@ export async function POST(req) {
       );
     }
 
+    const phoneRegex = /^[6-9]\d{9}$/ // BRP-FIX: B-2
+    if (!phoneRegex.test(phone.replace(/[\s\-+]/g, ''))) {
+      return NextResponse.json(
+        { success: false, message: 'Please enter a valid 10-digit Indian phone number.' },
+        { status: 400 }
+      )
+    }
+
     // ── 1. Email to venue owners ──
-    await resend.emails.send({
+    const ownerEmailResult = await resend.emails.send({ // BRP-FIX: B-1
       from:    `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
       to:      OWNER_EMAILS,
       subject: `New Enquiry from ${name} — ${eventType || 'Event'}`,
@@ -87,8 +106,16 @@ export async function POST(req) {
       }),
     });
 
+    if (ownerEmailResult.error) { // BRP-FIX: B-1
+      console.error('[Enquiry] Resend owner notification failed:', ownerEmailResult.error)
+      return NextResponse.json(
+        { success: false, message: 'Failed to send enquiry. Please try again or call us directly.' },
+        { status: 500 }
+      )
+    }
+
     // ── 2. Confirmation email to the user ──
-    await resend.emails.send({
+    const userEmailResult = await resend.emails.send({ // BRP-FIX: B-1
       from:    `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
       to:      [email],
       subject: `We've received your enquiry — Basti Ram Palace`,
@@ -99,8 +126,13 @@ export async function POST(req) {
       }),
     });
 
+    if (userEmailResult.error) { // BRP-FIX: B-1
+      console.warn('[Enquiry] Resend user confirmation failed:', userEmailResult.error)
+      // We don't return 500 here because the owner already got the notification
+    }
+
     return NextResponse.json(
-      { success: true },
+      { success: true, id: ownerEmailResult.data?.id }, // BRP-FIX: B-1
       { status: 200 }
     );
 

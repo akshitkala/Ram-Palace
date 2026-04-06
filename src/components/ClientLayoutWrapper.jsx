@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import LocomotiveScroll from "locomotive-scroll";
+// Dynamic import used in useEffect to ensure client-only initialization
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,12 +14,18 @@ export default function ClientLayoutWrapper({ children }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const locomotiveScroll = new LocomotiveScroll();
+    let locomotiveScroll;
     
-    // Ensure GSAP ScrollTrigger is aware of the new scroll container's layout
-    setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
+    // Initialize LocomotiveScroll
+    (async () => {
+      const LocomotiveScroll = (await import("locomotive-scroll")).default;
+      locomotiveScroll = new LocomotiveScroll();
+      
+      // Ensure GSAP ScrollTrigger is aware of the new scroll layout
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 500); // Wait a bit longer for Next.js hydration
+    })();
 
     return () => {
       if (locomotiveScroll) {

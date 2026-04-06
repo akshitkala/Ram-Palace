@@ -15,9 +15,19 @@ export const metadata = {
     title: "Catering Services Manesar Gurugram | GD Foods India",
     description:
       "200+ dishes, live counters & world-class catering by GD Foods India at Basti Ram Palace.",
-    images: [{ url: "/images/hero/Menu.webp", width: 1200, height: 630 }],
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/catering`, // BRP-FIX: D-1
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/images/hero/Catering.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'Catering by GD Foods India at Basti Ram Palace',
+      },
+    ],
   },
-  alternates: { canonical: "https://ram-palace.vercel.app/catering" },
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/catering`, // BRP-FIX: D-1
+  },
 };
 
 export default function Layout({ children }) {

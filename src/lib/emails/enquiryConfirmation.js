@@ -1,3 +1,13 @@
+// BRP-FIX: A-5
+function esc(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+}
+
 export function enquiryConfirmationHtml({
   name,
   eventType,
@@ -31,7 +41,7 @@ export function enquiryConfirmationHtml({
       font-weight:600;">Basti Ram Palace</p>
     <h1 style="margin:0;color:#fff;font-family:Georgia,serif;
       font-size:30px;font-weight:400;">
-      Thank You, ${name}</h1>
+      Thank You, ${esc(name)}</h1> // BRP-FIX: A-5
     <p style="margin:10px 0 0;color:#C9A84C;
       font-family:Georgia,serif;font-style:italic;
       font-size:15px;">Your enquiry has been received.</p>
@@ -44,12 +54,12 @@ export function enquiryConfirmationHtml({
   <!-- Body -->
   <tr><td style="padding:40px;">
     <p style="margin:0 0 16px;color:#1C1C1E;font-size:15px;
-      line-height:1.8;">Dear ${name},</p>
+      line-height:1.8;">Dear ${esc(name)},</p> // BRP-FIX: A-5
     <p style="margin:0 0 16px;color:#6B5E4E;font-size:14px;
       line-height:1.8;">
       Thank you for reaching out to Basti Ram Palace.
       We have received your enquiry for a
-      <strong style="color:#1C1C1E;">${eventType}</strong>
+      <strong style="color:#1C1C1E;">${esc(eventType)}</strong> // BRP-FIX: A-5
       ${
         formattedDate
           ? `on <strong style="color:#1C1C1E;">

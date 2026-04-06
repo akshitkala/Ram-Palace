@@ -1,5 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // BRP-FIX: B-3
+  async redirects() {
+    return [
+      {
+        source: '/catering/menu',
+        destination: '/menu',
+        permanent: true,
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {

@@ -16,7 +16,7 @@ const INCLUSIONS = [
     description: "Secure, on-site parking for all your guests with dedicated entry and exit points." 
   },
   { 
-    title: "GD Foods Catering", 
+    title: "GD Foods India Catering", 
     description: "Access to our award-winning catering partner with customizable menus and live stations." 
   },
   { 

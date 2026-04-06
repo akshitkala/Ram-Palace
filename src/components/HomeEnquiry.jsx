@@ -91,9 +91,9 @@ export default function HomeEnquiry() {
       style={{ background: "#FAF7F2" }}
       className="py-24 px-6 md:px-14"
     >
-      <div className="max-w-6xl mx-auto
+      <div className={`max-w-6xl mx-auto
         grid grid-cols-1 lg:grid-cols-2
-        gap-16 lg:gap-24 items-start">
+        gap-16 lg:gap-24 items-start`}>
 
         {/* ── LEFT — INFO ── */}
         <div className="lg:sticky lg:top-32">

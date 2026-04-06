@@ -498,7 +498,7 @@ export default function AdminPage() {
 
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
-    window.location.href = "/admin/login";
+    window.location.href = "/brp-portal-login/login"; // BRP-FIX: A-2
   };
 
   // --- SUB-COMPONENTS ---

@@ -1,4 +1,9 @@
-import { NextResponse } from 'next/server';
+// BRP-FIX: A-1
+import { SignJWT } from 'jose'
+import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
+
+const SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
 // Simple in-memory rate limiting (Note: resets on serverless restart)
 const logLimitMap = new Map();
@@ -24,7 +29,12 @@ function isLoginRateLimited(ip) {
 }
 
 export async function POST(request) {
-  const ip = request.headers.get("x-forwarded-for") || "anonymous";
+  // BRP-FIX: A-4
+  const ip =
+    request.headers.get('x-real-ip') ??
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    '127.0.0.1'
+
   if (isLoginRateLimited(ip)) {
     return NextResponse.json(
       { error: "Too many login attempts. Please try again after 15 minutes." },
@@ -33,33 +43,32 @@ export async function POST(request) {
   }
 
   try {
-    const { password } = await request.json();
+    const { username, password } = await request.json()
 
-    if (!process.env.ADMIN_PASSWORD) {
-      return NextResponse.json(
-        { error: 'Admin password not configured' },
-        { status: 500 }
-      );
+    const validUser = username === process.env.ADMIN_USERNAME
+    const validPass = password === process.env.ADMIN_PASSWORD // BRP-FIX: A-1
+
+    if (!validUser || !validPass) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    if (password !== process.env.ADMIN_PASSWORD) {
-      return NextResponse.json(
-        { error: 'Invalid password' },
-        { status: 401 }
-      );
-    }
+    const token = await new SignJWT({ username, role: 'admin' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('8h')
+      .sign(SECRET)
 
-    const response = NextResponse.json({ success: true });
-
-    response.cookies.set('admin_session', 'authenticated', {
+    const response = NextResponse.json({ success: true })
+    response.cookies.set('admin_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24,
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 8, // 8 hours
       path: '/',
-    });
-
-    return response;
+    })
+    // Remove the old insecure cookie if it exists
+    response.cookies.delete('admin_session') // BRP-FIX: A-1
+    return response
   } catch (_error) {
     return NextResponse.json(
       { error: 'Server error' },

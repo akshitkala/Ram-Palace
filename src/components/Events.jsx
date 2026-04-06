@@ -12,7 +12,7 @@ const EVENT_CONFIG = [
     category:    "weddings",
     title:       "Weddings & Receptions",
     description: "From the ceremony to the last dance — every detail of your wedding day deserves a setting as extraordinary as the occasion itself. Grand hall, adorned to your vision, with cuisine by GD Foods India.",
-    features:    ["Grand Banquet Hall", "Custom Décor", "GD Foods Catering"],
+    features:    ["Grand Banquet Hall", "Custom Décor", "GD Foods India Catering"],
     cta:         "Plan Your Wedding",
     link:        "/contact",
   },
@@ -119,14 +119,14 @@ const EventCard = ({ config, images, loading, currentIndex }) => {
 
         <div className="mt-auto">
           <Link href={config.link}>
-            <button className="
+            <button className={`
               bg-[#1C1C1E] text-white
               px-7 py-3
               text-[10px] tracking-[2.5px] uppercase font-medium
               transition-all duration-300
               hover:bg-[#C9A84C] hover:text-[#1C1C1E]
               hover:shadow-[0_8px_24px_rgba(201,168,76,0.25)]
-            ">
+            `}>
               {config.cta} →
             </button>
           </Link>
@@ -254,13 +254,13 @@ const Events = () => {
             Not sure which package suits your occasion?
           </p>
           <Link href="/contact">
-            <button className="
+            <button className={`
               border border-[#1C1C1E] text-[#1C1C1E]
               px-8 py-3.5
               text-[10px] tracking-[2.5px] uppercase font-medium
               transition-all duration-300
               hover:bg-[#1C1C1E] hover:text-white
-            ">
+            `}>
               Talk to Our Events Team
             </button>
           </Link>

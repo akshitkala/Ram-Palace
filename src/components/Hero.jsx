@@ -54,9 +54,17 @@ const Hero = () => {
           priority
           quality={85}
           sizes="100vw"
-          className="absolute inset-0 w-full h-full object-cover will-change-transform"
-          style={{ objectPosition: "center 35%" }}
+          className="absolute inset-0 w-full h-full object-cover will-change-transform hero-img"
+          style={{ objectPosition: "center 35%" }} // Initial desktop position
+          loading="eager" // BRP-FIX: G-1 (Optional optimization)
         />
+        <style jsx>{`
+          @media (max-width: 768px) {
+            :global(.hero-img) {
+              object-position: center 45% !important;
+            }
+          }
+        `}</style>
 
         {/* ── BOTTOM BAND GRADIENT ── */}
         <div
@@ -102,7 +110,7 @@ const Hero = () => {
         <div ref={contentRef} className="relative z-10 w-full h-full">
 
           {/* ── LEFT CONTENT BLOCK ── */}
-          <div className="
+          <div className={`
             absolute
             bottom-[15vh] left-0 right-0
             px-6
@@ -111,13 +119,13 @@ const Hero = () => {
             md:left-16 lg:left-24
             md:w-[58%] md:px-0
             md:right-auto
-          ">
+          `}>
 
             {/* Pre-heading label */}
            
 
             {/* Main Heading — SEO Optimized */}
-            <h1 className="
+            <h1 className={`
               font-heading
               text-[clamp(1.75rem,7vw,72px)]
               leading-[1.1]
@@ -125,7 +133,7 @@ const Hero = () => {
               fade-in opacity-0
               mb-7 md:mb-10
               drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]
-            ">
+            `}>
               The Finest Wedding Venue
               <br />
               <em className="text-[#C9A84C] not-italic">
@@ -134,14 +142,14 @@ const Hero = () => {
             </h1>
 
             {/* CTA Buttons */}
-            <div className="
+            <div className={`
               flex flex-col md:flex-row gap-3 md:gap-4
               justify-center md:justify-start
               items-stretch md:items-center
               fade-in opacity-0
-            ">
+            `}>
               <Link href="/contact" className="w-full md:w-auto">
-                <button className="
+                <button className={`
                   w-full md:w-auto
                   bg-[#C9A84C] text-[#1C1C1E]
                   px-8 py-4
@@ -152,12 +160,12 @@ const Hero = () => {
                   hover:bg-[#b8963e]
                   hover:shadow-[0_8px_28px_rgba(201,168,76,0.4)]
                   active:scale-100
-                ">
+                `}>
                   Reserve Your Date
                 </button>
               </Link>
               <Link href="/gallery" className="w-full md:w-auto">
-                <button className="
+                <button className={`
                   w-full md:w-auto
                   bg-transparent text-white
                   border-2 border-white/60
@@ -169,7 +177,7 @@ const Hero = () => {
                   hover:bg-white/10
                   hover:border-white/90
                   active:bg-white/5
-                "
+                `}
                 style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
                 >
                   Explore Venue
@@ -179,7 +187,7 @@ const Hero = () => {
           </div>
 
           {/* SUBTEXT — desktop only, bottom right */}
-          <div className="
+          <div className={`
             hidden md:block
             absolute
             right-16 lg:right-24
@@ -187,12 +195,12 @@ const Hero = () => {
             max-w-[260px]
             text-right
             fade-in opacity-0
-          ">
-            <p className="
+          `}>
+            <p className={`
               text-sm leading-relaxed text-white/85
               font-light
               drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]
-            ">
+            `}>
               From intimate gatherings to grand weddings,
               Basti Ram Palace has been the heart of our
               most treasured celebrations for over 15 years.
@@ -200,14 +208,14 @@ const Hero = () => {
           </div>
 
           {/* TRUST SIGNALS — desktop only */}
-          <div className="
+          <div className={`
             hidden lg:flex
             absolute
             bottom-6
             left-1/2 -translate-x-1/2
             gap-10 lg:gap-16
             fade-in opacity-0
-          ">
+          `}>
             {[
               { num: "500+",   label: "Weddings Hosted"     },
               { num: "1,200+", label: "Events Completed"    },
@@ -231,13 +239,13 @@ const Hero = () => {
           </div>
 
           {/* DIVIDER LINE above trust signals */}
-          <div className="
+          <div className={`
             hidden lg:block
             absolute bottom-[72px]
             left-1/2 -translate-x-1/2
             w-px h-8 bg-white/20
             fade-in opacity-0
-          " />
+          `} />
 
         </div>
       </div>

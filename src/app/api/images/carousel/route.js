@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import cloudinary from '@/lib/cloudinary';
+import { verifySession } from '@/lib/auth/verifySession'; // BRP-FIX: A-3
 
 const FOLDER = 'ram-palace/carousel';
 const MAX_SLIDES = 8;
@@ -44,8 +44,8 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get('admin_session');
+  // BRP-FIX: A-3
+  const session = await verifySession(request)
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -116,8 +116,8 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get('admin_session');
+  // BRP-FIX: A-3
+  const session = await verifySession(request)
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
