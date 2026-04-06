@@ -21,6 +21,16 @@ export default function NavLinks() {
           </Link>
         </li>
         
+        <li>
+          <Link 
+            href="/services" 
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+          >
+            Services
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+        </li>
+        
         {/* Events Dropdown - Logic handled by parent or CSS */}
         <li className="relative group h-full">
           <button className="relative text-white transition-all duration-300 hover:text-[#C9A84C] flex items-center gap-1 py-4">

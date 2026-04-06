@@ -118,10 +118,10 @@ export const serviceExcellence = [
 // ── 6. GALLERY ────────────────────────────────────────────────────────────────
 // Replace these paths with your actual uploaded gallery images
 export const cateringGallery = [
-  { id: 1, image: "/images/Catering/catering-1.png", alt: "Premium catering service at Basti Ram Palace" },
-  { id: 2, image: "/images/Catering/catering-2.png", alt: "Elegant food presentation and buffet setup" },
-  { id: 3, image: "/images/Catering/catering-3.png", alt: "Professional service staff and event hospitality" },
-  { id: 4, image: "/images/Catering/catering-4.png", alt: "Customized culinary delights for special occasions" },
+  { id: 1, image: "/images/Catering/catering-1.webp", alt: "Premium catering service at Basti Ram Palace" },
+  { id: 2, image: "/images/Catering/catering-2.webp", alt: "Elegant food presentation and buffet setup" },
+  { id: 3, image: "/images/Catering/catering-3.webp", alt: "Professional service staff and event hospitality" },
+  { id: 4, image: "/images/Catering/catering-4.webp", alt: "Customized culinary delights for special occasions" },
   { id: 5, image: "/images/Catering/catering-5.png", alt: "Freshly prepared snacks and starters" },
   { id: 6, image: "/images/Catering/catering-6.png", alt: "Exquisite main course selection and dining" },
   { id: 7, image: "/images/Catering/catering-7.png", alt: "Desserts and sweet treats for guests" },

@@ -3,15 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
-const STATIC_FALLBACKS = [
-  "/images/carousel/carousel1.webp",
-  "/images/carousel/carousel2.webp",
-  "/images/carousel/carousel3.webp",
-  "/images/carousel/carousel4.webp",
-];
-
 const Carousel = () => {
-  const [images, setImages] = useState(STATIC_FALLBACKS);
+  const [images, setImages] = useState([]);
   const [current, setCurrent] = useState(0);
   const [paused,  setPaused]  = useState(false);
   const touchStartX = useRef(0);
@@ -61,6 +54,16 @@ const Carousel = () => {
     const next = (current + 1) % total;
     return i === current || i === prev || i === next;
   };
+
+  if (images.length === 0) {
+    return (
+      <section className="relative w-full h-[55vh] md:h-[72vh] bg-black flex items-center justify-center">
+        <div className="text-[10px] tracking-[4px] uppercase text-[#C9A84C] animate-pulse font-body">
+          Loading Moments...
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -171,14 +174,16 @@ const Carousel = () => {
         </div>
       </div>
 
-      {/* ── PROGRESS BAR — resets on slide change ── */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10 z-30">
-        <div
-          key={current}
-          className="h-full bg-[#C9A84C]"
-          style={{ animation: paused ? "none" : "carousel-progress 5s linear forwards" }}
-        />
-      </div>
+      {/* ── PROGRESS BAR ── */}
+      {images.length > 0 && (
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10 z-30">
+          <div
+            key={current}
+            className="h-full bg-[#C9A84C]"
+            style={{ animation: paused ? "none" : "carousel-progress 5s linear forwards" }}
+          />
+        </div>
+      )}
 
       <style>{`
         @keyframes carousel-progress {

@@ -1,24 +1,10 @@
 export const metadata = {
-  title: "Corporate Event Venue Manesar Gurugram | Basti Ram Palace",
-  description:
-    "Premium corporate event venue in Manesar, Gurugram. Conference setups, AV equipment, catering by GD Foods India. Trusted by Sandvik, Huawei & Vatika Group. Call +91-8800190003.",
-  keywords: [
-    "corporate event venue Gurugram",
-    "corporate venue Manesar",
-    "conference hall Gurugram",
-    "corporate banquet hall Haryana",
-    "office party venue Manesar",
-    "corporate catering Gurugram",
-    "event venue IMT Manesar",
-  ],
+  title: "Professional Corporate Events Venue in Gurugram | Basti Ram Palace",
+  description: "Modern banquet halls, professional service staff, and high-end catering for corporate conferences, seminars, and gala dinners in Manesar, Gurugram.",
   openGraph: {
-    title: "Corporate Event Venue Manesar Gurugram | Basti Ram Palace",
-    description:
-      "Premium corporate event venue in Manesar, Gurugram. Trusted by Sandvik, Huawei & Vatika.",
+    title: "Corporate Events Venue in Gurugram | Basti Ram Palace",
+    description: "Modern banquet halls and professional service for corporate conferences in Manesar.",
     images: [{ url: "/images/hero/hero.webp", width: 1200, height: 630 }],
-  },
-  alternates: {
-    canonical: "https://ram-palace.vercel.app/events/corporate-events",
   },
 };
 

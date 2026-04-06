@@ -3,21 +3,59 @@ import { useState } from "react";
 
 export default function HomeEnquiry() {
   const [form, setForm] = useState({
-    name: "", phone: "", email: "", message: "",
+    name: "",
+    phone: "",
+    email: "",
+    eventType: "",
+    guestCount: "",
+    eventDate: "",
+    message: "",
   });
+  const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
   // "idle" | "loading" | "success" | "error"
 
+  const validate = () => {
+    const newErrors = {};
+    if (!form.name.trim()) newErrors.name = "Name is required";
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(form.email)) {
+      newErrors.email = "Invalid email address";
+    }
+
+    const phoneRegex = /^[0-9\s\-\+\(\)]{10,15}$/;
+    if (!form.phone.trim()) {
+      newErrors.phone = "Phone is required";
+    } else if (!phoneRegex.test(form.phone.replace(/\s/g, ""))) {
+      newErrors.phone = "Invalid phone number";
+    }
+
+    if (!form.eventType) newErrors.eventType = "Please select an event type";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e) => {
-    setForm(prev => ({
-      ...prev,
-      [e.target.id]: e.target.value,
-    }));
+    const { id, value } = e.target;
+    setForm(prev => ({ ...prev, [id]: value }));
+    // Clear error when user starts typing
+    if (errors[id]) {
+      setErrors(prev => ({ ...prev, [id]: null }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status === "loading") return;
+    
+    if (!validate()) {
+      return;
+    }
+
     setStatus("loading");
 
     try {
@@ -32,15 +70,14 @@ export default function HomeEnquiry() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(
-          data.error || "Failed to send."
-        );
+        throw new Error(data.error || "Failed to send.");
       }
 
       setStatus("success");
       setForm({
-        name: "", phone: "",
-        email: "", message: "",
+        name: "", phone: "", email: "",
+        eventType: "", guestCount: "", eventDate: "",
+        message: "",
       });
 
     } catch (err) {
@@ -59,28 +96,28 @@ export default function HomeEnquiry() {
         gap-16 lg:gap-24 items-start">
 
         {/* ── LEFT — INFO ── */}
-        <div>
+        <div className="lg:sticky lg:top-32">
           <p style={{
-            fontFamily:    "'DM Sans', sans-serif",
             fontSize:      "10px",
             letterSpacing: "4px",
             textTransform: "uppercase",
             color:         "#C9A84C",
             marginBottom:  "24px",
+            fontBold:      500,
           }}>
             Quick Enquiry
           </p>
 
-          <h2 style={{
-            fontFamily:   "'Cormorant Garamond', Georgia, serif",
+          <h2 className="font-heading" style={{
             fontWeight:   300,
-            fontSize:     "clamp(2rem, 4vw, 3rem)",
-            lineHeight:   1.15,
+            fontSize:     "clamp(2.4rem, 4.5vw, 3.5rem)",
+            lineHeight:   1.1,
             color:        "#1C1C1E",
             marginBottom: "24px",
           }}>
-            Start Planning
-            <br />Your Event
+            Where Every Occasion 
+            <br />
+            <em style={{ color: "#C9A84C", fontStyle: "italic" }}>Becomes a Memory</em>
           </h2>
 
           <div style={{
@@ -91,68 +128,62 @@ export default function HomeEnquiry() {
           }} />
 
           <p style={{
-            fontFamily:   "'DM Sans', sans-serif",
             fontSize:     "15px",
             lineHeight:   1.7,
             color:        "#6B5E4E",
             marginBottom: "48px",
-            maxWidth:     "360px",
+            maxWidth:     "380px",
           }}>
-            Share a few details and our team
-            will reach out within 24 hours to
-            discuss your vision.
+            From grand weddings to intimate gatherings—share your vision with us and our dedicated planning team will bring it to life.
           </p>
 
-          {/* Contact links */}
           <div style={{
             display:       "flex",
             flexDirection: "column",
-            gap:           "20px",
+            gap:           "24px",
           }}>
 
             {[
               {
                 href:  "tel:+918800190003",
-                label: "Phone",
+                label: "Speak with us",
                 value: "+91 88001 90003",
               },
               {
                 href:  "mailto:info@bastirampalace.com",
-                label: "Email",
+                label: "General Inquiries",
                 value: "info@bastirampalace.com",
               },
               {
                 href:  null,
-                label: "Address",
-                value: "IMT Manesar, Gurugram",
+                label: "Visit Us",
+                value: "IMT Manesar, Gurugram, Haryana",
               },
             ].map(item => (
               <div key={item.label}
                 style={{ display: "flex",
                   flexDirection: "column",
-                  gap: "4px" }}>
+                  gap: "6px" }}>
                 <span style={{
-                  fontFamily:    "'DM Sans', sans-serif",
                   fontSize:      "10px",
-                  letterSpacing: "2px",
+                  letterSpacing: "2.5px",
                   textTransform: "uppercase",
-                  color:         "#6B5E4E",
+                  color:         "#A99686",
                 }}>
                   {item.label}
                 </span>
                 {item.href ? (
                   <a href={item.href} style={{
-                    fontFamily:     "'DM Sans', sans-serif",
-                    fontSize:       "15px",
+                    fontSize:       "16px",
                     color:          "#C9A84C",
                     textDecoration: "none",
+                    fontWeight:     500,
                   }}>
                     {item.value}
                   </a>
                 ) : (
                   <span style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize:   "15px",
+                    fontSize:   "16px",
                     color:      "#1C1C1E",
                   }}>
                     {item.value}
@@ -160,241 +191,208 @@ export default function HomeEnquiry() {
                 )}
               </div>
             ))}
-
           </div>
         </div>
 
         {/* ── RIGHT — FORM ── */}
-        <div>
+        <div className="bg-white p-8 md:p-12 border border-[#E8E0D0] shadow-sm">
           {status === "success" ? (
-
-            /* ── Success state ── */
             <div style={{
               display:       "flex",
               flexDirection: "column",
-              gap:           "16px",
-              paddingTop:    "32px",
+              gap:           "20px",
+              textAlign:     "center",
+              padding:       "40px 0",
             }}>
-              <div style={{
-                width:      "48px",
-                height:     "1px",
-                background: "#C9A84C",
-              }} />
+              <div style={{ 
+                margin: "0 auto 10px", 
+                width: "60px", 
+                height: "60px",
+                borderRadius: "50%",
+                background: "#F7F3EB",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#C9A84C",
+                fontSize: "24px"
+              }}>
+                ✓
+              </div>
               <h3 style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontWeight: 300,
-                fontSize:   "28px",
+                fontSize:   "32px",
                 color:      "#1C1C1E",
                 margin:     0,
               }}>
-                Thank you.
+                Enquiry Received
               </h3>
               <p style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize:   "14px",
+                fontSize:   "15px",
                 lineHeight: 1.7,
                 color:      "#6B5E4E",
                 margin:     0,
               }}>
-                We've received your enquiry and
-                will be in touch within 24 hours.
+                Thank you for choosing Basti Ram Palace. Our event manager will contact you within 24 hours to discuss your requirements.
               </p>
               <button
                 onClick={() => setStatus("idle")}
                 style={{
-                  marginTop:      "16px",
-                  fontFamily:     "'DM Sans', sans-serif",
+                  marginTop:      "20px",
                   fontSize:       "11px",
                   letterSpacing:  "3px",
                   textTransform:  "uppercase",
                   color:          "#C9A84C",
                   background:     "transparent",
                   border:         "none",
-                  borderBottom:   "1px solid rgba(201,168,76,0.4)",
-                  paddingBottom:  "4px",
+                  borderBottom:   "1px solid #C9A84C",
+                  padding:        "0 0 4px",
                   cursor:         "pointer",
-                  alignSelf:      "flex-start",
+                  display:        "inline-block",
+                  margin:         "24px auto 0",
                 }}
               >
-                Send Another →
+                Send Another Enquiry →
               </button>
             </div>
-
           ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Name */}
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="name" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
+                    Full Name <span className="text-[#C9A84C]">*</span>
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="E.g. Rohan Sharma"
+                    className={`w-full bg-transparent border ${errors.name ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors`}
+                  />
+                  {errors.name && <span className="text-[11px] text-red-500 font-medium tracking-wide mt-1">{errors.name}</span>}
+                </div>
 
-            /* ── Form ── */
-            <form
-              onSubmit={handleSubmit}
-              style={{
-                display:       "flex",
-                flexDirection: "column",
-                gap:           "20px",
-              }}
-            >
-
-              {/* Name */}
-              <div style={{
-                display: "flex", flexDirection: "column",
-                gap: "8px"
-              }}>
-                <label htmlFor="name" style={{
-                  fontFamily:    "'DM Sans', sans-serif",
-                  fontSize:      "10px",
-                  letterSpacing: "2px",
-                  textTransform: "uppercase",
-                  color:         "#6B5E4E",
-                }}>
-                  Full Name <span style={{
-                    color: "#C9A84C"
-                  }}>*</span>
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  required
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                  style={inputStyle}
-                />
-              </div>
-
-              {/* Phone */}
-              <div style={{
-                display: "flex", flexDirection: "column",
-                gap: "8px"
-              }}>
-                <label htmlFor="phone" style={{
-                  fontFamily:    "'DM Sans', sans-serif",
-                  fontSize:      "10px",
-                  letterSpacing: "2px",
-                  textTransform: "uppercase",
-                  color:         "#6B5E4E",
-                }}>
-                  Phone Number <span style={{
-                    color: "#C9A84C"
-                  }}>*</span>
-                </label>
-                <input
-                  id="phone"
-                  type="tel"
-                  required
-                  value={form.phone}
-                  onChange={handleChange}
-                  placeholder="+91 00000 00000"
-                  style={inputStyle}
-                />
+                {/* Phone */}
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="phone" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
+                    Phone Number <span className="text-[#C9A84C]">*</span>
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    value={form.phone}
+                    onChange={handleChange}
+                    placeholder="+91 98765 43210"
+                    className={`w-full bg-transparent border ${errors.phone ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors`}
+                  />
+                  {errors.phone && <span className="text-[11px] text-red-500 font-medium tracking-wide mt-1">{errors.phone}</span>}
+                </div>
               </div>
 
               {/* Email */}
-              <div style={{
-                display: "flex", flexDirection: "column",
-                gap: "8px"
-              }}>
-                <label htmlFor="email" style={{
-                  fontFamily:    "'DM Sans', sans-serif",
-                  fontSize:      "10px",
-                  letterSpacing: "2px",
-                  textTransform: "uppercase",
-                  color:         "#6B5E4E",
-                }}>
-                  Email Address <span style={{
-                    color: "#C9A84C"
-                  }}>*</span>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="email" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
+                  Email Address <span className="text-[#C9A84C]">*</span>
                 </label>
                 <input
                   id="email"
                   type="email"
-                  required
                   value={form.email}
                   onChange={handleChange}
-                  placeholder="your@email.com"
-                  style={inputStyle}
+                  placeholder="name@example.com"
+                  className={`w-full bg-transparent border ${errors.email ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors`}
                 />
+                {errors.email && <span className="text-[11px] text-red-500 font-medium tracking-wide mt-1">{errors.email}</span>}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Event Type */}
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="eventType" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
+                    Type of Event <span className="text-[#C9A84C]">*</span>
+                  </label>
+                  <select
+                    id="eventType"
+                    value={form.eventType}
+                    onChange={handleChange}
+                    className={`w-full bg-transparent border ${errors.eventType ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors appearance-none`}
+                  >
+                    <option value="">Select Event Type</option>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Engagement">Engagement / Sagaai</option>
+                    <option value="Corporate">Corporate Event</option>
+                    <option value="Birthday">Birthday / Anniversary</option>
+                    <option value="Other">Other Private Party</option>
+                  </select>
+                  {errors.eventType && <span className="text-[11px] text-red-500 font-medium tracking-wide mt-1">{errors.eventType}</span>}
+                </div>
+
+                {/* Event Date */}
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="eventDate" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
+                    Event Date
+                  </label>
+                  <input
+                    id="eventDate"
+                    type="date"
+                    value={form.eventDate}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border border-[#E8E0D0] p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              {/* Guest Count */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="guestCount" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
+                  Guest Count
+                </label>
+                <select
+                  id="guestCount"
+                  value={form.guestCount}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border border-[#E8E0D0] p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors appearance-none"
+                >
+                  <option value="">Approx. Number of Guests</option>
+                  <option value="50-100">50 - 100</option>
+                  <option value="100-300">100 - 300</option>
+                  <option value="300-500">300 - 500</option>
+                  <option value="500-800">500 - 800</option>
+                  <option value="800+">800+</option>
+                </select>
               </div>
 
               {/* Message */}
-              <div style={{
-                display: "flex", flexDirection: "column",
-                gap: "8px"
-              }}>
-                <label htmlFor="message" style={{
-                  fontFamily:    "'DM Sans', sans-serif",
-                  fontSize:      "10px",
-                  letterSpacing: "2px",
-                  textTransform: "uppercase",
-                  color:         "#A99686",
-                }}>
-                  Message
-                  <span style={{
-                    color:         "#6B5E4E",
-                    marginLeft:    "6px",
-                    fontStyle:     "italic",
-                    letterSpacing: "0",
-                    textTransform: "none",
-                    fontSize:      "10px",
-                  }}>
-                    (optional)
-                  </span>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="message" className="text-[10px] tracking-[2px] uppercase text-[#A99686]">
+                  Additional Requirements <span className="text-[10px] italic lowercase normal-case tracking-normal">(optional)</span>
                 </label>
                 <textarea
                   id="message"
                   value={form.message}
                   onChange={handleChange}
-                  placeholder="Date, type of event, number of guests..."
+                  placeholder="Share any specific details or questions you have..."
                   rows={4}
-                  style={{
-                    ...inputStyle,
-                    resize:     "none",
-                    lineHeight: 1.6,
-                  }}
+                  className="w-full bg-transparent border border-[#E8E0D0] p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors resize-none leading-relaxed"
                 />
               </div>
 
-              {/* Error */}
               {status === "error" && (
-                <p style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize:   "13px",
-                  color:      "#f87171",
-                  margin:     0,
-                }}>
-                  Something went wrong. Please try
-                  again or call us directly at
-                  +91 88001 90003.
+                <p className="text-xs text-red-500 text-center font-medium bg-red-50 p-3 border border-red-100">
+                  An error occurred. Please try again or call us at +91 88001 90003.
                 </p>
               )}
 
-              {/* Submit */}
               <button
                 type="submit"
                 disabled={status === "loading"}
-                style={{
-                  marginTop:     "8px",
-                  width:         "100%",
-                  background:    status === "loading"
-                    ? "rgba(201,168,76,0.5)"
-                    : "#C9A84C",
-                  color:         "#1C1C1E",
-                  fontFamily:    "'DM Sans', sans-serif",
-                  fontSize:      "11px",
-                  letterSpacing: "3px",
-                  textTransform: "uppercase",
-                  fontWeight:    600,
-                  padding:       "16px 32px",
-                  border:        "none",
-                  cursor:        status === "loading"
-                    ? "not-allowed"
-                    : "pointer",
-                  transition:    "all 0.2s",
-                }}
-                className="hover:bg-[#1C1C1E] hover:text-[#FAF7F2] transition-colors"
+                className={`w-full py-4 px-8 text-[11px] tracking-[3px] uppercase font-bold transition-all duration-300
+                  ${status === "loading" 
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed" 
+                    : "bg-[#C9A84C] text-[#1C1C1E] hover:bg-[#1C1C1E] hover:text-white shadow-md hover:shadow-lg"}`}
               >
-                {status === "loading"
-                  ? "Sending..."
-                  : "Send Enquiry →"}
+                {status === "loading" ? "Processing..." : "Submit Enquiry"}
               </button>
-
             </form>
           )}
         </div>
@@ -403,18 +401,3 @@ export default function HomeEnquiry() {
     </section>
   );
 }
-
-// Shared input style object
-const inputStyle = {
-  background:    "transparent",
-  border:        "1px solid #E8E0D0",
-  color:         "#1C1C1E",
-  fontFamily:    "'DM Sans', sans-serif",
-  fontSize:      "14px",
-  padding:       "12px 16px",
-  width:         "100%",
-  outline:       "none",
-  boxSizing:     "border-box",
-  // Placeholder color via CSS — cannot be set
-  // inline, add to globals.css below
-};

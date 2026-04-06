@@ -29,7 +29,7 @@ const EVENT_CONFIG = [
     id:          "private-parties",
     category:    "private-parties",
     title:       "Private Celebrations",
-    description: "Birthdays, anniversaries, engagements, and family milestones. Intimate or grand — every private celebration gets the five-star treatment that Basti's families have come to trust.",
+    description: "Birthdays, anniversaries, engagements, and family milestones. Intimate or grand — every private celebration gets the five-star treatment that our families have come to trust.",
     features:    ["Flexible Capacity", "Themed Décor", "Live Food Stations"],
     cta:         "Plan Your Celebration",
     link:        "/contact",
@@ -153,7 +153,7 @@ const Events = () => {
       try {
         const results = await Promise.allSettled(
           EVENT_CONFIG.map((e) =>
-            fetch(`/api/images/events/${e.category}`)
+            fetch(`/api/images/events?category=${e.category}`)
               .then((r) => r.json())
               .then((data) => ({ category: e.category, images: data.images || [] }))
           )

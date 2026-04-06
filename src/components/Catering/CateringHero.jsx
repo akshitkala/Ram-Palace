@@ -12,6 +12,7 @@ export default function CateringHero({ data }) {
           src={data.image}
           alt="Luxury catering setup"
           fill
+          priority
           sizes="100vw"
           className="w-full h-full object-cover"
         />

@@ -1,6 +1,37 @@
 import { NextResponse } from 'next/server';
 
+// Simple in-memory rate limiting (Note: resets on serverless restart)
+const logLimitMap = new Map();
+
+function isLoginRateLimited(ip) {
+  const now = Date.now();
+  const limit = 5; // 5 attempts
+  const windowMs = 15 * 60 * 1000; // 15 mins
+
+  if (!logLimitMap.has(ip)) {
+    logLimitMap.set(ip, [now]);
+    return false;
+  }
+
+  const timestamps = logLimitMap.get(ip).filter(t => now - t < windowMs);
+  if (timestamps.length >= limit) {
+    return true;
+  }
+
+  timestamps.push(now);
+  logLimitMap.set(ip, timestamps);
+  return false;
+}
+
 export async function POST(request) {
+  const ip = request.headers.get("x-forwarded-for") || "anonymous";
+  if (isLoginRateLimited(ip)) {
+    return NextResponse.json(
+      { error: "Too many login attempts. Please try again after 15 minutes." },
+      { status: 429 }
+    );
+  }
+
   try {
     const { password } = await request.json();
 

@@ -1,12 +1,14 @@
 export default function robots() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://bastirampalace.com";
+
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin/", "/api/"],
+        disallow: ["/brp-portal-login", "/api"],
       },
     ],
-    sitemap: "https://ram-palace.vercel.app/sitemap.xml",
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

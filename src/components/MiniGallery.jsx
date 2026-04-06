@@ -2,16 +2,14 @@
 
 import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import Image from "next/image";
-import { weddingGallery as galleryImages } from "../Data/gallery";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const MiniGallery = () => {
-  const [images, setImages] = useState([]);
-  const trackRef = useRef(null);
+  const [row1Images, setRow1Images] = useState([]);
+  const [row2Images, setRow2Images] = useState([]);
+  const track1Ref = useRef(null);
+  const track2Ref = useRef(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -20,61 +18,94 @@ const MiniGallery = () => {
         const res = await fetch("/api/images/gallery");
         const data = await res.json();
         
-        // If we have live images, map them to the format expected
+        let allImages = [];
         if (data.images && data.images.length > 0) {
-          const liveImages = data.images.map(img => ({
+          allImages = data.images.map(img => ({
             id: img.public_id,
             image: img.secure_url,
             alt: "Basti Ram Palace Gallery"
           }));
-          // Double them for infinite loop
-          setImages([...liveImages, ...liveImages]);
         } else {
-          // Fallback to static
-          setImages([...galleryImages, ...galleryImages]);
+          setRow1Images([]);
+          setRow2Images([]);
+          return;
         }
+
+        const midPoint = Math.ceil(allImages.length / 2);
+        const r1 = allImages.slice(0, midPoint);
+        const r2 = allImages.slice(midPoint);
+
+        setRow1Images([...r1, ...r1]);
+        setRow2Images([...r2, ...r2]);
       } catch (error) {
-        setImages([...galleryImages, ...galleryImages]);
+        console.error("Failed to fetch gallery images:", error);
+        setRow1Images([]);
+        setRow2Images([]);
       }
     }
     fetchGallery();
   }, []);
 
   useLayoutEffect(() => {
-    if (images.length === 0) return;
+    if (row1Images.length === 0 || row2Images.length === 0) return;
 
     let ctx = gsap.context(() => {
-      const tween = gsap.to(trackRef.current, {
+      // Row 1 moves Left
+      gsap.to(track1Ref.current, {
         xPercent: -50,
         ease: "none",
-        duration: window.innerWidth <= 768 ? 20 : 35,
+        duration: window.innerWidth <= 768 ? 30 : 40,
         repeat: -1,
       });
 
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        onUpdate: (self) => {
-          const direction = self.direction;
-          gsap.to(tween, { timeScale: direction, duration: 0.5, overwrite: true });
-        },
-      });
-
-      const isTouch = window.matchMedia("(pointer: coarse)").matches;
-      if (!isTouch) {
-        const items = trackRef.current.querySelectorAll(".gallery-item");
-        items.forEach((item) => {
-          item.addEventListener("mouseenter", () => tween.pause());
-          item.addEventListener("mouseleave", () => tween.play());
-        });
-      }
+      // Row 2 moves Right
+      gsap.fromTo(track2Ref.current, 
+        { xPercent: -50 },
+        {
+          xPercent: 0,
+          ease: "none",
+          duration: window.innerWidth <= 768 ? 30 : 40,
+          repeat: -1,
+        }
+      );
     }, containerRef);
 
     return () => ctx.revert();
-  }, [images]);
+  }, [row1Images, row2Images]);
 
-  if (images.length === 0) return null;
+  if (row1Images.length === 0) return null;
+
+  const GalleryRow = ({ images, trackRef, reverse = false }) => (
+    <div className="w-full overflow-hidden flex mb-8 md:mb-12">
+      <div 
+        ref={trackRef}
+        className="flex gap-8 md:gap-16 px-4 md:px-0 w-max will-change-transform"
+      >
+        {images.map((img, index) => (
+          <div 
+            key={`${img.id}-${index}`}
+            className={`
+              relative group flex-shrink-0 w-[25vh] md:w-[35vh]
+              ${index % 2 === 0 ? "md:mt-[5vh]" : ""}
+              transition-all duration-500
+            `}
+          >
+            <div className="relative overflow-hidden rounded-xl shadow-lg lg:h-[40vh] h-[25vh] gallery-item">
+              <Image 
+                src={img.image} 
+                alt={img.alt || "Glimpse of Basti Ram Palace"}
+                fill
+                quality={70}
+                sizes="(max-width: 768px) 100vw, 25vw"
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <section 
@@ -90,42 +121,28 @@ const MiniGallery = () => {
         </p>
       </div>
 
-      <div className="w-full overflow-hidden flex">
-        <div 
-          ref={trackRef}
-          className="flex gap-14 md:gap-20 px-4 md:px-0 w-max will-change-transform"
+      <div className="space-y-4 md:space-y-8">
+        <GalleryRow images={row1Images} trackRef={track1Ref} />
+        <GalleryRow images={row2Images} trackRef={track2Ref} reverse />
+      </div>
+
+      <div className="flex justify-center mt-12 md:mt-20">
+        <Link 
+          href="/gallery"
+          className="group relative inline-flex items-center gap-3 bg-[#2a2015] text-[#fdfbf7] px-8 py-4 rounded-full font-body tracking-widest uppercase text-sm hover:bg-[#3d2f21] transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-95 overflow-hidden"
         >
-          {images.map((img, index) => (
-            <div 
-              key={`${img.id}-${index}`}
-              className={`
-                relative group flex-shrink-0 w-[30vh] md:w-[40vh]
-                ${index % 2 === 0 ? "md:mt-[10vh]" : ""}
-                transition-all duration-500
-              `}
-            >
-              <div className="relative overflow-hidden rounded-xl shadow-lg lg:h-[50vh] h-[30vh] gallery-item">
-                <Image 
-                  src={img.image} 
-                  alt={img.alt || "Glimpse of Basti Ram Palace"}
-                  fill
-                  quality={70}
-                  sizes="(max-width: 768px) 100vw, 25vw"
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-center justify-center">
-                   <span className="text-white font-body tracking-widest uppercase text-sm border border-white/30 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full">
-                     View Gallery
-                   </span>
-                </div>
-                
-                <Link href="/gallery" className="absolute inset-0 z-10" aria-label="View Gallery" />
-              </div>
-            </div>
-          ))}
-        </div>
+          <span className="relative z-10">View Full Gallery</span>
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+          <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+        </Link>
       </div>
       
     </section>

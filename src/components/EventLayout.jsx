@@ -14,103 +14,130 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
   const containerRef = useRef(null);
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+    if (!storySections || !containerRef.current) return;
+
+    const ctx = gsap.context((self) => {
+      // Helper to select within container
+      const q = gsap.utils.selector(containerRef.current);
+
       // Hero entrance
-      gsap.fromTo(
-        ".hero-label",
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.3 }
-      );
-      gsap.fromTo(
-        ".hero-title",
-        { opacity: 0, y: 56 },
-        { opacity: 1, y: 0, duration: 1.4, ease: "power3.out", delay: 0.5 }
-      );
-      gsap.fromTo(
-        ".hero-rule",
-        { opacity: 0, scaleX: 0 },
-        { opacity: 1, scaleX: 1, duration: 1, ease: "power3.out", delay: 0.9 }
-      );
-      gsap.fromTo(
-        ".hero-cta",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 1.1 }
-      );
+      if (q(".hero-label").length) {
+        gsap.fromTo(
+          q(".hero-label"),
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.3 }
+        );
+      }
+      if (q(".hero-title").length) {
+        gsap.fromTo(
+          q(".hero-title"),
+          { opacity: 0, y: 56 },
+          { opacity: 1, y: 0, duration: 1.4, ease: "power3.out", delay: 0.5 }
+        );
+      }
+      if (q(".hero-rule").length) {
+        gsap.fromTo(
+          q(".hero-rule"),
+          { opacity: 0, scaleX: 0 },
+          { opacity: 1, scaleX: 1, duration: 1, ease: "power3.out", delay: 0.9 }
+        );
+      }
+      if (q(".hero-cta").length) {
+        gsap.fromTo(
+          q(".hero-cta"),
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 1.1 }
+        );
+      }
 
       // Hero parallax
-      gsap.to(".hero-bg", {
-        yPercent: 18,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero-section",
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
+      if (q(".hero-bg").length && q(".hero-section").length) {
+        gsap.to(q(".hero-bg"), {
+          yPercent: 18,
+          ease: "none",
+          scrollTrigger: {
+            trigger: q(".hero-section"),
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
 
       // Intro block
-      gsap.fromTo(
-        ".intro-block",
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".intro-block", start: "top 82%" },
-        }
-      );
-
-      // Story sections
-      storySections.forEach((section) => {
+      if (q(".intro-block").length) {
         gsap.fromTo(
-          `.story-${section.id} .s-visual`,
-          { opacity: 0, scale: 0.94 },
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 1.3,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: `.story-${section.id}`,
-              start: "top 74%",
-            },
-          }
-        );
-        gsap.fromTo(
-          `.story-${section.id} .s-content`,
+          q(".intro-block"),
           { opacity: 0, y: 40 },
           {
             opacity: 1,
             y: 0,
             duration: 1,
-            delay: 0.2,
             ease: "power3.out",
-            scrollTrigger: {
-              trigger: `.story-${section.id}`,
-              start: "top 74%",
-            },
+            scrollTrigger: { trigger: q(".intro-block"), start: "top 82%" },
           }
         );
+      }
+
+      // Story sections
+      storySections.forEach((section) => {
+        const visual = q(`.story-${section.id} .s-visual`);
+        const content = q(`.story-${section.id} .s-content`);
+
+        if (visual.length) {
+          gsap.fromTo(
+            visual,
+            { opacity: 0, scale: 0.94 },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 1.3,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: q(`.story-${section.id}`),
+                start: "top 74%",
+              },
+            }
+          );
+        }
+        if (content.length) {
+          gsap.fromTo(
+            content,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 1,
+              delay: 0.2,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: q(`.story-${section.id}`),
+                start: "top 74%",
+              },
+            }
+          );
+        }
       });
 
       // CTA section
-      gsap.fromTo(
-        ".cta-block",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".cta-block", start: "top 85%" },
-        }
-      );
+      if (q(".cta-block").length) {
+        gsap.fromTo(
+          q(".cta-block"),
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: q(".cta-block"), start: "top 85%" },
+          }
+        );
+      }
     }, containerRef);
 
     return () => ctx.revert();
   }, [storySections]);
+
 
   return (
     <div ref={containerRef} className="bg-[#FAF7F2] min-h-screen overflow-x-hidden">
@@ -123,6 +150,7 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
             src={hero.image}
             alt={hero.title}
             fill
+            priority
             sizes="100vw"
             className="w-full h-full object-cover"
           />

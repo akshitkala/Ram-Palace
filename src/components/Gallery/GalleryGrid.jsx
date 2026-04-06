@@ -15,14 +15,17 @@ export default function GalleryGrid({
   return (
     <div className="max-w-7xl mx-auto px-6 py-16">
       
-      {/* Initial load skeleton */}
+      {/* Initial load skeleton (Masonry style) */}
       {loading && images.length === 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {Array.from({ length: 24 }).map((_, i) => (
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+          {[48, 64, 56, 72, 40, 60, 52, 68].map((h, i) => (
             <div
               key={i}
-              className="aspect-square bg-[#E8E0D0] animate-pulse"
-              style={{ animationDelay: `${i * 0.03}s` }}
+              className="w-full bg-[#E8E0D0] animate-pulse rounded-lg break-inside-avoid"
+              style={{ 
+                height: `${h * 4}px`,
+                animationDelay: `${i * 0.05}s` 
+              }}
             />
           ))}
         </div>
@@ -41,23 +44,29 @@ export default function GalleryGrid({
         </div>
       )}
 
-      {/* Image grid */}
+      {/* Image grid (Masonry style) */}
       {images.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {images.map((img, i) => (
             <div
               key={img.public_id}
-              className="relative aspect-square bg-[#F2EDE4] overflow-hidden group cursor-pointer rounded-sm"
+              className="relative break-inside-avoid rounded-lg overflow-hidden group cursor-pointer bg-[#F2EDE4] shadow-sm hover:shadow-xl transition-all duration-500 border border-black/5"
               onClick={() => setSelectedImage(img)}
             >
               <Image
                 src={img.secure_url}
                 alt={`Gallery ${i + 1}`}
-                fill
-                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                width={img.width}
+                height={img.height}
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="w-full h-auto group-hover:scale-105 transition-transform duration-700 ease-out"
                 loading="lazy"
               />
+              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                 <span className="text-white text-xs font-body tracking-[4px] uppercase border border-white/40 px-4 py-2 bg-black/20 backdrop-blur-sm scale-90 group-hover:scale-100 transition-transform duration-500">
+                   View
+                 </span>
+              </div>
             </div>
           ))}
         </div>

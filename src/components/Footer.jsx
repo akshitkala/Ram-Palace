@@ -13,6 +13,7 @@ const MAPS_URL =
 
 const NAV_LINKS = [
   { label: "Home",             href: "/" },
+  { label: "Services",         href: "/services" },
   { label: "Weddings",         href: "/events/weddings" },
   { label: "Corporate Events", href: "/events/corporate-events" },
   { label: "Private Parties",  href: "/events/private-parties" },
@@ -302,7 +303,7 @@ const Footer = () => {
 
               if (isP) {
                 return (
-                  <Link href="/admin/login" key={i} className="inline-block transition-opacity hover:opacity-100">
+                  <Link href="/brp-portal-login/login" key={i} className="inline-block transition-opacity hover:opacity-100">
                     {content}
                   </Link>
                 );
@@ -327,13 +328,14 @@ const Footer = () => {
 
           <div className="flex gap-6">
             {["Privacy", "Terms"].map((item) => (
-              <span
+              <Link
                 key={item}
+                href={`/${item.toLowerCase()}`}
                 className="font-body text-white/20 text-xs tracking-wide
                            hover:text-white/50 transition-colors duration-300 cursor-pointer"
               >
                 {item}
-              </span>
+              </Link>
             ))}
           </div>
         </div>

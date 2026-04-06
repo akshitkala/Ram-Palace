@@ -118,10 +118,9 @@ export function enquiryNotificationHtml({
   <!-- Footer -->
   <tr><td style="background:#1C1C1E;padding:18px 40px;
     text-align:center;">
-    <p style="margin:0;color:#5C4E3A;font-size:10px;
-      letter-spacing:2px;text-transform:uppercase;">
-      Basti Ram Palace · Civil Lines, Basti, UP — 272001
-    </p>
+    <p style="margin:0;color:#8B7B61;font-size:10px;
+      letter-spacing:2.5px;text-transform:uppercase;
+      font-weight:400;">Basti Ram Palace · IMT Manesar, Gurugram</p>
   </td></tr>
 
 </table>

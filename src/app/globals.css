@@ -25,8 +25,8 @@ html, body {
   --color-ivory: #F5F1EC;
   --color-palace-tan: #A99686;
 
-  --font-heading: "Playfair Display", serif;
-  --font-body: "DM Sans", sans-serif;
+  --font-heading: var(--font-playfair), serif;
+  --font-body: var(--font-poppins), sans-serif;
 }
 
 @keyframes scroll-line {
@@ -235,7 +235,7 @@ html, body {
 
 .font-body {
   font-family: var(--font-body);
-  font-weight: normal;
+  font-weight: 400;
 }
 
 .font-body-light {

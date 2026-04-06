@@ -6,14 +6,17 @@ import { eventDetails } from "@/Data/events";
 
 export default function PrivatePartiesPage() {
   const [data, setData] = useState(eventDetails.privateParties);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchImages = async () => {
       try {
         const res = await fetch("/api/images/events/private-parties");
+        if (!res.ok) throw new Error("HTTP error " + res.status);
         const json = await res.json();
 
-        if (json.images && json.images.length > 0) {
+        if (isMounted && json.images && json.images.length > 0) {
           const imgs = json.images;
           const newData = JSON.parse(JSON.stringify(eventDetails.privateParties));
 
@@ -25,11 +28,24 @@ export default function PrivatePartiesPage() {
         }
       } catch (err) {
         console.error("Failed to load private party images", err);
+      } finally {
+        if (isMounted) setIsLoading(false);
       }
     };
 
     fetchImages();
+    return () => { isMounted = false; };
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
+        <div className="text-[#C9A84C] font-body tracking-[0.3em] uppercase text-[10px] animate-pulse">
+           Crafting Joy...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <EventLayout

@@ -42,11 +42,8 @@ const Hero = () => {
   }, []);
 
   return (
-    <section
-      data-scroll-section
-      className="relative h-screen w-full overflow-hidden bg-black"
-    >
-      <div data-scroll data-scroll-speed="-0.3" className="absolute inset-0">
+    <section className="relative h-screen w-full overflow-hidden bg-black">
+      <div className="absolute inset-0">
 
         {/* ── BACKGROUND IMAGE ── */}
         <Image
@@ -117,32 +114,22 @@ const Hero = () => {
           ">
 
             {/* Pre-heading label */}
-            <p className="
-              text-[9px] md:text-xs
-              tracking-[4px] md:tracking-[6px] uppercase
-              text-[#C9A84C]
-              mb-3 md:mb-6
-              font-medium
-              fade-in opacity-0
-              drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]
-            ">
-              Basti's Most Beloved Celebration Venue
-            </p>
+           
 
-            {/* Main Heading */}
+            {/* Main Heading — SEO Optimized */}
             <h1 className="
               font-heading
-              text-[clamp(2rem,8vw,76px)]
+              text-[clamp(1.75rem,7vw,72px)]
               leading-[1.1]
               text-white
               fade-in opacity-0
               mb-7 md:mb-10
               drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]
             ">
-              Where Every Occasion
+              The Finest Wedding Venue
               <br />
               <em className="text-[#C9A84C] not-italic">
-                Becomes a Memory
+                in Manesar, Gurugram
               </em>
             </h1>
 
@@ -207,7 +194,7 @@ const Hero = () => {
               drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]
             ">
               From intimate gatherings to grand weddings,
-              Basti Ram Palace has been the heart of Basti's
+              Basti Ram Palace has been the heart of our
               most treasured celebrations for over 15 years.
             </p>
           </div>
@@ -251,25 +238,6 @@ const Hero = () => {
             w-px h-8 bg-white/20
             fade-in opacity-0
           " />
-
-          {/* SCROLL INDICATOR — mobile & tablet */}
-          {/* <div className="
-            lg:hidden
-            absolute bottom-6
-            left-1/2 -translate-x-1/2
-            flex flex-col items-center gap-2
-            fade-in opacity-0
-          ">
-            <span
-              className="text-[9px] tracking-[3px] uppercase text-white/50"
-              style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
-            >
-              Scroll
-            </span>
-            <div className="w-px h-8 bg-white/20 relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 bg-[#C9A84C] animate-scroll-line" />
-            </div>
-          </div> */}
 
         </div>
       </div>

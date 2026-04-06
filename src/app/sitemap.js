@@ -1,55 +1,23 @@
 export default function sitemap() {
-  const baseUrl = "https://ram-palace.vercel.app";
-  const lastModified = new Date();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://bastirampalace.com";
 
-  return [
-    {
-      url: `${baseUrl}/`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/events/weddings`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/events/corporate-events`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/events/private-parties`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/catering`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/menu`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/gallery`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.7,
-    },
+  // Public routes for indexing
+  const routes = [
+    "",
+    "/catering",
+    "/events",
+    "/events/weddings",
+    "/events/corporate-events",
+    "/events/private-parties",
+    "/gallery",
+    "/menu",
+    "/contact",
   ];
+
+  return routes.map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: route === "" ? 1 : 0.8,
+  }));
 }

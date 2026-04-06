@@ -74,29 +74,40 @@ const Navbar = () => {
 
   // 🔹 MOBILE MENU TIMELINE (OPEN + CLOSE)
   useEffect(() => {
+    if (!menuRef.current) return;
+    
     tl.current = gsap.timeline({
       paused: true,
-      defaults: { ease: "power3.out" },
+      defaults: { ease: "expo.inOut" },
     });
 
     tl.current
       .fromTo(
         menuRef.current,
-        { y: "100%" },
-        { y: "0%", duration: 0.3 }
+        { y: "100%", opacity: 0 },
+        { y: "0%", opacity: 1, duration: 0.8 }
       )
       .fromTo(
         linksRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.04, duration: 0.2 },
-        "-=0.15"
+        { y: 50, opacity: 0, skewY: 5 },
+        { y: 0, opacity: 1, skewY: 0, stagger: 0.08, duration: 0.6 },
+        "-=0.5"
       );
   }, []);
 
   // 🔹 PLAY / REVERSE MENU
   useEffect(() => {
     if (!tl.current) return;
-    open ? tl.current.play() : tl.current.reverse();
+    if (open) {
+      // Robust Body Lock for mobile and smooth-scroll cases
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none"; 
+      tl.current.play();
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+      tl.current.reverse();
+    }
   }, [open]);
 
   return (
@@ -104,14 +115,14 @@ const Navbar = () => {
       {/* NAVBAR */}
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 w-full z-50 text-white bg-black/40 backdrop-blur-sm border-b border-white/10 shadow-lg"
+        className="fixed top-0 left-0 w-full z-[1000] text-white bg-black/40 backdrop-blur-sm border-b border-white/10 shadow-lg"
       >
         <div className="flex items-center justify-between px-6 py-4 lg:px-10">
           <NavLinks />
 
           <button
             onClick={() => setOpen(!open)}
-            className="lg:hidden text-3xl z-50"
+            className={`lg:hidden text-3xl z-[10002] transition-colors duration-300 ${open ? 'text-black' : 'text-white'}`}
             aria-label="Toggle menu"
           >
             {open ? <FiX /> : <FiMenu />}
@@ -122,12 +133,13 @@ const Navbar = () => {
       {/* MOBILE MENU (ALWAYS MOUNTED) */}
       <div
         ref={menuRef}
-        className="fixed inset-0 z-40 bg-[#E5DFDA] text-black flex flex-col justify-between pt-32 pb-10 translate-y-full overflow-y-auto scrollbar-hide"
+        className="fixed inset-0 z-[10001] bg-[#E5DFDA] text-black flex flex-col justify-between pt-10 pb-10 translate-y-full overflow-y-auto scrollbar-hide"
       >
         {/* Links */}
-          <div className="flex flex-col gap-6 px-10 text-4xl">
+          <div className="flex flex-col gap-4 md:gap-6 px-10 text-3xl md:text-4xl mt-8">
             {[
               { label: "Home", path: "/" },
+              { label: "Services", path: "/services" },
               { label: "Weddings", path: "/events/weddings" },
               { label: "Corporate Events", path: "/events/corporate-events" },
               { label: "Private Parties", path: "/events/private-parties" },
@@ -141,22 +153,26 @@ const Navbar = () => {
                 ref={(el) => (linksRef.current[i] = el)}
                 onClick={() => setOpen(false)}
                 href={item.path}
-                className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+                className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group whitespace-nowrap"
               >
-                {item.label} <span className="font-light transition-transform duration-300 group-hover:translate-x-1 inline-block">&gt;</span>
+                {item.label} <span className="font-light transition-transform duration-300 group-hover:translate-x-1 inline-block text-2xl lg:text-3xl">&gt;</span>
               </Link>
             ))}
           </div>
 
         {/* Footer */}
-        <div className="px-10 flex flex-col gap-6">
+        <div className="px-10 mt-8 mb-4 flex flex-col gap-5">
           <div className="flex gap-5">
-            <FaFacebookF className="text-2xl" />
-            <FaInstagram className="text-2xl" />
+            <a href="https://facebook.com" aria-label="Follow Basti Ram Palace on Facebook" target="_blank" rel="noopener noreferrer">
+              <FaFacebookF className="text-2xl hover:text-[#C9A84C] transition-colors" />
+            </a>
+            <a href="https://instagram.com" aria-label="Follow Basti Ram Palace on Instagram" target="_blank" rel="noopener noreferrer">
+              <FaInstagram className="text-2xl hover:text-[#C9A84C] transition-colors" />
+            </a>
           </div>
 
           <Link href="/contact" className="w-full">
-            <button className="w-full text-xl text-white px-6 py-3 bg-[#C9A84C] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-105 hover:shadow-lg">
+            <button className="w-full text-lg text-white px-6 py-3 bg-[#C9A84C] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-[1.02] hover:shadow-lg">
               Reserve Now
             </button>
           </Link>

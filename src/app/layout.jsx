@@ -1,9 +1,35 @@
+import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
 import RootLayoutClient from "@/components/RootLayoutClient";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 import "./globals.css";
 
+// ── LOCAL FONT — PLAYFAIR DISPLAY ──
+const playfair = localFont({
+  src: [
+    {
+      path: "./fonts/playfair/PlayfairDisplay-VariableFont_wght.ttf",
+      style: "normal",
+    },
+    {
+      path: "./fonts/playfair/PlayfairDisplay-Italic-VariableFont_wght.ttf",
+      style: "italic",
+    },
+  ],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+// ── GOOGLE FONT — POPPINS ──
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-poppins",
+  display: "swap",
+});
+
 export const metadata = {
-  metadataBase: new URL("https://ram-palace.vercel.app"),
+  metadataBase: new URL("https://bastirampalace.com"),
   title: {
     default: "Basti Ram Palace — Best Banquet Hall in Manesar, Gurugram",
     template: "%s | Basti Ram Palace",
@@ -38,7 +64,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://ram-palace.vercel.app",
+    url: "https://bastirampalace.com",
     siteName: "Basti Ram Palace",
     title: "Basti Ram Palace — Best Banquet Hall in Manesar, Gurugram",
     description:
@@ -65,21 +91,18 @@ export const metadata = {
     googleBot: { index: true, follow: true },
   },
   alternates: {
-    canonical: "https://ram-palace.vercel.app",
+    canonical: "https://bastirampalace.com",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${playfair.variable} ${poppins.variable}`}>
       <head>
         <link rel="icon" type="image/png" href="/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
       </head>
-      <body>
+      <body className={poppins.className}>
         <RootLayoutClient>
           <ClientLayoutWrapper>
             {children}

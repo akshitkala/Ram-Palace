@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
 import { 
   IconPhoto, 
   IconSlideshow, 
@@ -144,8 +144,16 @@ export default function AdminPage() {
 
   // Refs
   const fileInputRef = useRef(null);
+  const headerRef = useRef(null);
+  const actionBarRef = useRef(null);
 
   useEffect(() => {
+    // Header Animation
+    gsap.fromTo(headerRef.current, 
+      { opacity: 0, y: -20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+    );
+    
     fetchGallery();
     fetchCarousel();
     fetchEvents("weddings");
@@ -734,36 +742,14 @@ export default function AdminPage() {
       </main>
 
       {/* BULK ACTION BAR */}
-      <AnimatePresence>
-        {selectedIds.size > 0 && (
-          <motion.div
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            exit={{ y: 100 }}
-            className="fixed bottom-0 left-0 xl:left-[220px] right-0 bg-[#0F0A07] border-t border-[#C9A84C]/30 px-8 py-5 z-40 flex items-center justify-between shadow-[0_-10px_30px_rgba(0,0,0,0.3)]"
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-[#C9A84C] font-semibold">
-                {selectedIds.size} images selected
-              </span>
-              <div className="w-px h-6 bg-white/10 hidden sm:block" />
-              <button 
-                onClick={() => { setSelectedIds(new Set()); setSelectMode(false); }}
-                className="text-white/40 hover:text-white text-sm"
-              >
-                Clear
-              </button>
-            </div>
-            <button
-               onClick={handleBulkDelete}
-               className="bg-[#DC2626] text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:shadow-red-500/20 active:scale-95 transition-all flex items-center gap-2"
-            >
-              <IconTrash size={18} />
-              Delete Permanently
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {selectedIds.size > 0 && (
+        <BulkActionBar 
+          selectedCount={selectedIds.size}
+          onClear={() => { setSelectedIds(new Set()); setSelectMode(false); }}
+          onDelete={handleBulkDelete}
+          sidebarOffset="xl:left-[220px]"
+        />
+      )}
 
       {/* OVERRAYS */}
       <Lightbox 
@@ -779,17 +765,53 @@ export default function AdminPage() {
       />
 
       <div className="pointer-events-none fixed inset-0 z-[200]">
-        <AnimatePresence>
-          {toasts.map((toast) => (
-            <Toast 
-              key={toast.id} 
-              {...toast} 
-              onClose={() => removeToast(toast.id)} 
-            />
-          ))}
-        </AnimatePresence>
+        {toasts.map((toast) => (
+          <Toast 
+            key={toast.id} 
+            {...toast} 
+            onClose={() => removeToast(toast.id)} 
+          />
+        ))}
       </div>
 
+    </div>
+  );
+}
+
+function BulkActionBar({ selectedCount, onClear, onDelete, sidebarOffset }) {
+  const barRef = useRef(null);
+
+  useEffect(() => {
+    gsap.fromTo(barRef.current, 
+      { y: 100 }, 
+      { y: 0, duration: 0.4, ease: "power3.out" }
+    );
+  }, []);
+
+  return (
+    <div
+      ref={barRef}
+      className={`fixed bottom-0 left-0 ${sidebarOffset} right-0 bg-[#0F0A07] border-t border-[#C9A84C]/30 px-8 py-5 z-40 flex items-center justify-between shadow-[0_-10px_30px_rgba(0,0,0,0.3)]`}
+    >
+      <div className="flex items-center gap-4">
+        <span className="text-[#C9A84C] font-semibold">
+          {selectedCount} images selected
+        </span>
+        <div className="w-px h-6 bg-white/10 hidden sm:block" />
+        <button 
+          onClick={onClear}
+          className="text-white/40 hover:text-white text-sm"
+        >
+          Clear
+        </button>
+      </div>
+      <button
+         onClick={onDelete}
+         className="bg-[#DC2626] text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:shadow-red-500/20 active:scale-95 transition-all flex items-center gap-2"
+      >
+        <IconTrash size={18} />
+        Delete Permanently
+      </button>
     </div>
   );
 }

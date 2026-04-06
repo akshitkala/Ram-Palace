@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import cloudinary from '@/lib/cloudinary';
 
 const FOLDER = 'ram-palace/gallery';
@@ -51,6 +52,12 @@ export async function GET(req) {
 }
 
 export async function POST(request) {
+  const cookieStore = await cookies();
+  const session = cookieStore.get('admin_session');
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') || formData.get('image');
@@ -98,6 +105,12 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
+  const cookieStore = await cookies();
+  const session = cookieStore.get('admin_session');
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const { public_id } = body;

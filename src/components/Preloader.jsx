@@ -4,12 +4,11 @@ import { gsap } from "gsap";
 
 const LEFT_TEXT      = "BASTI RAM ";
 const RIGHT_TEXT     = "PALACE";
-const MIN_MS         = 1000;
+const MIN_MS         = 0;
 const SAFETY_MS      = 8000;
-const HERO_IMAGE_SRC = "/images/hero/hero.webp";
 
 const textStyle = {
-  fontFamily:    "'Cormorant Garamond', Georgia, serif",
+  fontFamily:    "var(--font-heading)",
   fontWeight:    300,
   fontSize:      "clamp(1.1rem, 4.5vw, 2.75rem)",
   letterSpacing: "clamp(0.15em, 0.6vw, 0.28em)",
@@ -36,8 +35,6 @@ export default function Preloader({ onExiting, onComplete }) {
     const flags = {
       minTime:    false,
       windowLoad: false,
-      fontsReady: false,
-      heroImage:  false,
       goldDone:   false,
     };
 
@@ -87,7 +84,7 @@ export default function Preloader({ onExiting, onComplete }) {
       tryExit();
     }, MIN_MS);
 
-    // FLAG 2 — Window load
+    // FLAG 3 — Minimal window ready check
     if (document.readyState === "complete") {
       flags.windowLoad = true;
     } else {
@@ -96,17 +93,6 @@ export default function Preloader({ onExiting, onComplete }) {
         tryExit();
       }, { once: true });
     }
-
-    // FLAG 3 — Fonts ready
-    document.fonts.ready
-      .then(() => { flags.fontsReady = true; tryExit(); })
-      .catch(() => { flags.fontsReady = true; tryExit(); });
-
-    // FLAG 4 — Hero image
-    const heroImg   = new window.Image();
-    heroImg.onload  = () => { flags.heroImage = true; tryExit(); };
-    heroImg.onerror = () => { flags.heroImage = true; tryExit(); };
-    heroImg.src     = HERO_IMAGE_SRC;
 
     // GOLD SWEEP
     gsap.set(container, { opacity: 1 });
@@ -224,7 +210,7 @@ export default function Preloader({ onExiting, onComplete }) {
           background: "rgba(201,168,76,0.35)",
         }} />
         <p style={{
-          fontFamily:    "'DM Sans', sans-serif",
+          fontFamily:    "var(--font-heading)",
           fontWeight:    400,
           fontSize:      "clamp(9px, 1.8vw, 10px)",
           letterSpacing: "0.3em",

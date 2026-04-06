@@ -1,27 +1,49 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 
 export default function Toast({ 
   message, 
   type = "success", 
   onClose 
 }) {
+  const toastRef = useRef(null);
+  const [isExiting, setIsExiting] = useState(false);
+
   useEffect(() => {
+    // Entrance Animation
+    gsap.fromTo(toastRef.current, 
+      { opacity: 0, y: -20, x: 20 },
+      { opacity: 1, y: 0, x: 0, duration: 0.3, ease: "back.out(1.7)" }
+    );
+
+    // Auto-close after 3s
     const timer = setTimeout(() => {
-      onClose();
+      handleClose();
     }, 3000);
+
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, []);
+
+  const handleClose = () => {
+    if (isExiting) return;
+    setIsExiting(true);
+    
+    gsap.to(toastRef.current, {
+      opacity: 0,
+      scale: 0.95,
+      y: -10,
+      duration: 0.2,
+      onComplete: onClose
+    });
+  };
 
   const isSuccess = type === "success";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -20, x: 20 }}
-      animate={{ opacity: 1, y: 0, x: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
+    <div
+      ref={toastRef}
       className={`fixed top-6 right-6 z-[200] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-2xl border
                  ${isSuccess 
                    ? "bg-white border-green-100 text-green-800" 
@@ -32,11 +54,11 @@ export default function Toast({
         {message}
       </p>
       <button 
-        onClick={onClose}
+        onClick={handleClose}
         className="text-[#7A6A5A] hover:text-[#1C1009] transition-colors"
       >
         ✕
       </button>
-    </motion.div>
+    </div>
   );
 }

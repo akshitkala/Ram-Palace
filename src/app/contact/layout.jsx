@@ -1,21 +1,11 @@
 export const metadata = {
-  title: "Contact & Book | Basti Ram Palace Manesar Gurugram",
-  description:
-    "Contact Basti Ram Palace to book your wedding, corporate event or private celebration. Call +91-8800190003 or WhatsApp +91-9650211469. Located at IMT Manesar, Gurugram, Haryana 122505.",
-  keywords: [
-    "book banquet hall Manesar",
-    "contact Basti Ram Palace",
-    "banquet hall booking Gurugram",
-    "wedding venue booking Haryana",
-    "event booking Manesar",
-  ],
+  title: "Book your Event | Contact Basti Ram Palace, Manesar",
+  description: "Ready to host your dream wedding or corporate gala? Contact Basti Ram Palace for booking and reservations. We're here to help you plan your next celebration.",
   openGraph: {
-    title: "Contact & Book | Basti Ram Palace Manesar Gurugram",
-    description:
-      "Book Basti Ram Palace for your event. Call +91-8800190003. IMT Manesar, Gurugram.",
-    images: [{ url: "/images/hero/hero.webp", width: 1200, height: 630 }],
-  },
-  alternates: { canonical: "https://ram-palace.vercel.app/contact" },
+      title: "Contact Us for Event Bookings | Basti Ram Palace",
+      description: "Get in touch for booking and reservations. We're here to help you plan your perfect event.",
+      images: [{ url: "/images/hero/hero.webp", width: 1200, height: 630 }],
+    },
 };
 
 export default function Layout({ children }) {
