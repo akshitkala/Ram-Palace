@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import { Poppins } from "next/font/google";
+import { Poppins, Cormorant_Garamond } from "next/font/google";
 import RootLayoutClient from "@/components/RootLayoutClient";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 import StructuredData from "@/components/StructuredData"; // BRP-FIX: D-2
@@ -26,6 +26,15 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-poppins",
+  display: "swap",
+});
+
+// ── GOOGLE FONT — CORMORANT GARAMOND (event headings) ──
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
   display: "swap",
 });
 
@@ -96,12 +105,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${poppins.variable}`}>
-      <head>
-        <link rel="icon" type="image/png" href="/logo.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <StructuredData /> {/* BRP-FIX: D-2 */}
-      </head>
+    <html lang="en" className={`${playfair.variable} ${poppins.variable} ${cormorant.variable}`}>
+      <head><link rel="icon" type="image/png" href="/logo.png" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><StructuredData /></head>
       <body className={poppins.className}>
         <RootLayoutClient>
           <ClientLayoutWrapper>

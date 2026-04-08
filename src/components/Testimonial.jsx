@@ -32,13 +32,17 @@ const Testimonial = ({ testimonials, autoplay = true, className = "" }) => {
   }, [autoplay, paused, handleNext]);
 
   useEffect(() => {
-    if (contentRef.current) {
+    if (!contentRef.current) return;
+    
+    const ctx = gsap.context(() => {
       gsap.fromTo(
         contentRef.current,
         { opacity: 0, y: direction > 0 ? 15 : -15 },
         { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
       );
-    }
+    }, contentRef);
+
+    return () => ctx.revert();
   }, [active, direction]);
 
   const current = testimonials[active];

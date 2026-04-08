@@ -12,6 +12,7 @@ import NavLinks from "./NavLinks";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [eventsOpen, setEventsOpen] = useState(false);
 
   const navRef = useRef(null);
   const menuRef = useRef(null);
@@ -137,28 +138,45 @@ const Navbar = () => {
       >
         {/* Links */}
           <div className="flex flex-col gap-4 md:gap-6 px-10 text-3xl md:text-4xl mt-8">
-            {[
-              { label: "Home", path: "/" },
-              { label: "Services", path: "/services" },
-              { label: "Weddings", path: "/events/weddings" },
-              { label: "Corporate Events", path: "/events/corporate-events" },
-              { label: "Private Parties", path: "/events/private-parties" },
-              { label: "Catering", path: "/catering" },
-              { label: "Menu", path: "/menu" },
-              { label: "Gallery", path: "/gallery" },
-              { label: "About", path: "/about" }, // BRP-FIX: E-1
-              { label: "Contact", path: "/contact" }
-            ].map((item, i) => (
-              <Link
-                key={item.label}
-                ref={(el) => (linksRef.current[i] = el)}
-                onClick={() => setOpen(false)}
-                href={item.path}
-                className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group whitespace-nowrap"
+            <Link onClick={() => setOpen(false)} href="/" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+              Home <span className="font-light text-2xl lg:text-3xl">&gt;</span>
+            </Link>
+            <Link onClick={() => setOpen(false)} href="/services" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+              Services <span className="font-light text-2xl lg:text-3xl">&gt;</span>
+            </Link>
+            
+            {/* Events Sub-menu */}
+            <div className="flex flex-col gap-2">
+              <button 
+                onClick={() => setEventsOpen(!eventsOpen)}
+                className="flex items-center justify-between transition-all duration-300 hover:text-[#C9A84C] text-left"
               >
-                {item.label} <span className="font-light transition-transform duration-300 group-hover:translate-x-1 inline-block text-2xl lg:text-3xl">&gt;</span>
-              </Link>
-            ))}
+                Events <span className={`transition-transform duration-300 ${eventsOpen ? 'rotate-90' : ''}`}>&gt;</span>
+              </button>
+              {eventsOpen && (
+                <div className="flex flex-col gap-3 pl-6 mt-2 text-2xl border-l border-[#C9A84C]/30">
+                  <Link onClick={() => setOpen(false)} href="/events/weddings" className="text-black/60 hover:text-[#C9A84C]">Weddings</Link>
+                  <Link onClick={() => setOpen(false)} href="/events/corporate" className="text-black/60 hover:text-[#C9A84C]">Corporate</Link>
+                  <Link onClick={() => setOpen(false)} href="/events/private-parties" className="text-black/60 hover:text-[#C9A84C]">Private parties</Link>
+                </div>
+              )}
+            </div>
+
+            <Link onClick={() => setOpen(false)} href="/catering" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+              Catering <span className="font-light text-2xl lg:text-3xl">&gt;</span>
+            </Link>
+            <Link onClick={() => setOpen(false)} href="/menu" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+              Menu <span className="font-light text-2xl lg:text-3xl">&gt;</span>
+            </Link>
+            <Link onClick={() => setOpen(false)} href="/gallery" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+              Gallery <span className="font-light text-2xl lg:text-3xl">&gt;</span>
+            </Link>
+            <Link onClick={() => setOpen(false)} href="/about" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+              About <span className="font-light text-2xl lg:text-3xl">&gt;</span>
+            </Link>
+            <Link onClick={() => setOpen(false)} href="/contact" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+              Contact <span className="font-light text-2xl lg:text-3xl">&gt;</span>
+            </Link>
           </div>
 
         {/* Footer */}

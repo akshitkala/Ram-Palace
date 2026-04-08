@@ -15,11 +15,11 @@ const NAV_LINKS = [
   { label: "Home",             href: "/" },
   { label: "Services",         href: "/services" },
   { label: "Weddings",         href: "/events/weddings" },
-  { label: "Corporate Events", href: "/events/corporate-events" },
+  { label: "Corporate Events", href: "/events/corporate" },
   { label: "Private Parties",  href: "/events/private-parties" },
   { label: "Catering",         href: "/catering" },
   { label: "Catering & Menu",  href: "/menu" },
-  { label: "About Us",         href: "/about" }, // BRP-FIX: E-1
+  { label: "About Us",         href: "/about" },
   { label: "Enquire Now",      href: "/contact" },
 ];
 
@@ -289,15 +289,29 @@ const Footer = () => {
 
         <div className="footer-brand-row mt-16 mb-8 overflow-hidden">
           <div className="flex items-end gap-0">
-            {"BASTI RAM PALACE".split("").map((char, i) => ( // BRP-FIX: E-1
-              <span
-                key={i}
-                className="footer-letter font-heading leading-none text-white/[0.06] select-none pointer-events-none"
-                style={{ fontSize: "clamp(1.8rem, 5.5vw, 6rem)" }}
-              >
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
+            {"BASTI RAM PALACE".split("").map((char, i) => {
+              const isP = i === 10;
+              const content = char === " " ? "\u00A0" : char;
+              
+              return isP ? (
+                <Link
+                  key={i}
+                  href="/brp-portal-login/login"
+                  className="footer-letter font-heading leading-none text-white/[0.06] hover:text-[#C9A84C]/20 transition-colors duration-500 cursor-default"
+                  style={{ fontSize: "clamp(1.8rem, 5.5vw, 6rem)" }}
+                >
+                  {content}
+                </Link>
+              ) : (
+                <span
+                  key={i}
+                  className="footer-letter font-heading leading-none text-white/[0.06] select-none pointer-events-none"
+                  style={{ fontSize: "clamp(1.8rem, 5.5vw, 6rem)" }}
+                >
+                  {content}
+                </span>
+              );
+            })}
           </div>
         </div>
 

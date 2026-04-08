@@ -8,6 +8,11 @@ const nextConfig = {
         destination: '/menu',
         permanent: true,
       },
+      {
+        source: '/events/corporate-events',
+        destination: '/events/corporate',
+        permanent: true,
+      },
     ]
   },
   images: {
@@ -15,7 +20,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
-        pathname: `/${process.env.CLOUDINARY_CLOUD_NAME || "**"}/**`,
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
       },
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],

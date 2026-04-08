@@ -4,6 +4,7 @@ import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import gsap from "gsap";
 import Link from "next/link";
 import Image from "next/image";
+import { useImageCache } from "@/hooks/useImageCache";
 
 const MiniGallery = () => {
   const [row1Images, setRow1Images] = useState([]);
@@ -12,39 +13,34 @@ const MiniGallery = () => {
   const track2Ref = useRef(null);
   const containerRef = useRef(null);
 
+  const { fetchWithCache } = useImageCache();
+
   useEffect(() => {
-    async function fetchGallery() {
-      try {
-        const res = await fetch("/api/images/gallery");
-        const data = await res.json();
-        
-        let allImages = [];
-        if (data.images && data.images.length > 0) {
-          allImages = data.images.map(img => ({
-            id: img.public_id,
-            image: img.secure_url,
-            alt: "Basti Ram Palace Gallery"
-          }));
-        } else {
-          setRow1Images([]);
-          setRow2Images([]);
-          return;
-        }
-
-        const midPoint = Math.ceil(allImages.length / 2);
-        const r1 = allImages.slice(0, midPoint);
-        const r2 = allImages.slice(midPoint);
-
-        setRow1Images([...r1, ...r1]);
-        setRow2Images([...r2, ...r2]);
-      } catch (error) {
-        console.error("Failed to fetch gallery images:", error);
+    async function getGallery() {
+      const images = await fetchWithCache("gallery");
+      if (!images || images.length === 0) {
         setRow1Images([]);
         setRow2Images([]);
+        return;
       }
+
+      const formatted = images
+        .filter(img => img.url || img.secure_url)
+        .map(img => ({
+          id: img.public_id,
+          image: img.url || img.secure_url,
+          alt: "Basti Ram Palace Gallery"
+        }));
+
+      const midPoint = Math.ceil(formatted.length / 2);
+      const r1 = formatted.slice(0, midPoint);
+      const r2 = formatted.slice(midPoint);
+
+      setRow1Images([...r1, ...r1]);
+      setRow2Images([...r2, ...r2]);
     }
-    fetchGallery();
-  }, []);
+    getGallery();
+  }, [fetchWithCache]);
 
   useLayoutEffect(() => {
     if (row1Images.length === 0 || row2Images.length === 0) return;

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useImageCache } from "@/hooks/useImageCache";
 
 // ── EVENT CARD STATIC DATA ───────────────────────────────────────────
 // Images fetched from Cloudinary. Only copy + links hardcoded here.
@@ -14,7 +15,7 @@ const EVENT_CONFIG = [
     description: "From the ceremony to the last dance — every detail of your wedding day deserves a setting as extraordinary as the occasion itself. Grand hall, adorned to your vision, with cuisine by GD Foods India.",
     features:    ["Grand Banquet Hall", "Custom Décor", "GD Foods India Catering"],
     cta:         "Plan Your Wedding",
-    link:        "/contact",
+    link:        "/events/weddings",
   },
   {
     id:          "corporate",
@@ -23,7 +24,7 @@ const EVENT_CONFIG = [
     description: "Boardroom announcements, product launches, annual galas — we bring precision and warmth to every corporate occasion. Trusted by leading organisations through our catering partner GD Foods India.",
     features:    ["AV & Projector Setup", "Conference Layout", "Corporate Catering"],
     cta:         "Request a Proposal",
-    link:        "/contact",
+    link:        "/events/corporate",
   },
   {
     id:          "private-parties",
@@ -32,9 +33,27 @@ const EVENT_CONFIG = [
     description: "Birthdays, anniversaries, engagements, and family milestones. Intimate or grand — every private celebration gets the five-star treatment that our families have come to trust.",
     features:    ["Flexible Capacity", "Themed Décor", "Live Food Stations"],
     cta:         "Plan Your Celebration",
-    link:        "/contact",
+    link:        "/events/private-parties",
   },
 ];
+
+const FALLBACK_IMAGES = {
+  weddings: [
+    "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=cover",
+    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=cover",
+    "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=cover"
+  ],
+  corporate: [
+    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=cover",
+    "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2070&auto=format&fit=cover",
+    "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=2070&auto=format&fit=cover"
+  ],
+  "private-parties": [
+    "https://images.unsplash.com/photo-1464366427604-47e0ef38f161?q=80&w=2071&auto=format&fit=cover",
+    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2070&auto=format&fit=cover",
+    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=cover"
+  ]
+};
 
 // No longer using a per-card hook for randomized global logic
 
@@ -67,10 +86,16 @@ const EventCard = ({ config, images, loading, currentIndex }) => {
         ))}
 
         {!loading && (!images || images.length === 0) && (
-          <div className="absolute inset-0 bg-[#D8CFC4] flex items-center justify-center">
-            <span className="text-[10px] tracking-[3px] uppercase text-[#999]">
-              Coming Soon
-            </span>
+          <div className="absolute inset-0 bg-[#D8CFC4]">
+             {FALLBACK_IMAGES[config.category] && (
+               <Image
+                 src={FALLBACK_IMAGES[config.category][0]}
+                 alt={config.title}
+                 fill
+                 quality={70}
+                 className="object-cover"
+               />
+             )}
           </div>
         )}
 
@@ -148,20 +173,33 @@ const Events = () => {
     "private-parties": 0,
   });
 
+  const { fetchWithCache } = useImageCache();
+
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const results = await Promise.allSettled(
-          EVENT_CONFIG.map((e) =>
-            fetch(`/api/images/events?category=${e.category}`)
-              .then((r) => r.json())
-              .then((data) => ({ category: e.category, images: data.images || [] }))
-          )
-        );
+        const categories = EVENT_CONFIG.map(e => e.category);
         const map = {};
-        results.forEach((r) => {
-          if (r.status === "fulfilled") map[r.value.category] = r.value.images;
-        });
+        
+        await Promise.all(
+          categories.map(async (cat) => {
+            const imgs = await fetchWithCache(cat);
+            if (!imgs || imgs.length === 0) {
+              if (FALLBACK_IMAGES[cat]) {
+                map[cat] = FALLBACK_IMAGES[cat].map((url, idx) => ({
+                  public_id: `fallback-${cat}-${idx}`,
+                  secure_url: url,
+                  isFallback: true
+                }));
+              } else {
+                map[cat] = [];
+              }
+            } else {
+              map[cat] = imgs;
+            }
+          })
+        );
+        
         setImageMap(map);
       } catch (err) {
         console.error("Events fetch error:", err);
@@ -171,7 +209,7 @@ const Events = () => {
       }
     };
     fetchAll();
-  }, []);
+  }, [fetchWithCache]);
 
   // Centralized Random Cycling Logic
   useEffect(() => {

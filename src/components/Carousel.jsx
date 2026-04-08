@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { useImageCache } from "@/hooks/useImageCache";
 
 const Carousel = () => {
   const [images, setImages] = useState([]);
@@ -10,23 +11,18 @@ const Carousel = () => {
   const touchStartX = useRef(0);
   const touchEndX   = useRef(0);
 
+  const { fetchWithCache } = useImageCache();
+
   // Fetch images from backend
   useEffect(() => {
-    async function fetchCarousel() {
-      try {
-        const res = await fetch("/api/images/carousel");
-        const data = await res.json();
-        if (data.images && data.images.length > 0) {
-          // Use secure_url from Cloudinary
-          setImages(data.images.map(img => img.secure_url));
-        }
-      } catch (error) {
-        console.error("Failed to fetch carousel images:", error);
-        // Fallback already set in state
+    async function getCarousel() {
+      const images = await fetchWithCache("carousel");
+      if (images && images.length > 0) {
+        setImages(images.map(img => img.secure_url));
       }
     }
-    fetchCarousel();
-  }, []);
+    getCarousel();
+  }, [fetchWithCache]);
 
   // Auto-slide — pauses on hover
   useEffect(() => {

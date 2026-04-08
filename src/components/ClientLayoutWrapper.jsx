@@ -16,16 +16,20 @@ export default function ClientLayoutWrapper({ children }) {
   useEffect(() => {
     let locomotiveScroll;
     
-    // Initialize LocomotiveScroll
-    (async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
-      locomotiveScroll = new LocomotiveScroll();
-      
-      // Ensure GSAP ScrollTrigger is aware of the new scroll layout
-      setTimeout(() => {
+    const initScroll = async () => {
+      try {
+        const LocomotiveScroll = (await import("locomotive-scroll")).default;
+        locomotiveScroll = new LocomotiveScroll();
+        
+        // Use custom event or smaller timeout for better UX
+        // Locomotive v5 is quite fast, but GSAP needs to know about the new height
         ScrollTrigger.refresh();
-      }, 500); // Wait a bit longer for Next.js hydration
-    })();
+      } catch (err) {
+        console.error("LocomotiveScroll init error:", err);
+      }
+    };
+
+    initScroll();
 
     return () => {
       if (locomotiveScroll) {

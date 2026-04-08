@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import { useImageCache } from "@/hooks/useImageCache";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,6 +39,29 @@ const CLIENTS = [
 const CateringFeature = () => {
   const sectionRef = useRef(null);
   const tickerRef  = useRef(null);
+  const [images, setImages] = useState([]);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
+
+  const { fetchWithCache } = useImageCache();
+
+  useEffect(() => {
+    async function getCateringImages() {
+      const data = await fetchWithCache("catering");
+      if (data && data.length > 0) {
+        setImages(data);
+      }
+    }
+    getCateringImages();
+  }, [fetchWithCache]);
+
+  // Cycle images if multiple exist
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentImgIndex((prev) => (prev + 1) % images.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [images]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -232,16 +256,28 @@ const CateringFeature = () => {
           {/* ── RIGHT: IMAGE ── */}
           <div className="cf-img-wrap relative hidden lg:block">
 
-            <div className="relative overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(43,24,16,0.15)] h-[560px]">
+            <div className="relative overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(43,24,16,0.15)] h-[560px] bg-[#E8E0D4]">
               <Image
-                src="/images/cateringHome.jpg"
+                src={images.length > 0 ? images[currentImgIndex].url : "/images/cateringHome.jpg"}
                 alt="GD Foods India catering spread"
                 fill
                 quality={70}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover"
+                className="object-cover transition-opacity duration-1000"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2B1810]/15 via-transparent to-transparent pointer-events-none" />
+              
+              {/* Image dots if multiple */}
+              {images.length > 1 && (
+                <div className="absolute bottom-4 right-4 flex gap-1.5 z-10">
+                  {images.map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={`h-1 rounded-full transition-all duration-300 ${i === currentImgIndex ? "w-4 bg-white" : "w-1 bg-white/40"}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Gold badge */}

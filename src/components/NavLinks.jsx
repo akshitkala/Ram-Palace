@@ -14,54 +14,49 @@ export default function NavLinks() {
         <li>
           <Link 
             href="/" 
-            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group font-body text-[15px] font-medium"
           >
             Home
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </li>
         
         <li>
           <Link 
             href="/services" 
-            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group font-body text-[15px] font-medium"
           >
             Services
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </li>
         
         {/* Events Dropdown - Logic handled by parent or CSS */}
         <li className="relative group h-full">
-          <button className="relative text-white transition-all duration-300 hover:text-[#C9A84C] flex items-center gap-1 py-4">
-            Events
-            <svg className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+          <button className="relative text-white transition-all duration-300 hover:text-[#C9A84C] flex items-center gap-1 py-4 font-body text-[15px] font-medium">
+            Events ↓
+            <span className="absolute bottom-3 left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </button>
           
-          {/* Dropdown Menu - Simplified for SC, CSS can handle basic visibility if needed, 
-              but the audit suggested splitting for hydration speed. */}
-          <div className="absolute top-full left-0 mt-0 w-56 bg-white rounded-md shadow-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+          <div className="absolute top-full left-0 w-64 bg-[#FAF7F2] shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-[#E8E0D0]/50">
             <div className="py-2">
               <Link
                 href="/events/weddings"
-                className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
+                className="block px-6 py-4 text-[13px] text-[#4A4A4A] hover:text-[#C9A84C] border-l-0 hover:border-l-2 border-[#C9A84C] transition-all duration-200"
               >
-                Weddings & Receptions
+                Weddings
               </Link>
               <Link
-                href="/events/corporate-events"
-                className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
+                href="/events/corporate"
+                className="block px-6 py-4 text-[13px] text-[#4A4A4A] hover:text-[#C9A84C] border-l-0 hover:border-l-2 border-[#C9A84C] transition-all duration-200"
               >
-                Corporate Events
+                Corporate
               </Link>
               <Link
                 href="/events/private-parties"
-                className="block px-6 py-3 text-[#555] hover:bg-[#F5F1EB] hover:text-[#A99686] transition-colors duration-200"
+                className="block px-6 py-4 text-[13px] text-[#4A4A4A] hover:text-[#C9A84C] border-l-0 hover:border-l-2 border-[#C9A84C] transition-all duration-200"
               >
-                Private Parties
+                Private parties
               </Link>
             </div>
           </div>
@@ -70,46 +65,46 @@ export default function NavLinks() {
         <li>
           <Link 
             href="/catering" 
-            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group font-body text-[15px] font-medium"
           >
             Catering
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </li>
         <li>
           <Link 
             href="/menu" 
-            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group font-body text-[15px] font-medium"
           >
             Menu
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </li>
         <li>
           <Link 
             href="/gallery" 
-            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group font-body text-[15px] font-medium"
           >
             Gallery
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </li>
         <li>
           <Link 
-            href="/about" // BRP-FIX: E-1
-            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+            href="/about" 
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group font-body text-[15px] font-medium"
           >
             About
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </li>
         <li>
           <Link 
             href="/contact" 
-            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group"
+            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group font-body text-[15px] font-medium"
           >
             Contact
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </li>
       </ul>

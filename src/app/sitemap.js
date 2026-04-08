@@ -2,24 +2,23 @@
 export default function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bastirampalace.com";
 
-  // Public routes for indexing
+  // Public routes for indexing with specific priorities
   const routes = [
-    "",
-    "/catering",
-    // "/events" removed as it is a redirect — BRP-FIX: D-3
-    "/events/weddings",
-    "/events/corporate-events",
-    "/events/private-parties",
-    "/gallery",
-    "/menu",
-    "/contact",
-    "/about", // Added missing route
+    { path: "", priority: 1.0 },
+    { path: "/catering", priority: 0.8 },
+    { path: "/events/weddings", priority: 0.9 },
+    { path: "/events/corporate", priority: 0.8 },
+    { path: "/events/private-parties", priority: 0.8 },
+    { path: "/gallery", priority: 0.8 },
+    { path: "/menu", priority: 0.7 },
+    { path: "/contact", priority: 0.8 },
+    { path: "/about", priority: 0.7 },
   ];
 
   return routes.map((route) => ({
-    url: `${baseUrl}${route}`,
+    url: `${baseUrl}${route.path}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
-    priority: route === "" ? 1 : 0.8,
+    priority: route.priority,
   }));
 }

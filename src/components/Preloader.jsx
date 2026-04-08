@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 const LEFT_TEXT      = "BASTI RAM ";
 const RIGHT_TEXT     = "PALACE";
 const MIN_MS         = 0;
-const SAFETY_MS      = 8000;
+const SAFETY_MS      = 4000;
 
 const textStyle = {
   fontFamily:    "var(--font-heading)",
@@ -42,6 +42,7 @@ export default function Preloader({ onExiting, onComplete }) {
 
     const safetyTimeout = setTimeout(() => {
       if (!exitFired) {
+        console.warn("Preloader: Safety timeout reached. Forcing exit.");
         Object.keys(flags).forEach(k => { flags[k] = true; });
         tryExit();
       }
@@ -87,6 +88,7 @@ export default function Preloader({ onExiting, onComplete }) {
     // FLAG 3 — Minimal window ready check
     if (document.readyState === "complete") {
       flags.windowLoad = true;
+      tryExit(); // BRP-FIX: P-1 (Trigger exit immediately if already complete)
     } else {
       window.addEventListener("load", () => {
         flags.windowLoad = true;

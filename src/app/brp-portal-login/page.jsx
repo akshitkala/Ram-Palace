@@ -8,6 +8,7 @@ import {
   IconPhoto, 
   IconSlideshow, 
   IconPackage, 
+  IconToolsKitchen2,
   IconLogout, 
   IconPlus, 
   IconTrash, 
@@ -29,6 +30,7 @@ const NAV_ITEMS = [
   { id: "gallery", label: "Gallery", icon: <IconPhoto size={20} /> },
   { id: "carousel", label: "Carousel", icon: <IconSlideshow size={20} /> },
   { id: "events", label: "Events", icon: <IconPackage size={20} /> },
+  { id: "catering", label: "Catering", icon: <IconToolsKitchen2 size={20} /> },
 ];
 
 function UploadProgressBar({ progress, uploading }) {
@@ -53,48 +55,51 @@ function UploadProgressBar({ progress, uploading }) {
   );
 }
 
-function ImageCard({ img, index, onDelete, label, isVideo = false }) {
-  const sizeLabel = img.bytes
-    ? img.bytes > 1024 * 1024
-      ? `${(img.bytes/1024/1024).toFixed(1)}MB`
-      : `${Math.round(img.bytes/1024)}KB`
-    : "";
+function ImageCard({ img, index, onDelete, onSelect, isSelected, label, isVideo = false }) {
+  // Use secure_url or url from new API
+  const src = img.url || img.secure_url;
 
   return (
     <div
-      className={`relative group ${isVideo ? "aspect-video" : "aspect-square"} bg-[#F2EDE4] overflow-hidden rounded-xl border border-[#E8E0D4]`}
+      onClick={() => onSelect(img.public_id)}
+      className={`relative group cursor-pointer ${isVideo ? "aspect-video" : "aspect-square"} bg-[#F2EDE4] overflow-hidden rounded-xl border-2 transition-all duration-200 
+                 ${isSelected ? "border-[#C9A84C] scale-[0.98] shadow-inner" : "border-[#E8E0D4] hover:shadow-md"}`}
     >
       <Image
-        src={img.secure_url}
+        src={src}
         alt={label || `Image ${index + 1}`}
         fill
-        className="object-cover"
+        className={`object-cover transition-transform duration-500 ${isSelected ? "scale-105 opacity-80" : "group-hover:scale-105"}`}
         sizes="(max-width: 1280px) 20vw, 16vw"
         loading="lazy"
       />
 
       {/* Index badge — top left */}
       {label && (
-        <div className="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 font-body tracking-wide pointer-events-none">
+        <div className="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 font-body tracking-wide pointer-events-none z-10">
           {label}
         </div>
       )}
 
-      {/* Size badge — bottom right */}
-      {sizeLabel && (
-        <div className="absolute bottom-2 right-2 bg-black/40 text-white text-[10px] px-1.5 py-0.5 font-body pointer-events-none group-hover:opacity-0 transition-opacity duration-150">
-          {sizeLabel}
-        </div>
-      )}
+      {/* Selection Indicator */}
+      <div className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 z-10
+                      ${isSelected ? "bg-[#C9A84C] border-[#C9A84C] scale-110" : "bg-black/20 border-white opacity-0 group-hover:opacity-100"}`}>
+        {isSelected && <IconCheck size={12} className="text-[#0F0A07]" />}
+      </div>
 
-      {/* Delete overlay — CSS only, no state */}
-      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-        <button
-          onClick={(e) => { e.stopPropagation(); onDelete(img.public_id); }}
-          className="bg-red-500 hover:bg-red-600 text-white text-xs font-body font-medium uppercase tracking-wider px-4 py-2 transition-colors duration-150"
-        >
-          {isVideo ? "Remove" : "Delete"}
-        </button>
+      {/* Hover overlay — Only show delete if NOT selected, or show both? 
+          Actually, let's make selection primary on click, and delete button on top. */}
+      <div className={`absolute inset-0 bg-black/40 transition-opacity duration-200 flex items-center justify-center
+                      ${isSelected ? "opacity-40" : "opacity-0 group-hover:opacity-100"}`}>
+        {!isSelected && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onDelete(img); }}
+            className="bg-white/90 hover:bg-red-500 hover:text-white text-[#1C1009] p-2 rounded-full transition-all duration-150 transform hover:scale-110 shadow-lg"
+            title="Delete permanently"
+          >
+            <IconTrash size={18} />
+          </button>
+        )}
       </div>
     </div>
   );
@@ -108,44 +113,21 @@ export default function AdminPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // States
-
-  const [galleryImages, setGalleryImages] = useState([]);
-  const [galleryLoading, setGalleryLoading] = useState(true);
-  const [galleryUploading, setGalleryUploading] = useState(false);
-
-  const [carouselImages, setCarouselImages] = useState([]);
-  const [carouselLoading, setCarouselLoading] = useState(true);
-  const [carouselUploading, setCarouselUploading] = useState(false);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState("");
 
   const [eventCategory, setEventCategory] = useState("weddings");
-  const [eventImages, setEventImages] = useState({
-    weddings: [],
-    corporate: [],
-    "private-parties": [],
-  });
-  const [eventLoading, setEventLoading] = useState(false);
-  const [eventUploading, setEventUploading] = useState(false);
-
-  const [galleryProgress,  setGalleryProgress] = useState(0);
-  const [carouselProgress, setCarouselProgress] = useState(0);
-  const [eventProgress,    setEventProgress] = useState(0);
-
-  const [galleryError, setGalleryError] = useState("");
-  const [carouselError, setCarouselError] = useState("");
-  const [eventError, setEventError] = useState("");
-
-  // Upgrade Features: Selection, Lightbox, Deletion, Toasts
-  const [selectMode, setSelectMode] = useState(false);
-  const [selectedIds, setSelectedIds] = useState(new Set());
   
-  const [lightbox, setLightbox] = useState({ isOpen: false, images: [], currentIndex: 0 });
-  const [confirmDelete, setConfirmDelete] = useState({ isOpen: false, image: null, count: 1, onConfirm: null, loading: false });
   const [toasts, setToasts] = useState([]);
+  const [selectedIds, setSelectedIds] = useState(new Set());
+  const [confirmDelete, setConfirmDelete] = useState({ isOpen: false, count: 1, onConfirm: null, loading: false });
 
   // Refs
   const fileInputRef = useRef(null);
   const headerRef = useRef(null);
-  const actionBarRef = useRef(null);
 
   useEffect(() => {
     // Header Animation
@@ -154,18 +136,8 @@ export default function AdminPage() {
       { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
     );
     
-    fetchGallery();
-    fetchCarousel();
-    fetchEvents("weddings");
-    fetchEvents("corporate");
-    fetchEvents("private-parties");
-  }, []);
-
-  useEffect(() => {
-    // Reset selection when tab changes
-    setSelectedIds(new Set());
-    setSelectMode(false);
-  }, [activeTab]);
+    fetchImages();
+  }, [activeTab, eventCategory]);
 
   // Toast Helper
   const addToast = (message, type = "success") => {
@@ -179,315 +151,7 @@ export default function AdminPage() {
 
   // --- API FETCHERS ---
 
-  const fetchGallery = async () => {
-    setGalleryLoading(true);
-    try {
-      const res = await fetch("/api/images/gallery");
-      const data = await res.json();
-      setGalleryImages(data.images || []);
-    } catch {
-      addToast("Failed to load gallery", "error");
-    } finally {
-      setGalleryLoading(false);
-    }
-  };
-
-  const fetchCarousel = async () => {
-    setCarouselLoading(true);
-    try {
-      const res = await fetch("/api/images/carousel");
-      const data = await res.json();
-      setCarouselImages(data.images || []);
-    } catch {
-      addToast("Failed to load carousel", "error");
-    } finally {
-      setCarouselLoading(false);
-    }
-  };
-
-  const fetchEvents = async (category) => {
-    setEventLoading(true);
-    try {
-      const res = await fetch(`/api/images/events?category=${category}`);
-      const data = await res.json();
-      setEventImages((prev) => ({
-        ...prev,
-        [category]: data.images || [],
-      }));
-    } catch {
-      addToast(`Failed to load ${category} images`, "error");
-    } finally {
-      setEventLoading(false);
-    }
-  };
-
-  // --- ACTIONS ---
-  // --- FIX 5: GALLERY UPLOAD HANDLER ---
-  const handleGalleryUpload = async (files) => {
-    if (!files || files.length === 0) return;
-    const fileArr = Array.from(files);
-
-    setGalleryUploading(true);
-    setGalleryError("");
-    setGalleryProgress(0);
-
-    let uploaded = 0;
-
-    for (const file of fileArr) {
-      try {
-        const form = new FormData();
-        form.append("file", file);
-
-        const res = await fetch("/api/images/gallery", { 
-          method: "POST", 
-          body: form 
-        });
-        const data = await res.json();
-
-        if (!res.ok) {
-          setGalleryError(data.error || "Upload failed");
-          addToast(data.error || "Upload failed", "error");
-        } else {
-          uploaded++;
-          setGalleryProgress(Math.round((uploaded / fileArr.length) * 100));
-          // Optimistic — add to UI immediately
-          setGalleryImages(prev => [...prev, data]);
-        }
-      } catch (err) {
-        setGalleryError(`Failed to upload ${file.name}`);
-        addToast(`Failed to upload ${file.name}`, "error");
-      }
-    }
-
-    await fetchGallery();
-    setGalleryUploading(false);
-    setGalleryProgress(0);
-  };
-
-  // --- FIX 6: GALLERY DELETE HANDLER ---
-  const handleGalleryDelete = async (publicId) => {
-    if (!confirm("Delete this image permanently?")) return;
-
-    // Optimistic — remove immediately
-    setGalleryImages(prev => prev.filter(img => img.public_id !== publicId));
-
-    try {
-      const res = await fetch("/api/images/gallery", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ public_id: publicId }),
-      });
-
-      if (!res.ok) {
-        await fetchGallery(); // revert
-        setGalleryError("Delete failed. Please try again.");
-        addToast("Delete failed", "error");
-      } else {
-        addToast("Deleted permanently");
-      }
-    } catch {
-      await fetchGallery(); // revert
-      setGalleryError("Network error.");
-      addToast("Network error", "error");
-    }
-  };
-
-  // --- FIX 7: CAROUSEL UPLOAD HANDLER ---
-  const handleCarouselUpload = async (files) => {
-    if (!files || files.length === 0) return;
-
-    const slotsAvailable = 8 - carouselImages.length;
-
-    if (slotsAvailable <= 0) {
-      setCarouselError("Carousel is full (8/8). Delete a slide to add new ones.");
-      addToast("Carousel is full (8/8)", "error");
-      return;
-    }
-
-    const fileArr = Array.from(files).slice(0, slotsAvailable);
-
-    setCarouselUploading(true);
-    setCarouselError("");
-    setCarouselProgress(0);
-
-    let uploaded = 0;
-
-    for (const file of fileArr) {
-      try {
-        const form = new FormData();
-        form.append("file", file);
-
-        const res = await fetch("/api/images/carousel", { 
-          method: "POST", 
-          body: form 
-        });
-        const data = await res.json();
-
-        if (!res.ok) {
-          setCarouselError(data.error || "Upload failed");
-          addToast(data.error || "Upload failed", "error");
-        } else {
-          uploaded++;
-          setCarouselProgress(Math.round((uploaded / fileArr.length) * 100));
-          setCarouselImages(prev => [...prev, data]);
-        }
-      } catch {
-        setCarouselError(`Failed to upload ${file.name}`);
-        addToast(`Failed to upload ${file.name}`, "error");
-      }
-    }
-
-    await fetchCarousel();
-    setCarouselUploading(false);
-    setCarouselProgress(0);
-  };
-
-  // --- FIX 8: CAROUSEL DELETE HANDLER ---
-  const handleCarouselDelete = async (publicId) => {
-    if (!confirm("Remove this slide?")) return;
-
-    // Optimistic — remove immediately
-    setCarouselImages(prev => prev.filter(img => img.public_id !== publicId));
-
-    try {
-      const res = await fetch("/api/images/carousel", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ public_id: publicId }),
-      });
-
-      if (!res.ok) {
-        await fetchCarousel(); // revert
-        setCarouselError("Delete failed. Please try again.");
-        addToast("Delete failed", "error");
-      } else {
-        addToast("Slide removed");
-      }
-    } catch {
-      await fetchCarousel(); // revert
-      setCarouselError("Network error.");
-      addToast("Network error", "error");
-    }
-  };
-
-  // --- FIX 9: EVENTS UPLOAD HANDLER ---
-  const handleEventUpload = async (files) => {
-    if (!files || files.length === 0) return;
-    const fileArr = Array.from(files);
-
-    setEventUploading(true);
-    setEventError("");
-    setEventProgress(0);
-
-    let uploaded = 0;
-
-    for (const file of fileArr) {
-      try {
-        const form = new FormData();
-        form.append("file", file);
-        form.append("category", eventCategory);
-
-        const res = await fetch("/api/images/events", { 
-          method: "POST", 
-          body: form 
-        });
-        const data = await res.json();
-
-        if (!res.ok) {
-          setEventError(data.error || "Upload failed");
-          addToast(data.error || "Upload failed", "error");
-        } else {
-          uploaded++;
-          setEventProgress(Math.round((uploaded / fileArr.length) * 100));
-          // Optimistic update for current category
-          setEventImages(prev => ({
-            ...prev,
-            [eventCategory]: [...prev[eventCategory], data],
-          }));
-        }
-      } catch {
-        setEventError(`Failed to upload ${file.name}`);
-        addToast(`Failed to upload ${file.name}`, "error");
-      }
-    }
-
-    await fetchEvents(eventCategory);
-    setEventUploading(false);
-    setEventProgress(0);
-  };
-
-  // --- FIX 10: EVENTS DELETE HANDLER ---
-  const handleEventDelete = async (publicId) => {
-    if (!confirm("Delete this event photo?")) return;
-
-    // Optimistic — remove immediately
-    setEventImages(prev => ({
-      ...prev,
-      [eventCategory]: prev[eventCategory].filter(img => img.public_id !== publicId),
-    }));
-
-    try {
-      const res = await fetch("/api/images/events", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ public_id: publicId }),
-      });
-
-      if (!res.ok) {
-        await fetchEvents(eventCategory); // revert
-        setEventError("Delete failed. Please try again.");
-        addToast("Delete failed", "error");
-      } else {
-        addToast("Deleted permanently");
-      }
-    } catch {
-      await fetchEvents(eventCategory); // revert
-      setEventError("Network error.");
-      addToast("Network error", "error");
-    }
-  };
-
-  const handleBulkDelete = () => {
-    if (selectedIds.size === 0) return;
-
-    const tab = activeTab === "events" ? "events" : activeTab;
-    const apiPath = tab === "carousel" ? "/api/images/carousel" : (tab === "gallery" ? "/api/images/gallery" : "/api/images/events");
-    const refreshData = tab === "carousel" ? fetchCarousel : (tab === "gallery" ? fetchGallery : () => fetchEvents(eventCategory));
-
-    const selectedImages = getActiveImages().filter(img => selectedIds.has(img.public_id));
-
-    setConfirmDelete({
-      isOpen: true,
-      image: null,
-      images: selectedImages,
-      count: selectedIds.size,
-      loading: false,
-      onConfirm: async () => {
-        setConfirmDelete(prev => ({ ...prev, loading: true }));
-        try {
-          let successCount = 0;
-          for (const publicId of selectedIds) {
-            const res = await fetch(apiPath, {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ public_id: publicId }),
-            });
-            if (res.ok) successCount++;
-          }
-          addToast(`Deleted ${successCount} images`);
-          await refreshData();
-          setSelectedIds(new Set());
-          setSelectMode(false);
-        } catch {
-          addToast("Bulk delete failed", "error");
-        } finally {
-          setConfirmDelete({ isOpen: false, image: null, count: 1, onConfirm: null, loading: false });
-        }
-      }
-    });
-  };
-
-  const toggleSelection = (publicId) => {
+  const toggleSelect = (publicId) => {
     setSelectedIds(prev => {
       const next = new Set(prev);
       if (next.has(publicId)) next.delete(publicId);
@@ -496,9 +160,137 @@ export default function AdminPage() {
     });
   };
 
+  const fetchImages = async () => {
+    setLoading(true);
+    const section = activeTab === "events" ? eventCategory : activeTab;
+    try {
+      const res = await fetch(`/api/images?section=${section}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setImages(data.images || []);
+    } catch (err) {
+      addToast(err.message || "Failed to load images", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // --- ACTIONS ---
+
+  const handleUpload = async (files) => {
+    if (!files || files.length === 0) return;
+    const fileArr = Array.from(files);
+    const section = activeTab === "events" ? eventCategory : activeTab;
+
+    setUploading(true);
+    setError("");
+    setProgress(0);
+
+    let uploadedCount = 0;
+
+    for (const file of fileArr) {
+      try {
+        const form = new FormData();
+        form.append("file", file);
+        form.append("section", section);
+
+        const res = await fetch("/api/images", { 
+          method: "POST", 
+          body: form 
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(data.error || "Upload failed");
+          addToast(data.error || "Upload failed", "error");
+        } else {
+          uploadedCount++;
+          setProgress(Math.round((uploadedCount / fileArr.length) * 100));
+          // Update UI immediately
+          setImages(prev => [data, ...prev]);
+        }
+      } catch (err) {
+        setError(`Failed to upload ${file.name}`);
+        addToast(`Failed to upload ${file.name}`, "error");
+      }
+    }
+
+    setUploading(false);
+    setProgress(0);
+    // Refresh to ensure order is correct (carousel is oldest-first)
+    fetchImages();
+  };
+
+  const handleDelete = (img) => {
+    setConfirmDelete({
+      isOpen: true,
+      count: 1,
+      image: { ...img, secure_url: img.url || img.secure_url },
+      loading: false,
+      onConfirm: async () => {
+        setConfirmDelete(prev => ({ ...prev, loading: true }));
+        const section = activeTab === "events" ? eventCategory : activeTab;
+        try {
+          const res = await fetch("/api/images", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ public_id: img.public_id, section }),
+          });
+
+          if (!res.ok) {
+            const data = await res.json();
+            addToast(data.error || "Delete failed", "error");
+          } else {
+            setImages(prev => prev.filter(i => i.public_id !== img.public_id));
+            addToast("Deleted successfully");
+          }
+        } catch {
+          addToast("Network error", "error");
+        } finally {
+          setConfirmDelete({ isOpen: false, count: 1, onConfirm: null, loading: false });
+        }
+      }
+    });
+  };
+
+  const handleBulkDelete = () => {
+    if (selectedIds.size === 0) return;
+    const section = activeTab === "events" ? eventCategory : activeTab;
+    const selectedImages = images.filter(img => selectedIds.has(img.public_id))
+      .map(img => ({ ...img, secure_url: img.url || img.secure_url }));
+
+    setConfirmDelete({
+      isOpen: true,
+      count: selectedIds.size,
+      images: selectedImages,
+      loading: false,
+      onConfirm: async () => {
+        setConfirmDelete(prev => ({ ...prev, loading: true }));
+        try {
+          let successCount = 0;
+          for (const publicId of selectedIds) {
+            const res = await fetch("/api/images", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ public_id: publicId, section }),
+            });
+            if (res.ok) successCount++;
+          }
+          addToast(`Deleted ${successCount} images`);
+          fetchImages();
+          setSelectedIds(new Set());
+        } catch {
+          addToast("Bulk delete failed", "error");
+        } finally {
+          setConfirmDelete({ isOpen: false, count: 1, onConfirm: null, loading: false });
+        }
+      }
+    });
+  };
+
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
-    window.location.href = "/brp-portal-login/login"; // BRP-FIX: A-2
+    window.location.href = "/brp-portal-login/login";
   };
 
   // --- SUB-COMPONENTS ---
@@ -506,8 +298,6 @@ export default function AdminPage() {
   const SkeletonCard = () => (
     <div className="aspect-square rounded-xl bg-[#E8E0D4]/40 animate-pulse border border-[#E8E0D4]/50" />
   );
-
-
 
   const PageHeader = ({ title, countLabel, action }) => (
     <div className="flex items-end justify-between py-6 border-b border-[#E8E0D4] mb-8 sticky top-0 bg-[#F7F4EF]/80 backdrop-blur-md z-30 px-2 -mx-2">
@@ -526,153 +316,6 @@ export default function AdminPage() {
       </div>
     </div>
   );
-
-
-  const getActiveImages = () => {
-    if (activeTab === "gallery") return galleryImages;
-    if (activeTab === "carousel") return carouselImages;
-    if (activeTab === "events") return eventImages[eventCategory] || [];
-    return [];
-  };
-
-  // --- TAB RENDERS ---
-
-
-  const ManagementPage = ({ tab }) => {
-    const images = getActiveImages();
-    const loading = tab === "gallery" ? galleryLoading : (tab === "carousel" ? carouselLoading : eventLoading);
-    const uploading = tab === "carousel" ? carouselUploading : (tab === "gallery" ? galleryUploading : eventUploading);
-    
-    return (
-      <div className="space-y-8">
-        <PageHeader 
-          title={tab === "gallery" ? "Venue Gallery" : (tab === "carousel" ? "Homepage Carousel" : "Events Media")}
-          countLabel={tab === "carousel" ? `${carouselImages.length}/8 slides` : `${images.length} images`}
-          action={
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              disabled={uploading}
-              className="bg-[#C9A84C] text-[#0F0A07] px-5 py-2 rounded-lg text-sm font-semibold shadow-sm hover:shadow-md transition-all flex items-center gap-2 disabled:opacity-50"
-            >
-              {uploading ? <IconLoader2 size={18} className="animate-spin" /> : <IconPlus size={18} />}
-              Upload
-            </button>
-          }
-        />
-
-        {tab === "events" && (
-          <div className="flex gap-4 p-1 bg-[#E8E0D4]/30 rounded-lg w-fit mb-8 border border-[#E8E0D4]/50">
-            {["weddings", "corporate", "private-parties"].map((id) => (
-              <button
-                key={id}
-                onClick={() => { if (!uploading) { setEventCategory(id); fetchEvents(id); } }}
-                className={`px-4 py-2 rounded-md text-xs font-semibold tracking-wider uppercase transition-all
-                           ${eventCategory === id ? "bg-white text-[#C9A84C] shadow-sm" : "text-[#7A6A5A] hover:bg-white/50"}`}
-              >
-                {id.replace("-", " ")}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Dropzone area */}
-        <div 
-          onClick={() => !uploading && fileInputRef.current?.click()}
-          onDragOver={(e) => { 
-            e.preventDefault(); 
-            e.currentTarget.classList.add("border-[#C9A84C]", "bg-[#C9A84C]/[0.1]"); 
-            e.currentTarget.style.borderStyle = "solid";
-          }}
-          onDragLeave={(e) => { 
-            e.preventDefault(); 
-            e.currentTarget.classList.remove("border-[#C9A84C]", "bg-[#C9A84C]/[0.1]");
-            e.currentTarget.style.borderStyle = "dashed";
-          }}
-          onDrop={(e) => { 
-            e.preventDefault(); 
-            e.currentTarget.classList.remove("border-[#C9A84C]", "bg-[#C9A84C]/[0.1]");
-            e.currentTarget.style.borderStyle = "dashed";
-            const handler = tab === "carousel" ? handleCarouselUpload : (tab === "gallery" ? handleGalleryUpload : handleEventUpload);
-            handler(e.dataTransfer.files); 
-          }}
-          className="border-2 border-dashed border-[#C9A84C]/30 rounded-2xl bg-[#C9A84C]/[0.03] hover:bg-[#C9A84C]/[0.06] transition-all cursor-pointer p-12 text-center group"
-        >
-          <input 
-            type="file" 
-            multiple 
-            hidden 
-            ref={fileInputRef} 
-            onChange={(e) => {
-              const handler = tab === "carousel" ? handleCarouselUpload : (tab === "gallery" ? handleGalleryUpload : handleEventUpload);
-              handler(e.target.files);
-              e.target.value = "";
-            }} 
-            accept="image/*"
-          />
-          <div className="flex flex-col items-center">
-            <div className="w-14 h-14 rounded-full bg-[#C9A84C]/10 flex items-center justify-center text-[#C9A84C] mb-4 group-hover:scale-110 transition-transform">
-              {uploading ? <IconLoader2 className="animate-spin" /> : <IconUpload />}
-            </div>
-            <h3 className="text-[#1C1009] font-semibold mb-1 uppercase tracking-wider text-sm">Click or drag images to upload</h3>
-            <p className="text-[#7A6A5A] text-xs font-body">PNG, JPG or WebP up to 10MB per file</p>
-          </div>
-        </div>
-
-        {/* Info banners */}
-        {tab === "carousel" && carouselImages.length >= 8 && (
-          <div className="bg-[#FAF0F0] border border-red-100 p-4 rounded-xl flex items-center gap-3 text-red-800">
-             <IconAlertCircle size={20} />
-             <p className="text-sm font-body">Slide limit reached. Please remove an existing slide to upload new content.</p>
-          </div>
-        )}
-
-        {/* Image Grid */}
-        {/* FIX 12: PROGRESS BARS */}
-        {tab === "gallery" && <UploadProgressBar progress={galleryProgress} uploading={galleryUploading} />}
-        {tab === "carousel" && <UploadProgressBar progress={carouselProgress} uploading={carouselUploading} />}
-        {tab === "events" && <UploadProgressBar progress={eventProgress} uploading={eventUploading} />}
-
-        {/* FIX 11: UPDATE ALL IMAGE GRIDS */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {loading ? (
-            Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
-          ) : images.length === 0 ? (
-            <div className="col-span-full py-24 flex flex-col items-center justify-center text-center opacity-40">
-              <span className="text-6xl mb-4">📷</span>
-              <h3 className="text-lg font-heading text-[#1C1009] mb-1">No images yet</h3>
-              <p className="text-sm font-body">Upload your first image above to get started</p>
-            </div>
-          ) : tab === "carousel" ? (
-             images.map((img, i) => (
-                <ImageCard
-                  key={img.public_id}
-                  img={img}
-                  index={i}
-                  onDelete={handleCarouselDelete}
-                  label={`Slide ${i + 1}`}
-                  isVideo={true}
-                />
-              ))
-          ) : (
-            images.map((img, i) => (
-              <ImageCard
-                key={img.public_id}
-                img={img}
-                index={i}
-                onDelete={tab === "gallery" ? handleGalleryDelete : handleEventDelete}
-              />
-            ))
-          )}
-        </div>
-
-        {tab === "carousel" && images.length > 0 && (
-          <p className="text-xs italic text-[#7A6A5A] font-body pt-4 border-t border-[#E8E0D4]">
-            * Homepage slides are displayed in the order they were uploaded.
-          </p>
-        )}
-      </div>
-    );
-  };
 
   return (
     <div className="flex min-h-screen bg-[#F7F4EF] text-[#1C1009]">
@@ -703,10 +346,10 @@ export default function AdminPage() {
                 {item.icon}
               </span>
               {item.label}
-              {item.id === "carousel" && carouselImages.length > 0 && (
+              {item.id === "carousel" && activeTab === "carousel" && images.length > 0 && (
                 <span className={`ml-auto text-[9px] px-1.5 py-0.5 rounded-sm
                                  ${activeTab === item.id ? "bg-[#0F0A07]/10 text-[#0F0A07]" : "bg-white/5 text-white/30"}`}>
-                  {carouselImages.length}/8
+                  {images.length}/8
                 </span>
               )}
             </button>
@@ -726,92 +369,139 @@ export default function AdminPage() {
 
       {/* MOBILE HEADER */}
       <div className="xl:hidden fixed top-0 left-0 right-0 h-16 bg-[#0F0A07] flex items-center justify-between px-6 z-50">
-        <h1 className="text-white font-heading text-lg">Admin Panel</h1>
-        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-[#C9A84C]">
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-[#C9A84C] p-2 -ml-2">
           {isSidebarOpen ? <IconX /> : <IconMenu2 />}
         </button>
+        <h1 className="text-white font-heading text-lg">Admin Panel</h1>
+        <div className="w-8" /> {/* Spacer to keep title centered if desired, or just leave it between */}
       </div>
 
       {/* MAIN CONTENT */}
       <main className="flex-1 xl:ml-[220px] min-h-screen pt-16 xl:pt-0">
         <div className="p-4 md:p-8 lg:p-12 max-w-7xl mx-auto">
-          {(activeTab === "gallery" || activeTab === "carousel" || activeTab === "events") && (
-            <ManagementPage tab={activeTab} />
-          )}
+          <div className="space-y-8">
+            <PageHeader 
+              title={
+                activeTab === "gallery" ? "Venue Gallery" : 
+                activeTab === "carousel" ? "Homepage Carousel" : 
+                activeTab === "events" ? "Events Media" : "Catering Media"
+              }
+              countLabel={activeTab === "carousel" ? `${images.length}/8 slides` : `${images.length} images`}
+              action={
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="bg-[#C9A84C] text-[#0F0A07] px-5 py-2 rounded-lg text-sm font-semibold shadow-sm hover:shadow-md transition-all flex items-center gap-2 disabled:opacity-50"
+                >
+                  {uploading ? <IconLoader2 size={18} className="animate-spin" /> : <IconPlus size={18} />}
+                  Upload
+                </button>
+              }
+            />
+
+            {activeTab === "events" && (
+              <div className="flex gap-4 p-1 bg-[#E8E0D4]/30 rounded-lg w-fit mb-8 border border-[#E8E0D4]/50">
+                {["weddings", "corporate", "private-parties"].map((id) => (
+                  <button
+                    key={id}
+                    onClick={() => { if (!uploading) setEventCategory(id); }}
+                    className={`px-4 py-2 rounded-md text-xs font-semibold tracking-wider uppercase transition-all
+                               ${eventCategory === id ? "bg-white text-[#C9A84C] shadow-sm" : "text-[#7A6A5A] hover:bg-white/50"}`}
+                  >
+                    {id.replace("-", " ")}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div 
+              onClick={() => !uploading && fileInputRef.current?.click()}
+              onDragOver={(e) => { e.preventDefault(); }}
+              onDrop={(e) => { e.preventDefault(); handleUpload(e.dataTransfer.files); }}
+              className="border-2 border-dashed border-[#C9A84C]/30 rounded-2xl bg-[#C9A84C]/[0.03] hover:bg-[#C9A84C]/[0.06] transition-all cursor-pointer p-12 text-center group"
+            >
+              <input 
+                type="file" 
+                multiple 
+                hidden 
+                ref={fileInputRef} 
+                onChange={(e) => { handleUpload(e.target.files); e.target.value = ""; }} 
+                accept="image/*"
+              />
+              <div className="flex flex-col items-center">
+                <div className="w-14 h-14 rounded-full bg-[#C9A84C]/10 flex items-center justify-center text-[#C9A84C] mb-4 group-hover:scale-110 transition-transform">
+                  {uploading ? <IconLoader2 className="animate-spin" /> : <IconUpload />}
+                </div>
+                <h3 className="text-[#1C1009] font-semibold mb-1 uppercase tracking-wider text-sm">Click or drag images to upload</h3>
+                <p className="text-[#7A6A5A] text-xs font-body">PNG, JPG or WebP up to 10MB per file</p>
+              </div>
+            </div>
+
+            {activeTab === "carousel" && images.length >= 8 && (
+              <div className="bg-[#FAF0F0] border border-red-100 p-4 rounded-xl flex items-center gap-3 text-red-800">
+                 <IconAlertCircle size={20} />
+                 <p className="text-sm font-body">Slide limit reached (8/8). Delete a slide to upload new ones.</p>
+              </div>
+            )}
+
+            <UploadProgressBar progress={progress} uploading={uploading} />
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {loading ? (
+                Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
+              ) : images.length === 0 ? (
+                <div className="col-span-full py-24 flex flex-col items-center justify-center text-center opacity-40">
+                  <span className="text-6xl mb-4">📷</span>
+                  <h3 className="text-lg font-heading text-[#1C1009] mb-1">No images yet</h3>
+                  <p className="text-sm font-body">Upload your first image above to get started</p>
+                </div>
+              ) : (
+                images.map((img, i) => (
+                  <ImageCard
+                    key={img.public_id}
+                    img={img}
+                    index={i}
+                    onDelete={handleDelete}
+                    onSelect={toggleSelect}
+                    isSelected={selectedIds.has(img.public_id)}
+                    label={activeTab === "carousel" ? `Slide ${i + 1}` : null}
+                    isVideo={activeTab === "carousel"}
+                  />
+                ))
+              )}
+            </div>
+          </div>
         </div>
       </main>
 
-      {/* BULK ACTION BAR */}
+      {/* DELETE MODAL */}
+      <ConfirmDeleteModal
+        isOpen={confirmDelete.isOpen}
+        onClose={() => setConfirmDelete(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmDelete.onConfirm}
+        isLoading={confirmDelete.loading}
+        count={confirmDelete.count}
+        image={confirmDelete.image}
+        images={confirmDelete.images}
+      />
+
+      {/* BULK ACTION BAR SKELETON (if needed) */}
       {selectedIds.size > 0 && (
-        <BulkActionBar 
-          selectedCount={selectedIds.size}
-          onClear={() => { setSelectedIds(new Set()); setSelectMode(false); }}
-          onDelete={handleBulkDelete}
-          sidebarOffset="xl:left-[220px]"
-        />
+        <div className="fixed bottom-0 left-0 xl:left-[220px] right-0 bg-[#0F0A07] border-t border-[#C9A84C]/30 px-8 py-5 z-40 flex items-center justify-between">
+          <span className="text-[#C9A84C] font-semibold">{selectedIds.size} selected</span>
+          <button onClick={handleBulkDelete} className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <IconTrash size={18} /> Delete Selected
+          </button>
+        </div>
       )}
 
-      {/* OVERRAYS */}
-      <Lightbox 
-        {...lightbox} 
-        onClose={() => setLightbox(prev => ({ ...prev, isOpen: false }))} 
-        onPrev={() => setLightbox(prev => ({ ...prev, currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length }))}
-        onNext={() => setLightbox(prev => ({ ...prev, currentIndex: (prev.currentIndex + 1) % prev.images.length }))}
-      />
-
-      <ConfirmDeleteModal 
-        {...confirmDelete} 
-        onClose={() => setConfirmDelete(prev => ({ ...prev, isOpen: false }))} 
-      />
-
+      {/* TOASTS */}
       <div className="pointer-events-none fixed inset-0 z-[200]">
         {toasts.map((toast) => (
-          <Toast 
-            key={toast.id} 
-            {...toast} 
-            onClose={() => removeToast(toast.id)} 
-          />
+          <Toast key={toast.id} {...toast} onClose={() => removeToast(toast.id)} />
         ))}
       </div>
 
-    </div>
-  );
-}
-
-function BulkActionBar({ selectedCount, onClear, onDelete, sidebarOffset }) {
-  const barRef = useRef(null);
-
-  useEffect(() => {
-    gsap.fromTo(barRef.current, 
-      { y: 100 }, 
-      { y: 0, duration: 0.4, ease: "power3.out" }
-    );
-  }, []);
-
-  return (
-    <div
-      ref={barRef}
-      className={`fixed bottom-0 left-0 ${sidebarOffset} right-0 bg-[#0F0A07] border-t border-[#C9A84C]/30 px-8 py-5 z-40 flex items-center justify-between shadow-[0_-10px_30px_rgba(0,0,0,0.3)]`}
-    >
-      <div className="flex items-center gap-4">
-        <span className="text-[#C9A84C] font-semibold">
-          {selectedCount} images selected
-        </span>
-        <div className="w-px h-6 bg-white/10 hidden sm:block" />
-        <button 
-          onClick={onClear}
-          className="text-white/40 hover:text-white text-sm"
-        >
-          Clear
-        </button>
-      </div>
-      <button
-         onClick={onDelete}
-         className="bg-[#DC2626] text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:shadow-red-500/20 active:scale-95 transition-all flex items-center gap-2"
-      >
-        <IconTrash size={18} />
-        Delete Permanently
-      </button>
     </div>
   );
 }

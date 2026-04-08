@@ -138,7 +138,7 @@ export default function CateringPage() {
       <CulinaryPhilosophy data={culinaryPhilosophy} />
       <EventsWeCater data={eventsWeCater} />
       <ServiceExcellence data={serviceExcellence} />
-      <CateringGallery data={cateringGallery} />
+      <CateringGallery />
       <TrustedClients data={trustedClients} />
       <CateringCTA />
       <Footer />

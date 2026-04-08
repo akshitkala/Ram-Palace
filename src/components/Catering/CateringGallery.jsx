@@ -1,9 +1,30 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ShimmerLine } from "@/components/Ornaments";
 
-export default function CateringGallery({ data }) {
+export default function CateringGallery() {
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCatering() {
+      try {
+        const res = await fetch("/api/images?section=catering");
+        const data = await res.json();
+        if (data.images) {
+          setImages(data.images);
+        }
+      } catch (error) {
+        console.error("Failed to fetch catering images:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCatering();
+  }, []);
+
   return (
     <section className="py-24 md:py-36 px-6 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -21,36 +42,42 @@ export default function CateringGallery({ data }) {
           </p>
         </div>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-5 space-y-5">
-          {data.map((img) => (
-            <div
-              key={img.id}
-              className="gallery-item opacity-0 translate-y-10 break-inside-avoid relative group
-                         rounded-xl overflow-hidden shadow-sm cursor-pointer"
-            >
-              <Image
-                src={img.image}
-                alt={img.alt}
-                width={800}
-                height={600}
-                quality={70}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="w-8 h-8 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : (
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-5 space-y-5">
+            {images.map((img) => (
               <div
-                className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100
-                             transition-opacity duration-300 flex items-end justify-start p-5"
+                key={img.public_id}
+                className="gallery-item break-inside-avoid relative group
+                           rounded-xl overflow-hidden shadow-sm cursor-pointer"
               >
-                <span
-                  className="font-body text-white text-xs uppercase tracking-widest
-                               border border-white/30 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm"
+                <Image
+                  src={img.url}
+                  alt="Catering Experience"
+                  width={img.width || 800}
+                  height={img.height || 600}
+                  quality={75}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div
+                  className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100
+                               transition-opacity duration-300 flex items-end justify-start p-5"
                 >
-                  {img.alt}
-                </span>
+                  <span
+                    className="font-body text-white text-xs uppercase tracking-widest
+                                 border border-white/30 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm"
+                  >
+                    Basti Ram Palace
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
