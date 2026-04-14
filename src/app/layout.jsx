@@ -100,14 +100,22 @@ export const metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  icons: {
+    icon: "/favicon.ico",
+  },
   /* originals deleted — BRP-FIX: D-1 */
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1.0,
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${playfair.variable} ${poppins.variable} ${cormorant.variable}`}>
-      <head><link rel="icon" type="image/png" href="/logo.png" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><StructuredData /></head>
       <body className={poppins.className}>
+        <StructuredData />
         <RootLayoutClient>
           <ClientLayoutWrapper>
             {children}
