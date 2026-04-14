@@ -37,24 +37,6 @@ const EVENT_CONFIG = [
   },
 ];
 
-const FALLBACK_IMAGES = {
-  weddings: [
-    "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=cover"
-  ],
-  corporate: [
-    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=2070&auto=format&fit=cover"
-  ],
-  "private-parties": [
-    "https://images.unsplash.com/photo-1464366427604-47e0ef38f161?q=80&w=2071&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=cover"
-  ]
-};
-
 // No longer using a per-card hook for randomized global logic
 
 // ── EVENT CARD ───────────────────────────────────────────────────────
@@ -86,16 +68,8 @@ const EventCard = ({ config, images, loading, currentIndex }) => {
         ))}
 
         {!loading && (!images || images.length === 0) && (
-          <div className="absolute inset-0 bg-[#D8CFC4]">
-             {FALLBACK_IMAGES[config.category] && (
-               <Image
-                 src={FALLBACK_IMAGES[config.category][0]}
-                 alt={config.title}
-                 fill
-                 quality={70}
-                 className="object-cover"
-               />
-             )}
+          <div className="absolute inset-0 bg-[#D8CFC4] flex items-center justify-center">
+             <p className="text-[10px] tracking-widest uppercase text-[#888]">No images found</p>
           </div>
         )}
 
@@ -184,19 +158,7 @@ const Events = () => {
         await Promise.all(
           categories.map(async (cat) => {
             const imgs = await fetchWithCache(cat);
-            if (!imgs || imgs.length === 0) {
-              if (FALLBACK_IMAGES[cat]) {
-                map[cat] = FALLBACK_IMAGES[cat].map((url, idx) => ({
-                  public_id: `fallback-${cat}-${idx}`,
-                  secure_url: url,
-                  isFallback: true
-                }));
-              } else {
-                map[cat] = [];
-              }
-            } else {
-              map[cat] = imgs;
-            }
+            map[cat] = imgs || [];
           })
         );
         
@@ -261,7 +223,7 @@ const Events = () => {
           </h2>
           <p className="text-[14px] text-[#888] mt-4 max-w-lg mx-auto leading-relaxed">
             From grand weddings to intimate celebrations — Basti Ram Palace and
-            GD Foods India come together to make every event unforgettable.
+            GD Foods India come together to make every Gurugram event unforgettable.
           </p>
         </div>
 

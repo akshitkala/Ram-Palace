@@ -18,7 +18,7 @@ export const metadata = {
     url: `${process.env.NEXT_PUBLIC_SITE_URL}/catering`, // BRP-FIX: D-1
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}/images/hero/Catering.webp`,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/images/hero/CateringHero.webp`,
         width: 1200,
         height: 630,
         alt: 'Catering by GD Foods India at Basti Ram Palace',

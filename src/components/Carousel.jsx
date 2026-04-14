@@ -76,7 +76,7 @@ const Carousel = () => {
           <Image
             key={index}
             src={img}
-            alt={`Basti Ram Palace — slide ${index + 1}`}
+            alt={`Basti Ram Palace — Luxury Banquet Hall and Venue Presentation — Moment ${index + 1}`}
             fill
             priority={index === current}
             quality={85}

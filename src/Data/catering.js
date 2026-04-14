@@ -5,7 +5,7 @@
 
 // ── 1. HERO ──────────────────────────────────────────────────────────────────
 export const cateringHero = {
-  image: "/images/hero/Catering.webp",
+  image: "/images/hero/CateringHero.webp",
   headline: "Where Flavour Meets Precision",
   description:
     "GD Foods India is a trusted catering partner delivering flavorful, hygienic, and thoughtfully crafted meals for corporate offices, institutions, and special events.",
@@ -15,7 +15,7 @@ export const cateringHero = {
 
 // ── 2. CULINARY PHILOSOPHY ────────────────────────────────────────────────────
 export const culinaryPhilosophy = {
-  image: "/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.webp", 
+  image: "/images/catering/catering-1.webp", 
   heading: "Food Crafted with Responsibility",
   tagline: "Every dish prepared with precision. Every event handled with care.",
   description:
@@ -35,9 +35,9 @@ export const culinaryPhilosophy = {
 export const culinarySpectrum = [
   {
     id: 1,
-    icon: "🥗",
+    icon: "🍢",
     title: "Starters & Chaat Counter",
-    image: "/images/gallery/danie-franco-7XqL_DVuBMw-unsplash.webp",
+    image: "/images/catering/catering-5.png",
     description:
       "Gol Gappe with three types of water, Dahi Bhalla with Papri, Crispy Aloo Tikki with Chole, Paneer Tikka, Mushroom Tikka, Tandoori Aloo, Hara Bhara Kebab, Veg Seekh Kebab, Cocktail Samosa, Spring Rolls, French Fries, and more — all served with mint chutney and tomato ketchup.",
   },
@@ -45,7 +45,7 @@ export const culinarySpectrum = [
     id: 2,
     icon: "🍛",
     title: "Indian Vegetarian Mains",
-    image: "/images/gallery/junior-reis-xMDo8y776uE-unsplash.webp",
+    image: "/images/catering/catering-6.png",
     description:
       "Paneer Lababdar, Kadhai Paneer, Dal Makhani, Malai Kofta Nargisi, Mix Vegetable / Navratan Korma, Matar Mushroom, Pindi Chole, Dum Aloo, Palak Corn Paneer, Dal Tadka, Rajma Masala, Sarson ka Saag (seasonal), and more — paired with Jeera Rice, Veg Biryani, and freshly made breads.",
   },
@@ -53,7 +53,7 @@ export const culinarySpectrum = [
     id: 3,
     icon: "🌍",
     title: "Live Multi-Cuisine Counters",
-    image: "/images/gallery/eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.webp",
+    image: "/images/catering/catering-2.webp",
     description:
       "Stone-Fired Pizzeria (thin-crust, Farm House, Veggie Lover's), Italian Live Pasta Bar (Penne / Fusilli / Farfalle in Arrabiatta, Mushroom Creamy or Cheese sauce), Chinese Tadka (Hakka Noodles, Veg Manchurian, Fried Rice), South Indian (Dosa, Idli Sambhar, Medu Vada), Chandni Chowk Special (Bedmi Poori, Sitafal ki Sabji), and Agra ke Paranthe.",
   },
@@ -61,7 +61,7 @@ export const culinarySpectrum = [
     id: 4,
     icon: "🍨",
     title: "Desserts & Sweet Counters",
-    image: "/images/gallery/pixel-studios-IFCN-tBVNPI-unsplash.webp",
+    image: "/images/catering/catering-7.png",
     description:
       "Hot Serving: Gulab Jamun, Moong Dal ka Halwa, Gajar ka Halwa, Jalebi with Rabri, Mathura ka Kadhai Doodh. Cold Serving: Ras Malai, Raj Bhog, Gulab Kheer, Tila Kulfi, Kulfi Mania (Aam, Kesar, Pista, Anar, Cream), Kulfi Faluda, Ice Cream. Plus Ice Cream Parlour, Cake & Pastry Counter, and Pan Shoppe.",
   },
@@ -69,7 +69,7 @@ export const culinarySpectrum = [
     id: 5,
     icon: "🥤",
     title: "Beverages & Mocktail Bar",
-    image: "/images/gallery/vadim-paripa-PuXtB1B4zL8-unsplash.webp",
+    image: "/images/catering/catering-4.webp",
     description:
       "Mocktail Bar: Vergin Mojito, Pina Colada, Blue Angle, Green Vally, Vanilla / Strawberry / Chocolate / Mango / Oreo / Chiku Shakes, Fresh Orange, Watermelon and Guava Juices, Sweet Lime, and Black Grapes. Hot Drinks: Masala Kullad Tea and Espresso. Coffee Parlour: Cappuccino, Mochaccino, Cold Coffee, Iced Tea, and Cookies.",
   },
@@ -77,7 +77,7 @@ export const culinarySpectrum = [
     id: 6,
     icon: "🫕",
     title: "Soups, Salads & Raitas",
-    image: "/images/gallery/khadija-yousaf-lKwp3-FQomY-unsplash.webp",
+    image: "/images/catering/catering-3.webp",
     description:
       "Soups: Cream of Tomato, Vegetable Sweet Corn, Hot 'N' Sour, Manchow, Tamatar aur Dhaniya ka Shorba. Salads: Garden Green, Kachumbar, Russian, Sweet Corn, Beetroot, Mix Fruit, Aloo Chana Chaat, Pasta & Macaroni. Raitas: Boondi, Mix, Pineapple, Fruit, Burani, and Masala Chach.",
   },

@@ -579,22 +579,45 @@ html, body {
   .event-fc:last-child { border-bottom: none; }
 }
 
-/* Gallery Strip */
-.event-gallery-strip { background: #F0EBE3; padding: 4px; }
-.gallery-mosaic {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  grid-template-rows: 220px 220px;
-  gap: 4px;
+/* Gallery Masonry */
+.event-gallery-wrap { 
+  background: #FAF7F2; 
+  padding: 80px 48px; 
 }
-.gm-cell {
+
+.gallery-masonry {
+  columns: 1;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .gallery-masonry {
+    columns: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-masonry {
+    columns: 3;
+  }
+}
+
+.gm-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
   position: relative;
   overflow: hidden;
+  border-radius: 8px;
   background: #1C1C1E;
-  border-radius: 4px;
   opacity: 0;
+  cursor: pointer;
 }
-.gm-tall { grid-row: span 2; }
+
+.gm-img-container {
+  position: relative;
+  width: 100%;
+}
+
 .gm-hover-overlay {
   position: absolute;
   inset: 0;
@@ -602,39 +625,43 @@ html, body {
   transition: background 0.3s;
   pointer-events: none;
 }
-.gm-cell:hover .gm-hover-overlay { background: rgba(28,28,30,0.4); }
-.gm-more-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(28,28,30,0.65);
+
+.gm-item:hover .gm-hover-overlay { background: rgba(28,28,30,0.4); }
+
+.view-all-btn-wrap {
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 14px;
-  letter-spacing: 0.06em;
-  color: #FAF7F2;
-  cursor: pointer;
+  margin-top: 48px;
+}
+
+.view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  background: transparent;
+  border: 1px solid #C9A84C;
+  color: #C9A84C;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: all 0.3s ease;
   text-decoration: none;
-  z-index: 20;
 }
-.gm-placeholder {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    135deg,
-    rgba(201,168,76,0.05) 0px,
-    rgba(201,168,76,0.05) 1px,
-    transparent 1px,
-    transparent 14px
-  );
+
+.view-all-btn:hover {
+  background: #C9A84C;
+  color: #FAF7F2;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(201, 168, 76, 0.2);
 }
-@media (max-width: 640px) {
-  .gallery-mosaic {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(3, 160px);
-  }
-  .gm-tall { grid-row: span 1; }
+
+@media (max-width: 768px) {
+  .event-gallery-wrap { padding: 56px 24px; }
 }
+
 
 /* Catering Section */
 .event-catering { background: #FAF7F2; padding: 80px 48px; }

@@ -1,35 +1,18 @@
 {
-  "generatedAt": "2026-03-11T12:54:32.861Z",
+  "generatedAt": "2026-04-13T17:10:20.500Z",
   "summary": {
-    "totalImages": 28,
-    "totalSizeMB": 7.4,
-    "movedToCloudinary": 21,
-    "stillLocal": 7,
+    "totalImages": 11,
+    "totalSizeMB": 5.6,
+    "movedToCloudinary": 0,
+    "stillLocal": 11,
     "failed": 0,
     "unreferenced": 0,
-    "brokenReferences": 1
+    "brokenReferences": 0
   },
   "categories": {
-    "gallery": {
-      "count": 17,
-      "sizeMB": 3,
-      "status": "moved"
-    },
-    "events": {
-      "corporate": {
-        "count": 4,
-        "sizeMB": 0.7,
-        "status": "moved"
-      }
-    },
     "hero": {
-      "count": 1,
-      "sizeMB": 2.8,
-      "status": "local"
-    },
-    "carousel": {
-      "count": 4,
-      "sizeMB": 0.8,
+      "count": 9,
+      "sizeMB": 5.2,
       "status": "local"
     },
     "root-images": {
@@ -39,273 +22,101 @@
     },
     "branding": {
       "count": 1,
-      "sizeMB": 0,
+      "sizeMB": 0.3,
       "status": "local"
     }
   },
-  "warnings": [
-    "Broken image reference in src/app/Menu/page.jsx -> /images/catering/hero.jpg"
-  ],
+  "warnings": [],
   "files": [
     {
-      "filename": "amish-thakkar-1rLF6hxmm7M-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 283.2,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\amish-thakkar-1rLF6hxmm7M-unsplash.jpg"
-    },
-    {
-      "filename": "amish-thakkar-7O422yG_b80-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 242.6,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\amish-thakkar-7O422yG_b80-unsplash.jpg"
-    },
-    {
-      "filename": "awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 199.5,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\awesome-sauce-creative-lvZN2e4LPvg-unsplash.jpg"
-    },
-    {
-      "filename": "cody-chan-7jgtAhJkjwk-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 162,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\cody-chan-7jgtAhJkjwk-unsplash.jpg"
-    },
-    {
-      "filename": "danie-franco-7XqL_DVuBMw-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 158,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\danie-franco-7XqL_DVuBMw-unsplash.jpg"
-    },
-    {
-      "filename": "drew-coffman-llWjwo200fo-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 125.5,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\drew-coffman-llWjwo200fo-unsplash.jpg"
-    },
-    {
-      "filename": "eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 192.5,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\eugenia-pan-kiv-1Bs2sZ9fD2Q-unsplash.jpg"
-    },
-    {
-      "filename": "evelina-friman-hw_sKmjb0ns-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 103.1,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\evelina-friman-hw_sKmjb0ns-unsplash.jpg"
-    },
-    {
-      "filename": "junior-reis-xMDo8y776uE-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 258,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\junior-reis-xMDo8y776uE-unsplash.jpg"
-    },
-    {
-      "filename": "khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 174.9,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\khadija-yousaf-lKwp3-FQomY-unsplash.jpg"
-    },
-    {
-      "filename": "leonardo-miranda-riHGdvluDk8-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 211.5,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\leonardo-miranda-riHGdvluDk8-unsplash.jpg"
-    },
-    {
-      "filename": "nathan-dumlao-5BB_atDT4oA-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 107.7,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\nathan-dumlao-5BB_atDT4oA-unsplash.jpg"
-    },
-    {
-      "filename": "photos-by-lanty-O38Id_cyV4M-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 154.7,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\photos-by-lanty-O38Id_cyV4M-unsplash.jpg"
-    },
-    {
-      "filename": "pixel-studios-IFCN-tBVNPI-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 186.9,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\pixel-studios-IFCN-tBVNPI-unsplash.jpg"
-    },
-    {
-      "filename": "pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 246.3,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\pranav-kumar-jain-JZgpnwhdI68-unsplash.jpg"
-    },
-    {
-      "filename": "samantha-gades-x40Q9jrEVT0-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 123.3,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\samantha-gades-x40Q9jrEVT0-unsplash.jpg"
-    },
-    {
-      "filename": "vadim-paripa-PuXtB1B4zL8-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 182.6,
-      "folder": "public/images/gallery",
-      "category": "Gallery",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\gallery\\vadim-paripa-PuXtB1B4zL8-unsplash.jpg"
-    },
-    {
-      "filename": "al-elmes-ULHxWq8reao-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 149,
-      "folder": "public/images/Events/corporate",
-      "category": "Events / Corporate",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\Events\\corporate\\al-elmes-ULHxWq8reao-unsplash.jpg"
-    },
-    {
-      "filename": "antenna-ZDN-G1xBWHY-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 214,
-      "folder": "public/images/Events/corporate",
-      "category": "Events / Corporate",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\Events\\corporate\\antenna-ZDN-G1xBWHY-unsplash.jpg"
-    },
-    {
-      "filename": "jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 235.3,
-      "folder": "public/images/Events/corporate",
-      "category": "Events / Corporate",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\Events\\corporate\\jakob-dalbjorn-cuKJre3nyYc-unsplash.jpg"
-    },
-    {
-      "filename": "quan-nguyen-yDSe7sggb9Q-unsplash.jpg",
-      "extension": ".jpg",
-      "sizeKB": 163.5,
-      "folder": "public/images/Events/corporate",
-      "category": "Events / Corporate",
-      "status": "moved",
-      "isStatic": false,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\Events\\corporate\\quan-nguyen-yDSe7sggb9Q-unsplash.jpg"
-    },
-    {
-      "filename": "hero.png",
-      "extension": ".png",
-      "sizeKB": 2824.2,
+      "filename": "CateringHero.webp",
+      "extension": ".webp",
+      "sizeKB": 160.8,
       "folder": "public/images/hero",
       "category": "Hero",
       "status": "local",
       "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\hero.png"
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\CateringHero.webp"
     },
     {
-      "filename": "carousel1.webp",
-      "extension": ".webp",
-      "sizeKB": 180.8,
-      "folder": "public/images/carousel",
-      "category": "Carousel",
+      "filename": "ContactHero.png",
+      "extension": ".png",
+      "sizeKB": 740.7,
+      "folder": "public/images/hero",
+      "category": "Hero",
       "status": "local",
       "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\carousel\\carousel1.webp"
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\ContactHero.png"
     },
     {
-      "filename": "carousel2.webp",
-      "extension": ".webp",
-      "sizeKB": 445.2,
-      "folder": "public/images/carousel",
-      "category": "Carousel",
+      "filename": "CorporateHero.png",
+      "extension": ".png",
+      "sizeKB": 871.6,
+      "folder": "public/images/hero",
+      "category": "Hero",
       "status": "local",
       "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\carousel\\carousel2.webp"
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\CorporateHero.png"
     },
     {
-      "filename": "carousel3.webp",
-      "extension": ".webp",
-      "sizeKB": 85.1,
-      "folder": "public/images/carousel",
-      "category": "Carousel",
+      "filename": "GalleryHero.jpg",
+      "extension": ".jpg",
+      "sizeKB": 189.4,
+      "folder": "public/images/hero",
+      "category": "Hero",
       "status": "local",
       "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\carousel\\carousel3.webp"
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\GalleryHero.jpg"
     },
     {
-      "filename": "carousel4.webp",
+      "filename": "hero.webp",
       "extension": ".webp",
-      "sizeKB": 143,
-      "folder": "public/images/carousel",
-      "category": "Carousel",
+      "sizeKB": 191.2,
+      "folder": "public/images/hero",
+      "category": "Hero",
       "status": "local",
       "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\carousel\\carousel4.webp"
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\hero.webp"
+    },
+    {
+      "filename": "MenuHero.webp",
+      "extension": ".webp",
+      "sizeKB": 174.5,
+      "folder": "public/images/hero",
+      "category": "Hero",
+      "status": "local",
+      "isStatic": true,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\MenuHero.webp"
+    },
+    {
+      "filename": "PrivateHero.png",
+      "extension": ".png",
+      "sizeKB": 870.5,
+      "folder": "public/images/hero",
+      "category": "Hero",
+      "status": "local",
+      "isStatic": true,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\PrivateHero.png"
+    },
+    {
+      "filename": "ServicesHero.png",
+      "extension": ".png",
+      "sizeKB": 1021.9,
+      "folder": "public/images/hero",
+      "category": "Hero",
+      "status": "local",
+      "isStatic": true,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\ServicesHero.png"
+    },
+    {
+      "filename": "WeddingsHero.png",
+      "extension": ".png",
+      "sizeKB": 1113.5,
+      "folder": "public/images/hero",
+      "category": "Hero",
+      "status": "local",
+      "isStatic": true,
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hero\\WeddingsHero.png"
     },
     {
       "filename": "hall3.webp",
@@ -318,14 +129,14 @@
       "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\images\\hall3.webp"
     },
     {
-      "filename": "vite.svg",
-      "extension": ".svg",
-      "sizeKB": 1.5,
+      "filename": "logo.png",
+      "extension": ".png",
+      "sizeKB": 339.7,
       "folder": "public",
       "category": "Branding",
       "status": "local",
       "isStatic": true,
-      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\vite.svg"
+      "fullLocalPath": "E:\\vs code\\projects\\significo\\hall\\public\\logo.png"
     }
   ]
 }

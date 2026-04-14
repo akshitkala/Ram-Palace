@@ -4,6 +4,9 @@ import React, { useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ServicesHero = () => {
   const containerRef = useRef(null);
@@ -14,16 +17,28 @@ const ServicesHero = () => {
       // Cinematic entrance for hero content
       gsap.fromTo(
         ".hero-fade-up",
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
-          duration: 1,
-          stagger: 0.15,
-          ease: "power3.out",
+          duration: 1.2,
+          stagger: 0.2,
+          ease: "expo.out",
           delay: 0.2,
         }
       );
+
+      // Parallax effect on background
+      gsap.to(".parallax-bg", {
+        yPercent: 30,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
     }, containerRef);
 
     return () => ctx.revert();
@@ -37,12 +52,12 @@ const ServicesHero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero/hero.webp"
+          src="/images/hero/ServicesHero.png"
           alt="Basti Ram Palace Services"
           fill
           priority
           quality={75}
-          className="object-cover"
+          className="object-cover parallax-bg scale-125 origin-top"
         />
         <div className="absolute inset-0 bg-black/60" />
       </div>
@@ -50,9 +65,11 @@ const ServicesHero = () => {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div ref={contentRef}>
-          <span className="hero-fade-up opacity-0 text-[#c9a96e] text-xs tracking-[0.2em] uppercase mb-4 block">
-            BASTI RAM PALACE · SERVICES
-          </span>
+          <div className="overflow-hidden mb-4">
+            <span className="hero-fade-up opacity-0 text-[#c9a96e] text-xs tracking-[0.2em] uppercase block">
+              BASTI RAM PALACE · SERVICES
+            </span>
+          </div>
           <h1 className="hero-fade-up opacity-0 font-heading text-5xl md:text-7xl text-[#f5f0e8] leading-tight mb-6">
             A Complete Celebration,<br />
             Crafted for <em className="italic text-[#c9a96e] not-italic">You</em>

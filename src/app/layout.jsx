@@ -39,7 +39,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://bastirampalace.com"), // BRP-FIX: D-1
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.bastirampalace.com"), // BRP-FIX: D-1
   title: {
     default: "Basti Ram Palace — Best Banquet Hall in Manesar, Gurugram",
     template: "%s | Basti Ram Palace",
@@ -74,7 +74,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://bastirampalace.com", // BRP-FIX: D-1
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.bastirampalace.com", // BRP-FIX: D-1
     siteName: "Basti Ram Palace",
     title: "Basti Ram Palace — Best Banquet Hall in Manesar, Gurugram",
     description:

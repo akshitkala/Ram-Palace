@@ -206,7 +206,7 @@ export default function ContactPage() {
       {/* STATIC BACKGROUND PLACEHOLDER */}
       <div className="absolute inset-0 z-0">
         <Image 
-          src="/images/hero/hero.webp" 
+          src="/images/hero/ContactHero.png" 
           alt="Contact Background"
           fill
           className="object-cover opacity-60"

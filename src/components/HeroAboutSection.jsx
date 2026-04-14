@@ -125,12 +125,12 @@ const HeroAboutSection = () => {
 
             {/* Heading */}
             <h2 className="font-heading text-2xl md:text-3xl lg:text-[38px] leading-tight text-[#1C1C1E]">
-              Basti's Home for Every<br />Cherished Celebration
+              Manesar's Home for Every<br />Cherished Celebration
             </h2>
 
             {/* Single paragraph on mobile, two on desktop */}
             <p className="text-[14px] md:text-[15px] leading-relaxed text-[#666] max-w-lg">
-              Basti Ram Palace is more than a venue — it is where Basti's
+              Basti Ram Palace is more than a venue — it is where Gurugram's
               families gather to celebrate their most meaningful moments. From
               intimate ceremonies to grand wedding receptions, every occasion
               is treated with the same care, warmth, and attention to detail.

@@ -56,7 +56,7 @@ export default function CateringGallery() {
               >
                 <Image
                   src={img.url}
-                  alt="Catering Experience"
+                  alt="Basti Ram Palace — Premium Luxury Catering & Service Presentation"
                   width={img.width || 800}
                   height={img.height || 600}
                   quality={75}

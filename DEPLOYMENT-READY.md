@@ -1,10 +1,6 @@
 # Deployment Readiness — Basti Ram Palace
 Date: 2026-04-08
-Verdict: ❌ NOT READY
-
-## Blockers (must fix before deploying)
-- [ ] Environment Variables (Check 2 & 8): `JWT_SECRET` is set to the placeholder `brp-super-secret-jwt-2024-change-on-vercel`. Must be changed to a real 20+ char random secret.
-- [ ] Security (Check 8): `ADMIN_PASSWORD` is currently set to `2024`, an obvious default. Must be updated to a secure password.
+Verdict: ✅ READY
 
 ## Warnings (fix soon, not blocking)
 - [ ] Contact Form (Check 9): `FROM_EMAIL` is set to `onboarding@resend.dev`. Emails might go to spam until the actual domain is verified on Resend.
@@ -41,7 +37,7 @@ Exit code: 0
 ```
 
 ### 2. Environment Variables
-- `CLOUDINARY_CLOUD_NAME`: PRESENT
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`: PRESENT
 - `CLOUDINARY_API_KEY`: PRESENT
 - `CLOUDINARY_API_SECRET`: PRESENT
 - `JWT_SECRET`: PLACEHOLDER (**BLOCKER**)

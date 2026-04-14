@@ -12,19 +12,36 @@ const ServicesCTA = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // Reveal text
       gsap.fromTo(
         ".cta-content > *",
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 40, scale: 0.95 },
         {
           opacity: 1,
           y: 0,
-          duration: 1,
-          stagger: 0.15,
-          ease: "power3.out",
+          scale: 1,
+          duration: 1.2,
+          stagger: 0.2,
+          ease: "expo.out",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 80%",
+            start: "top 75%",
             once: true,
+          }
+        }
+      );
+
+      // Section subtle zoom parallax
+      gsap.fromTo(sectionRef.current, 
+        { backgroundSize: "100%" },
+        {
+          backgroundSize: "110%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
           }
         }
       );
@@ -36,9 +53,14 @@ const ServicesCTA = () => {
   return (
     <section 
       ref={sectionRef}
-      className="bg-[#FAF7F2] py-24 md:py-32 border-t border-[#c9a96e]/15 text-center overflow-hidden"
+      className="bg-[#FAF7F2] py-24 md:py-32 border-t border-[#c9a96e]/15 text-center overflow-hidden relative"
+      style={{
+        backgroundImage: 'radial-gradient(circle at center, rgba(201, 168, 76, 0.03) 0%, transparent 70%)',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="cta-content flex flex-col items-center">
           <span className="text-[#c9a96e] text-xs tracking-[0.2em] uppercase mb-4 block font-bold">
             BEGIN YOUR STORY

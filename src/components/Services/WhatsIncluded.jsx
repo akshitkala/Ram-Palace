@@ -38,15 +38,15 @@ const WhatsIncluded = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Stagger fade-in left-to-right
+      // Heading Reveal
       gsap.fromTo(
-        ".inclusion-item",
-        { opacity: 0, y: 20 },
+        ".wi-heading > *",
+        { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
-          stagger: 0.1,
+          duration: 0.8,
+          stagger: 0.15,
           ease: "power2.out",
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -55,6 +55,38 @@ const WhatsIncluded = () => {
           },
         }
       );
+
+      // Stagger fade-in left-to-right with slight scale
+      gsap.fromTo(
+        ".inclusion-item",
+        { opacity: 0, x: -30, scale: 0.95 },
+        {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".inclusion-grid",
+            start: "top 85%",
+            once: true,
+          },
+        }
+      );
+
+      // Parallax float on the whole grid
+      gsap.to(".inclusion-grid", {
+        y: "-5%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
     }, sectionRef);
 
     return () => ctx.revert();
@@ -63,11 +95,11 @@ const WhatsIncluded = () => {
   return (
     <section 
       ref={sectionRef}
-      className="bg-[#FAF7F2] py-24 md:py-32"
+      className="bg-[#FAF7F2] py-24 md:py-32 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 wi-heading">
           <span className="text-[#c9a96e] text-xs tracking-[0.2em] uppercase mb-4 block font-bold">
             THE LUXURY EXPERIENCE
           </span>
@@ -78,17 +110,17 @@ const WhatsIncluded = () => {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 inclusion-grid">
           {INCLUSIONS.map((item, index) => (
             <div 
               key={index}
-              className="inclusion-item opacity-0 flex items-start gap-5 p-6 hover:bg-[#FDFBF7] transition-colors duration-300 rounded-none border border-[#c9a96e]/10 group"
+              className="inclusion-item opacity-0 flex items-start gap-5 p-6 hover:bg-[#FDFBF7] transition-colors duration-300 rounded-none border border-[#c9a96e]/10 group hover:border-[#c9a96e]/30 hover:shadow-sm"
             >
-              <div className="flex-shrink-0 w-10 h-10 border border-[#c9a96e]/20 flex items-center justify-center text-[#c9a96e] transition-all duration-500 group-hover:bg-[#c9a96e] group-hover:text-white">
+              <div className="flex-shrink-0 w-10 h-10 border border-[#c9a96e]/20 flex items-center justify-center text-[#c9a96e] transition-all duration-500 group-hover:bg-[#c9a96e] group-hover:text-white group-hover:scale-110">
                 ✦
               </div>
               <div>
-                <h3 className="font-heading text-lg text-[#1C1C1E] mb-2 leading-tight">
+                <h3 className="font-heading text-lg text-[#1C1C1E] mb-2 leading-tight group-hover:text-[#c9a96e] transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-[#666] text-xs leading-relaxed max-w-[200px]">

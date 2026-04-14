@@ -1,12 +1,16 @@
 "use client";
 
-import { useRef, useLayoutEffect } from "react";
+import { useRef } from "react";
 import Link from "next/link";
-import gsap from "gsap";
+import { useRouter } from "next/navigation";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { ShimmerLine, GoldHairline } from "./Ornaments";
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const MAPS_URL =
   "https://www.google.com/maps/place/Basti+Ram+Palace/@28.3919789,76.9144771,17z";
@@ -19,7 +23,7 @@ const NAV_LINKS = [
   { label: "Private Parties",  href: "/events/private-parties" },
   { label: "Catering",         href: "/catering" },
   { label: "Catering & Menu",  href: "/menu" },
-  { label: "About Us",         href: "/about" },
+
   { label: "Enquire Now",      href: "/contact" },
 ];
 
@@ -31,61 +35,58 @@ const CONTACTS = [
 
 const Footer = () => {
   const footerRef = useRef(null);
+  const router = useRouter();
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(() => {
+    if (!footerRef.current) return;
 
-      // Stagger in each column
-      gsap.fromTo(".footer-col",
-        { opacity: 0, y: 36 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.9,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: footerRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        }
-      );
+    // Stagger in each column
+    gsap.fromTo(".footer-col",
+      { opacity: 0, y: 36 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.9,
+        stagger: 0.12,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 88%",
+          once: true,
+        },
+      }
+    );
 
-      // Gold rule expands
-      gsap.fromTo(".footer-rule",
-        { scaleX: 0, transformOrigin: "left center" },
-        {
-          scaleX: 1,
-          duration: 1.4,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: footerRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        }
-      );
+    // Gold rule expands
+    gsap.fromTo(".footer-rule",
+      { scaleX: 0, transformOrigin: "left center" },
+      {
+        scaleX: 1,
+        duration: 1.4,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 88%",
+          once: true,
+        },
+      }
+    );
 
-      // Letter-by-letter brand name
-      gsap.fromTo(".footer-letter",
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.8,
-          stagger: 0.035,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".footer-brand-row",
-            start: "top 92%",
-            once: true,
-          },
-        }
-      );
-
-    }, footerRef);
-
-    return () => ctx.revert();
-  }, []);
+    // Letter-by-letter brand name
+    gsap.fromTo(".footer-letter",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.8,
+        stagger: 0.035,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".footer-brand-row",
+          start: "top 92%",
+          once: true,
+        },
+      }
+    );
+  }, { scope: footerRef });
 
   return (
     <footer
@@ -178,8 +179,6 @@ const Footer = () => {
                                hover:text-white transition-colors duration-300
                                flex items-center gap-2 group"
                   >
-                    <span className="w-0 group-hover:w-3 h-px bg-[#C9A84C]
-                                     transition-all duration-300 flex-shrink-0" />
                     {link.label}
                   </Link>
                 </li>
@@ -294,14 +293,14 @@ const Footer = () => {
               const content = char === " " ? "\u00A0" : char;
               
               return isP ? (
-                <Link
+                <span
                   key={i}
-                  href="/brp-portal-login/login"
-                  className="footer-letter font-heading leading-none text-white/[0.06] hover:text-[#C9A84C]/20 transition-colors duration-500 cursor-default"
+                  onClick={() => router.push("/brp-portal-login/login")}
+                  className="footer-letter font-heading leading-none text-white/[0.06] transition-colors duration-500 cursor-default"
                   style={{ fontSize: "clamp(1.8rem, 5.5vw, 6rem)" }}
                 >
                   {content}
-                </Link>
+                </span>
               ) : (
                 <span
                   key={i}

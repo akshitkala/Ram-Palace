@@ -89,15 +89,7 @@ export default function NavLinks() {
             <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </li>
-        <li>
-          <Link 
-            href="/about" 
-            className="relative text-white transition-all duration-300 hover:text-[#C9A84C] group font-body text-[15px] font-medium"
-          >
-            About
-            <span className="absolute bottom-[-2px] left-0 w-0 h-px bg-[#C9A84C] transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-        </li>
+
         <li>
           <Link 
             href="/contact" 

@@ -1,6 +1,6 @@
 // BRP-FIX: D-3
 export default function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bastirampalace.com";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.bastirampalace.com";
 
   // Public routes for indexing with specific priorities
   const routes = [
@@ -12,7 +12,7 @@ export default function sitemap() {
     { path: "/gallery", priority: 0.8 },
     { path: "/menu", priority: 0.7 },
     { path: "/contact", priority: 0.8 },
-    { path: "/about", priority: 0.7 },
+
   ];
 
   return routes.map((route) => ({

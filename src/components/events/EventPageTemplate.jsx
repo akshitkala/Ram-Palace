@@ -20,47 +20,24 @@ const cloudinaryUrl = (tag) => {
   return `https://res.cloudinary.com/${cloudName}/image/upload/q_auto,f_auto/ram-palace/events/${tag}`;
 };
 
-const FALLBACK_IMAGES = {
-  weddings: [
-    "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2074&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1460364155252-97b4352f129c?q=80&w=2069&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1544132411-bdc2a933b93a?q=80&w=2070&auto=format&fit=cover"
-  ],
-  corporate: [
-    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1540575861501-7ad060e39fe1?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=cover"
-  ],
-  "private-parties": [
-    "https://images.unsplash.com/photo-1464366427604-47e0ef38f161?q=80&w=2071&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1514525253361-bee8a187499b?q=80&w=1974&auto=format&fit=cover",
-    "https://images.unsplash.com/photo-1496337589254-7e19d01cedf8?q=80&w=2070&auto=format&fit=cover"
-  ]
+const GALLERY_ALTS = {
+  weddings: "Basti Ram Palace — Grand Wedding Celebration & Venue",
+  corporate: "Basti Ram Palace — Professional Corporate Conference & Event",
+  "private-parties": "Basti Ram Palace — Unforgettable Private Party and Milestone Celebration"
 };
 
-const GalleryImage = ({ src, fallback, sizes, i, totalImages }) => {
-  const [err, setErr] = useState(false);
+const GalleryImage = ({ src, sizes, eventType }) => {
   return (
     <>
-      <Image
-        fill
-        sizes={sizes}
-        src={err ? fallback : src}
-        alt=""
-        style={{ objectFit: "cover" }}
-        onError={() => setErr(true)}
-      />
-      {i === 4 && totalImages > 4 && (
-        <Link href="/gallery" className="gm-more-overlay">
-          +{totalImages - 4} photos
-        </Link>
-      )}
+      <div className="gm-img-container">
+        <Image
+          width={800}
+          height={1200}
+          src={src}
+          alt={GALLERY_ALTS[eventType] || "Basti Ram Palace — Luxury Event Moment"}
+          className="w-full h-auto object-cover"
+        />
+      </div>
       <div className="gm-hover-overlay" />
     </>
   );
@@ -90,12 +67,11 @@ export default function EventPageTemplate({
   const p1Ref       = useRef(null);
   const p2Ref       = useRef(null);
 
-  // Fixed-length refs — always 4 stats, always 6 features, always 5 gallery cells, always 4 tags
+  // Fixed-length refs
   const statRefs      = useRef([null, null, null, null]);
   const numRefs       = useRef([null, null, null, null]);
   const barRefs       = useRef([null, null, null, null]);
   const fcRefs        = useRef([null, null, null, null, null, null]);
-  const galleryRefs   = useRef([null, null, null, null, null]);
   const tagRefs       = useRef([null, null, null, null]);
 
   const catEyeRef    = useRef(null);
@@ -108,44 +84,23 @@ export default function EventPageTemplate({
   const ctaBtnsRef   = useRef(null);
 
   // ─── Gallery state ──────────────────────────────────────────────────
-  const [images, setImages]           = useState([]);
-  const [totalImages, setTotalImages] = useState(0);
+  const [images, setImages] = useState([]);
+  const galleryItemRefs = useRef([]);
 
   useEffect(() => {
     fetch(`/api/images?section=${galleryTag}`)
       .then((r) => r.json())
       .then((data) => {
-        const imgs = data.images || [];
-        if (imgs.length === 0 && FALLBACK_IMAGES[galleryTag]) {
-          // Use Unsplash fallbacks if no gallery images found
-          const fallbacks = FALLBACK_IMAGES[galleryTag].map((url, idx) => ({
-            public_id: `fallback-${idx}`,
-            secure_url: url,
-            isFallback: true
-          }));
-          setImages(fallbacks.slice(0, 5));
-          setTotalImages(fallbacks.length);
-        } else {
-          setImages(imgs.slice(0, 5));
-          setTotalImages(imgs.length);
-        }
+        setImages(data.images || []);
       })
-      .catch(() => {
-        if (FALLBACK_IMAGES[galleryTag]) {
-          const fallbacks = FALLBACK_IMAGES[galleryTag].map((url, idx) => ({
-            public_id: `fallback-${idx}`,
-            secure_url: url,
-            isFallback: true
-          }));
-          setImages(fallbacks.slice(0, 5));
-          setTotalImages(fallbacks.length);
-        }
+      .catch((err) => {
+        console.error("Failed to fetch gallery images:", err);
       });
   }, [galleryTag]);
 
   // ─── All GSAP animations in one useGSAP  ────────────────────────────
   useGSAP(() => {
-    // HERO — fires immediately (no ScrollTrigger)
+    // HERO
     if (badgeRef.current) gsap.fromTo(badgeRef.current, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.2, ease: "power3.out" });
     if (titleRef.current) {
       const lines = titleRef.current.querySelectorAll(".reveal-line");
@@ -159,7 +114,7 @@ export default function EventPageTemplate({
       if (text) gsap.fromTo(text, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 1.8, ease: "power3.out" });
     }
 
-    // INTRO — ScrollTrigger
+    // INTRO
     const stOpts = { start: "top 85%", once: true };
 
     if (eyebrowRef.current) gsap.fromTo(eyebrowRef.current, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.65, ease: "power3.out", scrollTrigger: { trigger: eyebrowRef.current, ...stOpts } });
@@ -192,9 +147,9 @@ export default function EventPageTemplate({
     });
 
     // GALLERY
-    galleryRefs.current.forEach((el, i) => {
+    galleryItemRefs.current.forEach((el, i) => {
       if (!el) return;
-      gsap.fromTo(el, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.65, delay: i * 0.09, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+      gsap.fromTo(el, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.8, delay: (i % 3) * 0.1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 92%", once: true } });
     });
 
     // CATERING
@@ -214,7 +169,7 @@ export default function EventPageTemplate({
     }
     if (ctaSubRef.current) gsap.fromTo(ctaSubRef.current, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.65, delay: 0.3, ease: "power3.out", scrollTrigger: { trigger: ctaSubRef.current, ...stOpts } });
     if (ctaBtnsRef.current) gsap.fromTo(ctaBtnsRef.current, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.65, delay: 0.45, ease: "power3.out", scrollTrigger: { trigger: ctaBtnsRef.current, ...stOpts } });
-  }, { scope: rootRef, dependencies: [stats, features] });
+  }, { scope: rootRef, dependencies: [stats, features, images] });
 
   // ─── Render ──────────────────────────────────────────────────────────
   return (
@@ -227,8 +182,13 @@ export default function EventPageTemplate({
             fill
             sizes="100vw"
             priority
-            src={heroError ? FALLBACK_IMAGES[eventType]?.[0] : cloudinaryUrl(hero.cloudinaryTag)}
-            alt={hero.badge}
+            src={(() => {
+              if (eventType === "weddings") return "/images/hero/WeddingsHero.png";
+              if (eventType === "corporate") return "/images/hero/CorporateHero.png";
+              if (eventType === "private-parties") return "/images/hero/PrivateHero.png";
+              return cloudinaryUrl(hero.cloudinaryTag);
+            })()}
+            alt={GALLERY_ALTS[eventType] || hero.badge}
             style={{ objectFit: "cover" }}
             onError={() => setHeroError(true)}
           />
@@ -334,31 +294,30 @@ export default function EventPageTemplate({
 
       <GoldThread />
 
-      {/* ── SECTION 5 — GALLERY STRIP ── */}
-      <section className="event-gallery-strip">
-        <div className="gallery-mosaic">
-          {[0, 1, 2, 3, 4].map((i) => {
-            const img = images[i];
-            return (
-              <div
-                key={i}
-                className={`gm-cell${i === 0 ? " gm-tall" : ""}`}
-                ref={(el) => (galleryRefs.current[i] = el)}
-              >
-                {img ? (
-                  <GalleryImage 
-                    src={img.secure_url} 
-                    fallback={FALLBACK_IMAGES[galleryTag]?.[i]}
-                    sizes={i === 0 ? "50vw" : "25vw"}
-                    i={i}
-                    totalImages={totalImages}
-                  />
-                ) : (
-                  <div className="gm-placeholder" />
-                )}
-              </div>
-            );
-          })}
+      {/* ── SECTION 5 — GALLERY MASONRY ── */}
+      <section className="event-gallery-wrap" id="gallery">
+        <div className="gallery-masonry">
+          {images.map((img, i) => (
+            <div
+              key={img.public_id}
+              className="gm-item"
+              ref={(el) => (galleryItemRefs.current[i] = el)}
+            >
+              <GalleryImage 
+                src={img.secure_url} 
+                eventType={eventType}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="view-all-btn-wrap">
+          <Link href="/gallery" className="view-all-btn">
+            <span>View Full Gallery</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </section>
 
@@ -419,3 +378,4 @@ export default function EventPageTemplate({
     </div>
   );
 }
+

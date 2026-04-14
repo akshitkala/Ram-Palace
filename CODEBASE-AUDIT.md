@@ -160,7 +160,7 @@ src/middleware.js
 - `RESEND_API_KEY`
 - `FROM_NAME`, `FROM_EMAIL`
 - `OWNER_EMAIL_1`, `OWNER_EMAIL_2`, `OWNER_EMAIL_3`
-- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
 
 **Middleware Protection:** 
 `middleware.js` protects all `/brp-portal-login/` routes (except for `/login`) by verifying the JWT `admin_token`.
@@ -270,7 +270,7 @@ Reference check against `.env.local`:
 
 | Key | Status | Notes |
 | :--- | :--- | :--- |
-| `CLOUDINARY_CLOUD_NAME` | OK | Real value |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | OK | Real value |
 | `NEXT_PUBLIC_SITE_URL` | OK | Localhost:3000 |
 | `ADMIN_USERNAME` | OK | "admin" |
 | `ADMIN_PASSWORD` | OK | "123" |

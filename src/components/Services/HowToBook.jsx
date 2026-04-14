@@ -42,15 +42,15 @@ const HowToBook = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Fade up one by one
+      // Heading Reveal
       gsap.fromTo(
-        ".step-item",
+        ".htb-heading > *",
         { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
           duration: 0.8,
-          stagger: 0.2,
+          stagger: 0.15,
           ease: "power2.out",
           scrollTrigger: {
             trigger: containerRef.current,
@@ -59,6 +59,54 @@ const HowToBook = () => {
           }
         }
       );
+
+      // Fade up one by one with scaling
+      gsap.fromTo(
+        ".step-item",
+        { opacity: 0, y: 50, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: "back.out(1.2)",
+          scrollTrigger: {
+            trigger: ".step-grid",
+            start: "top 80%",
+            once: true,
+          }
+        }
+      );
+
+      // Parallax connections
+      gsap.fromTo(
+        ".dashed-line",
+        { scaleX: 0, transformOrigin: "left center" },
+        {
+          scaleX: 1,
+          duration: 1.5,
+          ease: "power3.inOut",
+          scrollTrigger: {
+            trigger: ".step-grid",
+            start: "top 75%",
+            once: true,
+          }
+        }
+      );
+
+      // Parallax scroll effect for steps
+      gsap.to(".step-grid", {
+        y: "-5%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        }
+      });
+
     }, containerRef);
 
     return () => ctx.revert();
@@ -71,7 +119,7 @@ const HowToBook = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-20 htb-heading">
           <span className="text-[#c9a96e] text-xs tracking-[0.2em] uppercase mb-4 block font-bold">
             HOW TO GET STARTED
           </span>
@@ -81,9 +129,9 @@ const HowToBook = () => {
         </div>
 
         {/* Steps Grid */}
-        <div className="relative">
+        <div className="relative step-grid">
           {/* Dashed Connection Line (Desktop) */}
-          <div className="absolute top-12 left-[15%] right-[15%] h-px border-t border-dashed border-[#c9a96e]/25 hidden lg:block" />
+          <div className="absolute top-12 left-[15%] right-[15%] h-px border-t border-dashed border-[#c9a96e]/40 hidden lg:block dashed-line" />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-12 text-center">
             {STEPS.map((step, index) => (
@@ -92,14 +140,14 @@ const HowToBook = () => {
                 className="step-item opacity-0 relative flex flex-col items-center group"
               >
                 {/* Step Circle */}
-                <div className="w-24 h-24 rounded-full border border-[#c9a96e]/30 flex items-center justify-center bg-[#c9a96e] text-white font-heading text-4xl mb-8 relative z-10 transition-all duration-500 group-hover:scale-110">
+                <div className="w-24 h-24 rounded-full border border-[#c9a96e]/30 flex items-center justify-center bg-[#c9a96e] text-white font-heading text-4xl mb-8 relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(201,168,76,0.3)] group-hover:border-[#c9a96e]">
                   {step.num}
                 </div>
 
-                <h3 className="font-heading text-2xl text-[#1C1C1E] mb-4">
+                <h3 className="font-heading text-2xl text-[#1C1C1E] mb-4 group-hover:text-[#c9a96e] transition-colors duration-300">
                   {step.title}
                 </h3>
-                <p className="text-[#666] text-base leading-relaxed mb-8 max-w-xs">
+                <p className="text-[#666] text-base leading-relaxed mb-8 max-w-xs transition-colors duration-300">
                   {step.description}
                 </p>
 
@@ -112,7 +160,7 @@ const HowToBook = () => {
                       className={`
                         w-full border py-3 text-[10px] tracking-[0.2em] uppercase font-bold transition-all duration-300 rounded-none shadow-sm
                         ${btn.primary 
-                          ? "bg-[#c9a96e] border-[#c9a96e] text-white hover:bg-[#b59862]" 
+                          ? "bg-[#c9a96e] border-[#c9a96e] text-white hover:bg-[#b59862] hover:shadow-md hover:-translate-y-0.5" 
                           : "border-[#c9a96e]/30 text-[#c9a96e] hover:border-[#c9a96e] hover:bg-[#c9a96e]/5 bg-white"}
                       `}
                     >
@@ -126,7 +174,7 @@ const HowToBook = () => {
         </div>
 
         {/* Support Text */}
-        <div className="mt-24 text-center">
+        <div className="mt-24 text-center htb-heading">
           <p className="text-[#8B7A6A] text-sm font-body">
             Need immediate help? Contact us directly at{" "}
             <Link href="mailto:info@bastirampalace.com" className="text-[#c9a96e] font-bold border-b border-[#c9a96e]/30 hover:border-[#c9a96e] transition-all">

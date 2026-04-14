@@ -171,9 +171,7 @@ const Navbar = () => {
             <Link onClick={() => setOpen(false)} href="/gallery" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
               Gallery <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
-            <Link onClick={() => setOpen(false)} href="/about" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
-              About <span className="font-light text-2xl lg:text-3xl">&gt;</span>
-            </Link>
+
             <Link onClick={() => setOpen(false)} href="/contact" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
               Contact <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>

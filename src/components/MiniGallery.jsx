@@ -29,15 +29,28 @@ const MiniGallery = () => {
         .map(img => ({
           id: img.public_id,
           image: img.url || img.secure_url,
-          alt: "Basti Ram Palace Gallery"
+          alt: "Basti Ram Palace — Grand Venue Highlight and Celebration Moment"
         }));
 
       const midPoint = Math.ceil(formatted.length / 2);
       const r1 = formatted.slice(0, midPoint);
       const r2 = formatted.slice(midPoint);
 
-      setRow1Images([...r1, ...r1]);
-      setRow2Images([...r2, ...r2]);
+      // BRP-FIX: Ensure rows are wide enough to prevent whitespace on large screens
+      const fillToMinimum = (arr, min = 12) => {
+        if (arr.length === 0) return [];
+        let result = [...arr];
+        while (result.length < min) {
+          result = [...result, ...arr];
+        }
+        return result;
+      };
+
+      const r1Base = fillToMinimum(r1);
+      const r2Base = fillToMinimum(r2);
+
+      setRow1Images([...r1Base, ...r1Base]);
+      setRow2Images([...r2Base, ...r2Base]);
     }
     getGallery();
   }, [fetchWithCache]);

@@ -399,6 +399,34 @@ export default function AdminPage() {
               }
             />
 
+            {/* MANAGEMENT GUIDELINES */}
+            <div className="bg-[#E8E0D4]/20 border border-[#E8E0D4] rounded-2xl p-6 mb-8">
+              <h3 className="font-heading text-lg text-[#1C1009] mb-4 flex items-center gap-2">
+                <IconAlertCircle className="text-[#C9A84C]" size={20} />
+                Management Guidelines
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <p className="text-[10px] tracking-widest uppercase text-[#C9A84C] font-semibold">Homepage Carousel</p>
+                  <p className="text-xs text-[#7A6A5A] leading-relaxed">
+                    Upload between <strong>3 to 8</strong> high-quality landscape images. These form the first impression on the home page.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-[10px] tracking-widest uppercase text-[#C9A84C] font-semibold">Event Categories</p>
+                  <p className="text-xs text-[#7A6A5A] leading-relaxed">
+                    Minimum <strong>5 images</strong> per category (Weddings, Corporate, Private) to ensure the masonry gallery looks rich and complete.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-[10px] tracking-widest uppercase text-[#C9A84C] font-semibold">Venue Gallery</p>
+                  <p className="text-xs text-[#7A6A5A] leading-relaxed">
+                    Minimum <strong>12 images</strong> required. These are used in the scrolling gallery and the main gallery page.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {activeTab === "events" && (
               <div className="flex gap-4 p-1 bg-[#E8E0D4]/30 rounded-lg w-fit mb-8 border border-[#E8E0D4]/50">
                 {["weddings", "corporate", "private-parties"].map((id) => (
