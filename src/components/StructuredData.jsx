@@ -8,7 +8,7 @@ export default function StructuredData() {
       'Luxury banquet hall in IMT Manesar, Gurugram. Weddings, corporate events, and private celebrations hosted with in-house catering by GD Foods India.',
     url: process.env.NEXT_PUBLIC_SITE_URL,
     telephone: ['+91-8800190003', '+91-9650211469', '+91-9810679550'],
-    email: 'info@bastirampalace.com',
+    email: 'info@bastirampalace.in',
     address: {
       '@type': 'PostalAddress',
       streetAddress: '16G, Kankrola, IMT Manesar',

@@ -214,7 +214,7 @@ const Footer = () => {
               ))}
               <li>
                 <a
-                  href="mailto:info@bastirampalace.com"
+                  href="mailto:info@bastirampalace.in"
                   className="font-body text-white/50 text-sm tracking-wide
                              hover:text-white transition-colors duration-300
                              flex items-center gap-2 group"
@@ -222,7 +222,7 @@ const Footer = () => {
                   <span className="text-[#C9A84C]/40 group-hover:text-[#C9A84C] transition-colors text-xs">
                     ✉
                   </span>
-                  info@bastirampalace.com
+                  info@bastirampalace.in
                 </a>
               </li>
             </ul>

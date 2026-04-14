@@ -6,7 +6,7 @@ export const metadata = {
   openGraph: {
     title: "Corporate Events — Basti Ram Palace, Gurugram",
     description: "From boardroom to ballroom — corporate events done right in Manesar, NCR.",
-    url: "https://www.bastirampalace.com/events/corporate",
+    url: "https://www.bastirampalace.in/events/corporate",
   },
 };
 

@@ -110,7 +110,7 @@ export function enquiryConfirmationHtml({
       <p style="margin:0 0 6px;color:#6B5E4E;font-size:13px;">
         +91-9650211469 · +91-9810679550</p>
       <p style="margin:6px 0 0;color:#C9A84C;font-size:13px;">
-        info@bastirampalace.com</p>
+        info@bastirampalace.in</p>
     </td></tr></table>
 
   </td></tr>

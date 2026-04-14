@@ -6,7 +6,7 @@ export const metadata = {
   openGraph: {
     title: "Private Parties — Basti Ram Palace, Gurugram",
     description: "Celebrate your milestone in style at Basti Ram Palace, Manesar NCR.",
-    url: "https://www.bastirampalace.com/events/private-parties",
+    url: "https://www.bastirampalace.in/events/private-parties",
   },
 };
 

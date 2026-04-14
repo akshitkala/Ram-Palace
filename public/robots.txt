@@ -3,4 +3,4 @@ Allow: /
 Disallow: /brp-portal-login
 Disallow: /api
 
-Sitemap: https://www.bastirampalace.com/sitemap.xml
+Sitemap: https://www.bastirampalace.in/sitemap.xml

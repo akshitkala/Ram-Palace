@@ -6,7 +6,7 @@ export const metadata = {
   openGraph: {
     title: "Weddings — Basti Ram Palace, Gurugram",
     description: "Grand weddings and intimate receptions in Manesar, NCR.",
-    url: "https://www.bastirampalace.com/events/weddings",
+    url: "https://www.bastirampalace.in/events/weddings",
   },
 };
 

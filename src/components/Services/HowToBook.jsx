@@ -177,8 +177,8 @@ const HowToBook = () => {
         <div className="mt-24 text-center htb-heading">
           <p className="text-[#8B7A6A] text-sm font-body">
             Need immediate help? Contact us directly at{" "}
-            <Link href="mailto:info@bastirampalace.com" className="text-[#c9a96e] font-bold border-b border-[#c9a96e]/30 hover:border-[#c9a96e] transition-all">
-              info@bastirampalace.com
+            <Link href="mailto:info@bastirampalace.in" className="text-[#c9a96e] font-bold border-b border-[#c9a96e]/30 hover:border-[#c9a96e] transition-all">
+              info@bastirampalace.in
             </Link>
           </p>
         </div>
