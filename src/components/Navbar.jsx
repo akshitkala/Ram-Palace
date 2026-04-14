@@ -188,8 +188,8 @@ const Navbar = () => {
             </a>
           </div>
 
-          <Link href="/contact" className="w-full">
-            <button className="w-full text-lg text-white px-6 py-3 bg-[#C9A84C] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-[1.02] hover:shadow-lg">
+          <Link href="/contact" className="w-fit">
+            <button className="w-fit text-lg text-white px-8 py-3 bg-[#C9A84C] rounded-sm transition-all duration-300 hover:opacity-80 hover:scale-[1.02] hover:shadow-lg">
               Reserve Now
             </button>
           </Link>
