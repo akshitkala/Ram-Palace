@@ -63,7 +63,6 @@ export async function POST(req) {
     // BRP-FIX: B-2
     const missing = []
     if (!name?.trim()) missing.push('name')
-    if (!email?.trim()) missing.push('email')
     if (!phone?.trim()) missing.push('phone')
     if (!eventType?.trim()) missing.push('eventType')
 
@@ -74,12 +73,14 @@ export async function POST(req) {
       )
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: "Invalid email address." },
-        { status: 400 }
-      );
+    if (email && email.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return NextResponse.json(
+          { error: "Invalid email address." },
+          { status: 400 }
+        );
+      }
     }
 
     const phoneRegex = /^[6-9]\d{9}$/ // BRP-FIX: B-2
@@ -97,7 +98,7 @@ export async function POST(req) {
       subject: `New Enquiry from ${name} — ${eventType || 'Event'}`,
       html: enquiryNotificationHtml({
         name,
-        email,
+        email: email || 'Not provided',
         phone,
         message,
         eventType: eventType || 'Not specified',
@@ -114,21 +115,22 @@ export async function POST(req) {
       )
     }
 
-    // ── 2. Confirmation email to the user ──
-    const userEmailResult = await resend.emails.send({ // BRP-FIX: B-1
-      from:    `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
-      to:      [email],
-      subject: `We've received your enquiry — Basti Ram Palace`,
-      html: enquiryConfirmationHtml({
-        name,
-        eventType: eventType || 'Event',
-        eventDate
-      }),
-    });
+    // ── 2. Confirmation email to the user (Skip if no email provided) ──
+    if (email && email.trim()) {
+      const userEmailResult = await resend.emails.send({ // BRP-FIX: B-1
+        from:    `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
+        to:      [email],
+        subject: `We've received your enquiry — Basti Ram Palace`,
+        html: enquiryConfirmationHtml({
+          name,
+          eventType: eventType || 'Event',
+          eventDate
+        }),
+      });
 
-    if (userEmailResult.error) { // BRP-FIX: B-1
-      console.warn('[Enquiry] Resend user confirmation failed:', userEmailResult.error)
-      // We don't return 500 here because the owner already got the notification
+      if (userEmailResult.error) { // BRP-FIX: B-1
+        console.warn('[Enquiry] Resend user confirmation failed:', userEmailResult.error)
+      }
     }
 
     return NextResponse.json(

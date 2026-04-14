@@ -5,11 +5,8 @@ export default function HomeEnquiry() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    email: "",
     eventType: "",
-    guestCount: "",
     eventDate: "",
-    message: "",
   });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
@@ -19,13 +16,6 @@ export default function HomeEnquiry() {
     const newErrors = {};
     if (!form.name.trim()) newErrors.name = "Name is required";
     
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!form.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!emailRegex.test(form.email)) {
-      newErrors.email = "Invalid email address";
-    }
-
     const phoneRegex = /^[0-9\s\-\+\(\)]{10,15}$/;
     if (!form.phone.trim()) {
       newErrors.phone = "Phone is required";
@@ -75,9 +65,8 @@ export default function HomeEnquiry() {
 
       setStatus("success");
       setForm({
-        name: "", phone: "", email: "",
-        eventType: "", guestCount: "", eventDate: "",
-        message: "",
+        name: "", phone: "",
+        eventType: "", eventDate: "",
       });
 
     } catch (err) {
@@ -103,7 +92,7 @@ export default function HomeEnquiry() {
             textTransform: "uppercase",
             color:         "#C9A84C",
             marginBottom:  "24px",
-            fontBold:      500,
+            fontWeight:    500,
           }}>
             Quick Enquiry
           </p>
@@ -134,7 +123,7 @@ export default function HomeEnquiry() {
             marginBottom: "48px",
             maxWidth:     "380px",
           }}>
-            From grand weddings to intimate gatherings—share your vision with us and our dedicated planning team will bring it to life.
+            Leave your details and our team will get in touch with you shortly to help plan your perfect event.
           </p>
 
           <div style={{
@@ -255,7 +244,7 @@ export default function HomeEnquiry() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6">
                 {/* Name */}
                 <div className="flex flex-col gap-2">
                   <label htmlFor="name" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
@@ -289,22 +278,6 @@ export default function HomeEnquiry() {
                 </div>
               </div>
 
-              {/* Email */}
-              <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
-                  Email Address <span className="text-[#C9A84C]">*</span>
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="name@example.com"
-                  className={`w-full bg-transparent border ${errors.email ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors`}
-                />
-                {errors.email && <span className="text-[11px] text-red-500 font-medium tracking-wide mt-1">{errors.email}</span>}
-              </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Event Type */}
                 <div className="flex flex-col gap-2">
@@ -330,7 +303,7 @@ export default function HomeEnquiry() {
                 {/* Event Date */}
                 <div className="flex flex-col gap-2">
                   <label htmlFor="eventDate" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
-                    Event Date
+                    Event Date <span className="text-[9px] italic lowercase normal-case tracking-normal opacity-60">(optional)</span>
                   </label>
                   <input
                     id="eventDate"
@@ -340,41 +313,6 @@ export default function HomeEnquiry() {
                     className="w-full bg-transparent border border-[#E8E0D0] p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors"
                   />
                 </div>
-              </div>
-
-              {/* Guest Count */}
-              <div className="flex flex-col gap-2">
-                <label htmlFor="guestCount" className="text-[10px] tracking-[2px] uppercase text-[#6B5E4E]">
-                  Guest Count
-                </label>
-                <select
-                  id="guestCount"
-                  value={form.guestCount}
-                  onChange={handleChange}
-                  className="w-full bg-transparent border border-[#E8E0D0] p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors appearance-none"
-                >
-                  <option value="">Approx. Number of Guests</option>
-                  <option value="50-100">50 - 100</option>
-                  <option value="100-300">100 - 300</option>
-                  <option value="300-500">300 - 500</option>
-                  <option value="500-800">500 - 800</option>
-                  <option value="800+">800+</option>
-                </select>
-              </div>
-
-              {/* Message */}
-              <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-[10px] tracking-[2px] uppercase text-[#A99686]">
-                  Additional Requirements <span className="text-[10px] italic lowercase normal-case tracking-normal">(optional)</span>
-                </label>
-                <textarea
-                  id="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  placeholder="Share any specific details or questions you have..."
-                  rows={4}
-                  className="w-full bg-transparent border border-[#E8E0D0] p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors resize-none leading-relaxed"
-                />
               </div>
 
               {status === "error" && (

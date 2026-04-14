@@ -1,4 +1,5 @@
 
+// BRP-DEV: trigger reload
 import Hero from "@/components/Hero";
 import HeroAboutSection from "@/components/HeroAboutSection";
 import Carousel from "@/components/Carousel";
@@ -14,7 +15,7 @@ import HomeEnquiry from "@/components/HomeEnquiry";
 
 export const metadata = {
   title: "Basti Ram Palace — Luxury Banquet Hall in Manesar, Gurugram",
-  description: "Basti Ram Palace is the premier banquet hall in Manesar, Gurugram for weddings, corporate events & private celebrations. Experiece world-class hospitality and luxury.",
+  description: "Basti Ram Palace is the premier banquet hall in Manesar, Gurugram for weddings, corporate events & private celebrations. Experience world-class hospitality and luxury.",
 };
 
 export default function Home() {

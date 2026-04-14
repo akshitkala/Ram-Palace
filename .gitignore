@@ -7,11 +7,61 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Next.js
+.next/
+out/
+
+# Production
+build
 dist
 dist-ssr
-.next
-*.local
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Audit & Lint Reports
+*audit*.*
+*lint*.*
+!*.mjs
+!*.js
+!*.jsx
+!*.json
+# Keep configuration JSONs but ignore report JSONs
+gallery_lint.json
+scripts/image-audit.json
+scripts/seed-results.json
+
+# Prelaunch/Deployment Checks
+CODEBASE-AUDIT.md
+DEPLOYMENT-READY.md
+PRELAUNCH-AUDIT.md
+PRELAUNCH-CHECK.md
+
+# Build Artifacts
+build_*.txt
+build_log.txt
+
+# Dev Scripts & Tools
+download_*.ps1
+download_*.js
+scripts/check-count.mjs
+scripts/convert-images.mjs
+scripts/image-audit.mjs
+scripts/seed-cloudinary.mjs
+tmp/
+.orchids
 
 # Editor directories and files
 .vscode/*

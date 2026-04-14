@@ -326,18 +326,6 @@ const Footer = () => {
             <span className="text-[#C9A84C]/50 ml-1 font-semibold">GD Foods India</span>
           </div>
 
-          <div className="flex gap-6">
-            {["Privacy", "Terms"].map((item) => (
-              <Link
-                key={item}
-                href="/contact" // BRP-FIX: E-1
-                className="font-body text-white/20 text-xs tracking-wide
-                           hover:text-white/50 transition-colors duration-300 cursor-pointer"
-              >
-                {item}
-              </Link>
-            ))}
-          </div>
         </div>
 
       </div>
