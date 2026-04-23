@@ -11,6 +11,7 @@ import { GoldThread } from "@/components/events/EventAnimations";
 import { EventNavTabs } from "@/components/events/EventNavTabs";
 import Footer from "@/components/Footer";
 import AntiGravitySection from "@/components/AntiGravitySection";
+import GalleryLightbox from "@/components/Gallery/GalleryLightbox";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -45,7 +46,7 @@ export default function WeddingsClient() {
     badge: "Weddings & Receptions",
     titleLine1: "Your wedding deserves",
     titleLine2: "a hall this grand.",
-    sub: "A trusted name for celebrations across Gurugram and Delhi NCR.",
+    sub: "A trusted name for celebrations across Gurugram.",
   };
 
   const intro = {
@@ -123,6 +124,7 @@ export default function WeddingsClient() {
   const ctaBtnsRef = useRef(null);
 
   const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
   const galleryItemRefs = useRef([]);
 
   useEffect(() => {
@@ -131,6 +133,33 @@ export default function WeddingsClient() {
       .then((data) => setImages(data.images || []))
       .catch((err) => console.error("Failed to fetch gallery images:", err));
   }, [galleryTag]);
+
+  const handleNext = (e) => {
+    if (e) e.stopPropagation();
+    if (!selectedImage || images.length === 0) return;
+    const currentIndex = images.findIndex((img) => img.public_id === selectedImage.public_id);
+    const nextIndex = (currentIndex + 1) % images.length;
+    setSelectedImage(images[nextIndex]);
+  };
+
+  const handlePrev = (e) => {
+    if (e) e.stopPropagation();
+    if (!selectedImage || images.length === 0) return;
+    const currentIndex = images.findIndex((img) => img.public_id === selectedImage.public_id);
+    const prevIndex = (currentIndex - 1 + images.length) % images.length;
+    setSelectedImage(images[prevIndex]);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!selectedImage) return;
+      if (e.key === "Escape") setSelectedImage(null);
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedImage, images]);
 
   useGSAP(() => {
     if (badgeRef.current) gsap.fromTo(badgeRef.current, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.2, ease: "power3.out" });
@@ -189,6 +218,7 @@ export default function WeddingsClient() {
             fill
             sizes="100vw"
             priority
+            fetchPriority="high"
             src="/images/hero/WeddingHero.webp"
             alt={GALLERY_ALTS[eventType]}
             className="object-cover"
@@ -250,7 +280,12 @@ export default function WeddingsClient() {
       <section className="event-gallery-wrap" id="gallery">
         <div className="gallery-masonry">
           {images.map((img, i) => (
-            <div key={img.public_id} className="gm-item" ref={(el) => (galleryItemRefs.current[i] = el)}>
+            <div 
+              key={img.public_id} 
+              className="gm-item cursor-pointer" 
+              ref={(el) => (galleryItemRefs.current[i] = el)}
+              onClick={() => setSelectedImage(img)}
+            >
               <GalleryImage src={img.secure_url} eventType={eventType} />
             </div>
           ))}
@@ -301,6 +336,13 @@ export default function WeddingsClient() {
       </section>
 
       <AntiGravitySection><Footer /></AntiGravitySection>
+
+      <GalleryLightbox 
+        selectedImage={selectedImage}
+        closeLightbox={() => setSelectedImage(null)}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+      />
     </div>
   );
 }

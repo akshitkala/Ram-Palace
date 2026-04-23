@@ -11,6 +11,7 @@ export default function GalleryHero({ heroRef }) {
         alt="Basti Ram Palace Gallery"
         fill
         priority
+        fetchPriority="high"
         quality={95}
         sizes="(max-width: 768px) 150vw, 100vw"
         className="object-cover object-center z-0"

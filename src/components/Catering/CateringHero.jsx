@@ -13,6 +13,7 @@ export default function CateringHero({ data }) {
           alt="Luxury catering setup"
           fill
           priority
+          fetchPriority="high"
           quality={95}
           sizes="(max-width: 768px) 150vw, 100vw"
           className="w-full h-full object-cover"

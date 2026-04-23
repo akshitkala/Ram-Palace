@@ -111,10 +111,10 @@ const Hero = () => {
         />
 
         {/* ── HERO CONTENT ── */}
-        <div ref={contentRef} className="relative z-10 w-full h-full flex flex-col justify-center items-center md:items-start px-6 md:px-0">
+        <div ref={contentRef} className="relative z-10 w-full h-full">
 
           {/* ── LEFT CONTENT BLOCK ── */}
-          <div className="md:absolute md:bottom-44 md:left-16 lg:left-24 md:w-[58%]">
+          <div className="absolute bottom-16 left-6 right-6 md:bottom-44 md:left-16 lg:left-24 md:w-[58%] md:right-auto z-20">
 
             {/* Pre-heading label */}
            
@@ -128,18 +128,33 @@ const Hero = () => {
               </em>
             </h1>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center md:justify-start items-stretch md:items-center fade-in opacity-0">
-              <Link href="/contact" className="w-full md:w-auto">
-                <button className="w-full md:w-auto bg-[#C9A84C] text-[#1C1C1E] px-8 py-4 text-[10px] md:text-xs tracking-[2.5px] uppercase font-semibold rounded-lg transition-all duration-300 hover:bg-[#b8963e] hover:shadow-[0_8px_28px_rgba(201,168,76,0.4)] active:scale-100">
+            {/* CTA Buttons & Mobile Badge Stack */}
+            <div className="flex flex-row flex-wrap md:flex-nowrap items-center gap-2 md:gap-4 justify-start fade-in opacity-0">
+              <Link href="/contact" className="w-auto">
+                <button className="w-auto bg-[#C9A84C] text-[#1C1C1E] px-4 md:px-8 py-[10px] md:py-4 text-[9px] md:text-xs tracking-[1px] md:tracking-[2.5px] uppercase font-semibold rounded-lg transition-all duration-300 hover:bg-[#b8963e] hover:shadow-[0_8px_28px_rgba(201,168,76,0.4)] active:scale-100 whitespace-nowrap">
                   Reserve Your Date
                 </button>
               </Link>
-              <Link href="/gallery" className="w-full md:w-auto">
-                <button className="w-full md:w-auto bg-transparent text-white border-2 border-white/60 px-8 py-4 text-[10px] md:text-xs tracking-[2.5px] uppercase font-semibold rounded-lg transition-all duration-300 hover:bg-white/10 hover:border-white/90 active:bg-white/5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}>
+              <Link href="/gallery" className="w-auto">
+                <button className="w-auto bg-transparent text-white border-2 border-white/60 px-4 md:px-8 py-[8px] md:py-[14px] text-[9px] md:text-xs tracking-[1px] md:tracking-[2.5px] uppercase font-semibold rounded-lg transition-all duration-300 hover:bg-white/10 hover:border-white/90 active:bg-white/5 whitespace-nowrap" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}>
                   Explore Venue
                 </button>
               </Link>
+
+              {/* Mobile Badge */}
+              <a 
+                href="https://www.google.com/maps/place/Basti+Ram+Palace/@28.3919789,76.9144771,17z"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="md:hidden flex items-center bg-[#0A0805]/95 backdrop-blur-xl border border-[#C9A84C]/40 px-3 py-[9px] rounded-full shadow-2xl hover:border-[#C9A84C] transition-all"
+              >
+                <div className="flex items-center gap-1">
+                  <span className="text-[10px] font-bold text-white tracking-tight">4.8</span>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="#C9A84C">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                </div>
+              </a>
             </div>
           </div>
 
@@ -178,24 +193,24 @@ const Hero = () => {
           {/* DIVIDER LINE above trust signals */}
           <div className="hidden lg:block absolute bottom-[76px] left-1/2 -translate-x-1/2 w-px h-8 bg-white/20 fade-in opacity-0" />
 
-          {/* ── GOOGLE RATING BADGE — mini version (shrinks on mobile) ── */}
-          <div className="absolute top-[42%] md:top-1/2 -translate-y-1/2 right-4 md:right-8 z-30 fade-in opacity-0">
+          {/* ── GOOGLE RATING BADGE — desktop only ── */}
+          <div className="hidden md:block absolute top-1/2 -translate-y-1/2 right-8 z-30 fade-in opacity-0">
             <a 
               href="https://www.google.com/maps/place/Basti+Ram+Palace/@28.3919789,76.9144771,17z"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center bg-[#0A0805]/95 backdrop-blur-xl border border-[#C9A84C]/40 px-3 py-2 md:px-3.5 md:py-2 rounded-full shadow-2xl hover:border-[#C9A84C] hover:bg-black transition-all duration-300"
+              className="group flex items-center bg-[#0A0805]/95 backdrop-blur-xl border border-[#C9A84C]/40 px-3.5 py-2 rounded-full shadow-2xl hover:border-[#C9A84C] hover:bg-black transition-all duration-300"
             >
               <div className="flex items-center gap-1">
-                <span className="text-xs md:text-sm font-bold text-white tracking-tight">4.8</span>
+                <span className="text-sm font-bold text-white tracking-tight">4.8</span>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="#C9A84C">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                 </svg>
               </div>
               
-              <div className="hidden md:block w-px h-3 bg-white/20 mx-2.5" />
+              <div className="w-px h-3 bg-white/20 mx-2.5" />
               
-              <div className="hidden md:flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white/70">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" strokeLinecap="round" strokeLinejoin="round" />
                   <circle cx="12" cy="9" r="2" strokeLinecap="round" strokeLinejoin="round" />

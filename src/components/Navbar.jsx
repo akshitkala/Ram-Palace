@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
-import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -134,10 +133,12 @@ const Navbar = () => {
 
           <button
             onClick={() => setOpen(!open)}
-            className={`lg:hidden text-3xl z-[10002] transition-colors duration-300 ${open ? 'text-black' : 'text-white'}`}
+            className={`relative lg:hidden w-8 h-8 flex items-center justify-center z-[10002] ${open ? 'text-black' : 'text-white'}`}
             aria-label="Toggle menu"
           >
-            {open ? <FiX /> : <FiMenu />}
+            <span className={`absolute w-7 h-[2px] bg-current transform transition-all duration-300 ease-in-out ${open ? 'rotate-45' : '-translate-y-2.5'}`} />
+            <span className={`absolute w-7 h-[2px] bg-current transform transition-all duration-300 ease-in-out ${open ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'}`} />
+            <span className={`absolute w-7 h-[2px] bg-current transform transition-all duration-300 ease-in-out ${open ? '-rotate-45' : 'translate-y-2.5'}`} />
           </button>
         </div>
       </nav>
@@ -212,10 +213,7 @@ const Navbar = () => {
         {/* Footer */}
         <div className="px-10 mt-8 mb-4 flex flex-col gap-5">
           <div className="flex gap-5">
-            <a href="https://facebook.com" aria-label="Follow Basti Ram Palace on Facebook" target="_blank" rel="noopener noreferrer">
-              <FaFacebookF className="text-2xl hover:text-[#C9A84C] transition-colors" />
-            </a>
-            <a href="https://instagram.com" aria-label="Follow Basti Ram Palace on Instagram" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/basti.ram.palace/" aria-label="Follow Basti Ram Palace on Instagram" target="_blank" rel="noopener noreferrer">
               <FaInstagram className="text-2xl hover:text-[#C9A84C] transition-colors" />
             </a>
           </div>

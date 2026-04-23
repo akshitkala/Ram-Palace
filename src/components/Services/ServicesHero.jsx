@@ -60,6 +60,7 @@ const ServicesHero = () => {
           alt="Basti Ram Palace Services"
           fill
           priority
+          fetchPriority="high"
           quality={95}
           sizes="(max-width: 768px) 150vw, 100vw"
           className="object-cover parallax-bg md:scale-125 origin-top"

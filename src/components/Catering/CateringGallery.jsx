@@ -3,10 +3,39 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ShimmerLine } from "@/components/Ornaments";
+import GalleryLightbox from "@/components/Gallery/GalleryLightbox";
 
 export default function CateringGallery() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleNext = (e) => {
+    if (e) e.stopPropagation();
+    if (!selectedImage || images.length === 0) return;
+    const currentIndex = images.findIndex((img) => img.public_id === selectedImage.public_id);
+    const nextIndex = (currentIndex + 1) % images.length;
+    setSelectedImage(images[nextIndex]);
+  };
+
+  const handlePrev = (e) => {
+    if (e) e.stopPropagation();
+    if (!selectedImage || images.length === 0) return;
+    const currentIndex = images.findIndex((img) => img.public_id === selectedImage.public_id);
+    const prevIndex = (currentIndex - 1 + images.length) % images.length;
+    setSelectedImage(images[prevIndex]);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!selectedImage) return;
+      if (e.key === "Escape") setSelectedImage(null);
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedImage, images]);
 
   useEffect(() => {
     async function fetchCatering() {
@@ -53,6 +82,7 @@ export default function CateringGallery() {
                 key={img.public_id}
                 className="gallery-item break-inside-avoid relative group
                            rounded-xl overflow-hidden shadow-sm cursor-pointer"
+                onClick={() => setSelectedImage({ secure_url: img.url, ...img })}
               >
                 <Image
                   src={img.url}
@@ -79,6 +109,13 @@ export default function CateringGallery() {
           </div>
         )}
       </div>
+
+      <GalleryLightbox 
+        selectedImage={selectedImage}
+        closeLightbox={() => setSelectedImage(null)}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+      />
     </section>
   );
 }

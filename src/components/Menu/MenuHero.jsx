@@ -12,6 +12,7 @@ export default function MenuHero({ totalItems, menuCategories, scrollTo }) {
           alt="The Menu — GD Foods India"
           fill
           priority
+          fetchPriority="high"
           quality={95}
           sizes="(max-width: 768px) 150vw, 100vw"
           className="w-full h-full object-cover animate-slow-zoom"
