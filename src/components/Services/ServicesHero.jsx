@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,37 +13,40 @@ const ServicesHero = () => {
   const containerRef = useRef(null);
   const contentRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
       // Cinematic entrance for hero content
-      gsap.fromTo(
-        ".hero-fade-up",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          stagger: 0.2,
-          ease: "expo.out",
-          delay: 0.2,
-        }
-      );
+      if (document.querySelectorAll(".hero-fade-up").length > 0) {
+        gsap.fromTo(
+          ".hero-fade-up",
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "expo.out",
+            delay: 0.2,
+          }
+        );
+      }
 
       // Parallax effect on background
-      gsap.to(".parallax-bg", {
-        yPercent: 30,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
+      if (document.querySelector(".parallax-bg")) {
+        gsap.to(".parallax-bg", {
+          yPercent: 30,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
+    },
+    { scope: containerRef, dependencies: [] }
+  );
 
   return (
     <section 
@@ -52,29 +56,30 @@ const ServicesHero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero/ServicesHero.png"
+          src="/images/hero/service.webp"
           alt="Basti Ram Palace Services"
           fill
           priority
-          quality={75}
-          className="object-cover parallax-bg scale-125 origin-top"
+          quality={95}
+          sizes="(max-width: 768px) 150vw, 100vw"
+          className="object-cover parallax-bg md:scale-125 origin-top"
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div ref={contentRef}>
           <div className="overflow-hidden mb-4">
-            <span className="hero-fade-up opacity-0 text-[#c9a96e] text-xs tracking-[0.2em] uppercase block">
+            <span className="hero-fade-up opacity-0 text-[#c9a96e] text-xs tracking-[0.2em] uppercase block drop-shadow-md font-semibold">
               BASTI RAM PALACE · SERVICES
             </span>
           </div>
-          <h1 className="hero-fade-up opacity-0 font-heading text-5xl md:text-7xl text-[#f5f0e8] leading-tight mb-6">
+          <h1 className="hero-fade-up opacity-0 font-heading text-5xl md:text-7xl text-[#f5f0e8] leading-tight mb-6 drop-shadow-xl">
             A Complete Celebration,<br />
             Crafted for <em className="italic text-[#c9a96e] not-italic">You</em>
           </h1>
-          <p className="hero-fade-up opacity-0 font-body text-[#a09880] text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="hero-fade-up opacity-0 font-body text-[#e2dfd5] text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-md">
             From the hall to the food to the final farewell —
             every element of your event, managed under one roof.
           </p>
@@ -82,13 +87,13 @@ const ServicesHero = () => {
           <div className="hero-fade-up opacity-0 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link 
               href="/contact"
-              className="w-full sm:w-auto border border-[#c9a96e] text-[#c9a96e] px-10 py-4 hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-all duration-300 font-medium"
+              className="w-full sm:w-auto bg-[#c9a96e] border border-[#c9a96e] text-[#0a0a0a] px-10 py-4 hover:bg-transparent hover:text-[#c9a96e] transition-all duration-300 font-bold tracking-wide shadow-xl shadow-[#c9a96e]/10"
             >
               Plan Your Event
             </Link>
             <Link 
               href="/menu"
-              className="w-full sm:w-auto border border-transparent text-[#f5f0e8] hover:text-[#c9a96e] px-10 py-4 transition-all duration-300 font-medium"
+              className="w-full sm:w-auto border border-[#f5f0e8]/30 text-[#f5f0e8] hover:bg-[#f5f0e8]/10 px-10 py-4 transition-all duration-300 font-medium backdrop-blur-sm"
             >
               View Menu
             </Link>

@@ -2,6 +2,7 @@
 
 import { IconArrowLeft, IconArrowRight, IconStarFilled, IconStar } from "@tabler/icons-react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { useEffect, useState, useCallback, useRef } from "react";
 
 const AUTOPLAY_INTERVAL = 2500;
@@ -31,19 +32,18 @@ const Testimonial = ({ testimonials, autoplay = true, className = "" }) => {
     return () => clearInterval(t);
   }, [autoplay, paused, handleNext]);
 
-  useEffect(() => {
-    if (!contentRef.current) return;
-    
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
+      if (!contentRef.current) return;
+      
       gsap.fromTo(
         contentRef.current,
         { opacity: 0, y: direction > 0 ? 15 : -15 },
         { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
       );
-    }, contentRef);
-
-    return () => ctx.revert();
-  }, [active, direction]);
+    },
+    { dependencies: [active, direction], scope: contentRef }
+  );
 
   const current = testimonials[active];
 

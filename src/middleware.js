@@ -1,4 +1,3 @@
-// BRP-FIX: A-1
 import { jwtVerify } from 'jose'
 import { NextResponse } from 'next/server'
 

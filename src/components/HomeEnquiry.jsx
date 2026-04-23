@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function HomeEnquiry() {
   const [form, setForm] = useState({
     name: "",
-    phone: "",
+    phone: "+91 ",
     eventType: "",
     eventDate: "",
   });
@@ -16,11 +16,9 @@ export default function HomeEnquiry() {
     const newErrors = {};
     if (!form.name.trim()) newErrors.name = "Name is required";
     
-    const phoneRegex = /^[0-9\s\-\+\(\)]{10,15}$/;
-    if (!form.phone.trim()) {
-      newErrors.phone = "Phone is required";
-    } else if (!phoneRegex.test(form.phone.replace(/\s/g, ""))) {
-      newErrors.phone = "Invalid phone number";
+    const phoneDigits = form.phone.slice(4).replace(/\s/g, "");
+    if (phoneDigits.length !== 10) {
+      newErrors.phone = "10-digit mobile number required";
     }
 
     if (!form.eventType) newErrors.eventType = "Please select an event type";
@@ -31,11 +29,41 @@ export default function HomeEnquiry() {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setForm(prev => ({ ...prev, [id]: value }));
-    // Clear error when user starts typing
-    if (errors[id]) {
-      setErrors(prev => ({ ...prev, [id]: null }));
+    
+    if (id === "phone") {
+      if (!value.startsWith("+91 ")) return;
+      const digits = value.slice(4).replace(/\D/g, "");
+      if (digits.length <= 10) {
+        setForm(prev => ({ ...prev, phone: "+91 " + digits }));
+      }
+      return;
     }
+
+    setForm(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleBlur = (e) => {
+    const { id, value } = e.target;
+    const newErrors = { ...errors };
+
+    if (id === "name" && !value.trim()) {
+      newErrors.name = "Name is required";
+    } else if (id === "phone") {
+      const phoneRegex = /^[0-9\s\-\+\(\)]{10,15}$/;
+      if (!value.trim()) {
+        newErrors.phone = "Phone is required";
+      } else if (!phoneRegex.test(value.replace(/\s/g, ""))) {
+        newErrors.phone = "Invalid phone number";
+      } else {
+        delete newErrors.phone;
+      }
+    } else if (id === "eventType" && !value) {
+      newErrors.eventType = "Please select an event type";
+    } else {
+      delete newErrors[id];
+    }
+
+    setErrors(newErrors);
   };
 
   const handleSubmit = async (e) => {
@@ -255,6 +283,7 @@ export default function HomeEnquiry() {
                     type="text"
                     value={form.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="E.g. Rohan Sharma"
                     className={`w-full bg-transparent border ${errors.name ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors`}
                   />
@@ -271,9 +300,10 @@ export default function HomeEnquiry() {
                     type="tel"
                     value={form.phone}
                     onChange={handleChange}
-                    placeholder="+91 98765 43210"
+                    onBlur={handleBlur}
                     className={`w-full bg-transparent border ${errors.phone ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors`}
                   />
+                  <p className="text-[9px] text-[#A99686] tracking-wider uppercase mt-1">Guidance: Enter 10 digits after +91</p>
                   {errors.phone && <span className="text-[11px] text-red-500 font-medium tracking-wide mt-1">{errors.phone}</span>}
                 </div>
               </div>
@@ -288,7 +318,8 @@ export default function HomeEnquiry() {
                     id="eventType"
                     value={form.eventType}
                     onChange={handleChange}
-                    className={`w-full bg-transparent border ${errors.eventType ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors appearance-none`}
+                    onBlur={handleBlur}
+                    className={`w-full bg-transparent border ${errors.eventType ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors`}
                   >
                     <option value="">Select Event Type</option>
                     <option value="Wedding">Wedding</option>
@@ -315,7 +346,7 @@ export default function HomeEnquiry() {
                 </div>
               </div>
 
-              {status === "error" && (
+              {status === "error" && !Object.keys(errors).length && (
                 <p className="text-xs text-red-500 text-center font-medium bg-red-50 p-3 border border-red-100">
                   An error occurred. Please try again or call us at +91 88001 90003.
                 </p>

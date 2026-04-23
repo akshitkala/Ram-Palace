@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -40,77 +41,83 @@ const STEPS = [
 const HowToBook = () => {
   const containerRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
       // Heading Reveal
-      gsap.fromTo(
-        ".htb-heading > *",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 80%",
-            once: true,
+      if (document.querySelectorAll(".htb-heading > *").length > 0) {
+        gsap.fromTo(
+          ".htb-heading > *",
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 80%",
+              once: true,
+            }
           }
-        }
-      );
+        );
+      }
 
       // Fade up one by one with scaling
-      gsap.fromTo(
-        ".step-item",
-        { opacity: 0, y: 50, scale: 0.95 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 1,
-          stagger: 0.2,
-          ease: "back.out(1.2)",
-          scrollTrigger: {
-            trigger: ".step-grid",
-            start: "top 80%",
-            once: true,
+      if (document.querySelectorAll(".step-item").length > 0 && document.querySelector(".step-grid")) {
+        gsap.fromTo(
+          ".step-item",
+          { opacity: 0, y: 50, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1,
+            stagger: 0.2,
+            ease: "back.out(1.2)",
+            scrollTrigger: {
+              trigger: ".step-grid",
+              start: "top 80%",
+              once: true,
+            }
           }
-        }
-      );
+        );
+      }
 
       // Parallax connections
-      gsap.fromTo(
-        ".dashed-line",
-        { scaleX: 0, transformOrigin: "left center" },
-        {
-          scaleX: 1,
-          duration: 1.5,
-          ease: "power3.inOut",
-          scrollTrigger: {
-            trigger: ".step-grid",
-            start: "top 75%",
-            once: true,
+      if (document.querySelector(".dashed-line") && document.querySelector(".step-grid")) {
+        gsap.fromTo(
+          ".dashed-line",
+          { scaleX: 0, transformOrigin: "left center" },
+          {
+            scaleX: 1,
+            duration: 1.5,
+            ease: "power3.inOut",
+            scrollTrigger: {
+              trigger: ".step-grid",
+              start: "top 75%",
+              once: true,
+            }
           }
-        }
-      );
+        );
+      }
 
       // Parallax scroll effect for steps
-      gsap.to(".step-grid", {
-        y: "-5%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        }
-      });
-
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
+      if (document.querySelector(".step-grid")) {
+        gsap.to(".step-grid", {
+          y: "-5%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          }
+        });
+      }
+    },
+    { scope: containerRef, dependencies: [] }
+  );
 
   return (
     <section 

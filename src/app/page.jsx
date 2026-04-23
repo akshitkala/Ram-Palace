@@ -11,12 +11,8 @@ import AntiGravitySection from "@/components/AntiGravitySection";
 import MiniGallery from "@/components/MiniGallery";
 import CateringFeature from "@/components/CateringFeature";
 import HomeEnquiry from "@/components/HomeEnquiry";
+import FAQSection from "@/components/FAQSection";
 
-
-export const metadata = {
-  title: "Basti Ram Palace — Luxury Banquet Hall in Manesar, Gurugram",
-  description: "Basti Ram Palace is the premier banquet hall in Manesar, Gurugram for weddings, corporate events & private celebrations. Experience world-class hospitality and luxury.",
-};
 
 export default function Home() {
   return (
@@ -35,6 +31,9 @@ export default function Home() {
       </AntiGravitySection>
       <AntiGravitySection>
         <Testimonial testimonials={testimonials} autoplay={true} />
+      </AntiGravitySection>
+      <AntiGravitySection>
+        <FAQSection />
       </AntiGravitySection>
       <HomeEnquiry />
       <AntiGravitySection>

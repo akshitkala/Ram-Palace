@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useImageCache } from "@/hooks/useImageCache";
+import { cloudinaryUrl } from "@/lib/cloudinary-client";
 
 const Carousel = () => {
   const [images, setImages] = useState([]);
@@ -75,10 +76,11 @@ const Carousel = () => {
         shouldRender(index) ? (
           <Image
             key={index}
-            src={img}
+            src={cloudinaryUrl(img, { width: 1400 })}
             alt={`Basti Ram Palace — Luxury Banquet Hall and Venue Presentation — Moment ${index + 1}`}
             fill
             priority={index === current}
+            fetchPriority={index === current ? "high" : "low"}
             quality={85}
             sizes="100vw"
             loading={index === current ? "eager" : "lazy"}

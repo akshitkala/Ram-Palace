@@ -154,7 +154,7 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
             sizes="100vw"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/6 via-black/4 to-black/7" />
         </div>
 
         {/* Content */}

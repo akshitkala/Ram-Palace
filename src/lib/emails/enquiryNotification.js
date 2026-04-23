@@ -1,4 +1,3 @@
-// BRP-FIX: A-5
 function esc(str) {
   return String(str ?? '')
     .replace(/&/g, '&amp;')
@@ -60,19 +59,19 @@ export function enquiryNotificationHtml({
     <table width="100%" cellpadding="0" cellspacing="0"
       style="border:1px solid #E8E0D0;">
       ${[
-        ['Full Name', esc(name)], // BRP-FIX: A-5
+        ['Full Name', esc(name)],
         [
           'Email',
           `<a href="mailto:${esc(email)}" 
-          style="color:#C9A84C;">${esc(email)}</a>`, // BRP-FIX: A-5
+          style="color:#C9A84C;">${esc(email)}</a>`,
         ],
         [
           'Phone',
           `<a href="tel:${esc(phone)}" 
-          style="color:#C9A84C;">${esc(phone)}</a>`, // BRP-FIX: A-5
+          style="color:#C9A84C;">${esc(phone)}</a>`,
         ],
-        ['Event Type', esc(eventType)], // BRP-FIX: A-5
-        ['Guest Count', esc(guestCount) || 'Not specified'], // BRP-FIX: A-5
+        ['Event Type', esc(eventType)],
+        ['Guest Count', esc(guestCount) || 'Not specified'],
         [
           'Event Date',
           eventDate
@@ -106,7 +105,7 @@ export function enquiryNotificationHtml({
           vertical-align:top;width:35%;">Message</td>
         <td style="padding:12px 20px;color:#1C1C1E;
           font-size:14px;line-height:1.7;">
-          ${esc(message) || 'No additional message.'}</td> // BRP-FIX: A-5
+          ${esc(message) || 'No additional message.'}</td>
       </tr>
     </table>
 
@@ -120,7 +119,7 @@ export function enquiryNotificationHtml({
         letter-spacing:2px;text-transform:uppercase;
         padding:14px 32px;text-decoration:none;">
         Reply to ${esc(name)}
-      </a> // BRP-FIX: A-5
+      </a>
     </td></tr></table>
 
   </td></tr>

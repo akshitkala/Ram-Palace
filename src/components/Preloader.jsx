@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const LEFT_TEXT      = "BASTI RAM ";
 const RIGHT_TEXT     = "PALACE";
@@ -26,99 +27,114 @@ export default function Preloader({ onExiting, onComplete }) {
   const containerRef  = useRef(null);
   const panelLeftRef  = useRef(null);
   const panelRightRef = useRef(null);
+  const [isSkipped, setIsSkipped] = useState(false);
   const charsRef      = useRef([]);
 
-  useEffect(() => {
-    const allChars  = charsRef.current.filter(Boolean);
-    const container = containerRef.current;
-
-    const flags = {
-      minTime:    false,
-      windowLoad: false,
-      goldDone:   false,
-    };
-
-    let exitFired = false;
-
-    const safetyTimeout = setTimeout(() => {
-      if (!exitFired) {
-        console.warn("Preloader: Safety timeout reached. Forcing exit.");
-        Object.keys(flags).forEach(k => { flags[k] = true; });
-        tryExit();
+  useGSAP(
+    () => {
+      if (typeof window !== "undefined" && sessionStorage.getItem("brp_preloader_seen")) {
+        setIsSkipped(true);
+        if (onExiting) onExiting();
+        if (onComplete) onComplete();
+        return;
       }
-    }, SAFETY_MS);
 
-    function tryExit() {
-      if (exitFired) return;
-      const allReady = Object.values(flags).every(Boolean);
-      if (!allReady) return;
-      exitFired = true;
-      doExit();
-    }
+      const allChars  = charsRef.current.filter(Boolean);
+      const container = containerRef.current;
+      if (!container) return;
 
-    function doExit() {
-      clearTimeout(safetyTimeout);
+      const flags = {
+        minTime:    false,
+        windowLoad: false,
+        goldDone:   false,
+      };
 
-      // Fire onExiting BEFORE animation starts.
-      // RootLayoutClient sets page to opacity:1
-      // so the hero is painted and visible the
-      // instant the doors start to open.
-      if (onExiting) onExiting();
+      let exitFired = false;
 
-      gsap.timeline({
-        defaults: {
-          duration: 1.1,
-          ease:     "power4.inOut",
-        },
-        onComplete: () => {
-          container.style.display = "none";
-          if (onComplete) onComplete();
-        },
-      })
-      .to(panelLeftRef.current,  { xPercent: -100 })
-      .to(panelRightRef.current, { xPercent:  100 }, "<");
-    }
+      const safetyTimeout = setTimeout(() => {
+        if (!exitFired) {
+          console.warn("Preloader: Safety timeout reached. Forcing exit.");
+          Object.keys(flags).forEach(k => { flags[k] = true; });
+          tryExit();
+        }
+      }, SAFETY_MS);
 
-    // FLAG 1 — Minimum time
-    setTimeout(() => {
-      flags.minTime = true;
-      tryExit();
-    }, MIN_MS);
+      function tryExit() {
+        if (exitFired) return;
+        const allReady = Object.values(flags).every(Boolean);
+        if (!allReady) return;
+        exitFired = true;
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("brp_preloader_seen", "true");
+        }
+        doExit();
+      }
 
-    // FLAG 3 — Minimal window ready check
-    if (document.readyState === "complete") {
-      flags.windowLoad = true;
-      tryExit(); // BRP-FIX: P-1 (Trigger exit immediately if already complete)
-    } else {
-      window.addEventListener("load", () => {
+      function doExit() {
+        clearTimeout(safetyTimeout);
+
+        // Fire onExiting BEFORE animation starts.
+        // RootLayoutClient sets page to opacity:1
+        // so the hero is painted and visible the
+        // instant the doors start to open.
+        if (onExiting) onExiting();
+
+        gsap.timeline({
+          defaults: {
+            duration: 0.72,
+            ease:     "power4.inOut",
+          },
+          onComplete: () => {
+            if (container) container.style.display = "none";
+            if (onComplete) onComplete();
+          },
+        })
+        .to(panelLeftRef.current,  { xPercent: -100 })
+        .to(panelRightRef.current, { xPercent:  100 }, "<");
+      }
+
+      // FLAG 1 — Minimum time
+      setTimeout(() => {
+        flags.minTime = true;
+        tryExit();
+      }, MIN_MS);
+
+      // FLAG 3 — Minimal window ready check
+      if (document.readyState === "complete") {
         flags.windowLoad = true;
         tryExit();
-      }, { once: true });
-    }
+      } else {
+        window.addEventListener("load", () => {
+          flags.windowLoad = true;
+          tryExit();
+        }, { once: true });
+      }
 
-    // GOLD SWEEP
-    gsap.set(container, { opacity: 1 });
-    gsap.set(allChars,  { color: "#F5F1EC" });
+      // GOLD SWEEP
+      gsap.set(container, { opacity: 1 });
+      gsap.set(allChars,  { color: "#F5F1EC" });
 
-    const goldTl = gsap.timeline({ delay: 0.4 });
-    goldTl.to(allChars, {
-      color:    "#C9A84C",
-      duration: 0.25,
-      stagger:  0.05,
-      ease:     "none",
-    });
+      const goldTl = gsap.timeline({ delay: 0.25 });
+      goldTl.to(allChars, {
+        color:    "#C9A84C",
+        duration: 0.2,
+        stagger:  0.035,
+        ease:     "none",
+      });
 
-    // FLAG 5 — Gold done
-    goldTl.call(() => {
-      flags.goldDone = true;
-      tryExit();
-    });
+      // FLAG 5 — Gold done
+      goldTl.call(() => {
+        flags.goldDone = true;
+        tryExit();
+      });
 
-    return () => {
-      goldTl.kill();
-      clearTimeout(safetyTimeout);
-    };
-  }, [onExiting, onComplete]);
+      return () => {
+        goldTl.kill();
+        clearTimeout(safetyTimeout);
+      };
+    },
+    { scope: containerRef, dependencies: [onExiting, onComplete] }
+  );
 
   const renderChars = (text, offset) =>
     text.split("").map((char, i) => {
@@ -133,6 +149,8 @@ export default function Preloader({ onExiting, onComplete }) {
         </span>
       );
     });
+
+  if (isSkipped) return null;
 
   return (
     <div

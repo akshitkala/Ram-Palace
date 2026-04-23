@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef, useLayoutEffect, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import Image from "next/image";
 import { useImageCache } from "@/hooks/useImageCache";
+import { cloudinaryUrl } from "@/lib/cloudinary-client";
 
 const MiniGallery = () => {
   const [row1Images, setRow1Images] = useState([]);
@@ -36,7 +38,6 @@ const MiniGallery = () => {
       const r1 = formatted.slice(0, midPoint);
       const r2 = formatted.slice(midPoint);
 
-      // BRP-FIX: Ensure rows are wide enough to prevent whitespace on large screens
       const fillToMinimum = (arr, min = 12) => {
         if (arr.length === 0) return [];
         let result = [...arr];
@@ -55,32 +56,48 @@ const MiniGallery = () => {
     getGallery();
   }, [fetchWithCache]);
 
-  useLayoutEffect(() => {
-    if (row1Images.length === 0 || row2Images.length === 0) return;
+  useGSAP(
+    () => {
+      if (row1Images.length === 0 || row2Images.length === 0) return;
 
-    let ctx = gsap.context(() => {
-      // Row 1 moves Left
-      gsap.to(track1Ref.current, {
-        xPercent: -50,
-        ease: "none",
-        duration: window.innerWidth <= 768 ? 30 : 40,
-        repeat: -1,
-      });
-
-      // Row 2 moves Right
-      gsap.fromTo(track2Ref.current, 
-        { xPercent: -50 },
-        {
-          xPercent: 0,
-          ease: "none",
-          duration: window.innerWidth <= 768 ? 30 : 40,
-          repeat: -1,
+      const scrollHandler = () => {
+        // Row 1 moves Left
+        if (track1Ref.current) {
+          gsap.to(track1Ref.current, {
+            xPercent: -50,
+            ease: "none",
+            duration: window.innerWidth <= 768 ? 30 : 40,
+            repeat: -1,
+          });
         }
-      );
-    }, containerRef);
 
-    return () => ctx.revert();
-  }, [row1Images, row2Images]);
+        // Row 2 moves Right
+        if (track2Ref.current) {
+          gsap.fromTo(track2Ref.current, 
+            { xPercent: -50 },
+            {
+              xPercent: 0,
+              ease: "none",
+              duration: window.innerWidth <= 768 ? 30 : 40,
+              repeat: -1,
+            }
+          );
+        }
+      };
+
+      // Defer to idle or short timeout
+      const timeoutId = setTimeout(() => {
+        if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+          window.requestIdleCallback(scrollHandler);
+        } else {
+          scrollHandler();
+        }
+      }, 100);
+
+      return () => clearTimeout(timeoutId);
+    },
+    { scope: containerRef, dependencies: [row1Images, row2Images] }
+  );
 
   if (row1Images.length === 0) return null;
 
@@ -101,7 +118,7 @@ const MiniGallery = () => {
           >
             <div className="relative overflow-hidden rounded-xl shadow-lg lg:h-[40vh] h-[25vh] gallery-item">
               <Image 
-                src={img.image} 
+                src={cloudinaryUrl(img.image, { width: 600 })} 
                 alt={img.alt || "Glimpse of Basti Ram Palace"}
                 fill
                 quality={70}

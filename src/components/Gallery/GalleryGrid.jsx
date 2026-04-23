@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { cloudinaryUrl } from "@/lib/cloudinary-client";
+
 
 export default function GalleryGrid({ 
   images, 
@@ -17,7 +19,7 @@ export default function GalleryGrid({
       
       {/* Initial load skeleton (Masonry style) */}
       {loading && images.length === 0 && (
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+        <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {[48, 64, 56, 72, 40, 60, 52, 68].map((h, i) => (
             <div
               key={i}
@@ -46,7 +48,7 @@ export default function GalleryGrid({
 
       {/* Image grid (Masonry style) */}
       {images.length > 0 && (
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+        <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {images.map((img, i) => (
             <div
               key={img.public_id}
@@ -54,7 +56,7 @@ export default function GalleryGrid({
               onClick={() => setSelectedImage(img)}
             >
               <Image
-                src={img.secure_url}
+                src={cloudinaryUrl(img.secure_url, { width: 600 })}
                 alt={`Gallery ${i + 1}`}
                 width={img.width}
                 height={img.height}

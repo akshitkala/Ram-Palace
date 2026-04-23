@@ -1,4 +1,3 @@
-// BRP-FIX: A-1 + A-2
 import { NextResponse } from 'next/server';
 
 export async function POST() {

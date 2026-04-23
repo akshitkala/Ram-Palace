@@ -2,15 +2,15 @@
 
 export default function CateringStats() {
   const stats = [
-    { target: 500, label: "Events Catered" },
-    { target: 14,  label: "Trusted Clients" },
-    { target: 8,   label: "Live Counter Concepts" },
-    { target: 200, label: "Menu Items" },
+    { value: "GD Foods", label: "Catering Partner" },
+    { value: "8",        label: "Live Counters", suffix: "+" },
+    { value: "Extensive", label: "Menu Options" },
+    { value: "14",       label: "Corporate Clients", suffix: "+" },
   ];
 
   return (
     <section className="bg-[#2B1810] py-10 px-6">
-      <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-12">
+      <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-12">
         {stats.map((s, i) => (
           <div
             key={i}
@@ -18,10 +18,10 @@ export default function CateringStats() {
               i > 0 ? "border-l border-[#C9A84C]/20 pl-12" : ""
             }`}
           >
-            <div className="font-heading text-4xl md:text-5xl text-[#C9A84C] font-semibold">
-              <span className="stat-num" data-target={s.target}>0+</span>
+            <div className="font-heading text-xl md:text-2xl text-[#C9A84C] font-semibold">
+              <span>{s.value}{s.suffix}</span>
             </div>
-            <div className="font-body text-white/45 text-xs tracking-widest uppercase mt-1">
+            <div className="font-body text-white/45 text-[10px] tracking-widest uppercase mt-1">
               {s.label}
             </div>
           </div>

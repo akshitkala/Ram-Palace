@@ -41,51 +41,57 @@ const Footer = () => {
     if (!footerRef.current) return;
 
     // Stagger in each column
-    gsap.fromTo(".footer-col",
-      { opacity: 0, y: 36 },
-      {
-        opacity: 1, y: 0,
-        duration: 0.9,
-        stagger: 0.12,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: "top 88%",
-          once: true,
-        },
-      }
-    );
+    if (document.querySelectorAll(".footer-col").length > 0) {
+      gsap.fromTo(".footer-col",
+        { opacity: 0, y: 36 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
 
     // Gold rule expands
-    gsap.fromTo(".footer-rule",
-      { scaleX: 0, transformOrigin: "left center" },
-      {
-        scaleX: 1,
-        duration: 1.4,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: "top 88%",
-          once: true,
-        },
-      }
-    );
+    if (document.querySelector(".footer-rule")) {
+      gsap.fromTo(".footer-rule",
+        { scaleX: 0, transformOrigin: "left center" },
+        {
+          scaleX: 1,
+          duration: 1.4,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
 
     // Letter-by-letter brand name
-    gsap.fromTo(".footer-letter",
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1, y: 0,
-        duration: 0.8,
-        stagger: 0.035,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".footer-brand-row",
-          start: "top 92%",
-          once: true,
-        },
-      }
-    );
+    if (document.querySelectorAll(".footer-letter").length > 0 && document.querySelector(".footer-brand-row")) {
+      gsap.fromTo(".footer-letter",
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.8,
+          stagger: 0.035,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".footer-brand-row",
+            start: "top 92%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
   }, { scope: footerRef });
 
   return (

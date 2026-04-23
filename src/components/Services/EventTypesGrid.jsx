@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -33,10 +34,6 @@ const EVENT_TYPES = [
     description: "Elegant spaces for gatherings that deserve more than an ordinary venue." 
   },
   { 
-    title: "Religious Functions", 
-    description: "Jagrans, Bhandaras, and festive functions — hosted with the respect every occasion deserves." 
-  },
-  { 
     title: "Theme Events", 
     description: "From Bollywood nights to royal Rajasthani setups — we bring any theme to life." 
   },
@@ -45,61 +42,65 @@ const EVENT_TYPES = [
 const EventTypesGrid = () => {
   const sectionRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
       // Stagger fade-up on scroll with 3D rotation effect
-      gsap.fromTo(
-        ".event-card",
-        { opacity: 0, y: 100, rotationX: 15 },
-        {
-          opacity: 1,
-          y: 0,
-          rotationX: 0,
-          duration: 1,
-          stagger: { amount: 0.8 },
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            once: true,
-          },
-        }
-      );
+      if (document.querySelectorAll(".event-card").length > 0) {
+        gsap.fromTo(
+          ".event-card",
+          { opacity: 0, y: 100, rotationX: 15 },
+          {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            duration: 1,
+            stagger: { amount: 0.8 },
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              once: true,
+            },
+          }
+        );
+      }
 
       // Section Heading Reveal
-      gsap.fromTo(
-        ".section-heading > *",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".section-heading",
-            start: "top 85%",
-            once: true,
-          },
-        }
-      );
+      if (document.querySelectorAll(".section-heading > *").length > 0 && document.querySelector(".section-heading")) {
+        gsap.fromTo(
+          ".section-heading > *",
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".section-heading",
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
 
       // Parallax effect on cards on scroll
-      gsap.to(".parallax-cards-wrapper", {
-        y: "-5%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+      if (document.querySelector(".parallax-cards-wrapper")) {
+        gsap.to(".parallax-cards-wrapper", {
+          y: "-5%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+    },
+    { scope: sectionRef, dependencies: [] }
+  );
 
   return (
     <section 
@@ -118,7 +119,7 @@ const EventTypesGrid = () => {
           </h2>
         </div>
 
-        {/* Grid */}
+        {/* Grid Container */}
         <div className="parallax-cards-wrapper">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
             {EVENT_TYPES.map((type, index) => (

@@ -47,7 +47,7 @@ export default function CateringGallery() {
             <div className="w-8 h-8 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-5 space-y-5">
+          <div className="columns-2 md:columns-2 lg:columns-3 gap-5 space-y-5">
             {images.map((img) => (
               <div
                 key={img.public_id}

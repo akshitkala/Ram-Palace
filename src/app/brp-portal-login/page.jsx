@@ -55,7 +55,7 @@ function UploadProgressBar({ progress, uploading }) {
   );
 }
 
-function ImageCard({ img, index, onDelete, onSelect, isSelected, label, isVideo = false }) {
+function ImageCard({ img, index, onDelete, onSelect, onPreview, isSelected, label, isVideo = false }) {
   // Use secure_url or url from new API
   const src = img.url || img.secure_url;
 
@@ -89,16 +89,25 @@ function ImageCard({ img, index, onDelete, onSelect, isSelected, label, isVideo 
 
       {/* Hover overlay — Only show delete if NOT selected, or show both? 
           Actually, let's make selection primary on click, and delete button on top. */}
-      <div className={`absolute inset-0 bg-black/40 transition-opacity duration-200 flex items-center justify-center
+      <div className={`absolute inset-0 bg-black/40 transition-opacity duration-200 flex items-center justify-center gap-4
                       ${isSelected ? "opacity-40" : "opacity-0 group-hover:opacity-100"}`}>
         {!isSelected && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onDelete(img); }}
-            className="bg-white/90 hover:bg-red-500 hover:text-white text-[#1C1009] p-2 rounded-full transition-all duration-150 transform hover:scale-110 shadow-lg"
-            title="Delete permanently"
-          >
-            <IconTrash size={18} />
-          </button>
+          <>
+            <button
+              onClick={(e) => { e.stopPropagation(); onPreview(index); }}
+              className="bg-white text-[#1C1009] p-2 rounded-full transition-all duration-150 transform hover:scale-110 shadow-lg"
+              title="Preview Image"
+            >
+              <IconSearch size={18} />
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); onDelete(img); }}
+              className="bg-white/90 hover:bg-red-500 hover:text-white text-[#1C1009] p-2 rounded-full transition-all duration-150 transform hover:scale-110 shadow-lg"
+              title="Delete permanently"
+            >
+              <IconTrash size={18} />
+            </button>
+          </>
         )}
       </div>
     </div>
@@ -124,6 +133,7 @@ export default function AdminPage() {
   const [toasts, setToasts] = useState([]);
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [confirmDelete, setConfirmDelete] = useState({ isOpen: false, count: 1, onConfirm: null, loading: false });
+  const [preview, setPreview] = useState({ isOpen: false, index: 0 });
 
   // Refs
   const fileInputRef = useRef(null);
@@ -291,6 +301,28 @@ export default function AdminPage() {
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
     window.location.href = "/brp-portal-login/login";
+  };
+
+  const openPreview = (index) => {
+    setPreview({ isOpen: true, index });
+  };
+
+  const closePreview = () => {
+    setPreview(prev => ({ ...prev, isOpen: false }));
+  };
+
+  const handlePrevPreview = () => {
+    setPreview(prev => ({
+      ...prev,
+      index: prev.index === 0 ? images.length - 1 : prev.index - 1
+    }));
+  };
+
+  const handleNextPreview = () => {
+    setPreview(prev => ({
+      ...prev,
+      index: (prev.index + 1) % images.length
+    }));
   };
 
   // --- SUB-COMPONENTS ---
@@ -491,6 +523,7 @@ export default function AdminPage() {
                     index={i}
                     onDelete={handleDelete}
                     onSelect={toggleSelect}
+                    onPreview={openPreview}
                     isSelected={selectedIds.has(img.public_id)}
                     label={activeTab === "carousel" ? `Slide ${i + 1}` : null}
                     isVideo={activeTab === "carousel"}
@@ -522,6 +555,16 @@ export default function AdminPage() {
           </button>
         </div>
       )}
+
+      {/* LIGHTBOX PREVIEW */}
+      <Lightbox
+        isOpen={preview.isOpen}
+        onClose={closePreview}
+        images={images.map(img => ({ ...img, secure_url: img.url || img.secure_url }))}
+        currentIndex={preview.index}
+        onPrev={handlePrevPreview}
+        onNext={handleNextPreview}
+      />
 
       {/* TOASTS */}
       <div className="pointer-events-none fixed inset-0 z-[200]">

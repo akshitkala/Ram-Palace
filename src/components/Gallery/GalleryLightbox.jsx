@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { cloudinaryUrl } from "@/lib/cloudinary-client";
 import { FiX, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 export default function GalleryLightbox({ 
@@ -46,7 +47,7 @@ export default function GalleryLightbox({
       >
         <div className="relative w-full h-full max-h-[80vh]">
           <Image
-            src={selectedImage.secure_url}
+            src={cloudinaryUrl(selectedImage.secure_url, { width: 1600 })}
             alt="Selected image"
             fill
             className="object-contain"

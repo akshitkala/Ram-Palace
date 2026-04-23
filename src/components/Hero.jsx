@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useRef } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -9,37 +10,36 @@ const Hero = () => {
   const contentRef = useRef(null);
   const bgRef = useRef(null);
 
-  useLayoutEffect(() => {
-    if (!contentRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const fadeElements = gsap.utils.toArray(".fade-in");
-      if (fadeElements.length === 0) return;
-
+  useGSAP(
+    () => {
       // Cinematic Background Zoom
-      gsap.fromTo(
-        bgRef.current,
-        { scale: 1.08, filter: "brightness(0.95)" },
-        { scale: 1, filter: "brightness(1)", duration: 2.5, ease: "power2.out" }
-      );
+      if (bgRef.current) {
+        gsap.fromTo(
+          bgRef.current,
+          { scale: 1.08, filter: "brightness(0.95)" },
+          { scale: 1, filter: "brightness(1)", duration: 2.5, ease: "power2.out" }
+        );
+      }
 
-      gsap.fromTo(
-        fadeElements,
-        { opacity: 0, y: 50, filter: "blur(6px)" },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 1.2,
-          stagger: 0.12,
-          delay: 0.5,
-          ease: "power3.out",
-        }
-      );
-    }, contentRef);
-
-    return () => ctx.revert();
-  }, []);
+      const fadeElements = gsap.utils.toArray(".fade-in");
+      if (fadeElements.length > 0) {
+        gsap.fromTo(
+          fadeElements,
+          { opacity: 0, y: 50, filter: "blur(6px)" },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1.2,
+            stagger: 0.12,
+            delay: 0.5,
+            ease: "power3.out",
+          }
+        );
+      }
+    },
+    { scope: contentRef, dependencies: [] }
+  );
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
@@ -49,14 +49,15 @@ const Hero = () => {
         <Image
           ref={bgRef}
           src="/images/hero/hero.webp"
-          alt="Basti Ram Palace"
+          alt="Basti Ram Palace — The Finest Wedding Venue in Gurugram"
           fill
           priority
+          fetchPriority="high"
           quality={85}
           sizes="100vw"
           className="absolute inset-0 w-full h-full object-cover will-change-transform hero-img"
           style={{ objectPosition: "center 35%" }} // Initial desktop position
-          loading="eager" // BRP-FIX: G-1 (Optional optimization)
+          loading="eager"
         />
         <style jsx>{`
           @media (max-width: 768px) {
@@ -65,6 +66,9 @@ const Hero = () => {
             }
           }
         `}</style>
+
+        {/* ── GENERAL DARKENING OVERLAY ── */}
+        <div className="absolute inset-0 bg-black/25 z-[1] pointer-events-none" />
 
         {/* ── BOTTOM BAND GRADIENT ── */}
         <div
@@ -107,33 +111,16 @@ const Hero = () => {
         />
 
         {/* ── HERO CONTENT ── */}
-        <div ref={contentRef} className="relative z-10 w-full h-full">
+        <div ref={contentRef} className="relative z-10 w-full h-full flex flex-col justify-center items-center md:items-start px-6 md:px-0">
 
           {/* ── LEFT CONTENT BLOCK ── */}
-          <div className={`
-            absolute
-            bottom-[15vh] left-0 right-0
-            px-6
-            text-center
-            md:text-left md:bottom-44
-            md:left-16 lg:left-24
-            md:w-[58%] md:px-0
-            md:right-auto
-          `}>
+          <div className="md:absolute md:bottom-44 md:left-16 lg:left-24 md:w-[58%]">
 
             {/* Pre-heading label */}
            
 
             {/* Main Heading — SEO Optimized */}
-            <h1 className={`
-              font-heading
-              text-[clamp(1.75rem,7vw,72px)]
-              leading-[1.1]
-              text-white
-              fade-in opacity-0
-              mb-7 md:mb-10
-              drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]
-            `}>
+            <h1 className="font-heading text-[clamp(1.75rem,7vw,72px)] leading-[1.1] text-white fade-in opacity-0 mb-7 md:mb-10 drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]">
               The Finest Wedding Venue
               <br />
               <em className="text-[#C9A84C] not-italic">
@@ -142,44 +129,14 @@ const Hero = () => {
             </h1>
 
             {/* CTA Buttons */}
-            <div className={`
-              flex flex-col md:flex-row gap-3 md:gap-4
-              justify-center md:justify-start
-              items-stretch md:items-center
-              fade-in opacity-0
-            `}>
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center md:justify-start items-stretch md:items-center fade-in opacity-0">
               <Link href="/contact" className="w-full md:w-auto">
-                <button className={`
-                  w-full md:w-auto
-                  bg-[#C9A84C] text-[#1C1C1E]
-                  px-8 py-4
-                  text-[10px] md:text-xs
-                  tracking-[2.5px] uppercase font-semibold
-                  rounded-lg
-                  transition-all duration-300
-                  hover:bg-[#b8963e]
-                  hover:shadow-[0_8px_28px_rgba(201,168,76,0.4)]
-                  active:scale-100
-                `}>
+                <button className="w-full md:w-auto bg-[#C9A84C] text-[#1C1C1E] px-8 py-4 text-[10px] md:text-xs tracking-[2.5px] uppercase font-semibold rounded-lg transition-all duration-300 hover:bg-[#b8963e] hover:shadow-[0_8px_28px_rgba(201,168,76,0.4)] active:scale-100">
                   Reserve Your Date
                 </button>
               </Link>
               <Link href="/gallery" className="w-full md:w-auto">
-                <button className={`
-                  w-full md:w-auto
-                  bg-transparent text-white
-                  border-2 border-white/60
-                  px-8 py-4
-                  text-[10px] md:text-xs
-                  tracking-[2.5px] uppercase font-semibold
-                  rounded-lg
-                  transition-all duration-300
-                  hover:bg-white/10
-                  hover:border-white/90
-                  active:bg-white/5
-                `}
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
-                >
+                <button className="w-full md:w-auto bg-transparent text-white border-2 border-white/60 px-8 py-4 text-[10px] md:text-xs tracking-[2.5px] uppercase font-semibold rounded-lg transition-all duration-300 hover:bg-white/10 hover:border-white/90 active:bg-white/5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}>
                   Explore Venue
                 </button>
               </Link>
@@ -187,43 +144,23 @@ const Hero = () => {
           </div>
 
           {/* SUBTEXT — desktop only, bottom right */}
-          <div className={`
-            hidden md:block
-            absolute
-            right-16 lg:right-24
-            bottom-28
-            max-w-[260px]
-            text-right
-            fade-in opacity-0
-          `}>
-            <p className={`
-              text-sm leading-relaxed text-white/85
-              font-light
-              drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]
-            `}>
-              From intimate gatherings to grand weddings,
-              Basti Ram Palace has been the heart of our
-              most treasured celebrations for over 15 years.
+          <div className="hidden md:block absolute right-16 lg:right-24 bottom-28 max-w-[280px] text-right fade-in opacity-0">
+            <p className="text-sm leading-relaxed text-white/85 font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              A trusted name for celebrations across Gurugram and Delhi NCR.
+              Hosting events of every scale, from intimate gatherings to grand celebrations.
             </p>
           </div>
 
           {/* TRUST SIGNALS — desktop only */}
-          <div className={`
-            hidden lg:flex
-            absolute
-            bottom-6
-            left-1/2 -translate-x-1/2
-            gap-10 lg:gap-16
-            fade-in opacity-0
-          `}>
+          <div className="hidden lg:flex absolute bottom-8 left-1/2 -translate-x-1/2 gap-10 lg:gap-16 fade-in opacity-0">
             {[
-              { num: "500+",   label: "Weddings Hosted"     },
-              { num: "1,200+", label: "Events Completed"    },
-              { num: "15",     label: "Years of Excellence" },
+              { num: "GD Foods India", label: "Catering Partner" },
+              { num: "Multi-Cuisine",  label: "Extensive Menu"    },
+              { num: "Live Counters",  label: "Chef-Led Stations" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div
-                  className="font-heading text-2xl lg:text-3xl text-[#C9A84C] font-light leading-none"
+                  className="font-heading text-xl lg:text-2xl text-[#C9A84C] font-light leading-none"
                   style={{ textShadow: "0 2px 8px rgba(0,0,0,0.8)" }}
                 >
                   {stat.num}
@@ -239,13 +176,34 @@ const Hero = () => {
           </div>
 
           {/* DIVIDER LINE above trust signals */}
-          <div className={`
-            hidden lg:block
-            absolute bottom-[72px]
-            left-1/2 -translate-x-1/2
-            w-px h-8 bg-white/20
-            fade-in opacity-0
-          `} />
+          <div className="hidden lg:block absolute bottom-[76px] left-1/2 -translate-x-1/2 w-px h-8 bg-white/20 fade-in opacity-0" />
+
+          {/* ── GOOGLE RATING BADGE — mini version (shrinks on mobile) ── */}
+          <div className="absolute top-[42%] md:top-1/2 -translate-y-1/2 right-4 md:right-8 z-30 fade-in opacity-0">
+            <a 
+              href="https://www.google.com/maps/place/Basti+Ram+Palace/@28.3919789,76.9144771,17z"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center bg-[#0A0805]/95 backdrop-blur-xl border border-[#C9A84C]/40 px-3 py-2 md:px-3.5 md:py-2 rounded-full shadow-2xl hover:border-[#C9A84C] hover:bg-black transition-all duration-300"
+            >
+              <div className="flex items-center gap-1">
+                <span className="text-xs md:text-sm font-bold text-white tracking-tight">4.8</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#C9A84C">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              </div>
+              
+              <div className="hidden md:block w-px h-3 bg-white/20 mx-2.5" />
+              
+              <div className="hidden md:flex items-center gap-1.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white/70">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="12" cy="9" r="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="text-[9px] tracking-[1.5px] uppercase text-white/80 font-medium">Google</span>
+              </div>
+            </a>
+          </div>
 
         </div>
       </div>

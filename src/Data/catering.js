@@ -94,7 +94,6 @@ export const eventsWeCater = [
   "Cocktail Parties",
   "Private & House Parties",
   "Festive Events",
-  "Religious Functions",
   "Kitty Parties & Social Gatherings",
   "Theme-Based Events",
   "Live Food Counters",

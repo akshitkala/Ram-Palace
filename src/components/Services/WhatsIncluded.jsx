@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -36,61 +37,65 @@ const INCLUSIONS = [
 const WhatsIncluded = () => {
   const sectionRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
       // Heading Reveal
-      gsap.fromTo(
-        ".wi-heading > *",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            once: true,
-          },
-        }
-      );
+      if (document.querySelectorAll(".wi-heading > *").length > 0) {
+        gsap.fromTo(
+          ".wi-heading > *",
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+      }
 
       // Stagger fade-in left-to-right with slight scale
-      gsap.fromTo(
-        ".inclusion-item",
-        { opacity: 0, x: -30, scale: 0.95 },
-        {
-          opacity: 1,
-          x: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".inclusion-grid",
-            start: "top 85%",
-            once: true,
-          },
-        }
-      );
+      if (document.querySelectorAll(".inclusion-item").length > 0 && document.querySelector(".inclusion-grid")) {
+        gsap.fromTo(
+          ".inclusion-item",
+          { opacity: 0, x: -30, scale: 0.95 },
+          {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".inclusion-grid",
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
 
       // Parallax float on the whole grid
-      gsap.to(".inclusion-grid", {
-        y: "-5%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+      if (document.querySelector(".inclusion-grid")) {
+        gsap.to(".inclusion-grid", {
+          y: "-5%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
+    },
+    { scope: sectionRef, dependencies: [] }
+  );
 
   return (
     <section 

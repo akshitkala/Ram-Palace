@@ -2,7 +2,7 @@ import localFont from "next/font/local";
 import { Poppins, Cormorant_Garamond } from "next/font/google";
 import RootLayoutClient from "@/components/RootLayoutClient";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
-import StructuredData from "@/components/StructuredData"; // BRP-FIX: D-2
+import StructuredData from "@/components/StructuredData";
 import "./globals.css";
 
 // ── LOCAL FONT — PLAYFAIR DISPLAY ──
@@ -39,7 +39,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.bastirampalace.in"), // BRP-FIX: D-1
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.bastirampalace.in"),
   title: {
     default: "Basti Ram Palace — Best Banquet Hall in Manesar, Gurugram",
     template: "%s | Basti Ram Palace",
@@ -74,7 +74,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.bastirampalace.in", // BRP-FIX: D-1
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.bastirampalace.in",
     siteName: "Basti Ram Palace",
     title: "Basti Ram Palace — Best Banquet Hall in Manesar, Gurugram",
     description:
@@ -103,7 +103,6 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  /* originals deleted — BRP-FIX: D-1 */
 };
 
 export const viewport = {
@@ -114,6 +113,11 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${playfair.variable} ${poppins.variable} ${cormorant.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+      </head>
       <body className={poppins.className}>
         <StructuredData />
         <RootLayoutClient>

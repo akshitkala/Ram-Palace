@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useLayoutEffect, useState, useEffect } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import { useImageCache } from "@/hooks/useImageCache";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,113 +26,89 @@ const CATEGORIES = [
 ];
 
 const STATS = [
-  { num: "200", suffix: "+", label: "Menu Items" },
-  { num: "8",   suffix: "",  label: "Live Counters" },
-  { num: "14",  suffix: "",  label: "Corporate Clients" },
+  { num: "Extensive", suffix: "",  label: "Multi-Cuisine Menu" },
+  { num: "8",         suffix: "+", label: "Live Food Counters" },
+  { num: "14",        suffix: "",  label: "Corporate Clients"  },
 ];
 
 const CLIENTS = [
-  "Sandvik", "Huawei", "Vatika", "Masters' Union",
-  "Eli Lilly", "IICA", "Eugenix", "Unicosmos",
+  "Indian Institute of Corporate Affairs", "Signature Global", "Eli Lilly", "Vatika", 
+  "Eugenix Hair Sciences", "Sandvik", "Indus Insights", "Masters' Union", 
+  "Anchal", "CoolBoots", "Huawei", "Unicosmos", "Nantara Farm House", "The Liquor Fort"
 ];
 
 const CateringFeature = () => {
   const sectionRef = useRef(null);
   const tickerRef  = useRef(null);
-  const [images, setImages] = useState([]);
-  const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
-  const { fetchWithCache } = useImageCache();
-
-  useEffect(() => {
-    async function getCateringImages() {
-      const data = await fetchWithCache("catering");
-      if (data && data.length > 0) {
-        setImages(data);
-      }
-    }
-    getCateringImages();
-  }, [fetchWithCache]);
-
-  // Cycle images if multiple exist
-  useEffect(() => {
-    if (images.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentImgIndex((prev) => (prev + 1) % images.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [images]);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-
+  useGSAP(
+    () => {
       // Gold rule expands in
-      gsap.fromTo(".cf-rule",
-        { scaleX: 0, transformOrigin: "left center" },
-        {
-          scaleX: 1, duration: 1.2, ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
-        }
-      );
+      if (document.querySelector(".cf-rule")) {
+        gsap.fromTo(".cf-rule",
+          { scaleX: 0, transformOrigin: "left center" },
+          {
+            scaleX: 1, duration: 1.2, ease: "power3.out",
+            scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+          }
+        );
+      }
 
       // Left text block stagger
-      gsap.fromTo(".cf-left > *",
-        { opacity: 0, y: 32 },
-        {
-          opacity: 1, y: 0, duration: 0.85, stagger: 0.11,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".cf-left", start: "top 78%" },
-        }
-      );
+      if (document.querySelectorAll(".cf-left > *").length > 0) {
+        gsap.fromTo(".cf-left > *",
+          { opacity: 0, y: 32 },
+          {
+            opacity: 1, y: 0, duration: 0.85, stagger: 0.11,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".cf-left", start: "top 78%" },
+          }
+        );
+      }
 
       // Right image
-      gsap.fromTo(".cf-img-wrap",
-        { opacity: 0, scale: 0.95, y: 20 },
-        {
-          opacity: 1, scale: 1, y: 0, duration: 1.2, ease: "power3.out",
-          scrollTrigger: { trigger: ".cf-img-wrap", start: "top 80%" },
-        }
-      );
+      if (document.querySelector(".cf-img-wrap")) {
+        gsap.fromTo(".cf-img-wrap",
+          { opacity: 0, scale: 0.95, y: 20 },
+          {
+            opacity: 1, scale: 1, y: 0, duration: 1.2, ease: "power3.out",
+            scrollTrigger: { trigger: ".cf-img-wrap", start: "top 80%" },
+          }
+        );
+      }
 
       // Chips stagger
-      gsap.fromTo(".cf-chip",
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1, y: 0, duration: 0.45, stagger: 0.06,
-          ease: "back.out(1.5)",
-          scrollTrigger: { trigger: ".cf-chips", start: "top 84%" },
-        }
-      );
-
-      // Count-up stats
-      gsap.utils.toArray(".cf-count").forEach((el) => {
-        const target = parseInt(el.dataset.target, 10);
-        const suffix = el.dataset.suffix || "";
-        const obj = { val: 0 };
-        gsap.to(obj, {
-          val: target, duration: 1.8, ease: "power2.out",
-          scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          onUpdate() { el.textContent = Math.round(obj.val) + suffix; },
-        });
-      });
+      if (document.querySelectorAll(".cf-chip").length > 0 && document.querySelector(".cf-chips")) {
+        gsap.fromTo(".cf-chip",
+          { opacity: 0, y: 16 },
+          {
+            opacity: 1, y: 0, duration: 0.45, stagger: 0.06,
+            ease: "back.out(1.5)",
+            scrollTrigger: { trigger: ".cf-chips", start: "top 84%" },
+          }
+        );
+      }
 
       // Parallax on image
-      gsap.to(".cf-img-wrap img", {
-        yPercent: -6, ease: "none",
-        scrollTrigger: {
-          trigger: ".cf-img-wrap",
-          start: "top bottom", end: "bottom top", scrub: true,
-        },
-      });
+      if (document.querySelector(".cf-img-wrap img") && document.querySelector(".cf-img-wrap")) {
+        gsap.to(".cf-img-wrap img", {
+          yPercent: -6, ease: "none",
+          scrollTrigger: {
+            trigger: ".cf-img-wrap",
+            start: "top bottom", end: "bottom top", scrub: true,
+          },
+        });
+      }
 
       // Ticker
-      gsap.to(tickerRef.current, {
-        xPercent: -50, ease: "none", duration: 30, repeat: -1,
-      });
-
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
+      if (tickerRef.current) {
+        gsap.to(tickerRef.current, {
+          xPercent: -50, ease: "none", duration: 30, repeat: -1,
+        });
+      }
+    },
+    { scope: sectionRef, dependencies: [] }
+  );
 
   return (
     <section
@@ -185,8 +161,8 @@ const CateringFeature = () => {
               that makes your guests remember the night forever.
             </p>
             <p className="font-body text-[#8B7A6A] text-sm leading-relaxed mb-12 max-w-lg">
-              Trusted by Sandvik, Huawei, Masters&apos; Union, Vatika Group, and over
-              a dozen leading organizations across the region.
+              Trusted by leading organizations including IICA, Sandvik, Huawei, 
+              Vatika, Eli Lilly, Signature Global, Masters&apos; Union, and Indus Insights.
             </p>
 
             {/* Stats */}
@@ -198,7 +174,7 @@ const CateringFeature = () => {
                 >
                   <div className="font-heading text-3xl md:text-4xl text-[#2B1810] leading-none mb-1">
                     <span className="cf-count" data-target={s.num} data-suffix={s.suffix}>
-                      0{s.suffix}
+                      {s.num}{s.suffix}
                     </span>
                   </div>
                   <div className="font-body text-[#8B7A6A] text-[10px] tracking-[2px] uppercase mt-1">
@@ -258,26 +234,14 @@ const CateringFeature = () => {
 
             <div className="relative overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(43,24,16,0.15)] h-[560px] bg-[#E8E0D4]">
               <Image
-                src={images.length > 0 ? images[currentImgIndex].url : "/images/catering/catering-1.webp"}
+                src="/images/catering/catering-1.webp"
                 alt="GD Foods India catering spread"
                 fill
                 quality={70}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover transition-opacity duration-1000"
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2B1810]/15 via-transparent to-transparent pointer-events-none" />
-              
-              {/* Image dots if multiple */}
-              {images.length > 1 && (
-                <div className="absolute bottom-4 right-4 flex gap-1.5 z-10">
-                  {images.map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={`h-1 rounded-full transition-all duration-300 ${i === currentImgIndex ? "w-4 bg-white" : "w-1 bg-white/40"}`}
-                    />
-                  ))}
-                </div>
-              )}
             </div>
 
             {/* Gold badge */}

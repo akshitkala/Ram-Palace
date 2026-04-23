@@ -1,7 +1,10 @@
 "use client";
 
-export default function MenuTicker({ tickerRef, categories }) {
-  const TICKER = categories.map(c => c.label);
+export default function MenuTicker({ tickerRef, categories = [] }) {
+  const TICKER = Array.isArray(categories) ? categories.map(c => c.label) : [];
+  
+  if (TICKER.length === 0) return null;
+
   return (
     <div className="mh-sentinel bg-[#2B1810] py-3.5 overflow-hidden border-y border-[#C9A84C]/10">
       <div ref={tickerRef} className="flex w-max" aria-hidden="true">

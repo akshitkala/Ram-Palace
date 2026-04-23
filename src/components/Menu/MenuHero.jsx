@@ -12,11 +12,13 @@ export default function MenuHero({ totalItems, menuCategories, scrollTo }) {
           alt="The Menu — GD Foods India"
           fill
           priority
-          sizes="100vw"
-          className="w-full h-full object-cover"
+          quality={95}
+          sizes="(max-width: 768px) 150vw, 100vw"
+          className="w-full h-full object-cover animate-slow-zoom"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-[#1A0D08]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1A0D08]/55 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-black/50 z-[1] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/2 via-black/3 to-[#1A0D08]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1A0D08]/6 via-transparent to-transparent" />
       </div>
 
       <div className="absolute inset-0 opacity-[0.035] pointer-events-none"
@@ -26,32 +28,31 @@ export default function MenuHero({ totalItems, menuCategories, scrollTo }) {
       <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-14 lg:px-20 pb-20 md:pb-32">
         <div className="mh-eyebrow flex items-center gap-4 mb-10">
           <span className="w-10 h-px bg-[#C9A84C]" />
-          <span className="font-body text-[#C9A84C] text-[10px] tracking-[0.45em] uppercase font-semibold">
+          <span className="font-body text-[#C9A84C] text-[10px] tracking-[0.45em] uppercase font-bold drop-shadow-md">
             GD Foods India · Basti Ram Palace
           </span>
         </div>
 
-        <h1 className="font-heading leading-[0.8] mb-8 mt-14 lg:mt-20">
+        <h1 className="font-heading leading-[0.8] mb-8 mt-14 lg:mt-20 drop-shadow-2xl">
           <span className="mh-title-word block text-white text-[clamp(4rem,11vw,140px)]">The</span>
           <span className="mh-title-word block text-[#C9A84C] text-[clamp(4rem,11vw,140px)]">Menu</span>
         </h1>
 
-        <p className="mh-sub font-heading-italic text-white/40 text-xl md:text-2xl lg:text-3xl mb-14 max-w-lg leading-relaxed">
+        <p className="mh-sub font-heading-italic text-white/80 text-xl md:text-2xl lg:text-3xl mb-14 max-w-lg leading-relaxed drop-shadow-lg">
           Where every dish tells a story of craft, care, and celebration.
         </p>
 
-        <div className="flex flex-wrap gap-x-10 gap-y-5 mb-14">
+        <div className="flex flex-wrap gap-x-10 gap-y-5 mb-14 drop-shadow-md">
           {[
-            { target: totalItems, suffix: "+", label: "Dishes" },
-            { target: 10, suffix: "", label: "Categories" },
-            { target: 8, suffix: "", label: "Live Counters" },
-            { target: 500, suffix: "+", label: "Events Catered" },
+            { value: "Extensive", suffix: "", label: "Cuisine Menu" },
+            { value: "8",         suffix: "+", label: "Live Counters" },
+            { value: "Confirmed", suffix: "", label: "Hygiene Standards" },
           ].map((s, i) => (
-            <div key={i} className={`mh-stat ${i > 0 ? "border-l border-white/10 pl-10" : ""}`}>
-              <div className="font-heading text-3xl md:text-4xl text-[#C9A84C] leading-none">
-                <span className="hero-count" data-target={s.target} data-suffix={s.suffix}>0{s.suffix}</span>
+            <div key={i} className={`mh-stat ${i > 0 ? "border-l border-white/20 pl-10" : ""}`}>
+              <div className="font-heading text-xl md:text-2xl lg:text-3xl text-[#C9A84C] leading-none">
+                <span>{s.value}{s.suffix}</span>
               </div>
-              <div className="font-body text-white/30 text-[9px] tracking-[3px] uppercase mt-1.5">{s.label}</div>
+              <div className="font-body text-white/60 text-[9px] tracking-[3px] uppercase mt-1.5 font-medium">{s.label}</div>
             </div>
           ))}
         </div>
@@ -65,10 +66,10 @@ export default function MenuHero({ totalItems, menuCategories, scrollTo }) {
             Browse Menu ↓
           </button>
           <Link href="/contact"
-            className="inline-flex items-center gap-2 border border-white/20 text-white/60
-                       font-body font-semibold uppercase tracking-[0.15em]
+            className="inline-flex items-center gap-2 border border-white/40 text-white
+                       font-body font-bold uppercase tracking-[0.15em]
                        px-9 py-4 rounded-lg text-sm transition-all duration-300
-                       hover:bg-white/6 hover:text-white/90">
+                       backdrop-blur-md bg-white/10 hover:bg-white/20 hover:text-white shadow-lg">
             Request Custom Menu
           </Link>
         </div>
@@ -78,6 +79,8 @@ export default function MenuHero({ totalItems, menuCategories, scrollTo }) {
         <div className="w-px h-14 bg-gradient-to-b from-transparent via-[#C9A84C]/50 to-transparent animate-pulse" />
         <span className="font-body text-white/20 text-[8px] tracking-[3px] uppercase">Scroll</span>
       </div>
+
+      <div className="mh-sentinel absolute bottom-0 w-full h-px pointer-events-none" />
     </section>
   );
 }

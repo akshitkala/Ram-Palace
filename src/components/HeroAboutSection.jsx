@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useRef } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,47 +14,52 @@ const HeroAboutSection = () => {
   const sectionRef = useRef(null);
   const imageRef   = useRef(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
+      if (!sectionRef.current) return;
 
-      gsap.fromTo(
-        imageRef.current,
-        { opacity: 0, x: -40 },
-        {
-          opacity: 1, x: 0,
-          duration: 1.1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
-        }
-      );
+      if (imageRef.current) {
+        gsap.fromTo(
+          imageRef.current,
+          { opacity: 0, x: -40 },
+          {
+            opacity: 1, x: 0,
+            duration: 1.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
+          }
+        );
+      }
 
-      gsap.fromTo(
-        ".gold-accent",
-        { opacity: 0, scale: 0 },
-        {
-          opacity: 1, scale: 1,
-          duration: 0.5,
-          stagger: 0.08,
-          ease: "power2.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 65%" },
-        }
-      );
+      if (document.querySelectorAll(".gold-accent").length > 0) {
+        gsap.fromTo(
+          ".gold-accent",
+          { opacity: 0, scale: 0 },
+          {
+            opacity: 1, scale: 1,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "power2.out",
+            scrollTrigger: { trigger: sectionRef.current, start: "top 65%" },
+          }
+        );
+      }
 
-      gsap.fromTo(
-        ".about-content",
-        { opacity: 0, x: 40 },
-        {
-          opacity: 1, x: 0,
-          duration: 1.1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
-        }
-      );
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+      if (document.querySelector(".about-content")) {
+        gsap.fromTo(
+          ".about-content",
+          { opacity: 0, x: 40 },
+          {
+            opacity: 1, x: 0,
+            duration: 1.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: sectionRef.current, start: "top 72%" },
+          }
+        );
+      }
+    },
+    { scope: sectionRef, dependencies: [] }
+  );
 
   return (
     <section
@@ -69,7 +75,7 @@ const HeroAboutSection = () => {
 
               <div className="relative overflow-hidden w-full h-[260px] sm:h-[340px] md:h-[460px] lg:h-[580px]">
                 <Image
-                  src="/images/venue/heroAbout.webp"
+                  src="/images/home/heroAbout.webp"
                   alt="Basti Ram Palace Interior"
                   fill
                   quality={70}

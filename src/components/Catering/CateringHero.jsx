@@ -13,29 +13,31 @@ export default function CateringHero({ data }) {
           alt="Luxury catering setup"
           fill
           priority
-          sizes="100vw"
+          quality={95}
+          sizes="(max-width: 768px) 150vw, 100vw"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/75" />
+        <div className="absolute inset-0 bg-black/50 z-[1] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/7 via-black/4 to-black/8" />
       </div>
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <div className="reveal flex items-center justify-center gap-3 mb-8">
+        <div className="reveal flex items-center justify-center gap-3 mb-8 drop-shadow-md">
           <ShimmerLine className="w-12" direction="left" />
-          <span className="font-body text-[#C9A84C] text-xs tracking-[0.35em] uppercase font-semibold">
+          <span className="font-body text-[#C9A84C] text-xs tracking-[0.35em] uppercase font-bold">
             GD Foods India · Basti Ram Palace
           </span>
           <ShimmerLine className="w-12" direction="right" />
         </div>
 
-        <h1 className="reveal font-heading text-5xl sm:text-6xl md:text-8xl text-white leading-tight mb-8">
+        <h1 className="reveal font-heading text-5xl sm:text-6xl md:text-8xl text-white leading-tight mb-8 drop-shadow-2xl">
           {data.headline}
         </h1>
 
-        <p className="reveal font-body text-white/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-3">
+        <p className="reveal font-body text-white/95 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-3 drop-shadow-md">
           {data.description}
         </p>
-        <p className="reveal font-heading-italic text-white/55 text-lg md:text-xl mb-12">
+        <p className="reveal font-heading-italic text-white/70 text-lg md:text-xl mb-12 drop-shadow-md">
           {data.subtext}
         </p>
 
@@ -50,9 +52,9 @@ export default function CateringHero({ data }) {
           </a>
           <Link
             href="/contact"
-            className="border border-white/30 text-white/90 font-body font-semibold uppercase
-                       tracking-[0.15em] px-8 py-4 rounded-lg text-sm backdrop-blur-sm bg-white/5
-                       transition-all duration-300 hover:bg-white/10"
+            className="border border-white/40 text-white font-body font-bold uppercase
+                       tracking-[0.15em] px-8 py-4 rounded-lg text-sm backdrop-blur-md bg-white/10
+                       transition-all duration-300 hover:bg-white/20 shadow-lg"
           >
             Request a Proposal
           </Link>

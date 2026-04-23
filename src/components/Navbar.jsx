@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 
@@ -20,23 +21,26 @@ const Navbar = () => {
   const tl = useRef(null);
 
   // 🔹 NAVBAR SCROLL ANIMATIONS (Optimized with ScrollTrigger)
-  useEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
+      if (!navRef.current) return;
+
       // 1. Scroll-based Background & Blur Transition
       ScrollTrigger.create({
         start: "top -80",
         onUpdate: (self) => {
+          if (!navRef.current) return;
           if (self.isActive) {
             gsap.to(navRef.current, { 
               backgroundColor: 'rgba(28,28,30,0.95)',
-              backdropFilter: 'blur(8px)', // Reduced from 20px as per FIX 11
+              backdropFilter: 'blur(8px)',
               duration: 0.4,
               overwrite: 'auto'
             });
           } else {
             gsap.to(navRef.current, { 
               backgroundColor: 'rgba(0,0,0,0.40)',
-              backdropFilter: 'blur(8px)', // Consistent with FIX 11
+              backdropFilter: 'blur(8px)',
               duration: 0.4,
               overwrite: 'auto'
             });
@@ -48,6 +52,7 @@ const Navbar = () => {
       ScrollTrigger.create({
         start: "top -100",
         onUpdate: (self) => {
+          if (!navRef.current) return;
           if (self.direction === 1) { // Scrolling down
             gsap.to(navRef.current, { y: "-100%", duration: 0.4, ease: "power2.out" });
           } else { // Scrolling up
@@ -60,18 +65,20 @@ const Navbar = () => {
       ScrollTrigger.create({
         start: "top -50",
         onUpdate: (self) => {
-          gsap.to(".nav-logo", { 
-            scale: self.isActive ? 0.8 : 1, 
-            duration: 0.4, 
-            ease: "power2.out",
-            overwrite: 'auto'
-          });
+          const logo = document.querySelector(".nav-logo");
+          if (logo) {
+            gsap.to(logo, { 
+              scale: self.isActive ? 0.8 : 1, 
+              duration: 0.4, 
+              ease: "power2.out",
+              overwrite: 'auto'
+            });
+          }
         }
       });
-    });
-
-    return () => ctx.revert();
-  }, []);
+    },
+    { scope: navRef, dependencies: [] }
+  );
 
   // 🔹 MOBILE MENU TIMELINE (OPEN + CLOSE)
   useEffect(() => {
@@ -89,11 +96,15 @@ const Navbar = () => {
         { y: "0%", opacity: 1, duration: 0.8 }
       )
       .fromTo(
-        linksRef.current,
+        linksRef.current.filter(Boolean),
         { y: 50, opacity: 0, skewY: 5 },
         { y: 0, opacity: 1, skewY: 0, stagger: 0.08, duration: 0.6 },
         "-=0.5"
       );
+
+    return () => {
+      if (tl.current) tl.current.kill();
+    };
   }, []);
 
   // 🔹 PLAY / REVERSE MENU
@@ -138,15 +149,25 @@ const Navbar = () => {
       >
         {/* Links */}
           <div className="flex flex-col gap-4 md:gap-6 px-10 text-3xl md:text-4xl mt-8">
-            <Link onClick={() => setOpen(false)} href="/" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+            <Link 
+              ref={(el) => (linksRef.current[0] = el)}
+              onClick={() => setOpen(false)} 
+              href="/" 
+              className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+            >
               Home <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
-            <Link onClick={() => setOpen(false)} href="/services" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+            <Link 
+              ref={(el) => (linksRef.current[1] = el)}
+              onClick={() => setOpen(false)} 
+              href="/services" 
+              className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+            >
               Services <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
             
             {/* Events Sub-menu */}
-            <div className="flex flex-col gap-2">
+            <div ref={(el) => (linksRef.current[2] = el)} className="flex flex-col gap-2">
               <button 
                 onClick={() => setEventsOpen(!eventsOpen)}
                 className="flex items-center justify-between transition-all duration-300 hover:text-[#C9A84C] text-left"
@@ -162,18 +183,29 @@ const Navbar = () => {
               )}
             </div>
 
-            <Link onClick={() => setOpen(false)} href="/catering" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+            <Link 
+              ref={(el) => (linksRef.current[3] = el)}
+              onClick={() => setOpen(false)} 
+              href="/catering" 
+              className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+            >
               Catering <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
-            <Link onClick={() => setOpen(false)} href="/menu" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+            <Link 
+              ref={(el) => (linksRef.current[4] = el)}
+              onClick={() => setOpen(false)} 
+              href="/menu" 
+              className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+            >
               Menu <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
-            <Link onClick={() => setOpen(false)} href="/gallery" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
+            <Link 
+              ref={(el) => (linksRef.current[5] = el)}
+              onClick={() => setOpen(false)} 
+              href="/gallery" 
+              className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+            >
               Gallery <span className="font-light text-2xl lg:text-3xl">&gt;</span>
-            </Link>
-
-            <Link onClick={() => setOpen(false)} href="/contact" className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group">
-              Contact <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
           </div>
 

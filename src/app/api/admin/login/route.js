@@ -1,4 +1,3 @@
-// BRP-FIX: A-1
 import { SignJWT } from 'jose'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
@@ -29,7 +28,6 @@ function isLoginRateLimited(ip) {
 }
 
 export async function POST(request) {
-  // BRP-FIX: A-4
   const ip =
     request.headers.get('x-real-ip') ??
     request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
@@ -46,7 +44,7 @@ export async function POST(request) {
     const { username, password } = await request.json()
 
     const validUser = username === process.env.ADMIN_USERNAME
-    const validPass = password === process.env.ADMIN_PASSWORD // BRP-FIX: A-1
+    const validPass = password === process.env.ADMIN_PASSWORD
 
     if (!validUser || !validPass) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
@@ -67,7 +65,7 @@ export async function POST(request) {
       path: '/',
     })
     // Remove the old insecure cookie if it exists
-    response.cookies.delete('admin_session') // BRP-FIX: A-1
+    response.cookies.delete('admin_session')
     return response
   } catch (_error) {
     return NextResponse.json(

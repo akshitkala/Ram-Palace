@@ -1,4 +1,3 @@
-// BRP-FIX: A-1
 import { jwtVerify } from 'jose'
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET)

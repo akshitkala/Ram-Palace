@@ -36,7 +36,6 @@ const OWNER_EMAILS = [
 ].filter(Boolean);
 
 export async function POST(req) {
-  // BRP-FIX: A-4
   const ip =
     req.headers.get('x-real-ip') ??
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
@@ -60,7 +59,6 @@ export async function POST(req) {
       eventDate
     } = await req.json();
 
-    // BRP-FIX: B-2
     const missing = []
     if (!name?.trim()) missing.push('name')
     if (!phone?.trim()) missing.push('phone')
@@ -83,8 +81,14 @@ export async function POST(req) {
       }
     }
 
-    const phoneRegex = /^[6-9]\d{9}$/ // BRP-FIX: B-2
-    if (!phoneRegex.test(phone.replace(/[\s\-+]/g, ''))) {
+    // Improved phone validation to handle country code 91
+    let cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) {
+      cleanPhone = cleanPhone.slice(2);
+    }
+    
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(cleanPhone)) {
       return NextResponse.json(
         { success: false, message: 'Please enter a valid 10-digit Indian phone number.' },
         { status: 400 }
@@ -92,7 +96,7 @@ export async function POST(req) {
     }
 
     // ── 1. Email to venue owners ──
-    const ownerEmailResult = await resend.emails.send({ // BRP-FIX: B-1
+    const ownerEmailResult = await resend.emails.send({
       from:    `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
       to:      OWNER_EMAILS,
       subject: `New Enquiry from ${name} — ${eventType || 'Event'}`,
@@ -107,7 +111,7 @@ export async function POST(req) {
       }),
     });
 
-    if (ownerEmailResult.error) { // BRP-FIX: B-1
+    if (ownerEmailResult.error) {
       console.error('[Enquiry] Resend owner notification failed:', ownerEmailResult.error)
       return NextResponse.json(
         { success: false, message: 'Failed to send enquiry. Please try again or call us directly.' },
@@ -117,7 +121,7 @@ export async function POST(req) {
 
     // ── 2. Confirmation email to the user (Skip if no email provided) ──
     if (email && email.trim()) {
-      const userEmailResult = await resend.emails.send({ // BRP-FIX: B-1
+      const userEmailResult = await resend.emails.send({
         from:    `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
         to:      [email],
         subject: `We've received your enquiry — Basti Ram Palace`,
@@ -128,13 +132,13 @@ export async function POST(req) {
         }),
       });
 
-      if (userEmailResult.error) { // BRP-FIX: B-1
+      if (userEmailResult.error) {
         console.warn('[Enquiry] Resend user confirmation failed:', userEmailResult.error)
       }
     }
 
     return NextResponse.json(
-      { success: true, id: ownerEmailResult.data?.id }, // BRP-FIX: B-1
+      { success: true, id: ownerEmailResult.data?.id },
       { status: 200 }
     );
 

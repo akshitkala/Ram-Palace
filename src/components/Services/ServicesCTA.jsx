@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -10,45 +11,48 @@ gsap.registerPlugin(ScrollTrigger);
 const ServicesCTA = () => {
   const sectionRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
       // Reveal text
-      gsap.fromTo(
-        ".cta-content > *",
-        { opacity: 0, y: 40, scale: 0.95 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 1.2,
-          stagger: 0.2,
-          ease: "expo.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            once: true,
+      if (document.querySelectorAll(".cta-content > *").length > 0) {
+        gsap.fromTo(
+          ".cta-content > *",
+          { opacity: 0, y: 40, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              once: true,
+            }
           }
-        }
-      );
+        );
+      }
 
       // Section subtle zoom parallax
-      gsap.fromTo(sectionRef.current, 
-        { backgroundSize: "100%" },
-        {
-          backgroundSize: "110%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
+      if (sectionRef.current) {
+        gsap.fromTo(sectionRef.current, 
+          { backgroundSize: "100%" },
+          {
+            backgroundSize: "110%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            }
           }
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+        );
+      }
+    },
+    { scope: sectionRef, dependencies: [] }
+  );
 
   return (
     <section 

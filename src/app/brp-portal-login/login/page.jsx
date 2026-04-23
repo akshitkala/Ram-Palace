@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminLogin() {
-  const [username, setUsername] = useState(""); // BRP-FIX: A-1
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,11 +19,11 @@ export default function AdminLogin() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }), // BRP-FIX: A-1
+        body: JSON.stringify({ username, password }),
       });
 
       if (res.ok) {
-        router.push("/brp-portal-login"); // BRP-FIX: A-2
+        router.push("/brp-portal-login");
       } else {
         const data = await res.json();
         setError(data.error || "Invalid credentials");
@@ -48,7 +48,6 @@ export default function AdminLogin() {
         </div>
 
         <form onSubmit={handleSubmit} className="px-8 py-8 space-y-6 font-body">
-          {/* BRP-FIX: A-1 */}
           <div className="space-y-2">
             <label
               htmlFor="username"

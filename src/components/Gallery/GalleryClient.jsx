@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Footer from "@/components/Footer";
 import GalleryHero from "@/components/Gallery/GalleryHero";
+import GalleryIntro from "@/components/Gallery/GalleryIntro";
 import GalleryGrid from "@/components/Gallery/GalleryGrid";
 import GalleryLightbox from "@/components/Gallery/GalleryLightbox";
 
@@ -130,6 +131,7 @@ export default function GalleryClient() {
   return (
     <div className="bg-[#fefaf6] min-h-screen">
       <GalleryHero heroRef={heroRef} />
+      <GalleryIntro />
       
       <GalleryGrid 
         images={displayImages}

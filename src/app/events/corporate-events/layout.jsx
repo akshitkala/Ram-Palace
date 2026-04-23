@@ -4,11 +4,11 @@ export const metadata = {
   openGraph: {
     title: "Corporate Events Venue in Gurugram | Basti Ram Palace",
     description: "Modern banquet halls and professional service for corporate conferences in Manesar.",
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/events/corporate-events`, // BRP-FIX: D-1
-    images: [{ url: `${process.env.NEXT_PUBLIC_SITE_URL}/images/hero/hero.webp`, width: 1200, height: 630 }], // BRP-FIX: D-1
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/events/corporate-events`,
+    images: [{ url: `${process.env.NEXT_PUBLIC_SITE_URL}/images/hero/hero.webp`, width: 1200, height: 630 }],
   },
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/events/corporate-events`, // BRP-FIX: D-1
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/events/corporate-events`,
   },
 };
 

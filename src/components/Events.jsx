@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useImageCache } from "@/hooks/useImageCache";
+import { cloudinaryUrl } from "@/lib/cloudinary-client";
 
 // ── EVENT CARD STATIC DATA ───────────────────────────────────────────
 // Images fetched from Cloudinary. Only copy + links hardcoded here.
@@ -55,7 +56,7 @@ const EventCard = ({ config, images, loading, currentIndex }) => {
         {!loading && images && images.map((img, i) => (
           <Image
             key={img.public_id || i}
-            src={img.secure_url}
+            src={cloudinaryUrl(img.secure_url, { width: 500 })}
             alt={`${config.title} at Basti Ram Palace`}
             fill
             quality={70}
@@ -104,11 +105,11 @@ const EventCard = ({ config, images, loading, currentIndex }) => {
           {config.title}
         </h3>
 
-        <p className="text-[14px] leading-relaxed text-[#666] max-w-sm mb-5">
+        <p className="text-[14px] leading-relaxed text-[#666] max-w-sm mb-5 flex-grow">
           {config.description}
         </p>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-7">
+        <div className="flex flex-wrap justify-center gap-2 mb-7 min-h-[40px]">
           {config.features.map((f) => (
             <span key={f} className="text-[9px] tracking-[1.5px] uppercase text-[#888] border border-[#DDD6CC] px-2.5 py-1">
               {f}
@@ -116,7 +117,7 @@ const EventCard = ({ config, images, loading, currentIndex }) => {
           ))}
         </div>
 
-        <div className="mt-auto">
+        <div className="">
           <Link href={config.link}>
             <button className={`
               bg-[#1C1C1E] text-white
