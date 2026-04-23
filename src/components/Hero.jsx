@@ -114,7 +114,7 @@ const Hero = () => {
         <div ref={contentRef} className="relative z-10 w-full h-full">
 
           {/* ── LEFT CONTENT BLOCK ── */}
-          <div className="absolute bottom-16 left-6 right-6 md:bottom-44 md:left-16 lg:left-24 md:w-[58%] md:right-auto z-20">
+          <div className="absolute bottom-[25vh] left-6 right-6 md:bottom-44 md:left-16 lg:left-24 md:w-[58%] md:right-auto z-20">
 
             {/* Pre-heading label */}
            
