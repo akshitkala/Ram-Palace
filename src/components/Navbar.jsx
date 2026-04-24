@@ -85,20 +85,15 @@ const Navbar = () => {
     
     tl.current = gsap.timeline({
       paused: true,
-      defaults: { ease: "expo.inOut" },
+      defaults: { duration: 0.6, ease: "power3.out" },
     });
 
     tl.current
-      .fromTo(
-        menuRef.current,
-        { y: "100%", opacity: 0 },
-        { y: "0%", opacity: 1, duration: 0.8 }
-      )
-      .fromTo(
+      .to(menuRef.current, { x: "0%", opacity: 1 })
+      .to(
         linksRef.current.filter(Boolean),
-        { y: 50, opacity: 0, skewY: 5 },
-        { y: 0, opacity: 1, skewY: 0, stagger: 0.08, duration: 0.6 },
-        "-=0.5"
+        { y: 0, opacity: 1, stagger: 0.05 },
+        "-=0.3"
       );
 
     return () => {
@@ -133,12 +128,12 @@ const Navbar = () => {
 
           <button
             onClick={() => setOpen(!open)}
-            className={`relative lg:hidden w-8 h-8 flex items-center justify-center z-[10002] ${open ? 'text-black' : 'text-white'}`}
+            className={`relative lg:hidden w-8 h-8 flex items-center justify-center z-[10002] transition-colors duration-300 ${open ? 'text-black' : 'text-white'}`}
             aria-label="Toggle menu"
           >
-            <span className={`absolute w-7 h-[2px] bg-current transform transition-all duration-300 ease-in-out ${open ? 'rotate-45' : '-translate-y-2.5'}`} />
-            <span className={`absolute w-7 h-[2px] bg-current transform transition-all duration-300 ease-in-out ${open ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'}`} />
-            <span className={`absolute w-7 h-[2px] bg-current transform transition-all duration-300 ease-in-out ${open ? '-rotate-45' : 'translate-y-2.5'}`} />
+            <span className={`absolute w-7 h-[2px] bg-current transform transition-[transform,opacity] duration-300 ease-in-out will-change-transform ${open ? 'rotate-45' : '-translate-y-2.5'}`} />
+            <span className={`absolute w-7 h-[2px] bg-current transform transition-[transform,opacity] duration-300 ease-in-out will-change-transform ${open ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'}`} />
+            <span className={`absolute w-7 h-[2px] bg-current transform transition-[transform,opacity] duration-300 ease-in-out will-change-transform ${open ? '-rotate-45' : 'translate-y-2.5'}`} />
           </button>
         </div>
       </nav>
@@ -146,7 +141,7 @@ const Navbar = () => {
       {/* MOBILE MENU (ALWAYS MOUNTED) */}
       <div
         ref={menuRef}
-        className="fixed inset-0 z-[10001] bg-[#E5DFDA] text-black flex flex-col justify-between pt-10 pb-10 translate-y-full overflow-y-auto scrollbar-hide"
+        className="fixed inset-0 z-[10001] bg-[#E5DFDA] text-black flex flex-col justify-between pt-10 pb-10 translate-x-full overflow-y-auto scrollbar-hide will-change-transform"
       >
         {/* Links */}
           <div className="flex flex-col gap-4 md:gap-6 px-10 text-3xl md:text-4xl mt-8">
@@ -154,7 +149,7 @@ const Navbar = () => {
               ref={(el) => (linksRef.current[0] = el)}
               onClick={() => setOpen(false)} 
               href="/" 
-              className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+              className="transition-colors duration-300 hover:text-[#C9A84C] group"
             >
               Home <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
@@ -162,7 +157,7 @@ const Navbar = () => {
               ref={(el) => (linksRef.current[1] = el)}
               onClick={() => setOpen(false)} 
               href="/services" 
-              className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+              className="transition-colors duration-300 hover:text-[#C9A84C] group"
             >
               Services <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
@@ -188,7 +183,7 @@ const Navbar = () => {
               ref={(el) => (linksRef.current[3] = el)}
               onClick={() => setOpen(false)} 
               href="/catering" 
-              className="transition-all duration-300 hover:text-[#C9A84C] hover:translate-x-2 group"
+              className="transition-colors duration-300 hover:text-[#C9A84C] group"
             >
               Catering <span className="font-light text-2xl lg:text-3xl">&gt;</span>
             </Link>
@@ -211,7 +206,7 @@ const Navbar = () => {
           </div>
 
         {/* Footer */}
-        <div className="px-10 mt-8 mb-4 flex flex-col gap-5">
+        <div className="mobile-footer px-10 mt-8 mb-4 flex flex-col gap-5">
           <div className="flex gap-5">
             <a href="https://www.instagram.com/basti.ram.palace/" aria-label="Follow Basti Ram Palace on Instagram" target="_blank" rel="noopener noreferrer">
               <FaInstagram className="text-2xl hover:text-[#C9A84C] transition-colors" />

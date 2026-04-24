@@ -226,7 +226,7 @@ export default function CorporatePage() {
             fill
             sizes="100vw"
             priority
-            src="/images/hero/corporateHero.png"
+            src="/images/hero/CorporateHero.webp"
             alt={GALLERY_ALTS[eventType]}
             style={{ objectFit: "cover" }}
             onError={() => setHeroError(true)}

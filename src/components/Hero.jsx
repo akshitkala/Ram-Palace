@@ -94,14 +94,10 @@ export default function Hero() {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       /* 1 — Background cinematic zoom */
-      tl.to(".h-bg", { scale: 1, duration: 2.8, ease: "power2.out" }, 0);
+      tl.to(".h-bg", { scale: 1, duration: 2.5, ease: "power2.out" }, 0);
 
       /* 2 — Decorative line draws */
-      tl.to(".h-line", {
-        opacity: 1, scaleX: 1, duration: 1,
-        ease: "power2.inOut",
-        transformOrigin: "left center",
-      }, 0.4);
+      tl.to(".h-line", { opacity: 1, scaleX: 1, duration: 1 }, 0.4);
 
       /* 3 — Eyebrow */
       tl.to(".h-eyebrow", { opacity: 1, y: 0, duration: 0.8 }, 0.55);
@@ -291,7 +287,7 @@ export default function Hero() {
                   <Link 
                     href="/contact" 
                     className="h-cta-1 shrink-0 bg-[#C9A84C] text-[#1C1C1E] font-semibold uppercase rounded-lg
-                      transition-all duration-300 inline-block text-center
+                      transition-colors duration-300 inline-block text-center
                       hover:bg-[#b8963e] hover:shadow-[0_8px_28px_rgba(201,168,76,0.40)]
                       active:scale-[0.97] whitespace-nowrap"
                     style={{
@@ -307,7 +303,7 @@ export default function Hero() {
                   <Link 
                     href="/gallery" 
                     className="h-cta-2 shrink-0 bg-transparent text-white border border-white/55 font-semibold
-                      uppercase rounded-lg transition-all duration-300 inline-block text-center
+                      uppercase rounded-lg transition-colors duration-300 inline-block text-center
                       hover:bg-white/10 hover:border-white/85
                       active:scale-[0.97] whitespace-nowrap"
                     style={{

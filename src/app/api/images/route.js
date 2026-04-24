@@ -24,33 +24,38 @@ export async function GET(req) {
     { status: 400 }
   )
 
-  const result = await cloudinary.api.resources({
-    type: "upload",
-    prefix: dir,
-    max_results: 500,
-    resource_type: "image",
-  })
+  try {
+    const result = await cloudinary.api.resources({
+      type: "upload",
+      prefix: dir,
+      max_results: 500,
+      resource_type: "image",
+    })
 
-  const images = result.resources.map(r => ({
-    public_id:  r.public_id,
-    url:        r.secure_url,
-    secure_url: r.secure_url, // Add for compatibility
-    width:      r.width,
-    height:     r.height,
-    created_at: r.created_at,
-  }))
+    const images = result.resources.map(r => ({
+      public_id:  r.public_id,
+      url:        r.secure_url,
+      secure_url: r.secure_url, // Add for compatibility
+      width:      r.width,
+      height:     r.height,
+      created_at: r.created_at,
+    }))
 
-  // carousel: oldest first (preserves slide order)
-  // everything else: newest first
-  if (section === "carousel") {
-    images.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
-  } else {
-    images.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    // carousel: oldest first (preserves slide order)
+    // everything else: newest first
+    if (section === "carousel") {
+      images.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+    } else {
+      images.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    }
+
+    return NextResponse.json({ images }, {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" }
+    })
+  } catch (error) {
+    console.error("Cloudinary fetch error:", error)
+    return NextResponse.json({ error: error.message || "Failed to fetch images" }, { status: 500 })
   }
-
-  return NextResponse.json({ images }, {
-    headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" }
-  })
 }
 
 // POST /api/images — upload

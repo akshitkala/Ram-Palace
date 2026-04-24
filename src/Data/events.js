@@ -16,7 +16,7 @@ export const eventCards = [
       "Host professional conferences, seminars, and corporate gatherings in our sophisticated venue equipped with modern amenities and premium catering services.",
     image: "",
     images: [],
-    link: "/events/corporate-events",
+    link: "/events/corporate",
   },
   {
     id: 3,

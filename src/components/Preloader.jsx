@@ -5,14 +5,14 @@ import { useGSAP } from "@gsap/react";
 
 const LEFT_TEXT      = "BASTI RAM ";
 const RIGHT_TEXT     = "PALACE";
-const MIN_MS         = 0;
+const MIN_MS         = 1600;
 const SAFETY_MS      = 4000;
 
 const textStyle = {
   fontFamily:    "var(--font-heading)",
   fontWeight:    300,
-  fontSize:      "clamp(1.1rem, 4.5vw, 2.75rem)",
-  letterSpacing: "clamp(0.15em, 0.6vw, 0.28em)",
+  fontSize:      "clamp(1.5rem, 6vw, 3rem)",
+  letterSpacing: "clamp(0.12em, 0.6vw, 0.28em)",
   lineHeight:    1,
   userSelect:    "none",
   whiteSpace:    "nowrap",
@@ -32,13 +32,6 @@ export default function Preloader({ onExiting, onComplete }) {
 
   useGSAP(
     () => {
-      if (typeof window !== "undefined" && sessionStorage.getItem("brp_preloader_seen")) {
-        setIsSkipped(true);
-        if (onExiting) onExiting();
-        if (onComplete) onComplete();
-        return;
-      }
-
       const allChars  = charsRef.current.filter(Boolean);
       const container = containerRef.current;
       if (!container) return;
@@ -64,9 +57,6 @@ export default function Preloader({ onExiting, onComplete }) {
         const allReady = Object.values(flags).every(Boolean);
         if (!allReady) return;
         exitFired = true;
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("brp_preloader_seen", "true");
-        }
         doExit();
       }
 

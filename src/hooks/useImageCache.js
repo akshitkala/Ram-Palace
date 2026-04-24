@@ -21,6 +21,11 @@ export function useImageCache() {
     setLoading(true);
     try {
       const res = await fetch(`/api/images?section=${section}`);
+      
+      if (!res.ok) {
+        throw new Error(`API returned status ${res.status}`);
+      }
+
       const data = await res.json();
       const images = data.images || [];
       
