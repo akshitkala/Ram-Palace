@@ -167,9 +167,9 @@ export default function HomeEnquiry() {
                 value: "+91 88001 90003",
               },
               {
-                href:  "mailto:info@bastirampalace.in",
+                href:  "mailto:Maheshyadav0065@gmail.com",
                 label: "General Inquiries",
-                value: "info@bastirampalace.in",
+                value: "Maheshyadav0065@gmail.com",
               },
               {
                 href:  null,

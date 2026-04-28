@@ -3,11 +3,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ShimmerLine } from "@/components/Ornaments";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function CateringHero({ data }) {
+  useGSAP(() => {
+    // Zoom in/out on scroll
+    gsap.to(".hero-bg img", {
+      scale: 1.25,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".hero-section",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      }
+    });
+  });
+
   return (
     <section className="hero-section relative h-screen min-h-[680px] flex items-center justify-center overflow-hidden ">
-      <div className="hero-bg absolute inset-0 z-0">
+      <div className="hero-bg absolute inset-0 z-0 scale-[1.15]" data-scroll data-scroll-speed="-0.3">
         <Image
           src={data.image}
           alt="Luxury catering setup"
@@ -62,10 +83,7 @@ export default function CateringHero({ data }) {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-        <div className="w-px h-10 bg-gradient-to-b from-transparent via-[#C9A84C]/60 to-transparent animate-pulse" />
-        <span className="font-body text-white/30 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
-      </div>
+
     </section>
   );
 }

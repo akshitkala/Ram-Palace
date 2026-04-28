@@ -19,7 +19,14 @@ export default function ClientLayoutWrapper({ children }) {
     const initScroll = async () => {
       try {
         const LocomotiveScroll = (await import("locomotive-scroll")).default;
-        locomotiveScroll = new LocomotiveScroll();
+        locomotiveScroll = new LocomotiveScroll({
+          lenisOptions: {
+            lerp: 0.05,
+            duration: 1.5,
+            smoothWheel: true,
+            wheelMultiplier: 1,
+          }
+        });
         
         // Use custom event or smaller timeout for better UX
         // Locomotive v5 is quite fast, but GSAP needs to know about the new height

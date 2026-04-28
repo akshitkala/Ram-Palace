@@ -3,6 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 function ContactHero() {
   return (
@@ -152,7 +159,7 @@ function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               className={`w-full bg-white/[0.02] border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-2xl px-6 py-5 text-white placeholder-white/20 focus:outline-none focus:border-[#C9A84C]/40 focus:bg-white/[0.05] transition-all duration-500 backdrop-blur-md`}
-              placeholder="john@example.com"
+              placeholder="Maheshyadav0065@gmail.com"
             />
             {errors.email && <p className="text-red-400 text-[10px] mt-2 ml-1 tracking-wider uppercase font-medium">{errors.email}</p>}
           </div>
@@ -271,15 +278,29 @@ function ContactForm() {
 }
 
 export default function ContactClient() {
+  useGSAP(() => {
+    // Zoom in/out on scroll
+    gsap.to(".contact-hero-bg img", {
+      scale: 1.25,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".contact-hero-wrapper",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      }
+    });
+  });
+
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-[#0A0A0A]">
+    <div className="contact-hero-wrapper relative min-h-screen w-full overflow-hidden bg-[#0A0A0A]">
       {/* Dynamic Background Layer */}
-      <div className="absolute inset-0 z-0">
+      <div className="contact-hero-bg absolute inset-0 z-0 scale-[1.15]" data-scroll data-scroll-speed="-0.3">
         <Image 
           src="/images/hero/PremiumContactBg.png" 
           alt="Contact Background"
           fill
-          className="object-cover opacity-80 md:scale-105 animate-slow-zoom"
+          className="object-cover opacity-80 md:scale-105"
           priority
           quality={95}
           sizes="(max-width: 768px) 150vw, 100vw"

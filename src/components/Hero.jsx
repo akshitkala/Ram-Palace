@@ -127,6 +127,18 @@ export default function Hero() {
 
       /* 10 — Scroll indicator */
       tl.to(".h-scroll", { opacity: 1, duration: 0.8 }, 1.9);
+
+      // Zoom in/out on scroll
+      gsap.to(".h-bg-zoom", {
+        scale: 1.25,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        }
+      });
     },
     { scope: sectionRef, dependencies: [] }
   );
@@ -142,18 +154,20 @@ export default function Hero() {
       {/* ══════════════════════════════════════
           BACKGROUND IMAGE
       ══════════════════════════════════════ */}
-      <div className="absolute inset-0 will-change-transform">
-        <Image
-          className="h-bg absolute inset-0 w-full h-full object-cover"
-          src="/images/hero/hero.webp"
-          alt="Basti Ram Palace banquet hall — premier wedding venue in Manesar, Gurugram"
-          fill
-          priority
-          fetchPriority="high"
-          quality={85}
-          sizes="100vw"
-          style={{ objectPosition: "center 35%" }}
-        />
+      <div className="absolute inset-0 will-change-transform scale-[1.15]" data-scroll data-scroll-speed="-0.3">
+        <div className="absolute inset-0 h-bg-zoom">
+          <Image
+            className="h-bg absolute inset-0 w-full h-full object-cover"
+            src="/images/hero/hero.webp"
+            alt="Basti Ram Palace banquet hall — premier wedding venue in Manesar, Gurugram"
+            fill
+            priority
+            fetchPriority="high"
+            quality={85}
+            sizes="100vw"
+            style={{ objectPosition: "center 35%" }}
+          />
+        </div>
       </div>
 
       {/* ══════════════════════════════════════
@@ -399,25 +413,7 @@ export default function Hero() {
           SCROLL INDICATOR — absolute, safe corner
           Does not affect content flow at all.
       ══════════════════════════════════════ */}
-      <div
-        className="h-scroll absolute bottom-6 right-5 sm:bottom-8 sm:right-7 z-20
-          flex flex-col items-center gap-2 pointer-events-none"
-        aria-hidden="true"
-      >
-        <span
-          className="text-white/35 uppercase tracking-[2px] hidden sm:block"
-          style={{ fontSize: "8px", writingMode: "vertical-lr" }}
-        >
-          Scroll
-        </span>
-        <div
-          className="w-px"
-          style={{
-            height: "clamp(28px, 4vh, 44px)",
-            background: "linear-gradient(to bottom, rgba(255,255,255,0.35), transparent)",
-          }}
-        />
-      </div>
+
 
     </section>
   );

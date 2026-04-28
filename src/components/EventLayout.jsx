@@ -50,10 +50,10 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
         );
       }
 
-      // Hero parallax
+      // Zoom in/out on scroll
       if (q(".hero-bg").length && q(".hero-section").length) {
-        gsap.to(q(".hero-bg"), {
-          yPercent: 18,
+        gsap.to(q(".hero-bg img"), {
+          scale: 1.25,
           ease: "none",
           scrollTrigger: {
             trigger: q(".hero-section"),
@@ -145,7 +145,7 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
       {/* ── 1. HERO ── */}
       <section className="hero-section relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden">
         {/* BG */}
-        <div className="hero-bg absolute inset-0 z-0">
+        <div className="hero-bg absolute inset-0 z-0 scale-[1.15]" data-scroll data-scroll-speed="-0.3">
           <Image
             src={hero.image}
             alt={hero.title}
@@ -189,11 +189,7 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-          <div className="w-px h-10 bg-gradient-to-b from-transparent via-[#C9A84C]/60 to-transparent animate-pulse" />
-          <span className="font-body text-white/30 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
-        </div>
+
       </section>
 
       {/* ── 2. INTRO ── */}
@@ -299,14 +295,6 @@ const EventLayout = ({ hero, intro, storySections, cta }) => {
             >
               {cta.text}
             </Link>
-            <a
-              href="tel:+918800190003"
-              className="inline-block border border-white/20 text-white/75 font-body font-semibold
-                         uppercase tracking-[0.15em] px-10 py-4 rounded-lg text-sm
-                         transition-all duration-300 hover:bg-white/8 hover:border-white/35"
-            >
-              Call Us Now
-            </a>
           </div>
         </div>
       </section>

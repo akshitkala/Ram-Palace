@@ -16,7 +16,7 @@ const faqData = [
   },
   {
     question: "How to reach Basti Ram Palace?",
-    answer: "We are located at 16G, Kankrola, IMT Manesar, Gurugram, Haryana 122505. You can reach us by calling +91-88001 90003, +91-96502 11469, or +91-98106 79550. You can also write to us at info@bastirampalace.in or send us a message on WhatsApp."
+    answer: "We are located at 16G, Kankrola, IMT Manesar, Gurugram, Haryana 122505. You can reach us by calling +91-88001 90003, +91-96502 11469, or +91-98106 79550. You can also write to us at Maheshyadav0065@gmail.com or send us a message on WhatsApp."
   },
   {
     question: "What all cuisines & catering options do you have?",
@@ -142,20 +142,6 @@ export default function FAQSection() {
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
             />
           ))}
-        </div>
-
-        {/* Contact CTA */}
-        <div className="mt-20 text-center">
-            <p className="font-body text-[#6B5E4E]/60 text-sm mb-6 italic">
-                Still have questions? We're here to help you plan your perfect event.
-            </p>
-            <a 
-                href="tel:+918800190003" 
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-gold/30 text-gold font-body text-xs md:text-sm tracking-widest uppercase hover:bg-gold hover:text-white transition-all duration-500 group"
-            >
-                Contact Concierge
-                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-            </a>
         </div>
       </div>
 

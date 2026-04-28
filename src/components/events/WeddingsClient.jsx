@@ -162,6 +162,18 @@ export default function WeddingsClient() {
   }, [selectedImage, images]);
 
   useGSAP(() => {
+    // Zoom in/out on scroll
+    gsap.to(".event-hero-image img", {
+      scale: 1.25,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".event-hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      }
+    });
+
     if (badgeRef.current) gsap.fromTo(badgeRef.current, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.2, ease: "power3.out" });
     if (titleRef.current) {
       const lines = titleRef.current.querySelectorAll(".reveal-line");
@@ -213,13 +225,13 @@ export default function WeddingsClient() {
   return (
     <div ref={rootRef} className="event-page-root">
       <section className="event-hero">
-        <div className="event-hero-image">
+        <div className="event-hero-image scale-[1.15]" data-scroll data-scroll-speed="-0.3">
           <Image
             fill
             sizes="100vw"
             priority
             fetchPriority="high"
-            src="/images/hero/WeddingHero.webp"
+            src="/images/hero/WeddingHero_v2.webp"
             alt={GALLERY_ALTS[eventType]}
             className="object-cover"
           />
@@ -233,10 +245,7 @@ export default function WeddingsClient() {
           </h1>
           <p className="event-hero-sub" ref={subRef}>{hero.sub}</p>
         </div>
-        <div className="scroll-indicator" ref={scrollIndRef}>
-          <div className="scroll-line" />
-          <span className="scroll-text">Scroll</span>
-        </div>
+
       </section>
 
       <EventNavTabs />
@@ -331,7 +340,6 @@ export default function WeddingsClient() {
         <p className="event-cta-sub" ref={ctaSubRef}>{cta.sub}</p>
         <div className="event-cta-btns" ref={ctaBtnsRef}>
           <Link href="/contact" className="cta-btn-primary">Request a quote</Link>
-          <a href="tel:+918800190003" className="cta-btn-ghost">Call us now</a>
         </div>
       </section>
 

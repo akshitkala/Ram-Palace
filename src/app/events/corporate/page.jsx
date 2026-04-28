@@ -150,6 +150,18 @@ export default function CorporatePage() {
 
   // ─── Hero Animations (Run once) ────────────────────────────────────
   useGSAP(() => {
+    // Zoom in/out on scroll
+    gsap.to(".event-hero-image img", {
+      scale: 1.25,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".event-hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      }
+    });
+
     if (badgeRef.current) {
       gsap.fromTo(badgeRef.current, 
         { opacity: 0, y: 8 }, 
@@ -221,12 +233,12 @@ export default function CorporatePage() {
   return (
     <div ref={rootRef} className="event-page-root">
       <section className="event-hero">
-        <div className="event-hero-image">
+        <div className="event-hero-image scale-[1.15]" data-scroll data-scroll-speed="-0.3">
           <Image
             fill
             sizes="100vw"
             priority
-            src="/images/hero/CorporateHero.webp"
+            src="/images/hero/CorporateHero1.webp"
             alt={GALLERY_ALTS[eventType]}
             style={{ objectFit: "cover" }}
             onError={() => setHeroError(true)}
@@ -245,10 +257,7 @@ export default function CorporatePage() {
           </h1>
           <p className="event-hero-sub" ref={subRef}>{hero.sub}</p>
         </div>
-        <div className="scroll-indicator" ref={scrollIndRef}>
-          <div className="scroll-line" />
-          <span className="scroll-text">Scroll</span>
-        </div>
+
       </section>
 
       <EventNavTabs />
@@ -375,9 +384,6 @@ export default function CorporatePage() {
           <Link href="/contact" className="cta-btn-primary">
             Request a quote
           </Link>
-          <a href="tel:+918800190003" className="cta-btn-ghost">
-            Call us now
-          </a>
         </div>
       </section>
 

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { unstable_cache, revalidateTag } from "next/cache"
 import cloudinary from "@/lib/cloudinary-server"
 import { verifySession } from "@/lib/auth/verifySession"
 
@@ -15,16 +16,8 @@ function folder(section) {
   return SECTIONS[section] ?? null
 }
 
-// GET /api/images?section=gallery
-export async function GET(req) {
-  const section = req.nextUrl.searchParams.get("section")
-  const dir = folder(section)
-  if (!dir) return NextResponse.json(
-    { error: "Invalid section. Valid: " + Object.keys(SECTIONS).join(", ") },
-    { status: 400 }
-  )
-
-  try {
+const getCachedImages = unstable_cache(
+  async (dir, section) => {
     const result = await cloudinary.api.resources({
       type: "upload",
       prefix: dir,
@@ -35,22 +28,37 @@ export async function GET(req) {
     const images = result.resources.map(r => ({
       public_id:  r.public_id,
       url:        r.secure_url,
-      secure_url: r.secure_url, // Add for compatibility
+      secure_url: r.secure_url,
       width:      r.width,
       height:     r.height,
       created_at: r.created_at,
     }))
 
-    // carousel: oldest first (preserves slide order)
-    // everything else: newest first
     if (section === "carousel") {
       images.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
     } else {
       images.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     }
 
+    return images
+  },
+  ["cloudinary-images"],
+  { tags: ["images"], revalidate: 3600 }
+)
+
+// GET /api/images?section=gallery
+export async function GET(req) {
+  const section = req.nextUrl.searchParams.get("section")
+  const dir = folder(section)
+  if (!dir) return NextResponse.json(
+    { error: "Invalid section. Valid: " + Object.keys(SECTIONS).join(", ") },
+    { status: 400 }
+  )
+
+  try {
+    const images = await getCachedImages(dir, section)
     return NextResponse.json({ images }, {
-      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" }
+      headers: { "Cache-Control": "public, max-age=0, must-revalidate" }
     })
   } catch (error) {
     console.error("Cloudinary fetch error:", error)
@@ -100,6 +108,8 @@ export async function POST(req) {
     stream.end(buffer)
   })
 
+  revalidateTag("images")
+
   return NextResponse.json({
     public_id:  upload.public_id,
     url:        upload.secure_url,
@@ -128,5 +138,7 @@ export async function DELETE(req) {
   }
 
   await cloudinary.uploader.destroy(public_id)
+  revalidateTag("images")
+  
   return NextResponse.json({ success: true })
 }

@@ -2,11 +2,32 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function MenuHero({ totalItems, menuCategories, scrollTo }) {
+  useGSAP(() => {
+    // Zoom in/out on scroll
+    gsap.to(".mh-bg img", {
+      scale: 1.25,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".mh-section",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      }
+    });
+  });
+
   return (
     <section className="mh-section relative min-h-screen flex flex-col justify-end overflow-hidden bg-[#1A0D08]">
-      <div className="mh-bg absolute inset-0 z-0">
+      <div className="mh-bg absolute inset-0 z-0 scale-[1.15]" data-scroll data-scroll-speed="-0.3">
         <Image
           src="/images/hero/MenuHero.webp"
           alt="The Menu — GD Foods India"
@@ -15,7 +36,7 @@ export default function MenuHero({ totalItems, menuCategories, scrollTo }) {
           fetchPriority="high"
           quality={95}
           sizes="(max-width: 768px) 150vw, 100vw"
-          className="w-full h-full object-cover animate-slow-zoom"
+          className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/50 z-[1] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/2 via-black/3 to-[#1A0D08]" />
@@ -76,10 +97,7 @@ export default function MenuHero({ totalItems, menuCategories, scrollTo }) {
         </div>
       </div>
 
-      <div className="absolute bottom-8 right-10 z-10 hidden md:flex flex-col items-center gap-2">
-        <div className="w-px h-14 bg-gradient-to-b from-transparent via-[#C9A84C]/50 to-transparent animate-pulse" />
-        <span className="font-body text-white/20 text-[8px] tracking-[3px] uppercase">Scroll</span>
-      </div>
+
 
       <div className="mh-sentinel absolute bottom-0 w-full h-px pointer-events-none" />
     </section>

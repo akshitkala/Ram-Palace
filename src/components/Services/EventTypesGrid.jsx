@@ -143,18 +143,6 @@ const EventTypesGrid = () => {
           </div>
         </div>
 
-        {/* Muted CTA */}
-        <div className="mt-20 text-center section-heading">
-          <p className="text-[#8B7A6A] font-body text-sm">
-            Not sure which package suits your occasion?{" "}
-            <Link 
-              href="/contact" 
-              className="text-[#c9a96e] font-bold border-b border-[#c9a96e]/30 hover:border-[#c9a96e] transition-all pb-0.5 inline-flex items-center group"
-            >
-              Talk to our team <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
-            </Link>
-          </p>
-        </div>
       </div>
     </section>
   );

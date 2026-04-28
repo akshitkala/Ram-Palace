@@ -31,10 +31,10 @@ const ServicesHero = () => {
         );
       }
 
-      // Parallax effect on background
+      // Zoom in/out on scroll
       if (document.querySelector(".parallax-bg")) {
         gsap.to(".parallax-bg", {
-          yPercent: 30,
+          scale: 1.25,
           ease: "none",
           scrollTrigger: {
             trigger: containerRef.current,
@@ -54,7 +54,7 @@ const ServicesHero = () => {
       className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
     >
       {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 scale-[1.15]" data-scroll data-scroll-speed="-0.3">
         <Image
           src="/images/hero/service.webp"
           alt="Basti Ram Palace Services"
@@ -102,10 +102,7 @@ const ServicesHero = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
-        <div className="w-px h-12 bg-gradient-to-b from-[#c9a96e] to-transparent animate-pulse" />
-      </div>
+
     </section>
   );
 };

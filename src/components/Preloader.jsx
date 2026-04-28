@@ -19,19 +19,15 @@ const textStyle = {
   color:         "#F5F1EC",
 };
 
-// onExiting  — fires the MOMENT panels begin sliding
-//              set page opacity to 1 here so hero is
-//              visible through the gap as doors open
-// onComplete — fires when panels are fully off screen
 export default function Preloader({ onExiting, onComplete }) {
   const containerRef  = useRef(null);
   const panelLeftRef  = useRef(null);
   const panelRightRef = useRef(null);
-  const [isSkipped, setIsSkipped] = useState(false);
+  const [isSkipped]   = useState(false);
   const charsRef      = useRef([]);
 
   useGSAP(
-    () => {
+    (context) => {
       const allChars  = charsRef.current.filter(Boolean);
       const container = containerRef.current;
       if (!container) return;
@@ -44,6 +40,7 @@ export default function Preloader({ onExiting, onComplete }) {
 
       let exitFired = false;
 
+      // 1. Safety Timeout (Fallback)
       const safetyTimeout = setTimeout(() => {
         if (!exitFired) {
           console.warn("Preloader: Safety timeout reached. Forcing exit.");
@@ -56,71 +53,73 @@ export default function Preloader({ onExiting, onComplete }) {
         if (exitFired) return;
         const allReady = Object.values(flags).every(Boolean);
         if (!allReady) return;
+        
         exitFired = true;
         doExit();
       }
 
       function doExit() {
         clearTimeout(safetyTimeout);
-
-        // Fire onExiting BEFORE animation starts.
-        // RootLayoutClient sets page to opacity:1
-        // so the hero is painted and visible the
-        // instant the doors start to open.
         if (onExiting) onExiting();
 
-        gsap.timeline({
-          defaults: {
-            duration: 0.72,
-            ease:     "power4.inOut",
-          },
-          onComplete: () => {
-            if (container) container.style.display = "none";
-            if (onComplete) onComplete();
-          },
-        })
-        .to(panelLeftRef.current,  { xPercent: -100 })
-        .to(panelRightRef.current, { xPercent:  100 }, "<");
+        // Scope the exit animation to the context
+        context.add(() => {
+          gsap.timeline({
+            defaults: {
+              duration: 0.8,
+              ease:     "power4.inOut",
+            },
+            onComplete: () => {
+              if (container) container.style.display = "none";
+              if (onComplete) onComplete();
+            },
+          })
+          .to(panelLeftRef.current,  { xPercent: -100 })
+          .to(panelRightRef.current, { xPercent:  100 }, "<");
+        });
       }
 
-      // FLAG 1 — Minimum time
-      setTimeout(() => {
+      // 2. Minimum Display Time
+      const minTimer = setTimeout(() => {
         flags.minTime = true;
         tryExit();
       }, MIN_MS);
 
-      // FLAG 3 — Minimal window ready check
-      if (document.readyState === "complete") {
+      // 3. Window/Asset Load Check
+      const checkLoad = () => {
         flags.windowLoad = true;
         tryExit();
+      };
+
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+        checkLoad();
       } else {
-        window.addEventListener("load", () => {
-          flags.windowLoad = true;
-          tryExit();
-        }, { once: true });
+        window.addEventListener("load", checkLoad, { once: true });
       }
 
-      // GOLD SWEEP
+      // 4. Gold Sweep Animation
       gsap.set(container, { opacity: 1 });
-      gsap.set(allChars,  { color: "#F5F1EC" });
+      const goldTl = gsap.timeline({ delay: 0.2 });
+      
+      if (allChars.length > 0) {
+        goldTl.to(allChars, {
+          color:    "#C9A84C",
+          duration: 0.25,
+          stagger:  0.03,
+          ease:     "none",
+        });
+      }
 
-      const goldTl = gsap.timeline({ delay: 0.25 });
-      goldTl.to(allChars, {
-        color:    "#C9A84C",
-        duration: 0.2,
-        stagger:  0.035,
-        ease:     "none",
-      });
-
-      // FLAG 5 — Gold done
       goldTl.call(() => {
         flags.goldDone = true;
         tryExit();
       });
 
+      // Cleanup
       return () => {
-        goldTl.kill();
         clearTimeout(safetyTimeout);
+        clearTimeout(minTimer);
+        window.removeEventListener("load", checkLoad);
       };
     },
     { scope: containerRef, dependencies: [onExiting, onComplete] }
@@ -151,12 +150,11 @@ export default function Preloader({ onExiting, onComplete }) {
         inset:         0,
         zIndex:        9999,
         overflow:      "hidden",
-        opacity:       1,
-        pointerEvents: "none",
         background:    "transparent",
+        pointerEvents: "auto", // Block clicks until gone
       }}
     >
-      {/* LEFT PANEL — slides left, text rides with it */}
+      {/* LEFT PANEL */}
       <div
         ref={panelLeftRef}
         style={{
@@ -177,7 +175,7 @@ export default function Preloader({ onExiting, onComplete }) {
         </span>
       </div>
 
-      {/* RIGHT PANEL — slides right, text rides with it */}
+      {/* RIGHT PANEL */}
       <div
         ref={panelRightRef}
         style={{
@@ -233,4 +231,4 @@ export default function Preloader({ onExiting, onComplete }) {
       </div>
     </div>
   );
-}
+}

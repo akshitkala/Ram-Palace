@@ -20,7 +20,7 @@ export default function StructuredData() {
       "+91-9810679550"
     ],
 
-    "email": "info@bastirampalace.in",
+    "email": "Maheshyadav0065@gmail.com",
 
     "address": {
       "@type": "PostalAddress",
