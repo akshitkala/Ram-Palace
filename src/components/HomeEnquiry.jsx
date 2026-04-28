@@ -12,6 +12,8 @@ export default function HomeEnquiry() {
   const [status, setStatus] = useState("idle");
   // "idle" | "loading" | "success" | "error"
 
+  const today = new Date().toISOString().split("T")[0];
+
   const validate = () => {
     const newErrors = {};
     if (!form.name.trim()) newErrors.name = "Name is required";
@@ -22,6 +24,10 @@ export default function HomeEnquiry() {
     }
 
     if (!form.eventType) newErrors.eventType = "Please select an event type";
+
+    if (form.eventDate && form.eventDate < today) {
+      newErrors.eventDate = "Date cannot be in the past";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -59,6 +65,8 @@ export default function HomeEnquiry() {
       }
     } else if (id === "eventType" && !value) {
       newErrors.eventType = "Please select an event type";
+    } else if (id === "eventDate" && value && value < today) {
+      newErrors.eventDate = "Date cannot be in the past";
     } else {
       delete newErrors[id];
     }
@@ -93,7 +101,7 @@ export default function HomeEnquiry() {
 
       setStatus("success");
       setForm({
-        name: "", phone: "",
+        name: "", phone: "+91 ",
         eventType: "", eventDate: "",
       });
 
@@ -339,10 +347,13 @@ export default function HomeEnquiry() {
                   <input
                     id="eventDate"
                     type="date"
+                    min={today}
                     value={form.eventDate}
                     onChange={handleChange}
-                    className="w-full bg-transparent border border-[#E8E0D0] p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors"
+                    onBlur={handleBlur}
+                    className={`w-full bg-transparent border ${errors.eventDate ? 'border-red-400' : 'border-[#E8E0D0]'} p-3 text-sm focus:border-[#C9A84C] outline-none transition-colors`}
                   />
+                  {errors.eventDate && <span className="text-[11px] text-red-500 font-medium tracking-wide mt-1">{errors.eventDate}</span>}
                 </div>
               </div>
 
@@ -370,3 +381,4 @@ export default function HomeEnquiry() {
     </section>
   );
 }
+
