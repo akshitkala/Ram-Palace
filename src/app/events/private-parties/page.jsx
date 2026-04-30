@@ -238,7 +238,7 @@ export default function PrivatePartiesPage() {
             fill
             sizes="100vw"
             priority
-            src="/images/hero/Privatehero1.webp"
+            src="/images/hero/PrivateHero1.webp"
             alt={GALLERY_ALTS[eventType]}
             style={{ objectFit: "cover" }}
             onError={() => setHeroError(true)}
