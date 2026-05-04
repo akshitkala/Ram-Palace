@@ -22,7 +22,7 @@ const testimonials = [
   },
   {
     id: 4,
-    name: "Himanshu Yadav",
+    name: "Vinay Vinayak",
     rating: 5,
     quote:
       "Its a recently built banquet hall Where u can do function upto 1000 people very comfortable They have indoor and outdoor both facilities and good parking space They run tent house also so u dont need to worry if u need tentage services",
