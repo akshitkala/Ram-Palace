@@ -100,15 +100,12 @@ const Testimonial = ({ testimonials, autoplay = true, className = "" }) => {
             </p>
           </blockquote>
 
-          {/* Name + designation */}
+          {/* Name */}
           <div className="flex items-center gap-4">
             <span className="w-8 h-px bg-[#C9A84C]/50" />
             <div>
-              <p className="font-heading text-xl text-[#2B1810] leading-none mb-1">
+              <p className="font-heading text-xl text-[#2B1810] leading-none">
                 {current.name}
-              </p>
-              <p className="font-body text-[#8B7A6A] text-xs tracking-wide">
-                {current.designation}
               </p>
             </div>
           </div>

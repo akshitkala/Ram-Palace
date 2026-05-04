@@ -30,7 +30,7 @@ const STATS = [
 ];
 
 const MAPS_URL =
-  "https://www.google.com/maps/place/Basti+Ram+Palace/@28.3919789,76.9144771,17z";
+  "https://www.google.com/maps/place/Basti+Ram+Palace/@28.3919789,76.9144771,17z/data=!3m1!4b1!4m6!3m5!1s0x390d3f006d2a46f9:0x711067ea9752c39c!8m2!3d28.3919789!4d76.917052!16s%2Fg%2F11yn48scy3?entry=ttu&g_ep=EgoyMDI2MDQyMS4wIKXMDSoASAFQAw%3D%3D";
 
 const StarIcon = ({ size = 10 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true">

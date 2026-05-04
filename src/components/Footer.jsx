@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ShimmerLine, GoldHairline } from "./Ornaments";
+import { FaInstagram } from "react-icons/fa";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -320,18 +321,29 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* ══════════ BOTTOM BAR ══════════ */}
+        {/* ── Bottom Bar ── */}
         <div className="border-t border-white/8 pt-6 flex flex-col md:flex-row
-                        items-center justify-between gap-4">
+                        items-center justify-between gap-6">
           <p className="font-body text-white/25 text-xs tracking-wide">
             © {new Date().getFullYear()} Basti Ram Palace. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-1 font-body text-white/20 text-xs tracking-wide">
-            <span>Catering by</span>
-            <span className="text-[#C9A84C]/50 ml-1 font-semibold">GD Foods India</span>
-          </div>
+          <div className="flex items-center gap-8">
+            <a 
+              href="https://www.instagram.com/basti.ram.palace/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-white/30 hover:text-[#C9A84C] transition-all duration-300"
+              aria-label="Follow us on Instagram"
+            >
+              <FaInstagram size={20} />
+            </a>
 
+            <div className="flex items-center gap-1 font-body text-white/20 text-xs tracking-wide">
+              <span>Catering by</span>
+              <span className="text-[#C9A84C]/50 ml-1 font-semibold uppercase tracking-wider">GD Foods India</span>
+            </div>
+          </div>
         </div>
 
       </div>
